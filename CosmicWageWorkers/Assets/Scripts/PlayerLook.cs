@@ -5,7 +5,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float minViewDistance = 25f;// minimum amount you can look down 
     [SerializeField] Transform playerBody;
 
-    public float mouseSense = 100f;
+    public float mouseSense = 400f;
 
     float xRotation = 0f;
 
