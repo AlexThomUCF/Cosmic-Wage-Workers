@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Dialogue : MonoBehaviour
 {
@@ -65,6 +66,9 @@ public class Dialogue : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            SceneManager.LoadScene("HorrorPrototype");
+            //temp load scene
+            //Interface loads scene make new script that handles all scene transitions
         }
     }
 }
