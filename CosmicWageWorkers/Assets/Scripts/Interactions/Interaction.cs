@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class Interaction : MonoBehaviour
 {
     [SerializeField] private LayerMask interactLayer;
