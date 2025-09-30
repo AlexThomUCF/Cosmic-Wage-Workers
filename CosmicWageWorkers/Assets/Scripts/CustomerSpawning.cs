@@ -8,12 +8,13 @@ public class CustomerSpawning : MonoBehaviour
 
     void Start()
     {
+        // Spawn multiple Customers at random waypoin positions
         for (int i = 0; i < npcCount; i++)
         {
             Vector3 spawnPos = waypoints[Random.Range(0, waypoints.Length)].position;
             GameObject npc = Instantiate(npcPrefab, spawnPos, Quaternion.identity);
 
-            // Assign waypoints to the NPC
+            // Assigns the waypoints to the Customers
             CustomerAI ai = npc.GetComponent<CustomerAI>();
             ai.waypoints = waypoints;
         }

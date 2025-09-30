@@ -6,9 +6,9 @@
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Ground
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI, Interactable
+    - Default, TransparentFX, Ignore Raycast, Water, UI, Interactable, Ground
 - Active game object:
-  - Name: Player
+  - Name: GroundCheck
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
