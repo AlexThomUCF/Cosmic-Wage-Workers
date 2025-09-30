@@ -25,7 +25,7 @@ public class NPC : MonoBehaviour, IInteraction
         }
 
         onInteract?.Invoke();
-
+        SoundEffectManager.Play("Interact");
         if(isDialogueActive)
         {
             NextLine();
@@ -78,6 +78,7 @@ public class NPC : MonoBehaviour, IInteraction
         foreach(char letter in dialogueData.dialogueLines[dialogueIndex]) // go through each letter in dialogueLine and add it to dialoguetext
         {
             dialogueText.text += letter;
+            SoundEffectManager.PlayVoice(dialogueData.voiceSound, dialogueData.voicePitch);
             yield return new WaitForSeconds(dialogueData.typingSpeed);
         }
 
