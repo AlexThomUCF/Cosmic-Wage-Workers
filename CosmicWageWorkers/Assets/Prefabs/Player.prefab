@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3429266233087886487}
   - component: {fileID: 5237310215743361253}
   - component: {fileID: 2121967366529832854}
-  - component: {fileID: 9162335553151119325}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -161,6 +160,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpForce: 5
+  groundCheck: {fileID: 0}
+  groundDistance: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!54 &2121967366529832854
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -188,18 +192,3 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &9162335553151119325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8047575130960802441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84d307b05c449b44a8fc6529282a74b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Interaction
-  interactLayer:
-    serializedVersion: 2
-    m_Bits: 64
