@@ -2,7 +2,7 @@
 - Project name: CosmicWageWorkers
 - Unity version: Unity 6000.2.0f1
 - Active game object:
-  - Name: NPCTEMP (1)
+  - Name: CloseButton
   - Tag: Untagged
-  - Layer: Interactable
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

@@ -17,8 +17,18 @@ MonoBehaviour:
   dialogueLines:
   - Hey I'm Jamal and im a 3d modeler
   - I love cat girls!
-  autoProgressLines: 0100
+  - Do you like cat girls?
+  - LETS GO (dababy)
+  - darn
+  autoProgressLines: 010000
+  endDialogueLines: 
   autoProgressDelay: 1.5
   typingSpeed: 0.05
   voiceSound: {fileID: 8300000, guid: 2ae940965830a644692ecadb3e2622c7, type: 3}
   voicePitch: 1
+  choices:
+  - dialogueIndex: 2
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexs: 0300000004000000
