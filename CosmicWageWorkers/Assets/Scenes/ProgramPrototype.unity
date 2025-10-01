@@ -242,7 +242,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fb0c52fb0860144acffe707e0a1a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerSpawning
-  customerPrefab: {fileID: 0}
+  npcPrefab: {fileID: 9057736604998412383, guid: 173f83dfaf2b9e0448e716392f669ff8, type: 3}
+  npcCount: 10
+  waypoints:
+  - {fileID: 1400635711}
+  - {fileID: 987238191}
+  - {fileID: 983470275}
+  - {fileID: 259047116}
+  - {fileID: 1326479366}
+  - {fileID: 294259495}
+  - {fileID: 975010947}
+  - {fileID: 217481508}
+  - {fileID: 1365824381}
+  - {fileID: 213126952}
+  - {fileID: 1361702393}
+  - {fileID: 2074577324}
+  - {fileID: 1277022341}
+  - {fileID: 1454048689}
+  - {fileID: 2065732148}
 --- !u!1001 &97289976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274,6 +291,10 @@ PrefabInstance:
     - target: {fileID: 1841838068644859128, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
       propertyPath: m_Name
       value: NPCTEMP (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841838068644859128, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8885159252106445630, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -875,7 +896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0fa5a887b1a274b9af450e115b3257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundEffectManager
-  sfxsSlider: {fileID: 0}
+  sfxsSlider: {fileID: 1742210173}
 --- !u!114 &254896683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1513,6 +1534,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpForce: 5
+  groundCheck: {fileID: 727136750}
+  groundDistance: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &342917269
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1915,9 +1941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0d520a6cf8eef4697da7281392e663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minViewDistance: 25
   playerBody: {fileID: 342917266}
-  mouseSense: 400
+  mouseSensitivity: 400
 --- !u!43 &775129443
 Mesh:
   m_ObjectHideFlags: 0
@@ -2600,6 +2625,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPCTEMP
       objectReference: {fileID: 0}
+    - target: {fileID: 1841838068644859128, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8885159252106445630, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.412996
@@ -2921,6 +2950,10 @@ PrefabInstance:
     - target: {fileID: 1841838068644859128, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
       propertyPath: m_Name
       value: NPCTEMP (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841838068644859128, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8885159252106445630, guid: 4c3c466cb0067a944a690adf9431849d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5558,6 +5591,17 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!114 &1742210173 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8594340835356757198, guid: d21b44692a0595946adeb9461f04c731, type: 3}
+  m_PrefabInstance: {fileID: 1264345356}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &1796164752
 GameObject:
   m_ObjectHideFlags: 0
@@ -5682,6 +5726,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 3b10b2314e294364b9dfbcd699315c41, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!43 &2010965751
 Mesh:
   m_ObjectHideFlags: 0
