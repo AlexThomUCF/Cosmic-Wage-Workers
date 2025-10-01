@@ -1,60 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 5f;
+    Rigidbody rb;
+    Vector2 moveInput; 
 
-    [Header("Ground Check")]
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundDistance = 0.2f;
-    [SerializeField] private LayerMask groundMask;
 
-    private Rigidbody rb;
-    private Vector2 moveInput;
-    private bool isGrounded;
+    [SerializeField] float speed = 5f;
+    [SerializeField] float jumpForce = 5f;
 
-    void Awake()
+    bool isGrounded = true;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
+  
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true; // Prevent player tipping over
     }
 
+    // Update is called once per frame
     void Update()
     {
-        // Check if the player is on the ground
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        MovePlayer();
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            Jump();
+        }
     }
 
-    void FixedUpdate()
+    void Jump()
     {
-        MovePlayer(); // Handle horizontal movement
+        rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+        isGrounded = false;
     }
 
-    // Apply movement based on input
-    private void MovePlayer()
+    private void OnCollisionEnter(Collision collision)
     {
-        Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.y;
-        Vector3 displacement = moveDir * speed * Time.fixedDeltaTime;
-
-        rb.MovePosition(rb.position + displacement);
+        if(collision.gameObject.tag == "Ground")
+        {
+            isGrounded = true;
+        }
     }
 
-    // Called by Input System to update movement vector
-    public void OnMove(InputValue value)
+    void MovePlayer()
+    {
+        Vector3 playerVelocity = new Vector3(moveInput.x * speed, rb.linearVelocity.y, moveInput.y * speed);
+        rb.linearVelocity = transform.TransformDirection(playerVelocity);
+    }
+
+    void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
     }
-
-    // Called by Input System to perform jump
-    public void OnJump(InputValue value)
-    {
-        if (value.isPressed && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-    }
 }
-

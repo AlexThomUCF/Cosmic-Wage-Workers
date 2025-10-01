@@ -2,30 +2,34 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
-    [SerializeField] private Transform playerBody;
-    [SerializeField] private float mouseSensitivity = 400f;
+    [SerializeField] private float minViewDistance = 25f;// minimum amount you can look down 
+    [SerializeField] Transform playerBody;
 
-    private float xRotation = 0f;
+    public float mouseSense = 400f;
+
+    float xRotation = 0f;
+
+    
+    
+    
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Lock and hide cursor
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
+    // Update is called once per frame
     void Update()
     {
-        // Get mouse movement
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSense * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSense * Time.deltaTime;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -90f, minViewDistance);
 
-        // Rotate camera up/down
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);//camera rotates
 
-        // Rotate player body left/right
-        playerBody.Rotate(Vector3.up * mouseX);
+        playerBody.Rotate(Vector3.up * mouseX);// player rotations with camera
+
     }
 }
-
