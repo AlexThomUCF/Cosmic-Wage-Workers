@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class TtleScreen : MonoBehaviour
 {
@@ -40,6 +41,24 @@ public class TtleScreen : MonoBehaviour
 
         var backBn = root.Q<VisualElement>("BackBn");
         backBn.RegisterCallback<ClickEvent>(BackToMainClick);
+
+        var resDropDown = root.Q<DropdownField>("Resolution");
+        resDropDown.choices = new List<string>{ "1920x1080", "2560x1440", "3840x2160" };
+
+        var windowBn = root.Q<DropdownField>("Window");
+        windowBn.choices = new List<string> { "Windowed", "Borderless Windowed", "Fullscreen" };
+
+        var vsyncBn = root.Q<RadioButtonGroup>("Vsync");
+        vsyncBn.choices = new List<string> { "On", "Off" };
+
+        var audioBn = root.Q<VisualElement>("AudioBn");
+        audioBn.RegisterCallback<ClickEvent>(OpenAudio);
+
+        var displayBn = root.Q<VisualElement>("DisplayBn");
+        displayBn.RegisterCallback<ClickEvent>(OpenDisplay);
+
+        var controlsBn = root.Q<VisualElement>("ControlsBn");
+        controlsBn.RegisterCallback<ClickEvent>(OpenControls);
  
     }
 
@@ -67,6 +86,7 @@ public class TtleScreen : MonoBehaviour
         }
         if (settingsOff)
         {
+
             var settingsPanel = root.Q<VisualElement>("SettingsPanel");
             settingsPanel.style.display = DisplayStyle.None;
 
@@ -112,7 +132,6 @@ public class TtleScreen : MonoBehaviour
     private void ToggleSettingsClick(ClickEvent evt)
     {
         Debug.Log("SettingsAreOpened");
-
         settingsOn = true;
         cameraAnimation.SetTrigger("SettingsUp");
      
@@ -130,6 +149,52 @@ public class TtleScreen : MonoBehaviour
 
         settingsOff = true;
         cameraAnimation.SetTrigger("SettingsDown");
+    }
+
+    private void OpenAudio(ClickEvent evt)
+    {
+        var optionsPanel = root.Q<VisualElement>("OptionsPanel");
+        optionsPanel.style.display = DisplayStyle.Flex;
+
+        var audioPanel = root.Q<VisualElement>("Audio");
+        audioPanel.style.display = DisplayStyle.Flex;
+
+        var displayPanel = root.Q<VisualElement>("Display");
+        displayPanel.style.display = DisplayStyle.None;
+
+        var controlsPanel = root.Q<VisualElement>("Controls");
+        controlsPanel.style.display = DisplayStyle.None;
+
+    }
+
+    private void OpenDisplay(ClickEvent evt)
+    {
+        var optionsPanel = root.Q<VisualElement>("OptionsPanel");
+        optionsPanel.style.display = DisplayStyle.Flex;
+
+        var audioPanel = root.Q<VisualElement>("Audio");
+        audioPanel.style.display = DisplayStyle.None;
+
+        var displayPanel = root.Q<VisualElement>("Display");
+        displayPanel.style.display = DisplayStyle.Flex;
+
+        var controlsPanel = root.Q<VisualElement>("Controls");
+        controlsPanel.style.display = DisplayStyle.None;
+    }
+
+    private void OpenControls(ClickEvent evt)
+    {
+        var optionsPanel = root.Q<VisualElement>("OptionsPanel");
+        optionsPanel.style.display = DisplayStyle.Flex;
+
+        var audioPanel = root.Q<VisualElement>("Audio");
+        audioPanel.style.display = DisplayStyle.None;
+
+        var displayPanel = root.Q<VisualElement>("Display");
+        displayPanel.style.display = DisplayStyle.None;
+
+        var controlsPanel = root.Q<VisualElement>("Controls");
+        controlsPanel.style.display = DisplayStyle.Flex;
     }
 
 
