@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 5142697645738909949}
   - component: {fileID: 7585581037751218191}
   - component: {fileID: 3546061984392953029}
-  - component: {fileID: 138241682024784873}
   - component: {fileID: 2411838932229336202}
   - component: {fileID: 1908685573334712152}
   m_Layer: 6
@@ -248,7 +247,7 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 138241682024784873}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Ref, Assembly-CSharp
         m_MethodName: npcInteracted
         m_Mode: 1
@@ -260,19 +259,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &138241682024784873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9057736604998412383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf2a393d91853d24fa068742785b857c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Ref
-  dialogue: {fileID: 0}
 --- !u!195 &2411838932229336202
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -308,19 +294,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerAI
   agent: {fileID: 2411838932229336202}
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  waypoints: []
