@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    public float health = 1f;
+    public float health = 50f;
 
     public virtual void TakeDamage(float amount)
     {
