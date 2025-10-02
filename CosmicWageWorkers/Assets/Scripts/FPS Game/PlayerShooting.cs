@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerShooting : MonoBehaviour
 {
     public Camera cam;
-    public float shootRange = 50f;
-    public float damage = 10f;
-    public LayerMask enemyLayer;
+    public GameObject projectilePrefab;
+    public Transform shootPoint;
+    public float projectileSpeed = 25f;
 
     private PlayerControls inputActions;
 
@@ -34,13 +34,11 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, shootRange, enemyLayer))
+        if (projectilePrefab != null && shootPoint != null)
         {
-            EnemyBase enemy = hit.collider.GetComponent<EnemyBase>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-            }
+            GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+            Rigidbody rb = proj.GetComponent<Rigidbody>();
+            rb.linearVelocity = cam.transform.forward * projectileSpeed;
         }
     }
 }
