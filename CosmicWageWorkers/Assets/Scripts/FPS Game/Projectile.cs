@@ -4,6 +4,7 @@ public class Projectile : MonoBehaviour
 {
     public float damage = 10f;
     public float lifetime = 5f;
+    public string targetTag = "Enemy"; // default to player bullets hitting enemies
 
     void Start()
     {
@@ -12,14 +13,23 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        EnemyBase enemy = collision.collider.GetComponent<EnemyBase>();
-        if (enemy != null)
+        if (collision.collider.CompareTag(targetTag))
         {
-            enemy.TakeDamage(damage);
+            // Try damaging enemy
+            EnemyBase enemy = collision.collider.GetComponent<EnemyBase>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+
+            // Try damaging player
+            PlayerHealth player = collision.collider.GetComponent<PlayerHealth>();
+            if (player != null)
+            {
+                player.TakeDamage(damage);
+            }
         }
 
-        // Destroy projectile after hit
         Destroy(gameObject);
     }
 }
-
