@@ -10,11 +10,11 @@ public class TtleScreen : MonoBehaviour
 
     public GameObject titleScreenCamera;
 
-    private float settingsUpDelayed = 2;
+    private float settingsUpDelayed = 1;
 
-    private float settingsDownDelayed = 2;
+    private float settingsDownDelayed = 1;
 
-    private float gameStaredDelayed = 3;
+    private float gameStaredDelayed = 2;
 
     public bool settingsOn;
 
@@ -24,11 +24,14 @@ public class TtleScreen : MonoBehaviour
 
     public bool gameHasStarted;
 
+    private AudioManager audioManager;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-         root = titleDocument.rootVisualElement;
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        root = titleDocument.rootVisualElement;
 
         var playBn = root.Q<VisualElement>("PlayBn");
         playBn.RegisterCallback<ClickEvent>(PlayGameClick);
@@ -59,6 +62,8 @@ public class TtleScreen : MonoBehaviour
 
         var controlsBn = root.Q<VisualElement>("ControlsBn");
         controlsBn.RegisterCallback<ClickEvent>(OpenControls);
+
+        audioManager.PlayVoice(audioManager.helloThere);
  
     }
 
@@ -79,7 +84,7 @@ public class TtleScreen : MonoBehaviour
                 var settingsPanel = root.Q<VisualElement>("SettingsPanel");
                 settingsPanel.style.display = DisplayStyle.Flex;
 
-                settingsUpDelayed = 2;
+                settingsUpDelayed = 1;
                 settingsOn = false;
             }
 
@@ -99,7 +104,7 @@ public class TtleScreen : MonoBehaviour
                 var titleMainMenu = root.Q<VisualElement>("Title");
                 titleMainMenu.style.display = DisplayStyle.Flex;
 
-                settingsDownDelayed = 2;
+                settingsDownDelayed = 1;
                 settingsOff = false;
 
             }
@@ -126,6 +131,9 @@ public class TtleScreen : MonoBehaviour
         Debug.Log("GameHasStarted");
         gameHasStarted = true;
         cameraAnimation.SetTrigger("GameStarted");
+
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
         
     }
 
@@ -134,7 +142,10 @@ public class TtleScreen : MonoBehaviour
         Debug.Log("SettingsAreOpened");
         settingsOn = true;
         cameraAnimation.SetTrigger("SettingsUp");
-     
+
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
+
     }
 
     private void QuitGameClick(ClickEvent evt)
@@ -147,12 +158,19 @@ public class TtleScreen : MonoBehaviour
     {
         Debug.Log("SettingsAreClosed");
 
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
+
         settingsOff = true;
         cameraAnimation.SetTrigger("SettingsDown");
     }
 
     private void OpenAudio(ClickEvent evt)
     {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+
         var optionsPanel = root.Q<VisualElement>("OptionsPanel");
         optionsPanel.style.display = DisplayStyle.Flex;
 
@@ -169,6 +187,9 @@ public class TtleScreen : MonoBehaviour
 
     private void OpenDisplay(ClickEvent evt)
     {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
         var optionsPanel = root.Q<VisualElement>("OptionsPanel");
         optionsPanel.style.display = DisplayStyle.Flex;
 
@@ -184,6 +205,9 @@ public class TtleScreen : MonoBehaviour
 
     private void OpenControls(ClickEvent evt)
     {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
         var optionsPanel = root.Q<VisualElement>("OptionsPanel");
         optionsPanel.style.display = DisplayStyle.Flex;
 
