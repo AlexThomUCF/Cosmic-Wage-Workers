@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8318623903103253996}
   - component: {fileID: 1805032200074201446}
   - component: {fileID: 800863178975335875}
+  - component: {fileID: 5457947708174746051}
   m_Layer: 6
   m_Name: NPCTEMP
   m_TagString: Untagged
@@ -128,10 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialogueData: {fileID: 11400000, guid: 7009bf59de0c32348a42e220859322a9, type: 2}
-  dialoguePanel: {fileID: 0}
-  dialogueText: {fileID: 0}
-  nameText: {fileID: 0}
-  portraitImage: {fileID: 0}
 --- !u!114 &800863178975335875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,3 +156,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5457947708174746051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841838068644859128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbdfc8e88ab12984797f7497514c42ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test
+  dialogueData: {fileID: 11400000, guid: 7009bf59de0c32348a42e220859322a9, type: 2}

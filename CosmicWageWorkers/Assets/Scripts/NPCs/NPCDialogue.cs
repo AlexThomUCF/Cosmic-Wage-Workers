@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class NPCDialogue : ScriptableObject
 {
     public string npcName;
+    public string miniGameName;
     public Sprite npcProtrait;
     public string[] dialogueLines;
     public bool[] autoProgressLines;// will next npc line autoprogress without playing clicking 
