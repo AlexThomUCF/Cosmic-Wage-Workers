@@ -45,11 +45,18 @@ public class TtleScreen : MonoBehaviour
         var backBn = root.Q<VisualElement>("BackBn");
         backBn.RegisterCallback<ClickEvent>(BackToMainClick);
 
-        var resDropDown = root.Q<DropdownField>("Resolution");
-        resDropDown.choices = new List<string>{ "1920x1080", "2560x1440", "3840x2160" };
+        var graphicsDropDown= root.Q<DropdownField>("Graphics");
+        List<string> qualityLevels = new List<string>(QualitySettings.names);
+        graphicsDropDown.choices = qualityLevels;
 
-        var windowBn = root.Q<DropdownField>("Window");
-        windowBn.choices = new List<string> { "Windowed", "Borderless Windowed", "Fullscreen" };
+        graphicsDropDown.index = QualitySettings.GetQualityLevel();
+        graphicsDropDown.RegisterValueChangedCallback(evt =>
+        {
+            int selectedIndex = graphicsDropDown.index;
+            QualitySettings.SetQualityLevel(selectedIndex, true);
+            Debug.Log("You switch quality level to:   " + QualitySettings.names[selectedIndex]);
+        });
+
 
         var vsyncBn = root.Q<RadioButtonGroup>("Vsync");
         vsyncBn.choices = new List<string> { "On", "Off" };
