@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class HorrorAI : MonoBehaviour
 {
-    NavMeshAgent monsterAgent;
+    public NavMeshAgent monsterAgent;
     public Transform playerTransform;
 
     private EnemyVision enemyVision;
