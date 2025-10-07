@@ -39,6 +39,7 @@ public class HorrorAI : MonoBehaviour
     {
         if(enemyVision.allTrue)
         {
+            monsterAgent.isStopped = false;
             monsterAgent.SetDestination(playerTransform.position);
         }
         else
