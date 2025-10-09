@@ -120,10 +120,25 @@ public class NPC : MonoBehaviour, IInteraction
 
     void DisplayChoices(DialogueChoice choice)
     {
-        for(int i = 0; i < choice.choices.Length; i++)
+        // Example: detect a "Yes" button and hook into the Test script’s UnityEvent
+        for (int i = 0; i < choice.choices.Length; i++)
         {
+            string choiceText = choice.choices[i];
             int nextIndex = choice.nextDialogueIndexs[i];
-            dialogueUI.CreateChoiceButton(choice.choices[i],() => ChooseOption(nextIndex));
+
+            UnityAction action = () => ChooseOption(nextIndex);
+
+            // Optional: hook into Test’s UnityEvents depending on choice text
+            Test testScript = FindAnyObjectByType<Test>();
+            if (testScript != null)
+            {
+                if (choiceText.ToLower().Contains("yes"))
+                    action += () => testScript.yesClick.Invoke();
+                else
+                    action += () => testScript.onClick.Invoke();
+            }
+
+            dialogueUI.CreateChoiceButton(choiceText, action);
         }
     }
 

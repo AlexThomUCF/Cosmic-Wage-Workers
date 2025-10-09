@@ -30,6 +30,10 @@ public class SpotLightDetector : MonoBehaviour
                 aiMonster.monsterAgent.isStopped = true;
                 //Freeze The monster here
             }
+            else
+            {
+                aiMonster.monsterAgent.isStopped = false;
+            }
         }
     }
     void OnDrawGizmosSelected()

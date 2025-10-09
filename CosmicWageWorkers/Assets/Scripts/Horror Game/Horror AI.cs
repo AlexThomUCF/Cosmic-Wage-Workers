@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,25 +7,20 @@ public class HorrorAI : MonoBehaviour
     public NavMeshAgent monsterAgent;
     public Transform playerTransform;
 
+    public Transform centrePoint; // centre of the area the agent wants to move around in
+    public float range; //Radius of spehere around agent. 
+
+
     private EnemyVision enemyVision;
+
 
     private GameObject newObject;
     private int tempMark = 0;
     private bool hasDetected = false;
-    //public Transform childTransform;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    //Three states
-    //Base roam State
-    // Player range state
-    // Phase 2 state'
-
+    
     enum AIState
     {
-        Base,
-        ZoneState,
-        Phase2State
+        NormalState,EnragedState
     };
 
     void Start()
@@ -32,19 +28,58 @@ public class HorrorAI : MonoBehaviour
         monsterAgent = GetComponent<NavMeshAgent>();
         enemyVision = GetComponent<EnemyVision>();
 
+
+
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        if(enemyVision.allTrue)
+
+
+        if (enemyVision.allTrue)
         {
             monsterAgent.isStopped = false;
             monsterAgent.SetDestination(playerTransform.position);
         }
-        else
+       
+
+        // StartCoroutine(ChooseAction());
+        if (monsterAgent.remainingDistance <= monsterAgent.stoppingDistance) // done with path
         {
-            monsterAgent.isStopped = true;
+            // ChooseAction(); // when path is done call Choose action command
+            Vector3 point;
+
+            if (RandomPoint(centrePoint.position, range, out point) && (!enemyVision.allTrue)) 
+            {
+                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+                monsterAgent.SetDestination(point);
+                StartCoroutine(ResetAfterMovement());
+            }
+
+        }
+    }
+    bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+
+        Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in sphere
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            result = hit.position;
+            return true;
+        }
+
+        result = Vector3.zero;
+        return false;
+    }
+
+    IEnumerator ResetAfterMovement()
+    {
+        while (monsterAgent.pathPending || monsterAgent.remainingDistance > monsterAgent.stoppingDistance)
+        {
+            yield return null; // Wait until the AI reaches its destination
         }
     }
 

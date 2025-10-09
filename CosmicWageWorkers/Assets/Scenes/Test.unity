@@ -8736,6 +8736,7 @@ Transform:
   - {fileID: 1720511696}
   - {fileID: 1953397769}
   - {fileID: 154395164}
+  - {fileID: 2017300595}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1647624543
@@ -11547,8 +11548,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017300594}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.0554, y: 4.75801, z: -24.78502}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 13.36962, y: -0.6984501, z: -15.747071}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11560,7 +11561,7 @@ Transform:
   - {fileID: 1242996482}
   - {fileID: 808640604}
   - {fileID: 1708053764}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1612261008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &2018812418
 Mesh:
@@ -12073,7 +12074,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac774574e4ee7649821e3814869e773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorAI
+  monsterAgent: {fileID: 0}
   playerTransform: {fileID: 904149469}
+  centrePoint: {fileID: 2049966752}
+  range: 80
 --- !u!195 &2049966748
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -13165,7 +13169,6 @@ SceneRoots:
   - {fileID: 919008493}
   - {fileID: 327829437}
   - {fileID: 1612261008}
-  - {fileID: 2017300595}
   - {fileID: 1032259397}
   - {fileID: 904149469}
   - {fileID: 2049966752}
