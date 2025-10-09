@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class RangedEnemy : EnemyBase
 {
     [Header("Movement")]
-    public float stoppingDistance = 10f;
+    public float stoppingDistance = 2f; // Optional: keep minimum distance
 
     [Header("Shooting")]
     public GameObject projectilePrefab;
@@ -18,12 +18,9 @@ public class RangedEnemy : EnemyBase
 
     void Start()
     {
-        // Find the player by tag
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
-        {
             player = playerObj.transform;
-        }
 
         agent = GetComponent<NavMeshAgent>();
         shootTimer = shootCooldown;
@@ -33,7 +30,7 @@ public class RangedEnemy : EnemyBase
     {
         if (player == null) return;
 
-        // Move toward player if too far
+        // Always move toward the player
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance > stoppingDistance)
         {
@@ -41,35 +38,34 @@ public class RangedEnemy : EnemyBase
         }
         else
         {
-            agent.ResetPath();
-            TryShoot();
+            agent.ResetPath(); // Optional: stop very close to player
         }
 
-        // Rotate enemy toward player (but ignore vertical)
+        // Rotate toward player
         Vector3 lookDirection = player.position - transform.position;
-        lookDirection.y = 0; // keep enemy upright
+        lookDirection.y = 0;
         if (lookDirection != Vector3.zero)
-        {
             transform.rotation = Quaternion.LookRotation(lookDirection);
-        }
-    }
 
-    void TryShoot()
-    {
+        // Handle shooting continuously
         shootTimer -= Time.deltaTime;
         if (shootTimer <= 0f)
         {
             shootTimer = shootCooldown;
+            ShootAtPlayer();
+        }
+    }
 
-            if (projectilePrefab != null && shootPoint != null)
-            {
-                GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
-                Rigidbody rb = proj.GetComponent<Rigidbody>();
-                rb.linearVelocity = (player.position - shootPoint.position).normalized * projectileSpeed;
+    private void ShootAtPlayer()
+    {
+        if (projectilePrefab != null && shootPoint != null)
+        {
+            GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+            Rigidbody rb = proj.GetComponent<Rigidbody>();
+            rb.linearVelocity = (player.position - shootPoint.position).normalized * projectileSpeed;
 
-                // Optional: destroy projectile after 5 seconds
-                Destroy(proj, 5f);
-            }
+            Destroy(proj, 5f);
         }
     }
 }
+

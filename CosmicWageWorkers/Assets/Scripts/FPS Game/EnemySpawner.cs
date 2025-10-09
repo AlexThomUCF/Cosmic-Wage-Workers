@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject rangedEnemyPrefab;
-    public GameObject meleeEnemyPrefab;
     public float spawnInterval = 5f;
     public Transform[] spawnPoints;
 
@@ -21,11 +20,10 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (spawnPoints.Length == 0) return;
+        if (spawnPoints.Length == 0 || rangedEnemyPrefab == null) return;
 
         Transform spawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        GameObject prefab = Random.value > 0.5f ? rangedEnemyPrefab : meleeEnemyPrefab;
-        Instantiate(prefab, spawn.position, spawn.rotation);
+        Instantiate(rangedEnemyPrefab, spawn.position, spawn.rotation);
     }
 }
 
