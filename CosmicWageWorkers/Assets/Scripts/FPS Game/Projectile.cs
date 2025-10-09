@@ -22,6 +22,7 @@ public class Projectile : MonoBehaviour
             }
         }
 
+        // Destroy projectile immediately on impact
         Destroy(gameObject);
     }
 }

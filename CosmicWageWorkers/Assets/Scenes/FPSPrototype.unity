@@ -7403,7 +7403,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298635167}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -7580,7 +7580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
   cam: {fileID: 1380654468}
-  projectilePrefab: {fileID: 1662506713221435195, guid: f1385b6b6519feb478887450b757dc76, type: 3}
+  projectilePrefab: {fileID: 1662506713221435195, guid: c0534d9e0fe9698428a20ec0746f3a5f, type: 3}
   shootPoint: {fileID: 119563763}
   projectileSpeed: 25
 --- !u!114 &1298635177
@@ -7598,7 +7598,7 @@ MonoBehaviour:
   maxFreeze: 100
   freezePerHit: 20
   thawRate: 10
-  freezeMoveMultiplier: 0.5
+  freezeMoveMultiplier: 1
   freezeDecayDelay: 2
   freezeMeter: {fileID: 677309702}
 --- !u!1 &1309639714

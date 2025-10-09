@@ -9,7 +9,7 @@ public class RangedEnemy : EnemyBase
     [Header("Shooting")]
     public GameObject projectilePrefab;
     public Transform shootPoint;
-    public float projectileSpeed = 15f;
+    public float projectileSpeed = 30f;
     public float shootCooldown = 2f;
 
     private Transform player;
