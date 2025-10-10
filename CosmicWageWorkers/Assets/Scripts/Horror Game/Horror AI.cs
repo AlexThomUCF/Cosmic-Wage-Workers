@@ -12,13 +12,9 @@ public class HorrorAI : MonoBehaviour
 
 
     private EnemyVision enemyVision;
+    private FlashLight flashLight;
 
-
-    private GameObject newObject;
-    private int tempMark = 0;
-    private bool hasDetected = false;
-    
-    enum AIState
+    public enum AIState
     {
         NormalState,EnragedState
     };
@@ -27,38 +23,58 @@ public class HorrorAI : MonoBehaviour
     {
         monsterAgent = GetComponent<NavMeshAgent>();
         enemyVision = GetComponent<EnemyVision>();
+        flashLight = FindAnyObjectByType<FlashLight>();
+
+        currentState = AIState.NormalState;
 
 
 
     }
 
+    public AIState currentState;
+
 
     // Update is called once per frame
     void Update()
     {
-
-
-        if (enemyVision.allTrue)
+       switch(currentState)
         {
-            monsterAgent.isStopped = false;
-            monsterAgent.SetDestination(playerTransform.position);
+            case AIState.NormalState:
+                if (enemyVision.allTrue)
+                {
+                    monsterAgent.isStopped = false;
+                    monsterAgent.SetDestination(playerTransform.position);
+                }
+
+
+                // StartCoroutine(ChooseAction());
+                if (monsterAgent.remainingDistance <= monsterAgent.stoppingDistance) // done with path
+                {
+                    // ChooseAction(); // when path is done call Choose action command
+                    Vector3 point;
+
+                    if (RandomPoint(centrePoint.position, range, out point) && (!enemyVision.allTrue))
+                    {
+                        Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+                        monsterAgent.SetDestination(point);
+                        StartCoroutine(ResetAfterMovement());
+                    }
+                }
+
+                    break;
+            case AIState.EnragedState:
+                Debug.Log("IN MAD STATE");
+                monsterAgent.speed = 20f;
+                monsterAgent.SetDestination(playerTransform.position);
+                Destroy(flashLight.fLight);
+                //Destroy flashlight
+                        //Enraged script
+                        break;
+
         }
-       
 
-        // StartCoroutine(ChooseAction());
-        if (monsterAgent.remainingDistance <= monsterAgent.stoppingDistance) // done with path
-        {
-            // ChooseAction(); // when path is done call Choose action command
-            Vector3 point;
 
-            if (RandomPoint(centrePoint.position, range, out point) && (!enemyVision.allTrue)) 
-            {
-                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
-                monsterAgent.SetDestination(point);
-                StartCoroutine(ResetAfterMovement());
-            }
-
-        }
+  
     }
     bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
@@ -81,6 +97,16 @@ public class HorrorAI : MonoBehaviour
         {
             yield return null; // Wait until the AI reaches its destination
         }
+    }
+
+    public void SetState(AIState newState)
+    {
+        if (currentState == newState) return;
+
+        currentState = newState;
+
+        // Any extra logic when switching states
+        Debug.Log("State changed to: " + newState);
     }
 
 
