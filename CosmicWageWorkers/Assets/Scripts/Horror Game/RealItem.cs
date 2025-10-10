@@ -7,6 +7,8 @@ public class RealItem : MonoBehaviour, IInteraction
     public bool isMcguffin = false;
     public HorrorAI horror;
 
+    public static bool hasItem = false;
+
 
     public UnityEvent onInteract { get; set; } = new UnityEvent();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +26,7 @@ public class RealItem : MonoBehaviour, IInteraction
             Debug.Log("This is the Mcguffin");
             horror.currentState = HorrorAI.AIState.EnragedState;
             SoundEffectManager.Play("RightItem");
+            hasItem = true;
             //set phase2bool = true
             //pop up item
         }
