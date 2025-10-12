@@ -13,13 +13,53 @@ MonoBehaviour:
   m_Name: Racing Guy
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Mama & Baby
+  miniGameName: Test
   npcProtrait: {fileID: 21300000, guid: 5ad4ff9c8dfb2bd43932831347fc964d, type: 3}
   dialogueLines:
   - Can you please race my baby
   - He loves to race!
   - No one has ever beaten him
-  autoProgressLines: 000000
+  - Can you beat him?
+  - Wow thats insane
+  - I thought so
+  autoProgressLines: 000000000000
+  endDialogueLines: 000000000101
   autoProgressDelay: 1.5
   typingSpeed: 0.001
   voiceSound: {fileID: 0}
   voicePitch: -0.74
+  onClicks:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Test, Assembly-CSharp
+        m_MethodName: ChangeSceneThing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Test, Assembly-CSharp
+        m_MethodName: DoNothing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  choices:
+  - dialogueIndex: 3
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexs: 0400000005000000

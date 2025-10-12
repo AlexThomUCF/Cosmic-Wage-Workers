@@ -63,6 +63,8 @@ public class HorrorAI : MonoBehaviour
 
                     break;
             case AIState.EnragedState:
+
+                StartCoroutine(WaitForSwap());
                 Debug.Log("IN MAD STATE");
                 monsterAgent.speed = 20f;
                 monsterAgent.SetDestination(playerTransform.position);
@@ -108,6 +110,14 @@ public class HorrorAI : MonoBehaviour
         // Any extra logic when switching states
         Debug.Log("State changed to: " + newState);
     }
+
+    IEnumerator WaitForSwap()
+    {
+        Debug.Log("Waiting for swap");
+        yield return new WaitForSeconds(4f);
+    }
+
+    
 
 
     /*IEnumerator DetectedAttack()// used just for exclamation mark spawn

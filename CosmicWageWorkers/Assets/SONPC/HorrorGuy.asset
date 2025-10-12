@@ -13,12 +13,30 @@ MonoBehaviour:
   m_Name: HorrorGuy
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Scary lady
+  miniGameName: 
   npcProtrait: {fileID: 21300000, guid: a02832c48e289df40bb1b969bd532686, type: 3}
   dialogueLines:
   - Hey I'm looking for a certain item
   - Do you think you can check that back for me?
   autoProgressLines: 0100
+  endDialogueLines: 
   autoProgressDelay: 1.5
   typingSpeed: 0.05
   voiceSound: {fileID: 0}
   voicePitch: 5
+  onClicks:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Test, Assembly-CSharp
+        m_MethodName: ChangeSceneThing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  choices: []

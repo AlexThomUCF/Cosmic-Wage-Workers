@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Jack
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: RICHARD
+  miniGameName: 
   npcProtrait: {fileID: 21300000, guid: a47d8784f7c7467479b5941774190afd, type: 3}
   dialogueLines:
   - YOHOHOHOHOHO
@@ -21,7 +22,24 @@ MonoBehaviour:
   - XD shit on rekt noob scrub kid
   - 6 7 :p
   autoProgressLines: 0001010100
+  endDialogueLines: 
   autoProgressDelay: 1.5
   typingSpeed: 0.1
   voiceSound: {fileID: 0}
   voicePitch: -5.44
+  onClicks:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Test, Assembly-CSharp
+        m_MethodName: ChangeSceneThing
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  choices: []
