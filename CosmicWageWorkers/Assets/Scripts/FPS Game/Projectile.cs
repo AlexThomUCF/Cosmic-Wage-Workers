@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float damage = 10f;
     public float lifetime = 5f;
-    public string targetTag = "Enemy"; // default to player bullets hitting enemies
+    public string targetTag = "Player"; // Enemy projectiles hit the player
 
     void Start()
     {
@@ -13,23 +12,17 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        // Freeze player if hit
         if (collision.collider.CompareTag(targetTag))
         {
-            // Try damaging enemy
-            EnemyBase enemy = collision.collider.GetComponent<EnemyBase>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-            }
-
-            // Try damaging player
-            PlayerHealth player = collision.collider.GetComponent<PlayerHealth>();
+            PlayerFreeze player = collision.collider.GetComponent<PlayerFreeze>();
             if (player != null)
             {
-                player.TakeDamage(damage);
+                player.FreezeHit();
             }
         }
 
+        // Destroy projectile immediately on impact
         Destroy(gameObject);
     }
 }

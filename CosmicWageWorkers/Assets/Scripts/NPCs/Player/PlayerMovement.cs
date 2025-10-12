@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool isGrounded;
 
+    // Freeze mechanic
+    private float speedMultiplier = 1f;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -33,11 +36,11 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer(); // Handle horizontal movement
     }
 
-    // Apply movement based on input
+    // Apply movement based on input and freeze multiplier
     private void MovePlayer()
     {
         Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.y;
-        Vector3 displacement = moveDir * speed * Time.fixedDeltaTime;
+        Vector3 displacement = moveDir * speed * speedMultiplier * Time.fixedDeltaTime;
 
         rb.MovePosition(rb.position + displacement);
     }
@@ -56,5 +59,10 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
-}
 
+    // Called by PlayerFreeze to slow movement
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = Mathf.Clamp(multiplier, 0f, 1f);
+    }
+}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CustomerAI : MonoBehaviour
 {
@@ -13,54 +14,81 @@ public class CustomerAI : MonoBehaviour
     private float waitCounter;
     private Coroutine rotateRoutine;
 
+    // Static dictionary to track which waypoints are occupied
+    private static Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
+
     void Start()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
-        PickNewDestination(); // Choose first random waypoint
+
+        // Initialize occupied dictionary if empty
+        if (occupiedWaypoints.Count == 0 && waypoints != null)
+        {
+            foreach (var wp in waypoints)
+                occupiedWaypoints[wp] = false;
+        }
+
+        PickNewDestination();
     }
 
     void Update()
     {
-        // Check if at waypoint and start waiting
         if (!isWaiting && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             isWaiting = true;
-            waitTime = Random.Range(2f, 5f); // Pause at waypoint
+            waitTime = Random.Range(2f, 5f);
             waitCounter = 0f;
 
-            // Smoothly rotate toward the shelf
             if (rotateRoutine != null) StopCoroutine(rotateRoutine);
             rotateRoutine = StartCoroutine(SmoothFaceTarget(currentTarget));
         }
-        
-        // Waiting time
+
         if (isWaiting)
         {
             waitCounter += Time.deltaTime;
             if (waitCounter >= waitTime)
             {
                 isWaiting = false;
-                PickNewDestination(); // Move to next waypoint
+
+                // Mark current waypoint as free
+                if (currentTarget != null)
+                    occupiedWaypoints[currentTarget] = false;
+
+                PickNewDestination();
             }
         }
     }
 
-    // Select a random waypoint and set as agent's destination
     void PickNewDestination()
     {
         if (waypoints == null || waypoints.Length == 0) return;
 
-        currentTarget = waypoints[Random.Range(0, waypoints.Length)];
+        List<Transform> availableWaypoints = new List<Transform>();
+        foreach (var wp in waypoints)
+        {
+            if (!occupiedWaypoints[wp])
+                availableWaypoints.Add(wp);
+        }
+
+        if (availableWaypoints.Count == 0)
+        {
+            // All waypoints occupied, just wait and retry next frame
+            return;
+        }
+
+        // Pick a random free waypoint
+        currentTarget = availableWaypoints[Random.Range(0, availableWaypoints.Count)];
+        occupiedWaypoints[currentTarget] = true;
+
         agent.SetDestination(currentTarget.position);
     }
 
-    // Smoothly rotate toward the waypoint's Z axis
     IEnumerator SmoothFaceTarget(Transform target)
     {
         if (target == null) yield break;
 
         Vector3 lookDir = target.forward;
-        lookDir.y = 0; // Keep upright
+        lookDir.y = 0;
         if (lookDir == Vector3.zero) yield break;
 
         Quaternion targetRot = Quaternion.LookRotation(lookDir);
@@ -76,6 +104,6 @@ public class CustomerAI : MonoBehaviour
             yield return null;
         }
 
-        transform.rotation = targetRot; // Ensures the customer reached the target rotation
+        transform.rotation = targetRot;
     }
 }
