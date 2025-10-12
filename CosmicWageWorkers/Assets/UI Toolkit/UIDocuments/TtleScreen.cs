@@ -10,6 +10,7 @@ public class TtleScreen : MonoBehaviour
 
     public GameObject titleScreenCamera;
 
+
     private float settingsUpDelayed = 1;
 
     private float settingsDownDelayed = 1;
@@ -128,7 +129,7 @@ public class TtleScreen : MonoBehaviour
             gameStaredDelayed -= Time.deltaTime;
             if (gameStaredDelayed < 0)
             {
-                SceneManager.LoadScene("UI2");
+                SceneManager.LoadScene("ProgramPrototype");
             }
         }
     }
