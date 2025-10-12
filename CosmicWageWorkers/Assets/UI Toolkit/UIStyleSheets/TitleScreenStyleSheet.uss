@@ -1,0 +1,147 @@
+:root {
+}
+
+.Header {
+    justify-content: flex-start;
+    font-size: 60px;
+    -unity-text-align: upper-center;
+    -unity-text-outline-color: rgb(176, 255, 0);
+    -unity-text-outline-width: 1px;
+    color: rgb(0, 255, 255);
+    -unity-font-style: bold;
+}
+
+.button {
+    font-size: 30px;
+    background-color: rgb(0, 206, 209);
+    -unity-text-outline-color: rgb(255, 235, 4);
+    -unity-text-outline-width: 0;
+    -unity-background-image-tint-color: rgb(255, 235, 4);
+    border-top-width: 13px;
+    border-right-width: 13px;
+    border-bottom-width: 13px;
+    border-left-width: 13px;
+    border-top-left-radius: 95px;
+    border-top-right-radius: 95px;
+    border-bottom-right-radius: 95px;
+    border-bottom-left-radius: 95px;
+    border-left-color: rgb(140, 201, 36);
+    border-right-color: rgb(140, 201, 36);
+    border-top-color: rgb(140, 201, 36);
+    border-bottom-color: rgb(140, 201, 36);
+    width: 275px;
+    height: 100px;
+    -unity-font-style: bold;
+    margin-top: 13px;
+    margin-right: 13px;
+    margin-bottom: 13px;
+    margin-left: 13px;
+    padding-top: 51px;
+    padding-right: 51px;
+    padding-bottom: 51px;
+    padding-left: 51px;
+    align-self: auto;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: auto;
+    position: relative;
+    flex-direction: column;
+    background-size: 150px 150px;
+}
+
+.button:hover {
+    font-size: 30px;
+    background-color: rgb(0, 206, 209);
+    -unity-text-outline-color: rgb(255, 235, 4);
+    -unity-text-outline-width: 0;
+    -unity-background-image-tint-color: rgb(255, 235, 4);
+    border-top-width: 13px;
+    border-right-width: 13px;
+    border-bottom-width: 13px;
+    border-left-width: 13px;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    border-bottom-right-radius: 17px;
+    border-bottom-left-radius: 17px;
+    border-left-color: rgb(140, 201, 36);
+    border-right-color: rgb(140, 201, 36);
+    border-top-color: rgb(140, 201, 36);
+    border-bottom-color: rgb(140, 201, 36);
+    width: 275px;
+    height: 100px;
+    -unity-font-style: bold;
+    margin-top: 13px;
+    margin-right: 13px;
+    margin-bottom: 13px;
+    margin-left: 13px;
+    padding-top: 51px;
+    padding-right: 51px;
+    padding-bottom: 51px;
+    padding-left: 51px;
+    align-self: auto;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: auto;
+    position: relative;
+    flex-direction: column;
+    background-size: 150px 150px;
+    scale: 1.1 1.1;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-back;
+}
+
+.button:active {
+    font-size: 40px;
+    background-color: rgb(140, 201, 36);
+    -unity-text-outline-color: rgb(255, 235, 4);
+    -unity-text-outline-width: 0;
+    -unity-background-image-tint-color: rgb(255, 235, 4);
+    border-top-width: 19px;
+    border-right-width: 19px;
+    border-bottom-width: 19px;
+    border-left-width: 19px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    border-left-color: rgb(140, 201, 36);
+    border-right-color: rgb(140, 201, 36);
+    border-top-color: rgb(140, 201, 36);
+    border-bottom-color: rgb(140, 201, 36);
+    width: 250px;
+    scale: 1.1 1.1 1.1;
+    transition-duration: 0.1s;
+}
+
+.slider {
+    font-size: 59px;
+    -unity-text-outline-color: rgb(136, 226, 72);
+    color: rgb(0, 255, 255);
+    -unity-text-outline-width: 1px;
+}
+
+.backbn {
+    font-size: 15px;
+    width: 300px;
+    height: 300px;
+}
+
+.backbn:hover {
+    font-size: 15px;
+    width: 300px;
+    height: 300px;
+    scale: 1.1 1.1 1.1;
+}
+
+.dropdown {
+    margin-top: 22px;
+    margin-right: 22px;
+    margin-bottom: 22px;
+    margin-left: 22px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    justify-content: flex-start;
+    align-items: stretch;
+}
