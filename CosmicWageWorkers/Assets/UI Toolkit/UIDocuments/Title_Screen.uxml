@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/UIStyleSheets/TitleScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=a6393bd1a6f71de4b9c045f252aeead8&amp;type=3#TitleScreenStyleSheet" />
-    <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
+    <ui:VisualElement name="root" style="flex-grow: 1;">
         <ui:Label text="Orbits Grocery" name="Title" class="Header" style="transition-property: flex-grow; transition-duration: 1s; transition-timing-function: ease-in-out; display: flex; font-size: 130px; -unity-text-outline-width: 4px; -unity-text-outline-color: rgb(187, 190, 67);" />
         <ui:VisualElement name="SettingsPanel" style="flex-grow: 1; justify-content: space-between; display: none;">
             <ui:VisualElement name="TheButtonsPanel" style="flex-grow: 1; justify-content: space-between; align-self: stretch; flex-direction: row; align-items: flex-end; display: flex;">
