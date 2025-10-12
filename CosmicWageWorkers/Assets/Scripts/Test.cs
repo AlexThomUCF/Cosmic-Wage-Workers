@@ -1,29 +1,38 @@
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.DualShock;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-    public NPCDialogue dialogueData;
+    [Header("Dialogue Data (read-only)")]
+    public NPCDialogue dialogueData;   // just for reference, not modified
+
+    [Header("Scene Settings")]
+    public string sceneName;           // type the scene name in Inspector
+
+    [Header("Button Events")]
     public UnityEvent yesClick;
     public UnityEvent onClick;
 
-    public void Start()
+    void Start()
     {
-        dialogueData.onClicks[0] = yesClick;
-        dialogueData.onClicks[1] = onClick;
+        // ✅ No dialogueData.onClicks modifications here.
+        Debug.Log($"{gameObject.name} initialized with sceneName: '{sceneName}'");
     }
+
     public void ChangeSceneThing()
     {
-        SceneManager.LoadScene(dialogueData.miniGameName);
-    } 
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError($"{gameObject.name}: Scene name is empty! Cannot load scene.");
+            return;
+        }
+
+        SceneManager.LoadScene(sceneName);
+    }
 
     public void DoNothing()
     {
-      
-        Debug.Log("Nothing");
+        Debug.Log($"{gameObject.name}: Doing nothing.");
     }
 }
