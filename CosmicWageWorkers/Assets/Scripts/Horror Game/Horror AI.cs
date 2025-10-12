@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class HorrorAI : MonoBehaviour
 {
@@ -110,6 +111,16 @@ public class HorrorAI : MonoBehaviour
         // Any extra logic when switching states
         Debug.Log("State changed to: " + newState);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(3);
+        }
+        
+    }
+        
 
     IEnumerator WaitForSwap()
     {

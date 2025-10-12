@@ -129,7 +129,7 @@ public class TtleScreen : MonoBehaviour
             gameStaredDelayed -= Time.deltaTime;
             if (gameStaredDelayed < 0)
             {
-                SceneManager.LoadScene("ProgramPrototype");
+                SceneManager.LoadScene("POCScene");
             }
         }
     }

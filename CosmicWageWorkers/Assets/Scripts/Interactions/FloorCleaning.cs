@@ -41,6 +41,7 @@ public class FloorCleaning : MonoBehaviour
             {
                 // Remove the current dirt piece
                 Destroy(dirtPieces[currentPieceIndex]);
+                SoundEffectManager.Play("MopSound");
                 currentPieceIndex++;
                 holdTime = 0f;
             }

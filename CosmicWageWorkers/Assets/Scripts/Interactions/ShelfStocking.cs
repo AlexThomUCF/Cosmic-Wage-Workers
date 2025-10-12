@@ -59,6 +59,7 @@ public class ShelfStocking : MonoBehaviour
     {
         Vector3 pos = startPoint.position + transform.forward * (i * spacing); // Z axis
         Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+        SoundEffectManager.Play("StockSound");
         yield return new WaitForSeconds(stockTime / cubeCount);
     }
 

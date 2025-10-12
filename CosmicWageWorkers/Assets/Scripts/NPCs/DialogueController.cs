@@ -11,7 +11,6 @@ public class DialogueController : MonoBehaviour
     public Image portraitImage;
     public Transform choiceContainer;
     public GameObject choiceButtonPrefab;
-    public UnityEvent WantedEvents;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
