@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4099bd03c129bf14ab34b6e009ffe1e0, type: 3}
+  m_Name: SlimeGuy
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: Mippo
+  miniGameName: 
+  npcProtrait: {fileID: 21300000, guid: 81c905c9652ee3e40b6d962bc23d8c69, type: 3}
+  dialogueLines:
+  - 'Hey do you know what aisle I can find the Jello '
+  - Sugar free...
+  autoProgressLines: 0100
+  endDialogueLines: 0001
+  autoProgressDelay: 1.5
+  typingSpeed: 0.1
+  voiceSound: {fileID: 8300000, guid: 73da46677eb073146a64f1caa6784028, type: 3}
+  voicePitch: 1
+  onClicks: []
+  choices: []

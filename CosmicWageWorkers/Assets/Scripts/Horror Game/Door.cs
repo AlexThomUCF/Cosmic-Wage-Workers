@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && RealItem.hasItem == true)
         {
-            SceneManager.LoadScene("ProgramPrototype");
+            SceneManager.LoadScene("POCScene");
         }
     }
 }

@@ -36,6 +36,7 @@ public class PlayerShooting : MonoBehaviour
     {
         if (projectilePrefab != null && shootPoint != null)
         {
+            SoundEffectManager.Play("Shoot");
             GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
             Rigidbody rb = proj.GetComponent<Rigidbody>();
             rb.linearVelocity = cam.transform.forward * projectileSpeed;

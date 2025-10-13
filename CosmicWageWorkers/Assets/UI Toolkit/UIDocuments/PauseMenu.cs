@@ -1,7 +1,8 @@
 using System.ComponentModel.Design.Serialization;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -36,11 +37,16 @@ public class PauseMenu : MonoBehaviour
 
         if (gameIsPaused)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Time.timeScale = 0f;
             pauseMenu.SetActive(true);
+            
         }
         else
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1f;
             pauseMenu.SetActive(false);
         }

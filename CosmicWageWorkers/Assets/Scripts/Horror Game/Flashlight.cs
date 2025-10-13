@@ -64,7 +64,7 @@ public class FlashLight : MonoBehaviour
         {
             isFlashlightOn = !isFlashlightOn;
             fLight.SetActive(isFlashlightOn);
-            source.Play();
+            SoundEffectManager.Play("Click");
         }
     }
     /*public void ReplenishBattery()
