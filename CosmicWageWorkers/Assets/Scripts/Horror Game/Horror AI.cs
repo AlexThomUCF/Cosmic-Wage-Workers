@@ -45,6 +45,18 @@ public class HorrorAI : MonoBehaviour
                 {
                     monsterAgent.isStopped = false;
                     monsterAgent.SetDestination(playerTransform.position);
+                    if(monsterAgent.hasPath)
+                    {
+                        Debug.Log("This has a path");
+                    }
+                    else if(!monsterAgent.hasPath)
+                    {
+                        Debug.Log("NO PATH");
+                    }
+                    else
+                    {
+                        Debug.Log("Unknown problem");
+                    }
                 }
 
 

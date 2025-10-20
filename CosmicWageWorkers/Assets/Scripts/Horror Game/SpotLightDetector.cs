@@ -26,13 +26,14 @@ public class SpotLightDetector : MonoBehaviour
             // Check if within spotlight angle
             if (angle <= spotLight.spotAngle / 2f && spotLight.isActiveAndEnabled)
             {
-                Debug.Log("In range!");
+               // Debug.Log("In range!");
                 aiMonster.monsterAgent.isStopped = true;
                 //Freeze The monster here
             }
             else
             {
                 aiMonster.monsterAgent.isStopped = false;
+                Debug.Log("Can move again");
             }
         }
     }
