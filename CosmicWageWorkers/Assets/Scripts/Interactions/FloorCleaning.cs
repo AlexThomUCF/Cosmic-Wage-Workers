@@ -5,7 +5,7 @@ public class FloorCleaning : MonoBehaviour
 {
     [Header("Cleaning Settings")]
     public float cleanTimePerPiece = 1f;   // How long to clean each dirt piece
-    public GameObject[] dirtPieces;        // Assign each squished cylinder here in the inspector
+    public GameObject[] dirtPieces;        // Assign the separate dirt pieces
 
     [HideInInspector] public bool isPlayerNearby;
     private float holdTime;

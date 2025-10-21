@@ -7,24 +7,24 @@ public class BoxManager : MonoBehaviour
 {
     [Header("Boxes & Shelves")]
     public GameObject boxPrefab;
-    public List<Transform> shelfPositions; // Assign 8 shelf positions
-    public float spawnHeight = 1f;         // Height above ground to spawn box
-    public float spawnDelay = 2f;          // Wait before spawning next box
+    public List<Transform> shelfPositions; // The stockable shelves
+    public float spawnHeight = 1f;
+    public float spawnDelay = 2f;
 
     [Header("UI")]
-    public TextMeshProUGUI shelfAlertText;       // Shows which shelf the box corresponds to
-    public TextMeshProUGUI shelfPercentageText;  // Shows percentage of shelves stocked
+    public TextMeshProUGUI shelfAlertText; // Shows which shelf the box corresponds to
+    public TextMeshProUGUI shelfPercentageText; // Shows percentage of shelves stocked
 
     [Header("UI Settings")]
-    public float lerpSpeed = 5f;                // Speed for smooth percentage transition
+    public float lerpSpeed = 5f;
 
     private bool[] shelvesStocked;
     private int nextShelfIndex = 0;
     private GameObject currentBox;
 
-    private float displayedPercentage = 0f;     // Current percentage shown in UI
+    private float displayedPercentage = 0f;
 
-    // Expose the current shelf index for ShelfStocking to check
+    // Shows the current shelf index for ShelfStocking to check
     public int CurrentShelfIndex => nextShelfIndex;
 
     private void Start()
@@ -35,7 +35,7 @@ public class BoxManager : MonoBehaviour
 
     private void Update()
     {
-        // Smoothly animate the percentage UI
+        // Smoothly changes percentage on screen
         if (shelfPercentageText != null)
         {
             int stockedCount = 0;
@@ -53,19 +53,18 @@ public class BoxManager : MonoBehaviour
         if (nextShelfIndex >= shelfPositions.Count)
         {
             shelfAlertText.text = "All shelves stocked!";
-            return; // Stop spawning boxes
+            return; // Stops spawning boxes
         }
 
         Vector3 spawnPos = GetRandomSpawnPosition();
         currentBox = Instantiate(boxPrefab, spawnPos + Vector3.up * spawnHeight, Quaternion.identity);
 
-        // Alert player which shelf to deliver the box to
+        // Tells the player which shelf to deliver the box to
         shelfAlertText.text = $"Deliver box to Shelf {nextShelfIndex + 1}";
     }
 
-    private Vector3 GetRandomSpawnPosition()
+    private Vector3 GetRandomSpawnPosition() // Temporary position logic
     {
-        // Replace with your preferred spawn logic or predefined points
         float x = Random.Range(-10f, 10f);
         float z = Random.Range(-10f, 10f);
         return new Vector3(x, 0f, z);
@@ -79,7 +78,7 @@ public class BoxManager : MonoBehaviour
             return;
         }
 
-        // Destroy the box
+        // Destroys the box
         if (currentBox != null)
         {
             Destroy(currentBox);
@@ -89,7 +88,7 @@ public class BoxManager : MonoBehaviour
         shelvesStocked[shelfIndex] = true;
         nextShelfIndex++;
 
-        // Brief delay before spawning next box
+        // Small delay before spawning next box
         StartCoroutine(SpawnNextBoxAfterDelay());
     }
 

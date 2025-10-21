@@ -7,8 +7,8 @@ public class CleanlinessUI : MonoBehaviour
     public MessManager messManager;
 
     private int maxMesses;
-    private float displayedPercent = 100f; // Current displayed value
-    private float smoothSpeed = 3f;        // How fast the number interpolates
+    private float displayedPercent = 100f; // Current displayed percentage
+    private float smoothSpeed = 3f; // How fast the number changes
 
     private void Start()
     {
@@ -17,10 +17,10 @@ public class CleanlinessUI : MonoBehaviour
 
         maxMesses = messManager.maxMessCount;
 
-        // Subscribe to MessManager events
+        // Subscribes to the MessManager events
         messManager.OnMessCountChanged += OnMessCountChanged;
 
-        UpdateUIInstant(); // Set initial value
+        UpdateUIInstant(); // Set initial percentage
     }
 
     private void OnDestroy()
@@ -33,14 +33,14 @@ public class CleanlinessUI : MonoBehaviour
 
     private void OnMessCountChanged()
     {
-        // Calculate the new target cleanliness
+        // Calculates the new target cleanliness
         int currentMesses = messManager.activeMesses.Count;
         targetPercent = ((float)(maxMesses - currentMesses) / maxMesses) * 100f;
     }
 
     private void Update()
     {
-        // Smoothly interpolate displayedPercent toward targetPercent
+        // Smoothly change the percentage on screen
         displayedPercent = Mathf.Lerp(displayedPercent, targetPercent, Time.deltaTime * smoothSpeed);
 
         if (cleanlinessText != null)

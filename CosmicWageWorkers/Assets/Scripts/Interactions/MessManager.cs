@@ -12,7 +12,7 @@ public class MessManager : MonoBehaviour
     private List<Transform> spawnPoints = new List<Transform>();
     private HashSet<Transform> occupiedPoints = new HashSet<Transform>();
 
-    public event System.Action OnMessCountChanged; // NEW EVENT
+    public event System.Action OnMessCountChanged;
 
     private void Awake()
     {

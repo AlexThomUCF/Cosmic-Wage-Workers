@@ -11,8 +11,8 @@ public class ShelfStocking : MonoBehaviour
     public Transform startPoint;
 
     [Header("Shelf Info")]
-    public int shelfIndex;            // 0-7, assign in inspector
-    public BoxManager boxManager;     // Reference to BoxManager
+    public int shelfIndex; // Labels the shelves, currently 0-7
+    public BoxManager boxManager;
 
     private bool isPlayerNearby;
     private bool isStocking;
@@ -75,7 +75,7 @@ public class ShelfStocking : MonoBehaviour
 
         isStocking = false;
 
-        // Notify BoxManager
+        // Notifies BoxManager
         if (boxManager != null)
             boxManager.OnShelfStocked(shelfIndex);
 
