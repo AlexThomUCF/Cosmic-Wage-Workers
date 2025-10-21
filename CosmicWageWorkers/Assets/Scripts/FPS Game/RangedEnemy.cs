@@ -68,6 +68,8 @@ public class RangedEnemy : EnemyBase
         if (projectilePrefab != null && shootPoint != null && isNotHidden)
         {
             GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+            //Spawn particle at shootpoint.position
+            //play SFXs
             Rigidbody rb = proj.GetComponent<Rigidbody>();
             rb.linearVelocity = (player.position - shootPoint.position).normalized * projectileSpeed;
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,11 @@ public class PlayerShooting : MonoBehaviour
     public Camera cam;
     public GameObject projectilePrefab;
     public Transform shootPoint;
+    public GameObject gun;
     public float projectileSpeed = 25f;
+    public float recoilAmount = 9f;
+
+
 
     private PlayerControls inputActions;
 
@@ -41,5 +46,21 @@ public class PlayerShooting : MonoBehaviour
             Rigidbody rb = proj.GetComponent<Rigidbody>();
             rb.linearVelocity = cam.transform.forward * projectileSpeed;
         }
+        StartCoroutine(Recoil());
     }
+
+    IEnumerator Recoil()
+    {
+        float recoilAngle = Mathf.Clamp(recoilAmount, 0, 12);
+
+        // Apply recoil (rotate backward)
+        gun.transform.Rotate(0, 0, recoilAngle);
+
+        // Wait
+        yield return new WaitForSeconds(0.1f); // shorter time for recoil
+
+        // Return to original rotation
+        gun.transform.Rotate(0, 0, -recoilAngle);
+    }
+
 }
