@@ -75,6 +75,11 @@ public class BoxPickUp : MonoBehaviour
         }
     }
 
+    public bool IsHoldingBox()
+    {
+        return isHolding && heldBox != null;
+    }
+
     private void DropBox()
     {
         if (heldBox == null) return;
