@@ -1571,6 +1571,13 @@ MonoBehaviour:
     audioClips:
     - {fileID: 8300000, guid: 723474692fffb4a499f1f4c81f1a8c6c, type: 3}
     - {fileID: 8300000, guid: 4fbd56934bf34034eb4b5895bf921465, type: 3}
+  - name: Freeze
+    audioClips:
+    - {fileID: 8300000, guid: 584b784dadbb6e446a54f1ef8b14425a, type: 3}
+    - {fileID: 8300000, guid: 88f9953d5be44174483401bdd61d6ba3, type: 3}
+    - {fileID: 8300000, guid: 3384b44028f73c34aa44c8f67721937f, type: 3}
+    - {fileID: 8300000, guid: 658b5ff86650f85448ae872e9a15fac0, type: 3}
+    - {fileID: 8300000, guid: cb0bc41e6db6fa444a82d885e847138c, type: 3}
 --- !u!82 &435559948
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2051,6 +2058,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 694582389492889802, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1409813185}
     - targetCorrespondingSourceObject: {fileID: 694582389492889802, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 677309701}
@@ -8102,6 +8112,7 @@ MonoBehaviour:
   freezeMoveMultiplier: 1
   freezeDecayDelay: 2
   freezeMeter: {fileID: 677309702}
+  freezeImage: {fileID: 1409813186}
 --- !u!43 &1379666085
 Mesh:
   m_ObjectHideFlags: 0
@@ -8760,6 +8771,81 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1409813184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409813185}
+  - component: {fileID: 1409813187}
+  - component: {fileID: 1409813186}
+  m_Layer: 5
+  m_Name: FreezeImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1409813185
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409813184}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 20.360687, y: 8.201006, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 439864083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1409813186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409813184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 4b5621f5485d1954d86c01dd18c0bc30, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1409813187
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409813184}
+  m_CullTransparentMesh: 1
 --- !u!43 &1419690470
 Mesh:
   m_ObjectHideFlags: 0
@@ -12572,6 +12658,7 @@ MonoBehaviour:
   - {fileID: 170783780}
   - {fileID: 1718379152}
   - {fileID: 1722775732}
+  portal: {fileID: 3951304439389647450, guid: edca6ba53ef9dfd4f95d38dbbbc12d76, type: 3}
 --- !u!1 &2017300594
 GameObject:
   m_ObjectHideFlags: 0

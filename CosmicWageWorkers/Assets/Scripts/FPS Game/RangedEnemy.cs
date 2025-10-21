@@ -16,6 +16,8 @@ public class RangedEnemy : EnemyBase
     private NavMeshAgent agent;
     private float shootTimer;
 
+    private bool isNotHidden;
+
     void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -28,6 +30,9 @@ public class RangedEnemy : EnemyBase
 
     void Update()
     {
+
+        isNotHidden = false;
+
         if (player == null) return;
 
         // Always move toward the player
@@ -36,7 +41,7 @@ public class RangedEnemy : EnemyBase
         {
             agent.SetDestination(player.position);
         }
-        else
+        else //Alex note(If distance < stopping distance, Position where player is not hidden and stops a distance away from them?)
         {
             agent.ResetPath(); // Optional: stop very close to player
         }
@@ -46,6 +51,8 @@ public class RangedEnemy : EnemyBase
         lookDirection.y = 0;
         if (lookDirection != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(lookDirection);
+
+        BehindObject();// checks if player is behind an object
 
         // Handle shooting continuously
         shootTimer -= Time.deltaTime;
@@ -58,13 +65,33 @@ public class RangedEnemy : EnemyBase
 
     private void ShootAtPlayer()
     {
-        if (projectilePrefab != null && shootPoint != null)
+        if (projectilePrefab != null && shootPoint != null && isNotHidden)
         {
             GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
             Rigidbody rb = proj.GetComponent<Rigidbody>();
             rb.linearVelocity = (player.position - shootPoint.position).normalized * projectileSpeed;
 
             Destroy(proj, 5f);
+        }
+    }
+    void BehindObject()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, (player.position - transform.position), out hit, Mathf.Infinity))//if raycast from enemy to player 
+        {
+            if (hit.transform ==player) //if hit true
+            {
+                isNotHidden = true;
+                Debug.Log("Player not hidden");
+            }
+            else // if behind object
+            {
+                Debug.Log("Player is Hidden");
+            }
+        }
+        else
+        {
+            Debug.Log("Hit nothing, can't find player");
         }
     }
 }

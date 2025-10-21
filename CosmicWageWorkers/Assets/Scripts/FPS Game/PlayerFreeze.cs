@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class PlayerFreeze : MonoBehaviour
 
     [Header("UI")]
     public Slider freezeMeter;                // Slider showing current frozenness
+    public Image freezeImage;
 
     private float currentFreeze = 0f;
     private float timeSinceHit = 0f;
@@ -27,6 +29,13 @@ public class PlayerFreeze : MonoBehaviour
             freezeMeter.maxValue = maxFreeze;
             freezeMeter.value = currentFreeze;
         }
+
+        if (freezeImage != null)
+        {
+            var color = freezeImage.color;
+            color.a = 0f; // Start fully transparent
+            freezeImage.color = color;
+        }
     }
 
     void Update()
@@ -36,7 +45,18 @@ public class PlayerFreeze : MonoBehaviour
         {
             currentFreeze -= thawRate * Time.deltaTime;
             currentFreeze = Mathf.Max(currentFreeze, 0f);
+
         }
+
+        // Update freeze overlay alpha based on freeze percentage
+        float freezePercentImage = currentFreeze / maxFreeze;
+        if (freezeImage != null)
+        {
+            var color = freezeImage.color;
+            color.a = Mathf.Lerp(0f, 0.7f, freezePercentImage); // 0.7f = max alpha at full freeze
+            freezeImage.color = color;
+        }
+
 
         // Update movement speed based on freeze
         if (playerMovement != null)
@@ -58,12 +78,15 @@ public class PlayerFreeze : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
     }
 
     // Call this when hit by a projectile
     public void FreezeHit()
     {
-        currentFreeze += freezePerHit;
+        currentFreeze += freezePerHit;// Add frost vfx camera, more you get hit frosty the screeen turns
+
+        SoundEffectManager.Play("Freeze");
         currentFreeze = Mathf.Min(currentFreeze, maxFreeze);
         timeSinceHit = 0f; // reset thaw timer
     }
