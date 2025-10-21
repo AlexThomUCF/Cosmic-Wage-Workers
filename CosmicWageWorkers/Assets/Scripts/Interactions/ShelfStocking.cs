@@ -10,6 +10,10 @@ public class ShelfStocking : MonoBehaviour
     public float stockTime = 3f;
     public Transform startPoint;
 
+    [Header("Shelf Info")]
+    public int shelfIndex;            // 0-7, assign in inspector
+    public BoxManager boxManager;     // Reference to BoxManager
+
     private bool isPlayerNearby;
     private bool isStocking;
     private float holdTime;
@@ -36,8 +40,11 @@ public class ShelfStocking : MonoBehaviour
     {
         if (!isPlayerNearby || isStocking || playerPickup == null) return;
 
-        // Only allow stocking if the player is holding a box
+        // Only allow stocking if player is holding a box
         if (!playerPickup.IsHoldingBox()) return;
+
+        // Only allow stocking if this shelf matches the current box
+        if (boxManager.CurrentShelfIndex != shelfIndex) return;
 
         if (controls.Gameplay.Stock.IsPressed())
         {
@@ -60,13 +67,21 @@ public class ShelfStocking : MonoBehaviour
 
         for (int i = 0; i < cubeCount; i++)
         {
-            Vector3 pos = startPoint.position + transform.forward * (i * spacing); // Along Z axis
+            Vector3 pos = startPoint.position + transform.forward * (i * spacing);
             Instantiate(cubePrefab, pos, Quaternion.identity, transform);
             SoundEffectManager.Play("StockSound");
             yield return new WaitForSeconds(stockTime / cubeCount);
         }
 
         isStocking = false;
+
+        // Notify BoxManager
+        if (boxManager != null)
+            boxManager.OnShelfStocked(shelfIndex);
+
+        // Force drop the box from the player's hand
+        if (playerPickup != null)
+            playerPickup.ForceDropBox();
     }
 
     private void OnTriggerEnter(Collider other)
