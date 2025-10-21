@@ -7,12 +7,14 @@ public class FloorCleaning : MonoBehaviour
     public float cleanTimePerPiece = 1f;   // How long to clean each dirt piece
     public GameObject[] dirtPieces;        // Assign each squished cylinder here in the inspector
 
-    private bool isPlayerNearby;
-    private bool isCleaning;
+    [HideInInspector] public bool isPlayerNearby;
     private float holdTime;
     private int currentPieceIndex = 0;
 
     private PlayerControls controls;
+
+    // Event to notify MessManager when this mess is fully cleaned
+    public event System.Action<GameObject> OnMessCleaned;
 
     private void Awake()
     {
@@ -31,7 +33,7 @@ public class FloorCleaning : MonoBehaviour
 
     private void Update()
     {
-        if (!isPlayerNearby || isCleaning || currentPieceIndex >= dirtPieces.Length) return;
+        if (!isPlayerNearby || currentPieceIndex >= dirtPieces.Length) return;
 
         if (controls.Gameplay.Interact.IsPressed())
         {
@@ -44,6 +46,12 @@ public class FloorCleaning : MonoBehaviour
                 SoundEffectManager.Play("MopSound");
                 currentPieceIndex++;
                 holdTime = 0f;
+
+                // Notify the manager if this mess is fully cleaned
+                if (currentPieceIndex >= dirtPieces.Length)
+                {
+                    OnMessCleaned?.Invoke(gameObject);
+                }
             }
         }
         else if (controls.Gameplay.Interact.WasReleasedThisFrame())
