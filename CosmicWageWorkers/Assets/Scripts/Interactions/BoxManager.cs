@@ -12,11 +12,17 @@ public class BoxManager : MonoBehaviour
     public float spawnDelay = 2f;          // Wait before spawning next box
 
     [Header("UI")]
-    public TextMeshProUGUI shelfAlertText; // Shows which shelf the box corresponds to
+    public TextMeshProUGUI shelfAlertText;       // Shows which shelf the box corresponds to
+    public TextMeshProUGUI shelfPercentageText;  // Shows percentage of shelves stocked
+
+    [Header("UI Settings")]
+    public float lerpSpeed = 5f;                // Speed for smooth percentage transition
 
     private bool[] shelvesStocked;
     private int nextShelfIndex = 0;
     private GameObject currentBox;
+
+    private float displayedPercentage = 0f;     // Current percentage shown in UI
 
     // Expose the current shelf index for ShelfStocking to check
     public int CurrentShelfIndex => nextShelfIndex;
@@ -25,6 +31,21 @@ public class BoxManager : MonoBehaviour
     {
         shelvesStocked = new bool[shelfPositions.Count];
         SpawnNextBox();
+    }
+
+    private void Update()
+    {
+        // Smoothly animate the percentage UI
+        if (shelfPercentageText != null)
+        {
+            int stockedCount = 0;
+            foreach (bool stocked in shelvesStocked)
+                if (stocked) stockedCount++;
+
+            float targetPercentage = ((float)stockedCount / shelvesStocked.Length) * 100f;
+            displayedPercentage = Mathf.Lerp(displayedPercentage, targetPercentage, Time.deltaTime * lerpSpeed);
+            shelfPercentageText.text = $"Shelves Stocked: {displayedPercentage:0}%";
+        }
     }
 
     private void SpawnNextBox()
