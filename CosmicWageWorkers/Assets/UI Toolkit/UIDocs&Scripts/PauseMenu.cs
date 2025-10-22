@@ -9,8 +9,13 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject optionsMenu;
     public GameObject pauseButtons;
-    public GameObject managerInPause;
     public GameObject pauseStars;
+    public GameObject generalHUD;
+    public Animator pauseAni;
+    public float pauseOnDelay = 1f;
+    public float pauseDelay = 0.5f;
+    public bool pauseLeave;
+    public bool pauseOn;
  
 
 
@@ -24,9 +29,35 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseLeave)
+        {
+            pauseDelay -= Time.deltaTime;
+        }
+
+        if (pauseOn)
+        {
+            pauseOnDelay -= Time.deltaTime;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
+
+        }
+
+        if (pauseDelay < 0)
+        {
+            pauseMenu.SetActive(false);
+            generalHUD.SetActive(true);
+            pauseLeave = false;
+            pauseDelay = 0.5f;     
+        }
+
+        if (pauseOnDelay < 0)
+        {
+            Time.timeScale = 0f;
+            pauseOn = false;
+            pauseOnDelay = 1f;
         }
     }
 
@@ -36,20 +67,23 @@ public class PauseMenu : MonoBehaviour
 
         if (gameIsPaused)
         {
-            Time.timeScale = 0f;
             pauseMenu.SetActive(true);
+            pauseAni.SetTrigger("PauseOn");
+            generalHUD.SetActive(false);
+            pauseOn = true;
         }
         else
         {
             Time.timeScale = 1f;
-            pauseMenu.SetActive(false);
+            pauseLeave = true;
+            pauseAni.SetTrigger("PauseOff");
+        
         }
     }
 
     public void TurnOnOptions()
     {
         pauseButtons.SetActive(false);
-        managerInPause.SetActive(false);
         pauseStars.SetActive(false);
         optionsMenu.SetActive(true);
     }
@@ -57,7 +91,6 @@ public class PauseMenu : MonoBehaviour
     public void TurnOffOptions()
     {
         pauseButtons.SetActive(true);
-        managerInPause.SetActive(true);
         pauseStars.SetActive(true);
         optionsMenu.SetActive(false);
     }
