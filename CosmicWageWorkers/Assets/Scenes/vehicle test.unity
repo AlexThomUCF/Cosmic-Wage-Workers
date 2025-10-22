@@ -2031,8 +2031,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158fd9de323d27d4db572850bfa480f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarControl
-  moveSpeed: 5
+  maxMoveSpeed: 5
+  acceleration: 5
+  deceleration: 5
   turnSpeed: 100
+  turnSmoothness: 5
+  driftFactor: 0.95
 --- !u!54 &1663300319
 Rigidbody:
   m_ObjectHideFlags: 0
