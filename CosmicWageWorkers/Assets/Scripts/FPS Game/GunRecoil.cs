@@ -20,5 +20,7 @@ public class GunRecoil : MonoBehaviour
     public void AddRecoil()
     {
        gun.transform.Rotate(0,0, recoilAmount + recoilAmount);
+
+
     }    
 }
