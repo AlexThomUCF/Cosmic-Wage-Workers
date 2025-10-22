@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
-    public float moveSpeed = 5f;      //AD
-    public float turnSpeed = 100f;    //WS
+    public float moveSpeed = 5f;      // W/S control forward/backward
+    public float turnSpeed = 100f;    // A/D control rotation
     private Rigidbody rb;
 
     void Start()
@@ -13,13 +13,15 @@ public class CarControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        // WS move
-        float move = Input.GetAxis("Vertical") * moveSpeed;
+        // Get input values
+        float verticalInput = Input.GetAxis("Vertical");     // W/S
+        float horizontalInput = Input.GetAxis("Horizontal"); // A/D
 
-        // AD spin
-        float turn = Input.GetAxis("Horizontal") * turnSpeed * Time.fixedDeltaTime;
+        // lock AD when WS not pressed
+        float move = verticalInput * moveSpeed;
+        float turn = (verticalInput != 0) ? horizontalInput * turnSpeed * Time.fixedDeltaTime : 0f;
 
-        // Spin
+        // Move and turn
         rb.MovePosition(rb.position + transform.forward * move * Time.fixedDeltaTime);
         rb.MoveRotation(rb.rotation * Quaternion.Euler(0, turn, 0));
     }
