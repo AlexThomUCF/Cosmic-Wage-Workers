@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4099bd03c129bf14ab34b6e009ffe1e0, type: 3}
+  m_Name: EyeBall
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcName: EyeBall
+  miniGameName: FPSPrototype
+  npcProtrait: {fileID: 21300000, guid: 6dfcf908e6c879c46a1f27c3cd11647a, type: 3}
+  dialogueLines:
+  - 'Blip bloop blop beep '
+  - I Have a bunch of freaks chasing me
+  - Can you help me deal with them
+  - Morp Blrop thank you
+  - Darn thats too bad
+  autoProgressLines: 0101000101
+  endDialogueLines: 0000000101
+  autoProgressDelay: 1.5
+  typingSpeed: 0
+  voiceSound: {fileID: 0}
+  voicePitch: 1
+  onClicks:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  choices:
+  - dialogueIndex: 2
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexs: 0300000004000000
