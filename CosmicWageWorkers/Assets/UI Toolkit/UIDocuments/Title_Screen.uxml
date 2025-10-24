@@ -1,0 +1,46 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UIStyleSheets/TitleScreenStyleSheet.uss?fileID=7433441132597879392&amp;guid=a6393bd1a6f71de4b9c045f252aeead8&amp;type=3#TitleScreenStyleSheet" />
+    <ui:VisualElement name="root" style="flex-grow: 1;">
+        <ui:Label text="Orbits Grocery" name="Title" class="Header" style="transition-property: flex-grow; transition-duration: 1s; transition-timing-function: ease-in-out; display: flex; font-size: 130px; -unity-text-outline-width: 4px; -unity-text-outline-color: rgb(187, 190, 67);" />
+        <ui:VisualElement name="SettingsPanel" style="flex-grow: 1; justify-content: space-between; display: none;">
+            <ui:VisualElement name="TheButtonsPanel" style="flex-grow: 1; justify-content: space-between; align-self: stretch; flex-direction: row; align-items: flex-end; display: flex;">
+                <ui:Button text="Audio&#10;" name="AudioBn" class="button" style="-unity-text-align: middle-center; white-space: normal; align-self: stretch;" />
+                <ui:Button text="Display" name="DisplayBn" class="button" style="-unity-text-align: middle-center; white-space: nowrap; align-self: flex-start; display: flex;" />
+                <ui:Button text="Controls&#10;" name="ControlsBn" class="button" style="-unity-text-align: middle-center; white-space: pre; align-self: flex-start;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="OptionsPanel" style="flex-grow: 1; display: none;">
+                <ui:VisualElement name="Audio" style="flex-grow: 1; display: none; visibility: visible; overflow: visible; opacity: 1;">
+                    <ui:Slider label="Main Volume&#10;" value="1" high-value="1" name="MainVolume" low-value="0.0001" fill="true" class="slider" style="align-items: center; flex-direction: row; align-self: stretch; justify-content: space-around; display: flex; color: rgb(0, 206, 209); -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(0, 0, 0);" />
+                    <ui:Slider label="Music &#10;" value="1" high-value="1" name="Music" low-value="0.0001" fill="true" class="slider" style="align-items: center; flex-direction: row; align-self: stretch; justify-content: space-around; display: flex; color: rgb(0, 206, 209); -unity-text-outline-color: rgb(0, 0, 0); -unity-text-outline-width: 1px;" />
+                    <ui:Slider label="SFX&#10;" value="1" high-value="1" name="SFX" fill="true" low-value="0.0001" class="slider" style="align-items: center; flex-direction: row; align-self: stretch; justify-content: space-around; display: flex; color: rgb(0, 206, 209); -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(0, 0, 0);" />
+                    <ui:Slider label="Voices" value="1" high-value="1" name="Voices" low-value="0.0001" fill="true" class="slider" style="align-items: center; flex-direction: row; align-self: stretch; justify-content: space-around; display: flex; color: rgb(0, 206, 209); -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(0, 0, 0);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Display" style="flex-grow: 1; display: flex;">
+                    <ui:DropdownField label="Graphics:&#10;" name="Graphics" class="dropdown" style="font-size: 56px; color: rgb(0, 206, 209); -unity-text-outline-color: rgb(0, 0, 0); -unity-text-outline-width: 1px; border-left-color: rgb(27, 13, 13); border-right-color: rgb(27, 13, 13); border-top-color: rgb(27, 13, 13); border-bottom-color: rgb(27, 13, 13); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                    <ui:RadioButtonGroup label="V-sync:" name="Vsync" style="font-size: 59px; color: rgb(0, 206, 209); height: 164px; justify-content: space-evenly; align-content: stretch; -unity-text-outline-color: rgb(0, 0, 0); -unity-text-outline-width: 1px; display: flex;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Controls" style="flex-grow: 1; flex-direction: column; margin-top: 6px; margin-right: 6px; margin-bottom: 6px; margin-left: 6px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; display: none;">
+                    <ui:Label text="Move" name="Move" style="font-size: 70px; color: rgb(0, 206, 209); align-items: auto; flex-direction: column; -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(0, 0, 0);">
+                        <ui:VisualElement style="flex-grow: 1; width: 275px; height: 100px; justify-content: space-evenly; align-self: center; background-color: rgb(225, 111, 111); align-items: center; flex-direction: row-reverse;" />
+                    </ui:Label>
+                    <ui:Label text="Interact" name="Interact" style="font-size: 70px; color: rgb(0, 206, 209); align-items: auto; flex-direction: column; -unity-text-outline-color: rgb(0, 0, 0); -unity-text-outline-width: 1px;">
+                        <ui:VisualElement style="flex-grow: 1; width: 275px; height: 100px; justify-content: space-evenly; align-self: center; background-color: rgb(225, 111, 111); align-items: center; flex-direction: row-reverse;" />
+                    </ui:Label>
+                    <ui:Label text="Jump&#10;" name="Jump" style="font-size: 70px; color: rgb(0, 206, 209); align-items: auto; flex-direction: column; -unity-text-outline-color: rgb(0, 0, 0); -unity-text-outline-width: 1px;">
+                        <ui:VisualElement style="flex-grow: 1; width: 275px; height: 100px; justify-content: space-evenly; align-self: center; background-color: rgb(225, 111, 111); align-items: center; flex-direction: row-reverse;" />
+                    </ui:Label>
+                    <ui:Label text="Pause&#10;" name="Pause" style="font-size: 70px; color: rgb(0, 206, 209); align-items: auto; flex-direction: column; -unity-text-outline-color: rgb(0, 0, 0); -unity-text-outline-width: 1px;">
+                        <ui:VisualElement style="flex-grow: 1; width: 275px; height: 100px; justify-content: space-evenly; align-self: center; background-color: rgb(225, 111, 111); align-items: center; flex-direction: row-reverse;" />
+                    </ui:Label>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="BackBn" class="button backbn" style="background-image: url(&quot;project://database/Assets/UI%20Toolkit/image.png?fileID=2800000&amp;guid=47e18e4b67787624e8af160a887f4a9a&amp;type=3#image&quot;); background-color: rgba(0, 206, 209, 0); -unity-background-image-tint-color: rgb(255, 235, 4); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; font-size: 31px; width: 125px; -unity-text-align: upper-center; white-space: nowrap; text-overflow: ellipsis; justify-content: space-between; align-self: flex-end; background-size: 150px 150px; height: 125px; background-position-y: bottom 0; background-position-x: right 0; display: flex;" />
+            <ui:Label text="Display&#10;" class="Header" style="text-overflow: ellipsis; white-space: nowrap; -unity-text-align: middle-left; font-size: 59px; -unity-font-style: normal; align-items: auto; justify-content: flex-start; align-self: flex-start; display: none;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MainMenuBn" style="flex-grow: 1; align-self: flex-end; align-content: flex-start; justify-content: center; align-items: flex-start; width: 364px; -unity-text-align: upper-left; flex-direction: column; background-size: 100% 100%; opacity: 1; display: flex;">
+            <ui:Button text="Start Shift" name="PlayBn" class="button" />
+            <ui:Button text="Settings" name="SettingsBn" class="button" />
+            <ui:Button text="Quit" name="QuitBn" class="button" style="-unity-text-align: middle-center; white-space: normal; text-overflow: ellipsis;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
