@@ -25,7 +25,7 @@ public class CarControl : MonoBehaviour
     {
         // Read inputs
         float verticalInput = Input.GetAxis("Vertical");       // W/S control
-        float horizontalInput = Input.GetAxis("Horizontal");   // A/D control
+        float horizontalInput = Input.GetAxisRaw("Horizontal");   // A/D control (raw for immediate response)
 
         float dt = Time.fixedDeltaTime;
         Vector3 forward = transform.forward;
@@ -44,9 +44,9 @@ public class CarControl : MonoBehaviour
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * dt);
         }
 
-        // Smooth turn speed (deg/s), only when moving
-        float targetTurnSpeed = (Mathf.Abs(currentSpeed) > 0.1f) ? horizontalInput * turnSpeed : 0f;
-        currentTurn = Mathf.Lerp(currentTurn, targetTurnSpeed, dt * turnSmoothness);
+        // Instant turn response to remove perceived input delay
+        float targetTurnSpeed = horizontalInput * turnSpeed; // allow turning even at low speed
+        currentTurn = targetTurnSpeed;
 
         // Desired forward velocity (m/s)
         Vector3 desiredForwardVel = forward * currentSpeed;
