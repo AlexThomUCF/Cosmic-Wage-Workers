@@ -5,7 +5,7 @@ public class CarControl : MonoBehaviour
     public float maxMoveSpeed = 10f;       // Max Spd
     public float acceleration = 5f;        // Spd increase rate
     public float deceleration = 4f;        // Spd decrease rate
-    public float turnSpeed = 100f;         // turn rate
+    public float turnSpeed = 100f;         // turn rate 
     public float turnSmoothness = 5f;      // turn smooth
     public float driftFactor = 0.95f;      // drift
 
@@ -17,37 +17,49 @@ public class CarControl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate; 
+        // Use continuous collision detection to reduce jitter on impacts
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
     }
 
     void FixedUpdate()
     {
+        // Read inputs
         float verticalInput = Input.GetAxis("Vertical");       // W/S control
         float horizontalInput = Input.GetAxis("Horizontal");   // A/D control
 
+        float dt = Time.fixedDeltaTime;
+        Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
         
+        // Compute target forward speed (m/s)
         float targetSpeed = verticalInput * maxMoveSpeed;
 
         // target speed
         if (Mathf.Abs(targetSpeed) > 0.01f)
         {
-            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * Time.fixedDeltaTime);
+            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * dt);
         }
         else
         {
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.fixedDeltaTime);
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * dt);
         }
 
-        // smooth turn
-        float targetTurn = (Mathf.Abs(currentSpeed) > 0.1f) ? horizontalInput * turnSpeed * Time.fixedDeltaTime : 0f;
-        currentTurn = Mathf.Lerp(currentTurn, targetTurn, Time.fixedDeltaTime * turnSmoothness);
+        // Smooth turn speed (deg/s), only when moving
+        float targetTurnSpeed = (Mathf.Abs(currentSpeed) > 0.1f) ? horizontalInput * turnSpeed : 0f;
+        currentTurn = Mathf.Lerp(currentTurn, targetTurnSpeed, dt * turnSmoothness);
 
-        // drift
-        Vector3 forwardMovement = transform.forward * currentSpeed * Time.fixedDeltaTime;
-        Vector3 sidewaysDrift = transform.right * Vector3.Dot(rb.linearVelocity, transform.right) * driftFactor;
-        Vector3 finalVelocity = forwardMovement + sidewaysDrift;
+        // Desired forward velocity (m/s)
+        Vector3 desiredForwardVel = forward * currentSpeed;
 
+        // Keep some of the existing lateral velocity to simulate drift
+        Vector3 currentVel = rb.linearVelocity;
+        Vector3 lateralVel = Vector3.Project(currentVel, right) * driftFactor;
+
+        // Compose final velocity and apply
+        Vector3 finalVel = desiredForwardVel + lateralVel;
+        rb.linearVelocity = finalVel;
         
-        rb.MovePosition(rb.position + finalVelocity);
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(0, currentTurn, 0));
+        // Use angular velocity for smooth, physics-friendly rotation (convert deg/s to rad/s)
+        rb.angularVelocity = new Vector3(0f, currentTurn * Mathf.Deg2Rad, 0f);
     }
 }
