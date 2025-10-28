@@ -11,6 +11,7 @@ public class RealItem : MonoBehaviour, IInteraction
 
 
     public UnityEvent onInteract { get; set; } = new UnityEvent();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +20,7 @@ public class RealItem : MonoBehaviour, IInteraction
 
     public void Interact()
     {
-        onInteract?.Invoke();
+        //onInteract?.Invoke();
 
         if (isMcguffin)
         {

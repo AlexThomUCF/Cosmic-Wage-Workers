@@ -34,7 +34,7 @@ public class SpotLightDetector : MonoBehaviour
           
             
         }
-        Debug.Log("Unfreeze monster");
+        //Debug.Log("Unfreeze monster");
         aiMonster.monsterAgent.isStopped = false;
     }
     void OnDrawGizmosSelected()
