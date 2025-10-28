@@ -14,6 +14,12 @@ public class Battery : MonoBehaviour, IInteraction
    
     public void Interact()
     {
+        FlashLight flashlight = FindAnyObjectByType<FlashLight>();
+        if (flashlight != null)
+        {
+            flashlight.ReplenishBattery();
+        }
+
         Debug.Log("New battery");
         newBattery = true;
         Item.SetActive(false);
