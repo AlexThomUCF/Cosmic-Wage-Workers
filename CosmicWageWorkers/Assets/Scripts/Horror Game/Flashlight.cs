@@ -16,12 +16,12 @@ public class FlashLight : MonoBehaviour
 
     public AudioSource source;
     private PlayerControls controls;
-    //private Battery battery;
+    private Battery battery;
     private bool isFlashlightOn = false; // Track flashlight state
 
     void Awake()
     {
-        //battery = FindObjectOfType<Battery>();
+        battery = FindObjectOfType<Battery>();
         controls = new PlayerControls();
 
         // Bind flashlight toggle event
@@ -67,7 +67,7 @@ public class FlashLight : MonoBehaviour
             SoundEffectManager.Play("Click");
         }
     }
-    /*public void ReplenishBattery()
+    public void ReplenishBattery()
     {
         if(battery.newBattery == true && batteryLife < maxBatteryLife)
         {
@@ -80,5 +80,5 @@ public class FlashLight : MonoBehaviour
 
         }
     
-    }*/
+    }
 }
