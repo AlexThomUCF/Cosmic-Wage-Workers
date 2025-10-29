@@ -69,7 +69,7 @@ public class FlashLight : MonoBehaviour
     }
     public void ReplenishBattery()
     {
-        if(batteryLife < maxBatteryLife)
+        //if(batteryLife < maxBatteryLife)
         {
             
             batteryLife += batteryRecharge;
