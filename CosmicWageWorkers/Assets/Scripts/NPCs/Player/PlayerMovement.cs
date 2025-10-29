@@ -1,57 +1,60 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float jumpForce = 6f;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundDistance = 0.2f;
+    [SerializeField] private float groundCheckRadius = 0.4f;
     [SerializeField] private LayerMask groundMask;
 
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool isGrounded;
-
-    // Freeze mechanic
     private float speedMultiplier = 1f;
 
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true; // Prevent player tipping over
+        rb.freezeRotation = true;
     }
 
-    void Update()
+    private void Update()
     {
-        // Check if the player is on the ground
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        CheckGrounded();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        MovePlayer(); // Handle horizontal movement
+        Move();
     }
 
-    // Apply movement based on input and freeze multiplier
-    private void MovePlayer()
+    private void CheckGrounded()
     {
-        Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.y;
-        Vector3 displacement = moveDir * speed * speedMultiplier * Time.fixedDeltaTime;
-
-        rb.MovePosition(rb.position + displacement);
+        // Check if the sphere overlaps with any collider in the ground layer
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
     }
 
-    // Called by Input System to update movement vector
+    private void Move()
+    {
+        Vector3 direction = transform.right * moveInput.x + transform.forward * moveInput.y;
+        Vector3 targetVelocity = direction * moveSpeed * speedMultiplier;
+
+        // Maintain vertical velocity while applying horizontal movement
+        Vector3 velocity = new Vector3(targetVelocity.x, rb.linearVelocity.y, targetVelocity.z);
+        rb.linearVelocity = velocity;
+    }
+
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
     }
 
-    // Called by Input System to perform jump
     public void OnJump(InputValue value)
     {
         if (value.isPressed && isGrounded)
@@ -60,9 +63,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Called by PlayerFreeze to slow movement
     public void SetSpeedMultiplier(float multiplier)
     {
         speedMultiplier = Mathf.Clamp(multiplier, 0f, 1f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = isGrounded ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 }

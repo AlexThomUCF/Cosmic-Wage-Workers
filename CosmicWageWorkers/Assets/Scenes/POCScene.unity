@@ -5601,7 +5601,7 @@ GameObject:
   - component: {fileID: 342678327}
   m_Layer: 7
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41461,6 +41461,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 697908044447784739, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.92
+      objectReference: {fileID: 0}
     - target: {fileID: 829910773576371551, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.75
@@ -41479,7 +41483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 829910773576371551, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.73
+      value: 2.39
       objectReference: {fileID: 0}
     - target: {fileID: 829910773576371551, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -41515,11 +41519,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 829910773576371551, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3530304510504463612, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_Name
       value: MainPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849773198805066349, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: jumpForce
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849773198805066349, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: moveSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
