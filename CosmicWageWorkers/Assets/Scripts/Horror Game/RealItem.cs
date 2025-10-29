@@ -8,21 +8,25 @@ public class RealItem : MonoBehaviour, IInteraction
     public HorrorAI horror;
 
     public static bool hasItem = false;
+    private GameObject mcGuffinItem;
 
 
     public UnityEvent onInteract { get; set; } = new UnityEvent();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         horror = FindAnyObjectByType<HorrorAI>();
+        mcGuffinItem = this.gameObject;
     }
 
     public void Interact()
     {
-        onInteract?.Invoke();
+        //onInteract?.Invoke();
 
         if (isMcguffin)
         {
+            mcGuffinItem.SetActive(false);
             Debug.Log("This is the Mcguffin");
             horror.currentState = HorrorAI.AIState.EnragedState;
             SoundEffectManager.Play("RightItem");

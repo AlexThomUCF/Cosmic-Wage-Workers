@@ -28,13 +28,14 @@ public class SpotLightDetector : MonoBehaviour
             {
                 Debug.Log("In range!");
                 aiMonster.monsterAgent.isStopped = true;
-                //Freeze The monster here
+                return;
+                //Freeze The monster here'
             }
-            else
-            {
-                aiMonster.monsterAgent.isStopped = false;
-            }
+          
+            
         }
+        //Debug.Log("Unfreeze monster");
+        aiMonster.monsterAgent.isStopped = false;
     }
     void OnDrawGizmosSelected()
     {
