@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PlayerMopHandler : MonoBehaviour
+public class PickupMop : MonoBehaviour
 {
     [Header("Mop Settings")]
     public Transform handHoldPoint;         // Where the mop is held
     public float pickupRange = 2f;          // How close you must be to pick up
     public LayerMask mopLayer;
+    public GameObject cameraOBJ;
 
     private GameObject heldMop;
     private bool isHoldingMop;
@@ -46,24 +48,28 @@ public class PlayerMopHandler : MonoBehaviour
 
     private void TryPickUpMop()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange, mopLayer);
-        foreach (var hit in hits)
+        RaycastHit hit;
+        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, pickupRange))
         {
-            if (hit.CompareTag("Mop"))
+            if (hit.transform.CompareTag("Mop"))
             {
-                heldMop = hit.gameObject;
+                heldMop = hit.transform.gameObject;
 
-                // Disable physics while held
-                if (heldMop.TryGetComponent<Rigidbody>(out var rb))
+                // Disables the Mop's physics while holding
+                Rigidbody rb = heldMop.GetComponent<Rigidbody>();
+                if (rb != null)
                     rb.isKinematic = true;
 
-                // Parent to hand point
+                // Disable colliders to prevent collisions while holding
+                foreach (Collider c in heldMop.GetComponentsInChildren<Collider>())
+                    c.enabled = false;
+
+                // Parents the Mop to the hold point
                 heldMop.transform.SetParent(handHoldPoint);
                 heldMop.transform.localPosition = Vector3.zero;
                 heldMop.transform.localRotation = Quaternion.identity;
 
                 isHoldingMop = true;
-                return;
             }
         }
     }
@@ -78,23 +84,22 @@ public class PlayerMopHandler : MonoBehaviour
     {
         if (heldMop == null) return;
 
-        // Unparent
+        // Unparents the mop
         heldMop.transform.SetParent(null);
 
-        // Re-enable physics
-        if (heldMop.TryGetComponent<Rigidbody>(out var rb))
+        // Re-enables physics
+        Rigidbody rb = heldMop.GetComponent<Rigidbody>();
+        if (rb != null)
             rb.isKinematic = false;
 
-        // Small forward toss
-        heldMop.transform.position += transform.forward * 0.5f;
+        // Re-enables colliders
+        foreach (Collider c in heldMop.GetComponentsInChildren<Collider>())
+            c.enabled = true;
+
+        // Drops the Mop slightly in front of player
+        heldMop.transform.position += cameraOBJ.transform.forward * 0.5f;
 
         heldMop = null;
         isHoldingMop = false;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, pickupRange);
     }
 }

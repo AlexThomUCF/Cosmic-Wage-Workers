@@ -10,7 +10,7 @@ public class FloorCleaning : MonoBehaviour
     private float holdTime;
     private bool isPlayerNearby;
 
-    private PlayerMopHandler playerMop;
+    private PickupMop playerMop;
     private PlayerControls controls;
     private GameObject player;
 
@@ -63,7 +63,7 @@ public class FloorCleaning : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player = other.gameObject;
-            playerMop = player.GetComponent<PlayerMopHandler>();
+            playerMop = player.GetComponent<PickupMop>();
             isPlayerNearby = true;
         }
     }
