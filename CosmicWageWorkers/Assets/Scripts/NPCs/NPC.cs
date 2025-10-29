@@ -13,6 +13,7 @@ public class NPC : MonoBehaviour, IInteraction
     public NPCDialogue dialogueData;
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
+    public static bool isInDialogue = false;
 
     public void Start()
     {
@@ -43,6 +44,7 @@ public class NPC : MonoBehaviour, IInteraction
     void StartDialogue()
     { 
       isDialogueActive = true;
+      isInDialogue = true;
       dialogueIndex = 0;
 
 
@@ -160,6 +162,7 @@ public class NPC : MonoBehaviour, IInteraction
     {
         StopAllCoroutines();
         isDialogueActive = false;
+        isInDialogue = false;
         dialogueUI.SetDialogueText("");
         dialogueUI.ShowDialogueUI(false);
         Cursor.lockState = CursorLockMode.Locked; // Locks cursor to center

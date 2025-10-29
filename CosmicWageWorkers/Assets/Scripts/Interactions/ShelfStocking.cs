@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class ShelfStocking : MonoBehaviour
 {
@@ -10,11 +10,16 @@ public class ShelfStocking : MonoBehaviour
     public float stockTime = 3f;
     public Transform startPoint;
 
+    [Header("Shelf Info")]
+    public int shelfIndex; // Labels the shelves, currently 0-7
+    public BoxManager boxManager;
+
     private bool isPlayerNearby;
     private bool isStocking;
     private float holdTime;
 
     private PlayerControls controls;
+    private BoxPickUp playerPickup;
 
     private void Awake()
     {
@@ -33,10 +38,15 @@ public class ShelfStocking : MonoBehaviour
 
     private void Update()
     {
-        if (!isPlayerNearby || isStocking) return;
+        if (!isPlayerNearby || isStocking || playerPickup == null) return;
 
-        // Holding interact
-        if (controls.Gameplay.Interact.IsPressed())
+        // Only allow stocking if player is holding a box
+        if (!playerPickup.IsHoldingBox()) return;
+
+        // Only allow stocking if this shelf matches the current box
+        if (boxManager.CurrentShelfIndex != shelfIndex) return;
+
+        if (controls.Gameplay.Stock.IsPressed())
         {
             holdTime += Time.deltaTime;
             if (holdTime >= stockTime)
@@ -45,7 +55,7 @@ public class ShelfStocking : MonoBehaviour
                 holdTime = 0f;
             }
         }
-        else if (controls.Gameplay.Interact.WasReleasedThisFrame())
+        else if (controls.Gameplay.Stock.WasReleasedThisFrame())
         {
             holdTime = 0f;
         }
@@ -55,21 +65,33 @@ public class ShelfStocking : MonoBehaviour
     {
         isStocking = true;
 
-    for (int i = 0; i < cubeCount; i++)
-    {
-        Vector3 pos = startPoint.position + transform.forward * (i * spacing); // Z axis
-        Instantiate(cubePrefab, pos, Quaternion.identity, transform);
-        SoundEffectManager.Play("StockSound");
-        yield return new WaitForSeconds(stockTime / cubeCount);
-    }
+        for (int i = 0; i < cubeCount; i++)
+        {
+            Vector3 pos = startPoint.position + transform.forward * (i * spacing);
+            Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+            SoundEffectManager.Play("StockSound");
+            yield return new WaitForSeconds(stockTime / cubeCount);
+        }
 
         isStocking = false;
+
+        // Notifies BoxManager
+        if (boxManager != null)
+            boxManager.OnShelfStocked(shelfIndex);
+
+        // Force drop the box from the player's hand
+        if (playerPickup != null)
+            playerPickup.ForceDropBox();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-            isPlayerNearby = true;
+        {
+            playerPickup = other.GetComponent<BoxPickUp>();
+            if (playerPickup != null)
+                isPlayerNearby = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
