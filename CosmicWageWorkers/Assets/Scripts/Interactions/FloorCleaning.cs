@@ -43,7 +43,7 @@ public class FloorCleaning : MonoBehaviour
         if (!isPlayerNearby || currentPieceIndex >= dirtPieces.Length) return;
         if (playerMop == null || !playerMop.IsHoldingMop()) return;
 
-        // Keep mop reference updated
+        // Ensure mopTransform and initialRotation are set
         if (mopTransform == null)
         {
             mopTransform = playerMop.handHoldPoint;
@@ -54,13 +54,14 @@ public class FloorCleaning : MonoBehaviour
         {
             holdTime += Time.deltaTime;
 
-            // Swing mop
+            // Swing mop back and forth
             if (mopTransform != null)
             {
                 float angle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
                 mopTransform.localRotation = initialRotation * Quaternion.Euler(angle, 0f, 0f);
             }
 
+            // Clean dirt pieces
             if (holdTime >= cleanTimePerPiece)
             {
                 Destroy(dirtPieces[currentPieceIndex]);
@@ -70,13 +71,20 @@ public class FloorCleaning : MonoBehaviour
                 holdTime = 0f;
 
                 if (currentPieceIndex >= dirtPieces.Length)
+                {
                     OnMessCleaned?.Invoke(gameObject);
+
+                    // Snap mop upright
+                    if (mopTransform != null)
+                        mopTransform.localRotation = initialRotation;
+                }
             }
         }
         else if (controls.Gameplay.Use.WasReleasedThisFrame())
         {
             holdTime = 0f;
-            // Reset mop rotation
+
+            // Snap mop upright immediately
             if (mopTransform != null)
                 mopTransform.localRotation = initialRotation;
         }
