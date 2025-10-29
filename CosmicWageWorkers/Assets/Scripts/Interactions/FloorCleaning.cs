@@ -1,19 +1,19 @@
 using UnityEngine;
-using System.Collections;
 
 public class FloorCleaning : MonoBehaviour
 {
     [Header("Cleaning Settings")]
-    public float cleanTimePerPiece = 1f;   // How long to clean each dirt piece
-    public GameObject[] dirtPieces;        // Assign the separate dirt pieces
+    public float cleanTimePerPiece = 1f;
+    public GameObject[] dirtPieces;
 
-    [HideInInspector] public bool isPlayerNearby;
-    private float holdTime;
     private int currentPieceIndex = 0;
+    private float holdTime;
+    private bool isPlayerNearby;
 
+    private PlayerMopHandler playerMop;
     private PlayerControls controls;
+    private GameObject player;
 
-    // Event to notify MessManager when this mess is fully cleaned
     public event System.Action<GameObject> OnMessCleaned;
 
     private void Awake()
@@ -34,36 +34,38 @@ public class FloorCleaning : MonoBehaviour
     private void Update()
     {
         if (!isPlayerNearby || currentPieceIndex >= dirtPieces.Length) return;
+        if (playerMop == null || !playerMop.IsHoldingMop()) return;
 
-        if (controls.Gameplay.Interact.IsPressed())
+        if (controls.Gameplay.Use.IsPressed())
         {
             holdTime += Time.deltaTime;
 
             if (holdTime >= cleanTimePerPiece)
             {
-                // Remove the current dirt piece
                 Destroy(dirtPieces[currentPieceIndex]);
                 SoundEffectManager.Play("MopSound");
+
                 currentPieceIndex++;
                 holdTime = 0f;
 
-                // Notify the manager if this mess is fully cleaned
                 if (currentPieceIndex >= dirtPieces.Length)
-                {
                     OnMessCleaned?.Invoke(gameObject);
-                }
             }
         }
-        else if (controls.Gameplay.Interact.WasReleasedThisFrame())
+        else if (controls.Gameplay.Use.WasReleasedThisFrame())
         {
-            holdTime = 0f; // Reset progress if player stops
+            holdTime = 0f;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
+            player = other.gameObject;
+            playerMop = player.GetComponent<PlayerMopHandler>();
             isPlayerNearby = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -71,6 +73,8 @@ public class FloorCleaning : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
+            player = null;
+            playerMop = null;
             holdTime = 0f;
         }
     }

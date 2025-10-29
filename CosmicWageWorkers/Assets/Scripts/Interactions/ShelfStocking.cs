@@ -46,7 +46,7 @@ public class ShelfStocking : MonoBehaviour
         // Only allow stocking if this shelf matches the current box
         if (boxManager.CurrentShelfIndex != shelfIndex) return;
 
-        if (controls.Gameplay.Stock.IsPressed())
+        if (controls.Gameplay.Use.IsPressed())
         {
             holdTime += Time.deltaTime;
             if (holdTime >= stockTime)
@@ -55,7 +55,7 @@ public class ShelfStocking : MonoBehaviour
                 holdTime = 0f;
             }
         }
-        else if (controls.Gameplay.Stock.WasReleasedThisFrame())
+        else if (controls.Gameplay.Use.WasReleasedThisFrame())
         {
             holdTime = 0f;
         }
