@@ -442,9 +442,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1426331991}
   shelfIndex: 0
   boxManager: {fileID: 0}
@@ -7406,9 +7406,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 292298093}
   shelfIndex: 7
   boxManager: {fileID: 494553773}
@@ -22129,9 +22129,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1998627523}
   shelfIndex: 4
   boxManager: {fileID: 494553773}
@@ -25067,9 +25067,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 106317368}
   shelfIndex: 3
   boxManager: {fileID: 494553773}
@@ -26607,7 +26607,7 @@ Transform:
   m_GameObject: {fileID: 1400604417}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.72, y: 6.11, z: -9.68}
+  m_LocalPosition: {x: -2.72, y: 6.11, z: -12.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31337,9 +31337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1013442636}
   shelfIndex: 1
   boxManager: {fileID: 494553773}
@@ -32088,9 +32088,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1319336888}
   shelfIndex: 2
   boxManager: {fileID: 494553773}
@@ -33862,9 +33862,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1400604418}
   shelfIndex: 0
   boxManager: {fileID: 494553773}
@@ -37123,9 +37123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1106415942}
   shelfIndex: 6
   boxManager: {fileID: 494553773}
@@ -42805,9 +42805,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
   cubePrefab: {fileID: 5916861164107922509, guid: 98730be22806ff343ba31e69f9decd30, type: 3}
-  cubeCount: 3
+  cubesPerRow: 5
   spacing: 1
-  stockTime: 3
+  rowSpacing: 0.4
   startPoint: {fileID: 1602621108}
   shelfIndex: 5
   boxManager: {fileID: 494553773}
