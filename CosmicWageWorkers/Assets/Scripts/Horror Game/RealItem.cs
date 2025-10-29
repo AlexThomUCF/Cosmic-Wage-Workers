@@ -8,6 +8,7 @@ public class RealItem : MonoBehaviour, IInteraction
     public HorrorAI horror;
 
     public static bool hasItem = false;
+    private GameObject mcGuffinItem;
 
 
     public UnityEvent onInteract { get; set; } = new UnityEvent();
@@ -16,6 +17,7 @@ public class RealItem : MonoBehaviour, IInteraction
     void Start()
     {
         horror = FindAnyObjectByType<HorrorAI>();
+        mcGuffinItem = this.gameObject;
     }
 
     public void Interact()
@@ -24,6 +26,7 @@ public class RealItem : MonoBehaviour, IInteraction
 
         if (isMcguffin)
         {
+            mcGuffinItem.SetActive(false);
             Debug.Log("This is the Mcguffin");
             horror.currentState = HorrorAI.AIState.EnragedState;
             SoundEffectManager.Play("RightItem");
