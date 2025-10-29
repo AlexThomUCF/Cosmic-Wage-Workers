@@ -6,6 +6,10 @@ public class FloorCleaning : MonoBehaviour
     public float cleanTimePerPiece = 1f;
     public GameObject[] dirtPieces;
 
+    [Header("Mop Swing Settings")]
+    public float swingAngle = 30f;      // Maximum swing angle
+    public float swingSpeed = 5f;       // Swing speed
+
     private int currentPieceIndex = 0;
     private float holdTime;
     private bool isPlayerNearby;
@@ -13,6 +17,9 @@ public class FloorCleaning : MonoBehaviour
     private PickupMop playerMop;
     private PlayerControls controls;
     private GameObject player;
+
+    private Transform mopTransform;
+    private Quaternion initialRotation;
 
     public event System.Action<GameObject> OnMessCleaned;
 
@@ -36,9 +43,23 @@ public class FloorCleaning : MonoBehaviour
         if (!isPlayerNearby || currentPieceIndex >= dirtPieces.Length) return;
         if (playerMop == null || !playerMop.IsHoldingMop()) return;
 
+        // Keep mop reference updated
+        if (mopTransform == null)
+        {
+            mopTransform = playerMop.handHoldPoint;
+            initialRotation = mopTransform.localRotation;
+        }
+
         if (controls.Gameplay.Use.IsPressed())
         {
             holdTime += Time.deltaTime;
+
+            // Swing mop
+            if (mopTransform != null)
+            {
+                float angle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
+                mopTransform.localRotation = initialRotation * Quaternion.Euler(angle, 0f, 0f);
+            }
 
             if (holdTime >= cleanTimePerPiece)
             {
@@ -55,6 +76,9 @@ public class FloorCleaning : MonoBehaviour
         else if (controls.Gameplay.Use.WasReleasedThisFrame())
         {
             holdTime = 0f;
+            // Reset mop rotation
+            if (mopTransform != null)
+                mopTransform.localRotation = initialRotation;
         }
     }
 
@@ -65,6 +89,12 @@ public class FloorCleaning : MonoBehaviour
             player = other.gameObject;
             playerMop = player.GetComponent<PickupMop>();
             isPlayerNearby = true;
+
+            if (playerMop != null && playerMop.IsHoldingMop())
+            {
+                mopTransform = playerMop.handHoldPoint;
+                initialRotation = mopTransform.localRotation;
+            }
         }
     }
 
@@ -75,6 +105,7 @@ public class FloorCleaning : MonoBehaviour
             isPlayerNearby = false;
             player = null;
             playerMop = null;
+            mopTransform = null;
             holdTime = 0f;
         }
     }

@@ -11379,14 +11379,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2772f5337857c4d4aa0b2bca14355269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupMop
-  handHoldPoint: {fileID: 1448275762}
+  handHoldPoint: {fileID: 1564186558}
   pickupRange: 5
   mopLayer:
     serializedVersion: 2
     m_Bits: 64
+  cameraOBJ: {fileID: 127541331}
   onInteract:
     m_PersistentCalls:
       m_Calls: []
+--- !u!4 &556829589 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 829910773576371551, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+  m_PrefabInstance: {fileID: 2075761097}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &557537713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30356,6 +30362,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.62, y: 12.2, z: 14.87}
   m_Center: {x: 3.35, y: 4.9, z: -1.5}
+--- !u!1 &1564186557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1564186558}
+  m_Layer: 0
+  m_Name: MopPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1564186558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564186557}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -0.499, y: -0.394, z: 0.829}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 556829589}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1569939067
 GameObject:
   m_ObjectHideFlags: 0
@@ -37483,7 +37520,7 @@ GameObject:
   - component: {fileID: 1853927935}
   m_Layer: 0
   m_Name: Mop
-  m_TagString: Untagged
+  m_TagString: Mop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41695,6 +41732,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 829910773576371551, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1564186558}
     - targetCorrespondingSourceObject: {fileID: 2104069760867028160, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1448275762}
