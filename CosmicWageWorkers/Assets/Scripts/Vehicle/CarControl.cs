@@ -2,13 +2,23 @@ using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
-    public float maxMoveSpeed = 10f;       // Max forward speed (m/s)
-    public float acceleration = 5f;        // Acceleration (m/s^2)
-    public float deceleration = 4f;        // Deceleration when no input (m/s^2)
-    public float turnSpeed = 100f;         // Yaw speed at full steer (deg/s)
-    public float minTurnSpeed = 0.1f;      // Minimum forward/back speed required to allow turning (m/s)
+    [Header("Movement Settings")]
+    public float maxSpeed = 10f;
+    public float acceleration = 5f;
+    public float deceleration = 4f;
+    
+    [Header("Turning Settings")]
+    public float turnSpeed = 100f;
+    public float minSpeedToTurn = 0.1f;
+    public float tiltAngle = 5f;
+    public float tiltSpeed = 5f;
+    
+    [Header("Hover Settings")]
+    public float hoverHeight = 0.5f;
+    public float hoverForce = 300f;
+    public float hoverDamping = 10f;
 
-    private float currentSpeed;            // Current forward speed (m/s)
+    private float currentSpeed;
     private Rigidbody rb;
 
     void Start()
@@ -20,23 +30,82 @@ public class CarControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        float dt = Time.fixedDeltaTime;
+        // Get player input
+        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // Inputs (raw horizontal for instant steering)
-        float v = Input.GetAxis("Vertical");
-        float h = Input.GetAxisRaw("Horizontal");
+        // Handle hovering above ground
+        ApplyHoverForce();
 
-        // Forward speed: accelerate towards target when input exists, otherwise decelerate to 0
-        float targetSpeed = v * maxMoveSpeed;
-        float step = (Mathf.Abs(v) > 0.01f ? acceleration : deceleration) * dt;
-        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, step);
+        // Handle forward/backward movement
+        MoveForward(verticalInput);
 
-        // Apply linear velocity (only forward/back)
+        // Handle turning
+        Turn(horizontalInput);
+
+        // Tilt the car when turning
+        TiltCar(horizontalInput);
+    }
+
+    void ApplyHoverForce()
+    {
+        RaycastHit hit;
+        // Cast a ray downward from the car
+        if (Physics.Raycast(transform.position, -transform.up, out hit, hoverHeight * 2f))
+        {
+            // Calculate how far we are from desired hover height
+            float currentHeight = hit.distance;
+            float heightDifference = hoverHeight - currentHeight;
+            
+            // Apply upward force to maintain hover height
+            float force = heightDifference * hoverForce - rb.linearVelocity.y * hoverDamping;
+            rb.AddForce(Vector3.up * force);
+        }
+    }
+
+    void MoveForward(float input)
+    {
+        // Calculate target speed based on input
+        float targetSpeed = input * maxSpeed;
+        
+        // Smoothly change current speed
+        float speedChange = (Mathf.Abs(input) > 0.01f ? acceleration : deceleration) * Time.fixedDeltaTime;
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, speedChange);
+
+        // Move the car
         rb.linearVelocity = transform.forward * currentSpeed;
+    }
 
-        // Only allow turning when moving straight forward/back (realistic)
-        bool canTurn = Mathf.Abs(currentSpeed) > minTurnSpeed; // require some forward/back speed
-        float yawDegPerSec = canTurn ? (h * turnSpeed) : 0f;
-        rb.angularVelocity = Vector3.up * (yawDegPerSec * Mathf.Deg2Rad);
+    void Turn(float input)
+    {
+        // Only turn if the car is moving
+        if (Mathf.Abs(currentSpeed) > minSpeedToTurn)
+        {
+            float turnAmount = input * turnSpeed * Mathf.Deg2Rad;
+            rb.angularVelocity = Vector3.up * turnAmount;
+        }
+        else
+        {
+            rb.angularVelocity = Vector3.zero;
+        }
+    }
+
+    void TiltCar(float input)
+    {
+        // Calculate target tilt (roll) based on turning direction
+        float targetTilt = -input * tiltAngle;
+        
+        // Get current rotation
+        Vector3 currentRotation = transform.localEulerAngles;
+        
+        // Normalize the current Z rotation to -180 to 180 range
+        float currentZ = currentRotation.z;
+        if (currentZ > 180f) currentZ -= 360f;
+        
+        // Smoothly interpolate to target tilt
+        float newZ = Mathf.Lerp(currentZ, targetTilt, Time.fixedDeltaTime * tiltSpeed);
+        
+        // Apply the new rotation
+        transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, newZ);
     }
 }
