@@ -4,12 +4,17 @@ public class PlayerLook : MonoBehaviour
 {
     [SerializeField] private Transform playerBody;
     [SerializeField] private float mouseSensitivity = 400f;
+    [SerializeField] private float rotationSmoothness = 10f;
 
     private float xRotation = 0f;
+    private Quaternion targetCameraRotation;
+    private Quaternion targetBodyRotation;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Lock and hide cursor
+        targetCameraRotation = transform.localRotation;
+        targetBodyRotation = playerBody.rotation;
     }
 
     void Update()
@@ -25,11 +30,12 @@ public class PlayerLook : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Rotate camera up/down
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        targetCameraRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        targetBodyRotation *= Quaternion.Euler(0f, mouseX, 0f);
 
-        // Rotate player body left/right
-        playerBody.Rotate(Vector3.up * mouseX);
+        // Smoothly rotate camera & body
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetCameraRotation, rotationSmoothness * Time.deltaTime);
+        playerBody.rotation = Quaternion.Slerp(playerBody.rotation, targetBodyRotation, rotationSmoothness * Time.deltaTime);
     }
 }
 
