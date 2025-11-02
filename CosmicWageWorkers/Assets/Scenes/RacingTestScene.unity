@@ -650,7 +650,8 @@ Transform:
   m_LocalPosition: {x: 4.71544, y: 0.519, z: -19.63502}
   m_LocalScale: {x: 2.2239668, y: 0.76718, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 670780524}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &119068300
@@ -675,7 +676,7 @@ MonoBehaviour:
   - {fileID: 480639340}
   - {fileID: 51941145}
   - {fileID: 1132022999}
-  babyAgent: {fileID: 0}
+  babyAgent: {fileID: 119068301}
 --- !u!195 &119068301
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1135,14 +1136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 5652
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -2312,14 +2309,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -3024,6 +3017,245 @@ Transform:
   - {fileID: 22111392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &654158024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 654158026}
+  - component: {fileID: 654158025}
+  - component: {fileID: 654158027}
+  m_Layer: 0
+  m_Name: Spline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &654158025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654158024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Spline:
+    m_EditModeType: 1
+    m_Knots: []
+    m_MetaData: []
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Splines:
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: 0
+        y: 0
+        z: 0
+      TangentIn:
+        x: -0
+        y: -0
+        z: -7.4534574
+      TangentOut:
+        x: 0
+        y: 0
+        z: 6.687249
+      Rotation:
+        value:
+          x: 0
+          y: 0.4500387
+          z: 0
+          w: 0.893009
+    - Position:
+        x: 7.704297
+        y: 0
+        z: 21.579073
+      TangentIn:
+        x: -0
+        y: -0
+        z: -7.078658
+      TangentOut:
+        x: 0
+        y: 0
+        z: 6.699026
+      Rotation:
+        value:
+          x: 0
+          y: 0.017660532
+          z: 0
+          w: 0.999844
+    - Position:
+        x: 2.185628
+        y: 0
+        z: 41.344463
+      TangentIn:
+        x: -0
+        y: -0
+        z: -5.7944684
+      TangentOut:
+        x: 0
+        y: 0
+        z: 6.545402
+      Rotation:
+        value:
+          x: 0
+          y: -0.4431764
+          z: -0
+          w: 0.8964345
+    - Position:
+        x: -23.99876
+        y: 0
+        z: 41.515076
+      TangentIn:
+        x: -0
+        y: -0
+        z: -7.3137474
+      TangentOut:
+        x: 0
+        y: 0
+        z: 6.848884
+      Rotation:
+        value:
+          x: 0
+          y: 0.8642181
+          z: 0
+          w: -0.50311726
+    - Position:
+        x: -35.63649
+        y: 0
+        z: 21.72061
+      TangentIn:
+        x: -0
+        y: -0
+        z: -6.746659
+      TangentOut:
+        x: 0
+        y: 0
+        z: 6.4228473
+      Rotation:
+        value:
+          x: -0.000001806951
+          y: 0.99901074
+          z: -0.000026688915
+          w: -0.04446856
+    - Position:
+        x: -28.430897
+        y: -0.00201172
+        z: 2.1970482
+      TangentIn:
+        x: -0
+        y: -0
+        z: -6.298934
+      TangentOut:
+        x: 0
+        y: 0
+        z: 7.3733397
+      Rotation:
+        value:
+          x: 0.0000036390647
+          y: 0.89524794
+          z: -0.0000068526524
+          w: 0.44556835
+    m_MetaData:
+    - Mode: 4
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    - Mode: 0
+      Tension: 0.5
+    m_Closed: 1
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  m_Knots:
+    m_KnotsLink: []
+--- !u!4 &654158026
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654158024}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.280898, y: 0.06201172, z: -20.907047}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &654158027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654158024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 654158025}
+  m_ItemsToInstantiate: []
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 1, y: 1}
+  m_Up: 1
+  m_Forward: 2
+  m_PositionOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -134686
 --- !u!1 &670320977
 GameObject:
   m_ObjectHideFlags: 0
@@ -3156,16 +3388,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670780523}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.05823, y: 0.06201, z: -19.94866}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.5030757, y: -0.59567505, z: -0.3136406}
+  m_LocalScale: {x: 0.44964698, y: 1.303475, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2087406701}
   - {fileID: 1274540034}
   - {fileID: 2145537804}
   - {fileID: 1919957455}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 119068299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &761210405
 GameObject:
@@ -4035,14 +4267,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -4540,14 +4768,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -5047,14 +5271,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -6036,14 +6256,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 5652
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -6517,14 +6733,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -6890,14 +7102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -8550,14 +8758,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 5652
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -9113,6 +9317,94 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: a1cb42c7a2b03434cb4ec9b506af88fc, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1001 &1901500215
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4117340457189243465, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_Name
+      value: BabyTing
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.280898
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06201172
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -20.907047
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.89300907
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.45003873
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901410983695204054, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4117340457189243465, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1901500217}
+  m_SourcePrefab: {fileID: 100100000, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+--- !u!1 &1901500216 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4117340457189243465, guid: 339ce3c34654951498f93571b7a31e69, type: 3}
+  m_PrefabInstance: {fileID: 1901500215}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1901500217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901500216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 654158025}
+  m_PlayOnAwake: 1
+  m_LoopMode: 1
+  m_Method: 1
+  m_Duration: 20
+  m_MaxSpeed: 7.336081
+  m_EasingMode: 0
+  m_AlignmentMode: 1
+  m_ObjectForwardAxis: 2
+  m_ObjectUpAxis: 1
+  m_StartOffset: 0
 --- !u!1 &1919957454
 GameObject:
   m_ObjectHideFlags: 0
@@ -9606,14 +9898,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 5652
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 17.333946, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -10133,14 +10421,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -10603,14 +10887,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ProBuilder::UnityEngine.ProBuilder.Shapes.ProBuilderShape
   m_Shape:
     rid: 2944868841203957982
-  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-  m_PivotLocation: 0
-  m_PivotPosition: {x: 0, y: 0, z: 0}
+  m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
   m_UnmodifiedMeshVersion: 4541
-  m_ShapeBox:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  m_Size: {x: -17.690912, y: 4.010914, z: -3.2440305}
+  m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -11238,5 +11518,6 @@ SceneRoots:
   - {fileID: 2104274818}
   - {fileID: 4113848}
   - {fileID: 119068299}
-  - {fileID: 670780524}
   - {fileID: 94489831}
+  - {fileID: 654158026}
+  - {fileID: 1901500215}
