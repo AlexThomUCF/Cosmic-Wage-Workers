@@ -19,10 +19,11 @@ public class PlayerLook : MonoBehaviour
 
     void Update()
     {
-       /* if(NPC.isInDialogue)
+        if(NPC.isInDialogue)
         {
             return; //If player dialogue is active freeze camera movement
-        }*/
+        }
+
         // Get mouse movement
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
