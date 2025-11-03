@@ -10,7 +10,7 @@ public class SceneLoader : MonoBehaviour
             Debug.LogError("Scene name is empty!");
             return;
         }
-
+        NPC.isInDialogue = false;
         SceneManager.LoadScene(sceneName);
     }
 
