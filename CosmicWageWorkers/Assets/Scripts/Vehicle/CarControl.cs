@@ -18,7 +18,13 @@ public class CarControl : MonoBehaviour
     public float hoverForce = 300f;
     public float hoverDamping = 10f;
 
-    private float currentSpeed;
+    [Header("Control Mode")]
+    public bool usePlayerInput = true; // Toggle for AI or player control
+
+    public float currentSpeed;
+    private float currentForwardInput;
+    private float currentTurnInput;
+
     private Rigidbody rb;
 
     void Start()
@@ -31,20 +37,23 @@ public class CarControl : MonoBehaviour
     void FixedUpdate()
     {
         // Get player input
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (usePlayerInput)
+        {
+            currentForwardInput = Input.GetAxis("Vertical");
+            currentTurnInput = Input.GetAxisRaw("Horizontal");
+        }
 
         // Handle hovering above ground
         ApplyHoverForce();
 
         // Handle forward/backward movement
-        MoveForward(verticalInput);
+        MoveForward(currentForwardInput);
 
         // Handle turning
-        Turn(horizontalInput);
+        Turn(currentTurnInput);
 
         // Tilt the car when turning
-        TiltCar(horizontalInput);
+        TiltCar(currentTurnInput);
     }
 
     void ApplyHoverForce()
@@ -63,8 +72,10 @@ public class CarControl : MonoBehaviour
         }
     }
 
-    void MoveForward(float input)
+    public void MoveForward(float input)
     {
+        currentForwardInput = input; // Allow external (AI) control
+
         // Calculate target speed based on input
         float targetSpeed = input * maxSpeed;
         
@@ -76,8 +87,10 @@ public class CarControl : MonoBehaviour
         rb.linearVelocity = transform.forward * currentSpeed;
     }
 
-    void Turn(float input)
+    public void Turn(float input)
     {
+        currentTurnInput = input; // Allow external (AI) control
+
         // Only turn if the car is moving
         if (Mathf.Abs(currentSpeed) > minSpeedToTurn)
         {
@@ -90,7 +103,7 @@ public class CarControl : MonoBehaviour
         }
     }
 
-    void TiltCar(float input)
+    public void TiltCar(float input)
     {
         // Calculate target tilt (roll) based on turning direction
         float targetTilt = -input * tiltAngle;
