@@ -16,12 +16,12 @@ public class FlashLight : MonoBehaviour
 
     public AudioSource source;
     private PlayerControls controls;
-    //private Battery battery;
+    //public Battery battery;
     private bool isFlashlightOn = false; // Track flashlight state
 
     void Awake()
     {
-        //battery = FindObjectOfType<Battery>();
+        //battery = FindAnyObjectByType<Battery>();
         controls = new PlayerControls();
 
         // Bind flashlight toggle event
@@ -48,14 +48,14 @@ public class FlashLight : MonoBehaviour
             {
                 batteryLife = 0;
                 replaceBattery = true;
-                fLight.SetActive(false);
+                fLight.GetComponent<Light>().enabled = false;
                 isFlashlightOn = false;
             }
         }
 
         batteryBar.fillAmount = batteryLife / maxBatteryLife;
 
-        // ReplenishBattery();
+      //  ReplenishBattery();
     }
 
     public void ToggleFlash()
@@ -63,22 +63,23 @@ public class FlashLight : MonoBehaviour
         if (!replaceBattery)
         {
             isFlashlightOn = !isFlashlightOn;
-            fLight.SetActive(isFlashlightOn);
+            fLight.GetComponent<Light>().enabled = isFlashlightOn;
             SoundEffectManager.Play("Click");
         }
     }
-    /*public void ReplenishBattery()
+    public void ReplenishBattery()
     {
-        if(battery.newBattery == true && batteryLife < maxBatteryLife)
+        //if(batteryLife < maxBatteryLife)
         {
             
             batteryLife += batteryRecharge;
             if(batteryLife > maxBatteryLife) batteryLife = maxBatteryLife;
             batteryBar.fillAmount = batteryLife;
             replaceBattery = false;
-            battery.newBattery = false;
+
+            SoundEffectManager.Play("BatteryReplace");
 
         }
     
-    }*/
+    }
 }
