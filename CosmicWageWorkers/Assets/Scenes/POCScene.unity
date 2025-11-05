@@ -24093,10 +24093,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: fuzzball_LP
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 104c44088c893a0409dd639dd5e6a8ec, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 104c44088c893a0409dd639dd5e6a8ec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1982833384}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 104c44088c893a0409dd639dd5e6a8ec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1982833383}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 104c44088c893a0409dd639dd5e6a8ec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1982833385}
   m_SourcePrefab: {fileID: 100100000, guid: 104c44088c893a0409dd639dd5e6a8ec, type: 3}
 --- !u!1 &1305119125 stripped
 GameObject:
@@ -24130,7 +24143,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Test
+            m_StringArgument: backroomhorror
             m_BoolArgument: 0
           m_CallState: 2
   - choiceText: No
@@ -30689,7 +30702,7 @@ Transform:
   m_GameObject: {fileID: 1577301546}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.04, y: 4.55, z: 18.67}
+  m_LocalPosition: {x: -21.04, y: 3.48, z: 18.67}
   m_LocalScale: {x: 0.09629111, y: 2.5278304, z: 3.3617}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40570,6 +40583,105 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1982833379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 104c44088c893a0409dd639dd5e6a8ec, type: 3}
+  m_PrefabInstance: {fileID: 1296765072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1982833383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982833379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c1b27a48b57c944be5fa435ef2875c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1982833384}
+        m_TargetAssemblyTypeName: NPC, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1982833384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982833379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e351e0257e89c459009d421eae8e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPC
+  dialogueData: {fileID: 11400000, guid: 624f184dfdd0ea04f847c2a4a3d17874, type: 2}
+  choiceEvents:
+  - choiceText: Yes
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7954359570867217572, guid: 6045d38a3281b264fa6246647adaa159, type: 3}
+          m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+          m_MethodName: LoadSceneByName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: RacingTestScene
+            m_BoolArgument: 0
+          m_CallState: 2
+  - choiceText: No
+    onChosen:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1958078234}
+          m_TargetAssemblyTypeName: 
+          m_MethodName: 
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!135 &1982833385
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982833379}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.2580968
+  m_Center: {x: 0.005165085, y: 0, z: 0.00000013411048}
 --- !u!1 &1998627522
 GameObject:
   m_ObjectHideFlags: 0
