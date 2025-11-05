@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool isGrounded;
+    public Vector2 MoveInput => moveInput;
+
 
     // Freeze mechanic
     private float speedMultiplier = 1f;
