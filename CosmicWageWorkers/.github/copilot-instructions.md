@@ -2,7 +2,7 @@
 - Project name: CosmicWageWorkers
 - Unity version: Unity 6000.2.7f2
 - Active scene:
-  - Name: POCScene
+  - Name: FPSPrototype
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController, Ground, Enemy, Customer, Cubes, MessSpawnPoint, Item, Box, Mop
   - Layers:
