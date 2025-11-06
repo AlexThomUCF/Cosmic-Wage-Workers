@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.4f;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("Camera")]
+    [SerializeField] private Transform cameraTransform;
+
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool isGrounded;
@@ -21,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        rb.freezeRotation = true; // Keep the player upright
     }
 
     private void Update()
@@ -36,16 +39,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGrounded()
     {
-        // Check if the sphere overlaps with any collider in the ground layer
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
     }
 
     private void Move()
     {
-        Vector3 direction = transform.right * moveInput.x + transform.forward * moveInput.y;
-        Vector3 targetVelocity = direction * moveSpeed * speedMultiplier;
+        // Project camera forward and right onto XZ plane
+        Vector3 camForward = cameraTransform.forward;
+        camForward.y = 0;
+        camForward.Normalize();
 
-        // Maintain vertical velocity while applying horizontal movement
+        Vector3 camRight = cameraTransform.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        Vector3 moveDir = camForward * moveInput.y + camRight * moveInput.x;
+        Vector3 targetVelocity = moveDir * moveSpeed * speedMultiplier;
+
+        // Preserve vertical velocity
         Vector3 velocity = new Vector3(targetVelocity.x, rb.linearVelocity.y, targetVelocity.z);
         rb.linearVelocity = velocity;
     }
