@@ -4,11 +4,11 @@ using System.Collections;
 public class SpeedBoostPickup : MonoBehaviour
 {
     [Header("Boost Settings")]
-    public float boostMultiplier = 2f;     // how much stronger the boost is
-    public float boostDuration = 3f;       // how long the boost lasts
+    public float boostMultiplier = 1.5f;     // how much stronger the boost is
+    public float boostDuration = 3f;         // how long the boost lasts (seconds)
 
     [Header("Respawn Settings")]
-    public float respawnTime = 5f;         // seconds before pickup reappears
+    public float respawnTime = 5f;           // seconds before pickup reappears
 
     private Renderer rend;
     private Collider col;
@@ -21,28 +21,47 @@ public class SpeedBoostPickup : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        SimpleCarController car = other.GetComponent<SimpleCarController>();
+        VehicleGen4 car = other.GetComponent<VehicleGen4>();
         if (car != null)
         {
-            // Apply speed boost to car
-            car.ActivateSpeedBoost(boostMultiplier, boostDuration);
+            // Apply the boost
+            StartCoroutine(ApplySpeedBoost(car));
 
-            // Start respawn routine
+            // Handle pickup respawn
             StartCoroutine(Respawn());
         }
     }
 
+    private IEnumerator ApplySpeedBoost(VehicleGen4 car)
+    {
+        // Save original stats
+        float originalTorque = car.maxMotorTorque;
+        float originalSpeedCap = car.maxSpeedKph;
+
+        // Apply boost
+        car.maxMotorTorque *= boostMultiplier;
+        car.maxSpeedKph *= boostMultiplier;
+
+        // Wait for duration
+        yield return new WaitForSeconds(boostDuration);
+
+        // Restore values
+        car.maxMotorTorque = originalTorque;
+        car.maxSpeedKph = originalSpeedCap;
+    }
+
     private IEnumerator Respawn()
     {
-        // Hide and disable the pickup
+        // Hide and disable pickup
         rend.enabled = false;
         col.enabled = false;
 
-        // Wait for respawn time
+        // Wait before reappearing
         yield return new WaitForSeconds(respawnTime);
 
-        // Reactivate and show the pickup
+        // Reactivate pickup
         rend.enabled = true;
         col.enabled = true;
     }
 }
+
