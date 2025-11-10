@@ -1,25 +1,25 @@
-using System.Collections;
 using UnityEngine;
 
 public class ShelfStocking : MonoBehaviour
 {
     [Header("Stocking Settings")]
     public GameObject cubePrefab;
-    public int cubeCount = 5;
-    public float spacing = 0.4f;
-    public float stockTime = 3f;
+    public int cubesPerRow = 5;
+    public float spacing = 0.4f;      // Distance between items in a row (Z axis)
+    public float rowSpacing = 0.4f;   // Distance between front/back row (X axis)
     public Transform startPoint;
 
     [Header("Shelf Info")]
-    public int shelfIndex; // Labels the shelves, currently 0-7
+    public int shelfIndex; // Optional label
     public BoxManager boxManager;
-
-    private bool isPlayerNearby;
-    private bool isStocking;
-    private float holdTime;
 
     private PlayerControls controls;
     private BoxPickUp playerPickup;
+    private bool isPlayerNearby;
+
+    // Tracks how many rows have been stocked for this shelf
+    private int nextRowIndex = 0;
+    private int maxRows = 2;
 
     private void Awake()
     {
@@ -38,50 +38,39 @@ public class ShelfStocking : MonoBehaviour
 
     private void Update()
     {
-        if (!isPlayerNearby || isStocking || playerPickup == null) return;
+        if (!isPlayerNearby || playerPickup == null || !playerPickup.IsHoldingBox()) return;
 
-        // Only allow stocking if player is holding a box
-        if (!playerPickup.IsHoldingBox()) return;
+        // Only stock if shelf has rows left
+        if (nextRowIndex >= maxRows) return;
 
-        // Only allow stocking if this shelf matches the current box
-        if (boxManager.CurrentShelfIndex != shelfIndex) return;
-
-        if (controls.Gameplay.Stock.IsPressed())
+        // Check if Use button pressed
+        if (controls.Gameplay.Use.IsPressed())
         {
-            holdTime += Time.deltaTime;
-            if (holdTime >= stockTime)
-            {
-                StartCoroutine(StockShelf());
-                holdTime = 0f;
-            }
-        }
-        else if (controls.Gameplay.Stock.WasReleasedThisFrame())
-        {
-            holdTime = 0f;
+            StockRow();
         }
     }
 
-    private IEnumerator StockShelf()
+    private void StockRow()
     {
-        isStocking = true;
-
-        for (int i = 0; i < cubeCount; i++)
+        // Spawn a row of cubes
+        for (int i = 0; i < cubesPerRow; i++)
         {
-            Vector3 pos = startPoint.position + transform.forward * (i * spacing);
+            Vector3 pos = startPoint.position
+                          + transform.forward * (i * spacing)           // row extends along Z axis
+                          + transform.right * (nextRowIndex * rowSpacing); // front/back row along X axis
+
             Instantiate(cubePrefab, pos, Quaternion.identity, transform);
-            SoundEffectManager.Play("StockSound");
-            yield return new WaitForSeconds(stockTime / cubeCount);
         }
 
-        isStocking = false;
+        SoundEffectManager.Play("StockSound");
 
-        // Notifies BoxManager
-        if (boxManager != null)
-            boxManager.OnShelfStocked(shelfIndex);
+        nextRowIndex++;
 
-        // Force drop the box from the player's hand
-        if (playerPickup != null)
-            playerPickup.ForceDropBox();
+        // Notify BoxManager
+        boxManager?.OnShelfStocked(shelfIndex);
+
+        // Force drop the box after stocking the row
+        playerPickup.ForceDropBox();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,7 +88,7 @@ public class ShelfStocking : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            holdTime = 0f;
+            playerPickup = null;
         }
     }
 }

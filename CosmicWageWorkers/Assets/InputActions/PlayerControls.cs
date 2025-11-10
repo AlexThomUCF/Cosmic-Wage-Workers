@@ -138,7 +138,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Stock"",
+                    ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""2e5e1018-e6da-4da9-90a6-1885ac68b53f"",
                     ""expectedControlType"": """",
@@ -265,7 +265,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Stock"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -293,7 +293,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Shoot = m_Gameplay.FindAction("Shoot", throwIfNotFound: true);
         m_Gameplay_Flashlight = m_Gameplay.FindAction("Flashlight", throwIfNotFound: true);
-        m_Gameplay_Stock = m_Gameplay.FindAction("Stock", throwIfNotFound: true);
+        m_Gameplay_Use = m_Gameplay.FindAction("Use", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -379,7 +379,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_Shoot;
     private readonly InputAction m_Gameplay_Flashlight;
-    private readonly InputAction m_Gameplay_Stock;
+    private readonly InputAction m_Gameplay_Use;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -412,9 +412,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Flashlight => m_Wrapper.m_Gameplay_Flashlight;
         /// <summary>
-        /// Provides access to the underlying input action "Gameplay/Stock".
+        /// Provides access to the underlying input action "Gameplay/Use".
         /// </summary>
-        public InputAction @Stock => m_Wrapper.m_Gameplay_Stock;
+        public InputAction @Use => m_Wrapper.m_Gameplay_Use;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -456,9 +456,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Flashlight.started += instance.OnFlashlight;
             @Flashlight.performed += instance.OnFlashlight;
             @Flashlight.canceled += instance.OnFlashlight;
-            @Stock.started += instance.OnStock;
-            @Stock.performed += instance.OnStock;
-            @Stock.canceled += instance.OnStock;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
         }
 
         /// <summary>
@@ -485,9 +485,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Flashlight.started -= instance.OnFlashlight;
             @Flashlight.performed -= instance.OnFlashlight;
             @Flashlight.canceled -= instance.OnFlashlight;
-            @Stock.started -= instance.OnStock;
-            @Stock.performed -= instance.OnStock;
-            @Stock.canceled -= instance.OnStock;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
         }
 
         /// <summary>
@@ -577,11 +577,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFlashlight(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Stock" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Use" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnStock(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
     }
 }
