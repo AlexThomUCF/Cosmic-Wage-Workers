@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
@@ -6,13 +6,13 @@ public class CarControl : MonoBehaviour
     public float maxSpeed = 10f;
     public float acceleration = 5f;
     public float deceleration = 4f;
-    
+
     [Header("Turning Settings")]
     public float turnSpeed = 100f;
     public float minSpeedToTurn = 0.1f;
     public float tiltAngle = 5f;
     public float tiltSpeed = 5f;
-    
+
     [Header("Hover Settings")]
     public float hoverHeight = 0.5f;
     public float hoverForce = 300f;
@@ -65,7 +65,7 @@ public class CarControl : MonoBehaviour
             // Calculate how far we are from desired hover height
             float currentHeight = hit.distance;
             float heightDifference = hoverHeight - currentHeight;
-            
+
             // Apply upward force to maintain hover height
             float force = heightDifference * hoverForce - rb.linearVelocity.y * hoverDamping;
             rb.AddForce(Vector3.up * force);
@@ -78,13 +78,17 @@ public class CarControl : MonoBehaviour
 
         // Calculate target speed based on input
         float targetSpeed = input * maxSpeed;
-        
+
         // Smoothly change current speed
         float speedChange = (Mathf.Abs(input) > 0.01f ? acceleration : deceleration) * Time.fixedDeltaTime;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, speedChange);
 
-        // Move the car
-        rb.linearVelocity = transform.forward * currentSpeed;
+        // ✅ FIX: Preserve existing Y velocity (so gravity & ramps behave correctly)
+        rb.linearVelocity = new Vector3(
+            transform.forward.x * currentSpeed,
+            rb.linearVelocity.y,
+            transform.forward.z * currentSpeed
+        );
     }
 
     public void Turn(float input)
@@ -107,18 +111,31 @@ public class CarControl : MonoBehaviour
     {
         // Calculate target tilt (roll) based on turning direction
         float targetTilt = -input * tiltAngle;
-        
+
         // Get current rotation
         Vector3 currentRotation = transform.localEulerAngles;
-        
+
         // Normalize the current Z rotation to -180 to 180 range
         float currentZ = currentRotation.z;
         if (currentZ > 180f) currentZ -= 360f;
-        
+
         // Smoothly interpolate to target tilt
         float newZ = Mathf.Lerp(currentZ, targetTilt, Time.fixedDeltaTime * tiltSpeed);
-        
+
         // Apply the new rotation
         transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, newZ);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Apply a small repulsion force instead of full physics collision
+            Vector3 pushDir = collision.contacts[0].point - transform.position;
+            pushDir.y = 0; // only horizontal
+            pushDir.Normalize();
+
+            rb.AddForce(-pushDir * 200f); // adjust 200f as needed
+        }
     }
 }

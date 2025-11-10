@@ -21,7 +21,7 @@ public class SpeedBoostPickup : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        VehicleGen4 car = other.GetComponent<VehicleGen4>();
+        VehicleGen4_Arcade car = other.GetComponent<VehicleGen4_Arcade>();
         if (car != null)
         {
             // Apply the boost
@@ -32,7 +32,7 @@ public class SpeedBoostPickup : MonoBehaviour
         }
     }
 
-    private IEnumerator ApplySpeedBoost(VehicleGen4 car)
+    private IEnumerator ApplySpeedBoost(VehicleGen4_Arcade car)
     {
         // Save original stats
         float originalTorque = car.maxMotorTorque;

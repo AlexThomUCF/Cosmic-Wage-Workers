@@ -1,83 +1,125 @@
-using UnityEngine;
-
-// - W/S: forward/reverse 
-// - A/D: steer 
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
-public class VehicleGen4 : MonoBehaviour
+public class VehicleGen4_Arcade : MonoBehaviour
 {
- [Header("Wheel Colliders")]
- public WheelCollider frontLeft;
- public WheelCollider frontRight;
- public WheelCollider rearLeft;
- public WheelCollider rearRight;
+    [Header("Wheel Colliders")]
+    public WheelCollider frontLeft;
+    public WheelCollider frontRight;
+    public WheelCollider rearLeft;
+    public WheelCollider rearRight;
 
- [Header("Driving")]
- public float maxMotorTorque =1500f; // Nm on rear wheels
- public float maxSteerAngle =60f; // degrees on front wheels
- public float maxSpeedKph =120f; // soft speed cap (km/h)
+    [Header("Driving")]
+    public float maxMotorTorque = 2000f;      // Stronger accel
+    public float maxSteerAngle = 40f;         // Sharper steering
+    public float maxSpeedKph = 180f;          // Soft speed cap
+    public float yawAssist = 120f;            // Torque to spin car faster
+    public float driftFactor = 0.9f;          // How much grip to lose when turning hard
 
- [Header("Physics")]
- public Vector3 centerOfMassOffset = new Vector3(0f, -0.3f,0f); // lower for stability
+    [Header("Physics")]
+    public Vector3 centerOfMassOffset = new Vector3(0f, -0.25f, 0f);
 
- private Rigidbody rb;
+    private Rigidbody rb;
 
- void Awake()
- {
- rb = GetComponent<Rigidbody>();
- // Basic rigidbody setup
- rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
- rb.interpolation = RigidbodyInterpolation.Interpolate;
- rb.centerOfMass += centerOfMassOffset;
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.centerOfMass += centerOfMassOffset;
 
- // Stabilize WheelCollider
- ConfigureSubsteps(frontLeft);
- ConfigureSubsteps(frontRight);
- ConfigureSubsteps(rearLeft);
- ConfigureSubsteps(rearRight);
- }
+        // Wheel setup
+        ConfigureSubsteps(frontLeft);
+        ConfigureSubsteps(frontRight);
+        ConfigureSubsteps(rearLeft);
+        ConfigureSubsteps(rearRight);
+        SetupFriction();
+    }
 
- void FixedUpdate()
- {
- // Input
- float v = Input.GetAxis("Vertical"); // W/S
- float h = Input.GetAxis("Horizontal"); // A/D
+    void FixedUpdate()
+    {
+        float v = Input.GetAxis("Vertical");   // W/S
+        float hInput = Input.GetAxis("Horizontal"); // A/D
 
- // Steering (front wheels)
- float steer = h * maxSteerAngle;
- if (frontLeft != null) frontLeft.steerAngle = steer;
- if (frontRight != null) frontRight.steerAngle = steer;
+        float speed = rb.linearVelocity.magnitude;
 
- // Motor (rear wheels)
- float motor = v * maxMotorTorque;
+        // Speed-based steering and yaw scaling
+        float steerSpeedFactor = Mathf.Clamp01(1f - speed / 50f); // less steering at higher speeds
+        float steer = hInput * Mathf.Lerp(maxSteerAngle * 0.6f, maxSteerAngle, steerSpeedFactor);
+        frontLeft.steerAngle = steer;
+        frontRight.steerAngle = steer;
 
- // Soft speed cap, limit thrust when already at/above cap in same direction
- float speedKph = rb.linearVelocity.magnitude *3.6f;
- float forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
- if (speedKph > maxSpeedKph && Mathf.Sign(v) == Mathf.Sign(forwardSpeed))
- {
- motor =0f;
- }
+        // Throttle and soft speed cap
+        float motor = v * maxMotorTorque;
+        float speedKph = speed * 3.6f;
+        float forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
+        if (speedKph > maxSpeedKph && Mathf.Sign(v) == Mathf.Sign(forwardSpeed))
+            motor = 0f;
 
- if (rearLeft != null) rearLeft.motorTorque = motor;
- if (rearRight != null) rearRight.motorTorque = motor;
+        rearLeft.motorTorque = motor;
+        rearRight.motorTorque = motor;
 
- // Keep brakes off for WASD control
- SetBrake(0f);
- }
+        // 🌀 Scaled Yaw Assist: much lower, fades at higher speed
+        float yawScale = Mathf.Lerp(0.2f, 1f, steerSpeedFactor); // low speed = full assist, high = weak
+                                                                 // --- Controlled yaw assist (no spin buildup) ---
+        float yawVel = rb.angularVelocity.y; // current rotational speed (radians/sec)
+        float yawLimit = 1.5f;                // max spin rate before we stop adding torque
 
- private void SetBrake(float torque)
- {
- if (frontLeft != null) frontLeft.brakeTorque = torque;
- if (frontRight != null) frontRight.brakeTorque = torque;
- if (rearLeft != null) rearLeft.brakeTorque = torque;
- if (rearRight != null) rearRight.brakeTorque = torque;
- }
+        if (Mathf.Abs(yawVel) < yawLimit)
+        {
+            rb.AddTorque(Vector3.up * hInput * yawAssist * yawScale, ForceMode.Acceleration);
+        }
+        else
+        {
+            // Apply gentle counter torque to slow spin if over limit
+            rb.AddTorque(Vector3.up * -yawVel * 0.2f, ForceMode.Acceleration);
+        }
 
- private static void ConfigureSubsteps(WheelCollider wc)
- {
- if (wc == null) return;
- wc.ConfigureVehicleSubsteps(5f,12,15);
- }
+
+        // Drift control (rear grip reduction)
+        AdjustDrift(Mathf.Abs(hInput));
+
+        SetBrake(0f);
+    }
+
+
+    private void AdjustDrift(float steerInput)
+    {
+        float rearGrip = Mathf.Lerp(1.0f, driftFactor, steerInput);
+
+        WheelFrictionCurve rearSideFriction = rearLeft.sidewaysFriction;
+        rearSideFriction.stiffness = rearGrip;
+        rearLeft.sidewaysFriction = rearSideFriction;
+        rearRight.sidewaysFriction = rearSideFriction;
+    }
+
+    private void SetBrake(float torque)
+    {
+        frontLeft.brakeTorque = torque;
+        frontRight.brakeTorque = torque;
+        rearLeft.brakeTorque = torque;
+        rearRight.brakeTorque = torque;
+    }
+
+    private static void ConfigureSubsteps(WheelCollider wc)
+    {
+        if (wc == null) return;
+        wc.ConfigureVehicleSubsteps(5f, 12, 15);
+    }
+
+    private void SetupFriction()
+    {
+        // Grippy front tires, looser rears for drift feel
+        WheelFrictionCurve frontSide = frontLeft.sidewaysFriction;
+        frontSide.stiffness = 1.5f;
+        frontLeft.sidewaysFriction = frontSide;
+        frontRight.sidewaysFriction = frontSide;
+
+        WheelFrictionCurve rearSide = rearLeft.sidewaysFriction;
+        rearSide.stiffness = 1.0f;
+        rearLeft.sidewaysFriction = rearSide;
+        rearRight.sidewaysFriction = rearSide;
+    }
 }
+
