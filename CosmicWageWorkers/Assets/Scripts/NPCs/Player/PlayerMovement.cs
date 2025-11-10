@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     private Rigidbody rb;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     private bool isGrounded;
     private float speedMultiplier = 1f;
 

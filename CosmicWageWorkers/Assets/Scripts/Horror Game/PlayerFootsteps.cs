@@ -34,7 +34,7 @@ public class PlayerFootsteps : MonoBehaviour
             return;
 
         bool isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
-        Vector2 moveInput = playerMovement.MoveInput;
+        Vector2 moveInput = playerMovement.moveInput;
         bool isMoving = moveInput.magnitude > moveThreshold;
 
         if (isGrounded && isMoving)
