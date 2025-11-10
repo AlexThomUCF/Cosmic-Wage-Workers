@@ -1,9 +1,8 @@
 using UnityEngine;
 
-// VehicleGen4 - Simple WASD vehicle using4 WheelColliders and a Box body.
-// - W/S: forward/reverse (rear-wheel drive)
-// - A/D: steer (front wheels)
-// Attach to the car root GameObject. Ensure it has a Rigidbody and a BoxCollider.
+// - W/S: forward/reverse 
+// - A/D: steer 
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 public class VehicleGen4 : MonoBehaviour
@@ -16,7 +15,7 @@ public class VehicleGen4 : MonoBehaviour
 
  [Header("Driving")]
  public float maxMotorTorque =1500f; // Nm on rear wheels
- public float maxSteerAngle =30f; // degrees on front wheels
+ public float maxSteerAngle =60f; // degrees on front wheels
  public float maxSpeedKph =120f; // soft speed cap (km/h)
 
  [Header("Physics")]
@@ -32,7 +31,7 @@ public class VehicleGen4 : MonoBehaviour
  rb.interpolation = RigidbodyInterpolation.Interpolate;
  rb.centerOfMass += centerOfMassOffset;
 
- // Stabilize WheelCollider solver (safe defaults)
+ // Stabilize WheelCollider
  ConfigureSubsteps(frontLeft);
  ConfigureSubsteps(frontRight);
  ConfigureSubsteps(rearLeft);
@@ -53,7 +52,7 @@ public class VehicleGen4 : MonoBehaviour
  // Motor (rear wheels)
  float motor = v * maxMotorTorque;
 
- // Soft speed cap: limit thrust when already at/above cap in same direction
+ // Soft speed cap, limit thrust when already at/above cap in same direction
  float speedKph = rb.linearVelocity.magnitude *3.6f;
  float forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
  if (speedKph > maxSpeedKph && Mathf.Sign(v) == Mathf.Sign(forwardSpeed))
@@ -64,7 +63,7 @@ public class VehicleGen4 : MonoBehaviour
  if (rearLeft != null) rearLeft.motorTorque = motor;
  if (rearRight != null) rearRight.motorTorque = motor;
 
- // Keep brakes off for pure WASD control
+ // Keep brakes off for WASD control
  SetBrake(0f);
  }
 
