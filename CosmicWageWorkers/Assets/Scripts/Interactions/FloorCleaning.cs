@@ -1,19 +1,26 @@
 using UnityEngine;
-using System.Collections;
 
 public class FloorCleaning : MonoBehaviour
 {
     [Header("Cleaning Settings")]
-    public float cleanTimePerPiece = 1f;   // How long to clean each dirt piece
-    public GameObject[] dirtPieces;        // Assign the separate dirt pieces
+    public float cleanTimePerPiece = 1f;
+    public GameObject[] dirtPieces;
 
-    [HideInInspector] public bool isPlayerNearby;
-    private float holdTime;
+    [Header("Mop Swing Settings")]
+    public float swingAngle = 30f;      // Maximum swing angle
+    public float swingSpeed = 5f;       // Swing speed
+
     private int currentPieceIndex = 0;
+    private float holdTime;
+    private bool isPlayerNearby;
 
+    private PickupMop playerMop;
     private PlayerControls controls;
+    private GameObject player;
 
-    // Event to notify MessManager when this mess is fully cleaned
+    private Transform mopTransform;
+    private Quaternion initialRotation;
+
     public event System.Action<GameObject> OnMessCleaned;
 
     private void Awake()
@@ -34,36 +41,69 @@ public class FloorCleaning : MonoBehaviour
     private void Update()
     {
         if (!isPlayerNearby || currentPieceIndex >= dirtPieces.Length) return;
+        if (playerMop == null || !playerMop.IsHoldingMop()) return;
 
-        if (controls.Gameplay.Interact.IsPressed())
+        // Ensure mopTransform and initialRotation are set
+        if (mopTransform == null)
+        {
+            mopTransform = playerMop.handHoldPoint;
+            initialRotation = mopTransform.localRotation;
+        }
+
+        if (controls.Gameplay.Use.IsPressed())
         {
             holdTime += Time.deltaTime;
 
+            // Swing mop back and forth
+            if (mopTransform != null)
+            {
+                float angle = Mathf.Sin(Time.time * swingSpeed) * swingAngle;
+                mopTransform.localRotation = initialRotation * Quaternion.Euler(angle, 0f, 0f);
+            }
+
+            // Clean dirt pieces
             if (holdTime >= cleanTimePerPiece)
             {
-                // Remove the current dirt piece
                 Destroy(dirtPieces[currentPieceIndex]);
                 SoundEffectManager.Play("MopSound");
+
                 currentPieceIndex++;
                 holdTime = 0f;
 
-                // Notify the manager if this mess is fully cleaned
                 if (currentPieceIndex >= dirtPieces.Length)
                 {
                     OnMessCleaned?.Invoke(gameObject);
+
+                    // Snap mop upright
+                    if (mopTransform != null)
+                        mopTransform.localRotation = initialRotation;
                 }
             }
         }
-        else if (controls.Gameplay.Interact.WasReleasedThisFrame())
+        else if (controls.Gameplay.Use.WasReleasedThisFrame())
         {
-            holdTime = 0f; // Reset progress if player stops
+            holdTime = 0f;
+
+            // Snap mop upright immediately
+            if (mopTransform != null)
+                mopTransform.localRotation = initialRotation;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
+            player = other.gameObject;
+            playerMop = player.GetComponent<PickupMop>();
             isPlayerNearby = true;
+
+            if (playerMop != null && playerMop.IsHoldingMop())
+            {
+                mopTransform = playerMop.handHoldPoint;
+                initialRotation = mopTransform.localRotation;
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -71,6 +111,9 @@ public class FloorCleaning : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
+            player = null;
+            playerMop = null;
+            mopTransform = null;
             holdTime = 0f;
         }
     }
