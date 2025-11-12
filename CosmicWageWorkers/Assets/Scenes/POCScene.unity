@@ -375,6 +375,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
   m_PrefabInstance: {fileID: 35669754}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &41084548 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 884670815817988291, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+  m_PrefabInstance: {fileID: 2075761097}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &57065685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42145,13 +42150,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 884670815817988291, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884670815817988291, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.68199986
+      objectReference: {fileID: 0}
+    - target: {fileID: 884670815817988291, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2104069760867028160, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2104069760867028160, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.64
+      value: -0.00000011920929
       objectReference: {fileID: 0}
     - target: {fileID: 2104069760867028160, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -42185,6 +42202,10 @@ PrefabInstance:
       propertyPath: field of view
       value: 60.000004
       objectReference: {fileID: 0}
+    - target: {fileID: 5676151147076207719, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: near clip plane
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5849773198805066349, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: jumpForce
       value: 6
@@ -42193,6 +42214,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5849773198805066349, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 41084548}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
