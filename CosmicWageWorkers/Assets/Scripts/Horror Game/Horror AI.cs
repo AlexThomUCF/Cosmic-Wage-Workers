@@ -128,7 +128,7 @@ public class HorrorAI : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene(6);
         }
         
     }
