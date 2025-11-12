@@ -1,19 +1,14 @@
 fileFormatVersion: 2
-guid: ccbf95c5948856445b0a1543231bad62
+guid: fe1b0eed6da82cf41872a35762161bc5
 ModelImporter:
-  serializedVersion: 24200
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Baked Details
-    second: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Ucupaint LowP_Battery
-    second: {fileID: 2100000, guid: 2db61e9091ba2174a95e5372da89512d, type: 2}
+      name: defaultMat
+    second: {fileID: 2100000, guid: b5762f1f37694b9468b69f685ce01cf5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -66,9 +61,6 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
-    generateMeshLods: 0
-    meshLodGenerationFlags: 0
-    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
