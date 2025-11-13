@@ -14,8 +14,8 @@ public class CustomerAI : MonoBehaviour
     private float waitCounter;
     private Coroutine rotateRoutine;
 
-    // Non-static dictionary to track which waypoints are occupied
-    private Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
+    // Static dictionary to track which waypoints are occupied
+    private static Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
 
     void Start()
     {
