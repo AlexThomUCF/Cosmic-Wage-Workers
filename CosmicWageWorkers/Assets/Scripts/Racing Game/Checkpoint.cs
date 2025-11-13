@@ -7,9 +7,9 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
-            RaceManager.Instance.CheckpointReached(checkpointIndex);
+            RaceManager.Instance.CheckpointReached(other.gameObject, checkpointIndex);
         }
 
     }
