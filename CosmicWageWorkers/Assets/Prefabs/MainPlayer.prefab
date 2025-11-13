@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 574970478386020805}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.009, y: -1.2, z: -0.059999466}
+  m_LocalPosition: {x: -0.009, y: -0.92, z: -0.059999466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58,7 +58,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103062517563183322}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.00000011920929, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -172,6 +172,9 @@ GameObject:
   - component: {fileID: 5849773198805066349}
   - component: {fileID: 1284549074177533807}
   - component: {fileID: 1976616519584788554}
+  - component: {fileID: 5484470794360054093}
+  - component: {fileID: 2937239675077995499}
+  - component: {fileID: 4002280209433539728}
   m_Layer: 0
   m_Name: MainPlayer
   m_TagString: Player
@@ -189,8 +192,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.083, z: -23.53}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1.75}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 697908044447784739}
   - {fileID: 884670815817988291}
@@ -319,13 +322,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpForce: 5
+  jumpForce: 6
   groundCheck: {fileID: 697908044447784739}
   groundCheckRadius: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  cameraTransform: {fileID: 2104069760867028160}
+  cameraTransform: {fileID: 884670815817988291}
 --- !u!54 &1284549074177533807
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -368,6 +371,57 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &5484470794360054093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3530304510504463612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d74a6680dee7f49be9a3bfaa010154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPickupRange: 3
+  cameraOBJ: {fileID: 1103062517563183322}
+  holdPoint: {fileID: 0}
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2937239675077995499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3530304510504463612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2772f5337857c4d4aa0b2bca14355269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupMop
+  pickupRange: 5
+  mopLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  cameraOBJ: {fileID: 1103062517563183322}
+  cleaningOffset: {x: 0, y: 0, z: 0}
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4002280209433539728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3530304510504463612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b478f4ea14a51d84bad66cb6634aa342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LockCursor
 --- !u!1 &4937336299405934777
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
     Enabled: 0
-    m_Value: 0
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001

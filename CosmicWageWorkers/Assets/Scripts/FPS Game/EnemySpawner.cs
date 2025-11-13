@@ -27,13 +27,10 @@ public class EnemySpawner : MonoBehaviour
         //Spawn portal particle here. 
         ParticleSystem clone;
         clone = Instantiate(portal, spawn.position, spawn.rotation);
-
         Instantiate(rangedEnemyPrefab, spawn.position, spawn.rotation);
         //Play sound
         //Spawn audio component on each portal, sound should be based on how close the player is to the enemy
         Destroy(clone, 3.5f);
-
-        Debug.Log("Object is destroyed");
     }
 
     

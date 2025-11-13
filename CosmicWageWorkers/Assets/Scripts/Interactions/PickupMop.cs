@@ -1,20 +1,20 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PickupMop : MonoBehaviour
 {
-    [Header("Mop Settings")]
-    public Transform handHoldPoint;         // Where the mop is held
-    public float pickupRange = 2f;          // How close you must be to pick up
+    public float pickupRange = 2f;
     public LayerMask mopLayer;
     public GameObject cameraOBJ;
 
     private GameObject heldMop;
     private bool isHoldingMop;
+    private float mopHeightOffset;
+
+    [HideInInspector]
+    public Vector3 cleaningOffset = Vector3.zero;
 
     public bool IsHoldingMop() => isHoldingMop;
 
-    [Header("Optional Event")]
     public UnityEngine.Events.UnityEvent onInteract;
 
     private PlayerControls controls;
@@ -49,28 +49,52 @@ public class PickupMop : MonoBehaviour
     private void TryPickUpMop()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, pickupRange))
+        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, pickupRange, mopLayer))
         {
             if (hit.transform.CompareTag("Mop"))
             {
                 heldMop = hit.transform.gameObject;
 
-                // Disables the Mop's physics while holding
                 Rigidbody rb = heldMop.GetComponent<Rigidbody>();
                 if (rb != null)
                     rb.isKinematic = true;
 
-                // Disable colliders to prevent collisions while holding
                 foreach (Collider c in heldMop.GetComponentsInChildren<Collider>())
                     c.enabled = false;
 
-                // Parents the Mop to the hold point
-                heldMop.transform.SetParent(handHoldPoint);
-                heldMop.transform.localPosition = Vector3.zero;
-                heldMop.transform.localRotation = Quaternion.identity;
+                heldMop.transform.SetParent(null);
+                mopHeightOffset = heldMop.transform.position.y - transform.position.y;
+
+                cleaningOffset = Vector3.zero;
 
                 isHoldingMop = true;
             }
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (isHoldingMop && heldMop != null)
+        {
+            Vector3 forward = cameraOBJ.transform.forward;
+            forward.y = 0f;
+            forward.Normalize();
+
+            Vector3 left = -cameraOBJ.transform.right;
+
+            float forwardDistance = 2.2f;
+            float leftOffset = 1f;
+
+            Vector3 targetPos = transform.position + forward * forwardDistance + left * leftOffset;
+            targetPos.y = transform.position.y + mopHeightOffset;
+
+            heldMop.transform.position = Vector3.Lerp(
+                heldMop.transform.position,
+                targetPos + heldMop.transform.TransformDirection(cleaningOffset),
+                Time.deltaTime * 10f
+            );
+
+            heldMop.transform.rotation = Quaternion.Euler(-90f, cameraOBJ.transform.eulerAngles.y, 90f);
         }
     }
 
@@ -84,19 +108,13 @@ public class PickupMop : MonoBehaviour
     {
         if (heldMop == null) return;
 
-        // Unparents the mop
-        heldMop.transform.SetParent(null);
-
-        // Re-enables physics
         Rigidbody rb = heldMop.GetComponent<Rigidbody>();
         if (rb != null)
             rb.isKinematic = false;
 
-        // Re-enables colliders
         foreach (Collider c in heldMop.GetComponentsInChildren<Collider>())
             c.enabled = true;
 
-        // Drops the Mop slightly in front of player
         heldMop.transform.position += cameraOBJ.transform.forward * 0.5f;
 
         heldMop = null;
