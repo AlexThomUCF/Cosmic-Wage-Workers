@@ -5,12 +5,17 @@ using UnityEngine;
 public class BlackHoles : MonoBehaviour
 {
     [Header("Waypoints & Prefab")]
-    public List<Transform> waypoints;   // Possible spawn points
-    public GameObject blackHolePrefab;  // Prefab for black hole effect
+    public List<Transform> waypoints;
+    public GameObject blackHolePrefab;
 
     [Header("Teleport Settings")]
-    public float teleportCooldown = 1f; // Time before player can teleport again
-    public float lifetime = 30f;        // How long black holes exist
+    public float teleportCooldown = 1f;
+    public float lifetime = 30f;
+
+    [Header("Audio")]
+    public AudioSource audioSource;        // AudioSource attached to manager
+    public AudioClip spawnDespawnClip;    // Plays on spawn AND despawn
+    public AudioClip teleportClip;        // Plays when player teleports
 
     private GameObject player;
     private GameObject[] activeHoles = new GameObject[2];
@@ -33,6 +38,11 @@ public class BlackHoles : MonoBehaviour
         }
 
         SpawnBlackHoles();
+
+        // Play spawn sound
+        if (audioSource != null && spawnDespawnClip != null)
+            audioSource.PlayOneShot(spawnDespawnClip);
+
         StartCoroutine(DestroyAfterTime(lifetime));
     }
 
@@ -68,6 +78,10 @@ public class BlackHoles : MonoBehaviour
         // Teleport
         player.transform.position = destination.transform.position;
 
+        // Play teleport sound
+        if (audioSource != null && teleportClip != null)
+            audioSource.PlayOneShot(teleportClip);
+
         // Start cooldown
         StartCoroutine(TeleportCooldownRoutine());
     }
@@ -82,6 +96,10 @@ public class BlackHoles : MonoBehaviour
     private IEnumerator DestroyAfterTime(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+
+        // Play despawn sound
+        if (audioSource != null && spawnDespawnClip != null)
+            audioSource.PlayOneShot(spawnDespawnClip);
 
         foreach (var hole in activeHoles)
         {
@@ -99,7 +117,8 @@ public class BlackHoleTrigger : MonoBehaviour
     public void Setup(BlackHoles manager)
     {
         this.manager = manager;
-        // Make sure the black hole has a trigger collider
+
+        // Ensure the black hole has a trigger collider
         var col = gameObject.GetComponent<Collider>();
         if (col == null) col = gameObject.AddComponent<SphereCollider>();
         col.isTrigger = true;
