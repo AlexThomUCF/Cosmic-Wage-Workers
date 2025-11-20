@@ -23,9 +23,7 @@ public class MessManager : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < maxMessCount; i++)
-            SpawnMess();
-
+        // Start with ZERO messes — let the respawn loop handle it
         StartCoroutine(RespawnLoop());
     }
 
@@ -47,7 +45,7 @@ public class MessManager : MonoBehaviour
         activeMesses.Add(mess);
         occupiedPoints.Add(spawnPoint);
 
-        OnMessCountChanged?.Invoke(); // Notify UI
+        OnMessCountChanged?.Invoke();
     }
 
     private void HandleMessCleaned(GameObject cleanedMess)
@@ -60,7 +58,7 @@ public class MessManager : MonoBehaviour
 
         Destroy(cleanedMess);
 
-        OnMessCountChanged?.Invoke(); // Notify UI
+        OnMessCountChanged?.Invoke();
     }
 
     private IEnumerator RespawnLoop()
@@ -68,6 +66,7 @@ public class MessManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(respawnDelay);
+
             if (activeMesses.Count < maxMessCount)
                 SpawnMess();
         }
