@@ -17,6 +17,9 @@ public class PrimordialSoup : MonoBehaviour
     private GameObject activeSoup;
     private bool eventActive = false;
 
+    public AudioSource audioSource;
+    public AudioClip drinkSound;
+
     public static PrimordialSoup Instance { get; private set; }
 
     private void Awake()
@@ -46,6 +49,10 @@ public class PrimordialSoup : MonoBehaviour
 
     public void StartSpeedBoost()
     {
+        // Play the drink sound
+        if (audioSource != null && drinkSound != null)
+            audioSource.PlayOneShot(drinkSound);
+
         // Remove soup object
         if (activeSoup != null)
         {
