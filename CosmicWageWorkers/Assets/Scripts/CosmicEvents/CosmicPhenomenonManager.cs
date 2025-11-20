@@ -5,9 +5,9 @@ using UnityEngine;
 public class CosmicPhenomenonManager : MonoBehaviour
 {
     [Header("Phenomena References")]
-    public BlackHoles blackHole;
-    public AntiGravity antiGravity;
     public SolarFlare solarFlare;
+    public AntiGravity antiGravity;
+    public BlackHoles blackHoles;
 
     [Header("Timer Settings")]
     public float minInterval = 30f;
@@ -37,24 +37,27 @@ public class CosmicPhenomenonManager : MonoBehaviour
 
     private void TriggerRandomPhenomenon()
     {
-        int choice = Random.Range(0, 3); // 0,1,2 for the first three phenomena
+        int choice = Random.Range(0, 3); // 0 = Solar Flare, 1 = AntiGravity, 2 = Black Holes
 
         switch (choice)
         {
             case 0:
-                if (blackHole != null)
-                    blackHole.BlackHoleTeleport();
-                break;
-            case 1:
-                if (antiGravity != null)
-                    antiGravity.GravitySwitch();
-                break;
-            case 2:
                 if (solarFlare != null)
                     solarFlare.TriggerFlare();
+                Debug.Log("Cosmic Phenomenon Triggered: Solar Flare");
+                break;
+
+            case 1:
+                if (antiGravity != null)
+                    antiGravity.TriggerAntiGravity();
+                Debug.Log("Cosmic Phenomenon Triggered: AntiGravity");
+                break;
+
+            case 2:
+                if (blackHoles != null)
+                    blackHoles.TriggerBlackHoles();
+                Debug.Log("Cosmic Phenomenon Triggered: Black Holes");
                 break;
         }
-
-        Debug.Log($"Cosmic Phenomenon Triggered: {choice}");
     }
 }

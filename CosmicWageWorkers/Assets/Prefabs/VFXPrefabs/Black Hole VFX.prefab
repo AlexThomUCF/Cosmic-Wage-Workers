@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.3}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1472099200118538286}
@@ -4867,7 +4867,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000004889443, y: -0.000000029802319, z: 4.6566123e-10, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6528240743548276334}
@@ -9703,7 +9703,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000004889443, y: -0.000000029802319, z: 4.6566123e-10, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2844338208247692415}
@@ -14539,7 +14539,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000004889443, y: -0.000000029802319, z: 4.6566123e-10, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6528240743548276334}
@@ -19358,6 +19358,7 @@ GameObject:
   - component: {fileID: 8236302122355933444}
   - component: {fileID: 115192881722091207}
   - component: {fileID: 5813411050587739132}
+  - component: {fileID: 1530163927036310363}
   m_Layer: 0
   m_Name: Black Hole VFX
   m_TagString: Untagged
@@ -19375,8 +19376,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -25.44473, y: 3.60804, z: -52.70084}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1472099200118538286}
   - {fileID: 6528240743548276334}
@@ -24186,6 +24187,27 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!135 &1530163927036310363
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7575655099392186524}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8107004139312865004
 GameObject:
   m_ObjectHideFlags: 0
@@ -24214,7 +24236,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.019199789, y: -0.35178173, z: 0.008155078, w: -0.93584967}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.30000013, y: 0.29999995, z: 0.30000013}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5114113846978100882}
@@ -29051,7 +29073,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.008155078, y: 0.93584967, z: 0.019199789, w: -0.35178173}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.30000004}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2133707418477278612}
@@ -33889,7 +33911,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.4079781, z: -0, w: 0.91299176}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5194635551555281332}

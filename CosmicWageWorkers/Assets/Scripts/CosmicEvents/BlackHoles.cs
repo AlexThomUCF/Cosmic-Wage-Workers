@@ -1,24 +1,115 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BlackHoles : MonoBehaviour
 {
-    [SerializeField] public List<GameObject> holes;
+    [Header("Waypoints & Prefab")]
+    public List<Transform> waypoints;   // Possible spawn points
+    public GameObject blackHolePrefab;  // Prefab for black hole effect
+
+    [Header("Teleport Settings")]
+    public float teleportCooldown = 1f; // Time before player can teleport again
+    public float lifetime = 30f;        // How long black holes exist
+
     private GameObject player;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private GameObject[] activeHoles = new GameObject[2];
+    private bool canTeleport = true;
+
+    private void Awake()
     {
         player = GameObject.Find("MainPlayer");
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Call this from the CosmicPhenomenonManager to spawn two black holes
+    /// </summary>
+    public void TriggerBlackHoles()
     {
+        if (waypoints.Count < 2)
+        {
+            Debug.LogError("Not enough waypoints for Black Hole spawning!");
+            return;
+        }
 
+        SpawnBlackHoles();
+        StartCoroutine(DestroyAfterTime(lifetime));
     }
 
-    public void BlackHoleTeleport()
+    private void SpawnBlackHoles()
     {
-        player.transform.position = holes[Random.Range(1, 4)].transform.position;
+        // Pick two random distinct waypoints
+        int indexA = Random.Range(0, waypoints.Count);
+        int indexB;
+        do
+        {
+            indexB = Random.Range(0, waypoints.Count);
+        } while (indexB == indexA);
+
+        // Instantiate black holes
+        activeHoles[0] = Instantiate(blackHolePrefab, waypoints[indexA].position, Quaternion.identity);
+        activeHoles[1] = Instantiate(blackHolePrefab, waypoints[indexB].position, Quaternion.identity);
+
+        // Add trigger detection
+        foreach (var hole in activeHoles)
+        {
+            var trigger = hole.AddComponent<BlackHoleTrigger>();
+            trigger.Setup(this);
+        }
+    }
+
+    public void TeleportPlayer(GameObject enteredHole)
+    {
+        if (!canTeleport || player == null) return;
+
+        // Determine destination hole
+        GameObject destination = (enteredHole == activeHoles[0]) ? activeHoles[1] : activeHoles[0];
+
+        // Teleport
+        player.transform.position = destination.transform.position;
+
+        // Start cooldown
+        StartCoroutine(TeleportCooldownRoutine());
+    }
+
+    private IEnumerator TeleportCooldownRoutine()
+    {
+        canTeleport = false;
+        yield return new WaitForSeconds(teleportCooldown);
+        canTeleport = true;
+    }
+
+    private IEnumerator DestroyAfterTime(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        foreach (var hole in activeHoles)
+        {
+            if (hole != null)
+                Destroy(hole);
+        }
+    }
+}
+
+// Separate component to detect player entry
+public class BlackHoleTrigger : MonoBehaviour
+{
+    private BlackHoles manager;
+
+    public void Setup(BlackHoles manager)
+    {
+        this.manager = manager;
+        // Make sure the black hole has a trigger collider
+        var col = gameObject.GetComponent<Collider>();
+        if (col == null) col = gameObject.AddComponent<SphereCollider>();
+        col.isTrigger = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            manager.TeleportPlayer(gameObject);
+        }
     }
 }

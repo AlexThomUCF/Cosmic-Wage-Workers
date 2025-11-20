@@ -586,7 +586,7 @@ Transform:
   m_GameObject: {fileID: 71573388}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.42, y: -3.38, z: -8.81}
+  m_LocalPosition: {x: -12.42, y: -1.26, z: -8.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6798,54 +6798,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
   m_PrefabInstance: {fileID: 351759624}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &354388709
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 354388710}
-  - component: {fileID: 354388711}
-  m_Layer: 0
-  m_Name: AntiGravityManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &354388710
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354388709}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30, y: 2.22008, z: 21.7858}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &354388711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354388709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd8a6fc1f0d6fa64aa3b9a47ea856ce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AntiGravity
-  gravityRandomTimer: 0
-  gravityActive: 0
-  gravityDelay: 2
-  gravityForce: 20
 --- !u!1 &354400090
 GameObject:
   m_ObjectHideFlags: 0
@@ -11317,7 +11269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &496548495
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13416,9 +13368,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1665330776}
-        m_TargetAssemblyTypeName: SolarFlare, Assembly-CSharp
-        m_MethodName: TriggerFlare
+      - m_Target: {fileID: 1665330778}
+        m_TargetAssemblyTypeName: AntiGravity, Assembly-CSharp
+        m_MethodName: StopAntiGravity
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16629,7 +16581,7 @@ Transform:
   m_GameObject: {fileID: 727840756}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.55, y: -3.38, z: -20.05}
+  m_LocalPosition: {x: -0.55, y: -1.26, z: -20.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23466,7 +23418,7 @@ Transform:
   m_GameObject: {fileID: 1147445578}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.91, y: -3.38, z: 8.72}
+  m_LocalPosition: {x: -8.91, y: -1.26, z: 8.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33263,7 +33215,7 @@ Transform:
   m_GameObject: {fileID: 1596572141}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.75, y: -3.38, z: -1.83}
+  m_LocalPosition: {x: 3.75, y: -1.26, z: -1.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34766,11 +34718,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65eb08b5aa2938e4b821f0bba9574834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlackHoles
-  holes:
-  - {fileID: 727840756}
-  - {fileID: 1596572141}
-  - {fileID: 71573388}
-  - {fileID: 1147445578}
+  waypoints:
+  - {fileID: 727840757}
+  - {fileID: 1596572142}
+  - {fileID: 71573389}
+  - {fileID: 1147445579}
+  blackHolePrefab: {fileID: 7575655099392186524, guid: b3b3f684ee2dce84392c479e5ffa38ba, type: 3}
+  teleportCooldown: 1
+  lifetime: 30
 --- !u!114 &1665330778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34783,10 +34738,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a6fc1f0d6fa64aa3b9a47ea856ce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AntiGravity
-  gravityRandomTimer: 0
-  gravityActive: 0
-  gravityDelay: 0
   gravityForce: 20
+  minGravityOffTime: 3
+  maxGravityOffTime: 5
+  gravityOnDuration: 3
 --- !u!82 &1665330779
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34896,9 +34851,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d8f1d60db082f4d846bb736ebcf929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CosmicPhenomenonManager
-  blackHole: {fileID: 0}
-  antiGravity: {fileID: 0}
-  solarFlare: {fileID: 0}
+  solarFlare: {fileID: 1665330776}
+  antiGravity: {fileID: 1665330778}
+  blackHoles: {fileID: 1665330777}
   minInterval: 30
   maxInterval: 60
 --- !u!1 &1665597963 stripped
@@ -35856,9 +35811,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1665330777}
-        m_TargetAssemblyTypeName: BlackHoles, Assembly-CSharp
-        m_MethodName: BlackHoleTeleport
+      - m_Target: {fileID: 1665330776}
+        m_TargetAssemblyTypeName: SolarFlare, Assembly-CSharp
+        m_MethodName: TriggerFlare
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -41739,9 +41694,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 354388711}
-        m_TargetAssemblyTypeName: AntiGravity, Assembly-CSharp
-        m_MethodName: GravitySwitch
+      - m_Target: {fileID: 1665330777}
+        m_TargetAssemblyTypeName: BlackHoles, Assembly-CSharp
+        m_MethodName: TriggerBlackHoles
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -47625,5 +47580,4 @@ SceneRoots:
   - {fileID: 1692482574}
   - {fileID: 591558392}
   - {fileID: 1665330775}
-  - {fileID: 354388710}
   - {fileID: 723726969}
