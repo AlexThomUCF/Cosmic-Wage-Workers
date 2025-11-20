@@ -112,7 +112,19 @@ public class ShelfStocking : MonoBehaviour
         for (int i = 0; i < zoneRenderers.Length; i++)
         {
             if (zoneRenderers[i] != null)
-                zoneRenderers[i].material.color = shouldHighlight ? highlightColor : originalColors[i];
+            {
+                if (shouldHighlight)
+                {
+                    // Use a sine wave for smooth flashing
+                    float intensity = (Mathf.Sin(Time.time * 2f) + 1f) / 2f; // oscillates 0 → 1
+                    zoneRenderers[i].material.color = Color.Lerp(originalColors[i], highlightColor, intensity);
+                }
+                else
+                {
+                    // Revert to original color
+                    zoneRenderers[i].material.color = originalColors[i];
+                }
+            }
         }
     }
 
