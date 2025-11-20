@@ -1,66 +1,67 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SolarFlare : MonoBehaviour
 {
-    public bool solarFlareOn;
-    public float solarTimer = 3f;
-    public GameObject solarWhiteScreen;
-    public Animator solarAnimator;
-    public float solarTimeDelay = 1f;
-    public bool solarFlareOff;
+    [Header("UI Settings")]
+    public Image flashPanel;           // Fullscreen white panel (UI Image)
+    public float fadeInDuration = 0.2f;  // Fast fade-in
+    public float holdDuration = 3f;      // Fully white hold
+    public float fadeOutDuration = 2f;   // Slow fade-out
+    public AudioSource flashAudio;       // Optional sound
+    public AudioClip flashSound;
 
-    public AudioSource solarBang;
-    public AudioClip helloThere;
-    public bool solarActive;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool isFlashing = false;
+
+    /// <summary>
+    /// Call this to trigger the solar flare flash.
+    /// </summary>
+    public void TriggerFlare()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        //Turns On the Solar Flare
-        if (solarFlareOn)
+        if (!isFlashing)
         {
-            solarActive = true;
-            solarTimer -= Time.deltaTime;
-            solarWhiteScreen.SetActive(true);
-            solarAnimator.SetTrigger("SolarOn");
-        }
-        //Sets parameters for the solar flare to turn off and reset the timer
-        if (solarTimer < 0)
-        {
-            solarTimer = 3f;
-            solarFlareOn = false;
-            solarAnimator.SetTrigger("SolarOff");
-            solarFlareOff = true;
-
-        }
-
-        if (solarFlareOff)
-        {
-            solarTimeDelay -= Time.deltaTime;
-            if (solarTimeDelay < 0)
-            {
-                solarWhiteScreen.SetActive(false);
-                solarAnimator.SetTrigger("SolarOver");
-                solarTimeDelay = 1f;
-                solarFlareOff = false;
-                solarActive = false;
-            }
+            StartCoroutine(FlashRoutine());
         }
     }
 
-    public void SolarFlareBlast()
+    private IEnumerator FlashRoutine()
     {
-        if (!solarActive)
+        isFlashing = true;
+
+        // Play sound
+        if (flashAudio != null && flashSound != null)
+            flashAudio.PlayOneShot(flashSound);
+
+        // Ensure panel is visible
+        flashPanel.gameObject.SetActive(true);
+
+        // Fast fade-in
+        yield return StartCoroutine(FadeAlpha(0f, 1f, fadeInDuration));
+
+        // Hold fully white
+        yield return new WaitForSeconds(holdDuration);
+
+        // Slow fade-out
+        yield return StartCoroutine(FadeAlpha(1f, 0f, fadeOutDuration));
+
+        flashPanel.gameObject.SetActive(false);
+        isFlashing = false;
+    }
+
+    private IEnumerator FadeAlpha(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+        Color c = flashPanel.color;
+
+        while (elapsed < duration)
         {
-            solarFlareOn = true;
-            solarBang.PlayOneShot(helloThere);
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(from, to, elapsed / duration);
+            flashPanel.color = new Color(c.r, c.g, c.b, alpha);
+            yield return null;
         }
 
+        flashPanel.color = new Color(c.r, c.g, c.b, to);
     }
 }
