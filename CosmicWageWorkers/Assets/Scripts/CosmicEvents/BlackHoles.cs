@@ -13,9 +13,12 @@ public class BlackHoles : MonoBehaviour
     public float lifetime = 30f;
 
     [Header("Audio")]
-    public AudioSource audioSource;        // AudioSource attached to manager
-    public AudioClip spawnDespawnClip;    // Plays on spawn AND despawn
-    public AudioClip teleportClip;        // Plays when player teleports
+    public AudioSource audioSource;
+    public AudioClip spawnDespawnClip;
+    public AudioClip teleportClip;
+
+    [Header("UI")]
+    public CosmicPhenomenonUIManager uiManager;
 
     private GameObject player;
     private GameObject[] activeHoles = new GameObject[2];
@@ -26,9 +29,6 @@ public class BlackHoles : MonoBehaviour
         player = GameObject.Find("MainPlayer");
     }
 
-    /// <summary>
-    /// Call this from the CosmicPhenomenonManager to spawn two black holes
-    /// </summary>
     public void TriggerBlackHoles()
     {
         if (waypoints.Count < 2)
@@ -39,28 +39,23 @@ public class BlackHoles : MonoBehaviour
 
         SpawnBlackHoles();
 
-        // Play spawn sound
         if (audioSource != null && spawnDespawnClip != null)
             audioSource.PlayOneShot(spawnDespawnClip);
+
+        if (uiManager != null) uiManager.ShowBlackHole(true);
 
         StartCoroutine(DestroyAfterTime(lifetime));
     }
 
     private void SpawnBlackHoles()
     {
-        // Pick two random distinct waypoints
         int indexA = Random.Range(0, waypoints.Count);
         int indexB;
-        do
-        {
-            indexB = Random.Range(0, waypoints.Count);
-        } while (indexB == indexA);
+        do { indexB = Random.Range(0, waypoints.Count); } while (indexB == indexA);
 
-        // Instantiate black holes
         activeHoles[0] = Instantiate(blackHolePrefab, waypoints[indexA].position, Quaternion.identity);
         activeHoles[1] = Instantiate(blackHolePrefab, waypoints[indexB].position, Quaternion.identity);
 
-        // Add trigger detection
         foreach (var hole in activeHoles)
         {
             var trigger = hole.AddComponent<BlackHoleTrigger>();
@@ -72,17 +67,12 @@ public class BlackHoles : MonoBehaviour
     {
         if (!canTeleport || player == null) return;
 
-        // Determine destination hole
         GameObject destination = (enteredHole == activeHoles[0]) ? activeHoles[1] : activeHoles[0];
-
-        // Teleport
         player.transform.position = destination.transform.position;
 
-        // Play teleport sound
         if (audioSource != null && teleportClip != null)
             audioSource.PlayOneShot(teleportClip);
 
-        // Start cooldown
         StartCoroutine(TeleportCooldownRoutine());
     }
 
@@ -97,19 +87,17 @@ public class BlackHoles : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
 
-        // Play despawn sound
         if (audioSource != null && spawnDespawnClip != null)
             audioSource.PlayOneShot(spawnDespawnClip);
 
         foreach (var hole in activeHoles)
-        {
-            if (hole != null)
-                Destroy(hole);
-        }
+            if (hole != null) Destroy(hole);
+
+        if (uiManager != null) uiManager.ShowBlackHole(false);
     }
 }
 
-// Separate component to detect player entry
+// Trigger component
 public class BlackHoleTrigger : MonoBehaviour
 {
     private BlackHoles manager;
@@ -118,7 +106,6 @@ public class BlackHoleTrigger : MonoBehaviour
     {
         this.manager = manager;
 
-        // Ensure the black hole has a trigger collider
         var col = gameObject.GetComponent<Collider>();
         if (col == null) col = gameObject.AddComponent<SphereCollider>();
         col.isTrigger = true;
@@ -127,8 +114,6 @@ public class BlackHoleTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
             manager.TeleportPlayer(gameObject);
-        }
     }
 }

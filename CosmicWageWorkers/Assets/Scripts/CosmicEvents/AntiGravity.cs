@@ -12,6 +12,9 @@ public class AntiGravity : MonoBehaviour
     public float maxGravityOffTime = 5f;
     public float gravityOnDuration = 1f; // time between gravity toggles
 
+    [Header("UI")]
+    public CosmicPhenomenonUIManager uiManager;
+
     private bool gravityActive = false;
     private Coroutine gravityRoutine;
 
@@ -29,6 +32,8 @@ public class AntiGravity : MonoBehaviour
         {
             gravityRoutine = StartCoroutine(GravityToggleRoutine());
         }
+
+        if (uiManager != null) uiManager.ShowAntiGravity(true);
     }
 
     /// <summary>
@@ -42,6 +47,8 @@ public class AntiGravity : MonoBehaviour
             gravityRoutine = null;
             Physics.gravity = new Vector3(0, -9.81f, 0); // restore normal gravity
         }
+
+        if (uiManager != null) uiManager.ShowAntiGravity(false);
     }
 
     private IEnumerator GravityToggleRoutine()
