@@ -7,9 +7,9 @@ public class BoxManager : MonoBehaviour
 {
     [Header("Boxes & Zones")]
     public GameObject boxPrefab;
-    public List<Transform> stockZones;  // Each element = a stock zone root
+    public List<Transform> stockZones;  // Each stock zone root
     public float spawnHeight = 1f;
-    public float spawnDelay = 2f;
+    public float spawnDelay = 1f;
 
     [Header("UI")]
     public TextMeshProUGUI alertText;
@@ -20,7 +20,7 @@ public class BoxManager : MonoBehaviour
 
     private int currentZoneIndex = 0;
     private int rowsStockedThisZone = 0;
-    private const int rowsPerZone = 8; // 4 shelves × 2 rows each
+    private const int rowsPerZone = 8; // 4 shelves × 2 rows
 
     private float displayedPercentage = 0f;
     private GameObject currentBox;
@@ -33,12 +33,9 @@ public class BoxManager : MonoBehaviour
 
     private void Update()
     {
-        // Update percentage display (smooth)
         if (percentText != null)
         {
-            float targetPercent = (float)currentZoneIndex / stockZones.Count * 100f;
-            displayedPercentage = Mathf.Lerp(displayedPercentage, targetPercent, Time.deltaTime * lerpSpeed);
-            percentText.text = $"Zones Stocked: {displayedPercentage:0}%";
+            percentText.text = $"{currentZoneIndex}/{stockZones.Count} Zones Stocked";
         }
     }
 
@@ -53,6 +50,16 @@ public class BoxManager : MonoBehaviour
         Vector3 pos = GetRandomSpawnPos();
         currentBox = Instantiate(boxPrefab, pos + Vector3.up * spawnHeight, Quaternion.identity);
 
+        // Make sure box is interactable
+        currentBox.tag = "Box";
+        if (currentBox.GetComponent<Collider>() == null)
+            currentBox.AddComponent<BoxCollider>();
+        if (currentBox.GetComponent<Rigidbody>() == null)
+        {
+            Rigidbody rb = currentBox.AddComponent<Rigidbody>();
+            rb.isKinematic = false;
+        }
+
         alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
     }
 
@@ -63,26 +70,31 @@ public class BoxManager : MonoBehaviour
         return new Vector3(x, 0f, z);
     }
 
-    // CALLED BY ShelfStocking when a single row is stocked
     public void OnRowStocked()
     {
         rowsStockedThisZone++;
 
         if (rowsStockedThisZone < rowsPerZone)
         {
-            alertText.text = $"Zone {currentZoneIndex + 1}: {rowsStockedThisZone}/8 Rows Stocked";
+            alertText.text = $"Zone {currentZoneIndex + 1}: {rowsStockedThisZone}/{rowsPerZone} Rows Stocked";
             return;
         }
 
-        // ZONE COMPLETED → delete box → move to next zone
+        // Zone complete → destroy box
         if (currentBox != null)
+        {
+            // Force player to drop it if holding
+            BoxPickUp pickup = FindObjectOfType<BoxPickUp>();
+            if (pickup != null)
+                pickup.ForceDropBox();
+
             Destroy(currentBox);
+        }
 
         currentZoneIndex++;
         rowsStockedThisZone = 0;
 
         alertText.text = "Zone Complete! Preparing next box...";
-
         StartCoroutine(SpawnNextBox());
     }
 
@@ -92,13 +104,13 @@ public class BoxManager : MonoBehaviour
         SpawnBox();
     }
 
-    private void UpdateUI()
-    {
-        alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
-    }
-
     public int GetCurrentZoneIndex()
     {
         return currentZoneIndex;
+    }
+
+    private void UpdateUI()
+    {
+        alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
     }
 }
