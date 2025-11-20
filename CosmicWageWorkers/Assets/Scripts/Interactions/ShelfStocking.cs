@@ -115,8 +115,8 @@ public class ShelfStocking : MonoBehaviour
             {
                 if (shouldHighlight)
                 {
-                    // Use a sine wave for smooth flashing
-                    float intensity = (Mathf.Sin(Time.time * 2f) + 1f) / 2f; // oscillates 0 → 1
+                    // Oscillates 0 → 0.5 for partial yellow
+                    float intensity = ((Mathf.Sin(Time.time * 2f) + 1f) / 2f) * 0.5f;
                     zoneRenderers[i].material.color = Color.Lerp(originalColors[i], highlightColor, intensity);
                 }
                 else
