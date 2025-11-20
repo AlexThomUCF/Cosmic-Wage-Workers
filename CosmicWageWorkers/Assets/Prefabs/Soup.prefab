@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5838516527306323095}
   - component: {fileID: 8033412043043944882}
   - component: {fileID: 5910812673909721492}
-  - component: {fileID: 7996666179033554625}
-  - component: {fileID: 7288155220996921110}
+  - component: {fileID: 4318949558383988474}
+  - component: {fileID: 6750097911642597852}
   m_Layer: 6
   m_Name: Soup
   m_TagString: Untagged
@@ -91,8 +91,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7996666179033554625
-CapsuleCollider:
+--- !u!135 &4318949558383988474
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,15 +106,13 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
+  serializedVersion: 3
+  m_Radius: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &7288155220996921110
+--- !u!114 &6750097911642597852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,21 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5315920041899062126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98c1b27a48b57c944be5fa435ef2875c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d529a2b80fbe3246a69e9f3beb2b4e0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PrimordialSoup, Assembly-CSharp
-        m_MethodName: TriggerSoup
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  m_EditorClassIdentifier: Assembly-CSharp::PrimordialSoupInteractable
+  primordialSoup: {fileID: 0}

@@ -17,6 +17,13 @@ public class PrimordialSoup : MonoBehaviour
     private GameObject activeSoup;
     private bool eventActive = false;
 
+    public static PrimordialSoup Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
     public void TriggerSoup()
     {
         if (eventActive || spawnPoints.Length == 0 || soupPrefab == null) return;
@@ -29,10 +36,6 @@ public class PrimordialSoup : MonoBehaviour
         // Spawn the soup puddle
         activeSoup = Instantiate(soupPrefab, spawnPoint.position, Quaternion.identity);
 
-        // Show UI icon
-        if (uiManager != null)
-            uiManager.ShowPrimordialSoup(true);
-
         // Subscribe to interaction
         InteractableObject interactable = activeSoup.GetComponent<InteractableObject>();
         if (interactable != null)
@@ -41,7 +44,7 @@ public class PrimordialSoup : MonoBehaviour
         }
     }
 
-    private void StartSpeedBoost()
+    public void StartSpeedBoost()
     {
         // Remove soup object
         if (activeSoup != null)
@@ -63,6 +66,10 @@ public class PrimordialSoup : MonoBehaviour
         {
             shelf.rowCooldown *= cleaningSpeedMultiplier;
         }
+
+        // Show UI icon
+        if (uiManager != null)
+            uiManager.ShowPrimordialSoup(true);
 
         StartCoroutine(EndSpeedBoostAfterDelay());
     }

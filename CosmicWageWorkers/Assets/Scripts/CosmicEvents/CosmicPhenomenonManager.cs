@@ -13,6 +13,7 @@ public class CosmicPhenomenonManager : MonoBehaviour
     public AntiGravity antiGravity;
     public BlackHoles blackHoles;
     public Eclipse eclipse;
+    public PrimordialSoup primordialSoup; // NEW
 
     private void Start()
     {
@@ -32,7 +33,7 @@ public class CosmicPhenomenonManager : MonoBehaviour
 
     private void TriggerRandomEvent()
     {
-        int eventIndex = Random.Range(0, 4); // 0 = SolarFlare, 1 = AntiGravity, 2 = BlackHoles, 3 = Eclipse
+        int eventIndex = Random.Range(0, 5); // 0 = SolarFlare, 1 = AntiGravity, 2 = BlackHoles, 3 = Eclipse, 4 = PrimordialSoup
 
         switch (eventIndex)
         {
@@ -47,6 +48,9 @@ public class CosmicPhenomenonManager : MonoBehaviour
                 break;
             case 3:
                 if (eclipse != null) eclipse.TriggerEclipse();
+                break;
+            case 4:
+                if (primordialSoup != null) primordialSoup.TriggerSoup();
                 break;
         }
     }
