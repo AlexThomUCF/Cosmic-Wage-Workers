@@ -19442,6 +19442,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1745266104}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &897806848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5849773198805066349, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+  m_PrefabInstance: {fileID: 2075761097}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2002ebe5014a4e34bb0c884110fb9622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &898164246
 GameObject:
   m_ObjectHideFlags: 0
@@ -34890,6 +34901,7 @@ GameObject:
   - component: {fileID: 1665330778}
   - component: {fileID: 1665330777}
   - component: {fileID: 1665330776}
+  - component: {fileID: 1665330782}
   - component: {fileID: 1665330780}
   - component: {fileID: 1665330781}
   m_Layer: 0
@@ -35082,11 +35094,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d8f1d60db082f4d846bb736ebcf929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CosmicPhenomenonManager
+  minTimeBetweenEvents: 30
+  maxTimeBetweenEvents: 60
   solarFlare: {fileID: 1665330776}
   antiGravity: {fileID: 1665330778}
   blackHoles: {fileID: 1665330777}
-  minInterval: 30
-  maxInterval: 60
+  eclipse: {fileID: 1665330782}
 --- !u!114 &1665330781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35101,6 +35114,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CosmicPhenomenonUIManager
   antiGravityIcon: {fileID: 420745671}
   blackHoleIcon: {fileID: 1934678025}
+  eclipseIcon: {fileID: 1205977433}
+--- !u!114 &1665330782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665330774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb88adea159ea60498fd61e9fda77a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FullMoonEclipse
+  duration: 20
+  speedMultiplier: 2
+  playerMovement: {fileID: 897806848}
+  uiManager: {fileID: 1665330781}
+  audioSource: {fileID: 1665330779}
+  startEndClip: {fileID: 8300000, guid: fe387b49d0cde8c41a0b10a160403511, type: 3}
 --- !u!1 &1665597963 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
@@ -41939,9 +41971,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1665330777}
-        m_TargetAssemblyTypeName: BlackHoles, Assembly-CSharp
-        m_MethodName: TriggerBlackHoles
+      - m_Target: {fileID: 1665330782}
+        m_TargetAssemblyTypeName: Eclipse, Assembly-CSharp
+        m_MethodName: TriggerEclipse
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

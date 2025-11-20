@@ -4,59 +4,49 @@ using UnityEngine;
 
 public class CosmicPhenomenonManager : MonoBehaviour
 {
-    [Header("Phenomena References")]
+    [Header("Timing")]
+    public float minTimeBetweenEvents = 30f;
+    public float maxTimeBetweenEvents = 60f;
+
+    [Header("References")]
     public SolarFlare solarFlare;
     public AntiGravity antiGravity;
     public BlackHoles blackHoles;
-
-    [Header("Timer Settings")]
-    public float minInterval = 30f;
-    public float maxInterval = 60f;
-    private float timer;
+    public Eclipse eclipse;
 
     private void Start()
     {
-        ResetTimer();
+        StartCoroutine(EventLoop());
     }
 
-    private void Update()
+    private IEnumerator EventLoop()
     {
-        timer -= Time.deltaTime;
-
-        if (timer <= 0f)
+        while (true)
         {
-            TriggerRandomPhenomenon();
-            ResetTimer();
+            float waitTime = Random.Range(minTimeBetweenEvents, maxTimeBetweenEvents);
+            yield return new WaitForSeconds(waitTime);
+
+            TriggerRandomEvent();
         }
     }
 
-    private void ResetTimer()
+    private void TriggerRandomEvent()
     {
-        timer = Random.Range(minInterval, maxInterval);
-    }
+        int eventIndex = Random.Range(0, 4); // 0 = SolarFlare, 1 = AntiGravity, 2 = BlackHoles, 3 = Eclipse
 
-    private void TriggerRandomPhenomenon()
-    {
-        int choice = Random.Range(0, 3); // 0 = Solar Flare, 1 = AntiGravity, 2 = Black Holes
-
-        switch (choice)
+        switch (eventIndex)
         {
             case 0:
-                if (solarFlare != null)
-                    solarFlare.TriggerFlare();
-                Debug.Log("Cosmic Phenomenon Triggered: Solar Flare");
+                if (solarFlare != null) solarFlare.TriggerFlare();
                 break;
-
             case 1:
-                if (antiGravity != null)
-                    antiGravity.TriggerAntiGravity();
-                Debug.Log("Cosmic Phenomenon Triggered: AntiGravity");
+                if (antiGravity != null) antiGravity.TriggerAntiGravity();
                 break;
-
             case 2:
-                if (blackHoles != null)
-                    blackHoles.TriggerBlackHoles();
-                Debug.Log("Cosmic Phenomenon Triggered: Black Holes");
+                if (blackHoles != null) blackHoles.TriggerBlackHoles();
+                break;
+            case 3:
+                if (eclipse != null) eclipse.TriggerEclipse();
                 break;
         }
     }

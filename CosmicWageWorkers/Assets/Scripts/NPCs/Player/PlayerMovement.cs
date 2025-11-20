@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetSpeedMultiplier(float multiplier)
     {
-        speedMultiplier = Mathf.Clamp(multiplier, 0f, 1f);
+        speedMultiplier = Mathf.Max(0f, multiplier); // Only clamp to prevent negative speed
     }
 
     private void OnDrawGizmosSelected()
