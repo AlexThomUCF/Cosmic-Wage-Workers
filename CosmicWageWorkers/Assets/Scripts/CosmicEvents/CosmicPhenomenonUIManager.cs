@@ -7,6 +7,7 @@ public class CosmicPhenomenonUIManager : MonoBehaviour
     public Image antiGravityIcon;
     public Image blackHoleIcon;
     public Image eclipseIcon;
+    public Image primordialSoupIcon; // new for Primordial Soup
 
     public void ShowAntiGravity(bool show)
     {
@@ -19,9 +20,16 @@ public class CosmicPhenomenonUIManager : MonoBehaviour
         if (blackHoleIcon != null)
             blackHoleIcon.gameObject.SetActive(show);
     }
+
     public void ShowEclipse(bool show)
     {
         if (eclipseIcon != null)
             eclipseIcon.gameObject.SetActive(show);
+    }
+
+    public void ShowPrimordialSoup(bool show)
+    {
+        if (primordialSoupIcon != null)
+            primordialSoupIcon.gameObject.SetActive(show);
     }
 }
