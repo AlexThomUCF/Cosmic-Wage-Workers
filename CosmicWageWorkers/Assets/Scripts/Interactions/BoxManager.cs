@@ -1,101 +1,104 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class BoxManager : MonoBehaviour
 {
-    [Header("Boxes & Shelves")]
+    [Header("Boxes & Zones")]
     public GameObject boxPrefab;
-    public List<Transform> shelfPositions; // The stockable shelves
+    public List<Transform> stockZones;  // Each element = a stock zone root
     public float spawnHeight = 1f;
     public float spawnDelay = 2f;
 
     [Header("UI")]
-    public TextMeshProUGUI shelfAlertText; // Shows which shelf the box corresponds to
-    public TextMeshProUGUI shelfPercentageText; // Shows percentage of shelves stocked
+    public TextMeshProUGUI alertText;
+    public TextMeshProUGUI percentText;
 
     [Header("UI Settings")]
     public float lerpSpeed = 5f;
 
-    private bool[] shelvesStocked;
-    private int nextShelfIndex = 0;
-    private GameObject currentBox;
+    private int currentZoneIndex = 0;
+    private int rowsStockedThisZone = 0;
+    private const int rowsPerZone = 8; // 4 shelves × 2 rows each
 
     private float displayedPercentage = 0f;
-
-    // Shows the current shelf index for ShelfStocking to check
-    public int CurrentShelfIndex => nextShelfIndex;
+    private GameObject currentBox;
 
     private void Start()
     {
-        shelvesStocked = new bool[shelfPositions.Count];
-        SpawnNextBox();
+        UpdateUI();
+        SpawnBox();
     }
 
     private void Update()
     {
-        // Smoothly changes percentage on screen
-        if (shelfPercentageText != null)
+        // Update percentage display (smooth)
+        if (percentText != null)
         {
-            int stockedCount = 0;
-            foreach (bool stocked in shelvesStocked)
-                if (stocked) stockedCount++;
-
-            float targetPercentage = ((float)stockedCount / shelvesStocked.Length) * 100f;
-            displayedPercentage = Mathf.Lerp(displayedPercentage, targetPercentage, Time.deltaTime * lerpSpeed);
-            shelfPercentageText.text = $"Shelves Stocked: {displayedPercentage:0}%";
+            float targetPercent = (float)currentZoneIndex / stockZones.Count * 100f;
+            displayedPercentage = Mathf.Lerp(displayedPercentage, targetPercent, Time.deltaTime * lerpSpeed);
+            percentText.text = $"Zones Stocked: {displayedPercentage:0}%";
         }
     }
 
-    private void SpawnNextBox()
+    private void SpawnBox()
     {
-        if (nextShelfIndex >= shelfPositions.Count)
+        if (currentZoneIndex >= stockZones.Count)
         {
-            shelfAlertText.text = "All shelves stocked!";
-            return; // Stops spawning boxes
+            alertText.text = "All Zones Fully Stocked!";
+            return;
         }
 
-        Vector3 spawnPos = GetRandomSpawnPosition();
-        currentBox = Instantiate(boxPrefab, spawnPos + Vector3.up * spawnHeight, Quaternion.identity);
+        Vector3 pos = GetRandomSpawnPos();
+        currentBox = Instantiate(boxPrefab, pos + Vector3.up * spawnHeight, Quaternion.identity);
 
-        // Tells the player which shelf to deliver the box to
-        shelfAlertText.text = $"Deliver box to Shelf {nextShelfIndex + 1}";
+        alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
     }
 
-    private Vector3 GetRandomSpawnPosition() // Temporary position logic
+    private Vector3 GetRandomSpawnPos()
     {
         float x = Random.Range(-10f, 10f);
         float z = Random.Range(-10f, 10f);
         return new Vector3(x, 0f, z);
     }
 
-    public void OnShelfStocked(int shelfIndex)
+    // CALLED BY ShelfStocking when a single row is stocked
+    public void OnRowStocked()
     {
-        if (shelfIndex != nextShelfIndex)
+        rowsStockedThisZone++;
+
+        if (rowsStockedThisZone < rowsPerZone)
         {
-            Debug.LogWarning("Attempted to stock wrong shelf. Ignored.");
+            alertText.text = $"Zone {currentZoneIndex + 1}: {rowsStockedThisZone}/8 Rows Stocked";
             return;
         }
 
-        // Destroys the box
+        // ZONE COMPLETED → delete box → move to next zone
         if (currentBox != null)
-        {
             Destroy(currentBox);
-            currentBox = null;
-        }
 
-        shelvesStocked[shelfIndex] = true;
-        nextShelfIndex++;
+        currentZoneIndex++;
+        rowsStockedThisZone = 0;
 
-        // Small delay before spawning next box
-        StartCoroutine(SpawnNextBoxAfterDelay());
+        alertText.text = "Zone Complete! Preparing next box...";
+
+        StartCoroutine(SpawnNextBox());
     }
 
-    private IEnumerator SpawnNextBoxAfterDelay()
+    private IEnumerator SpawnNextBox()
     {
-        shelfAlertText.text = "Box stocked! Preparing next box...";
         yield return new WaitForSeconds(spawnDelay);
-        SpawnNextBox();
+        SpawnBox();
+    }
+
+    private void UpdateUI()
+    {
+        alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
+    }
+
+    public int GetCurrentZoneIndex()
+    {
+        return currentZoneIndex;
     }
 }

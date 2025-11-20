@@ -5,8 +5,8 @@ public class BoxPickUp : MonoBehaviour
 {
     [Header("Pick Up Settings")]
     public float maxPickupRange = 3f;
-    public GameObject cameraOBJ; // References to the player camera
-    public Transform holdPoint; // Where the box is held
+    public GameObject cameraOBJ;
+    public Transform holdPoint;
 
     private GameObject heldBox;
     private bool isHolding = false;
@@ -37,42 +37,32 @@ public class BoxPickUp : MonoBehaviour
     {
         onInteract?.Invoke();
 
-        if (!isHolding)
-        {
-            TryPickUpBox();
-        }
-        else
-        {
-            DropBox();
-        }
+        if (!isHolding) TryPickUp();
+        else DropBox();
     }
 
-    private void TryPickUpBox()
+    private void TryPickUp()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, maxPickupRange))
-        {
-            if (hit.transform.CompareTag("Box"))
-            {
-                heldBox = hit.transform.gameObject;
+        if (!Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, maxPickupRange))
+            return;
 
-                // Disables the box's physics while holding
-                Rigidbody rb = heldBox.GetComponent<Rigidbody>();
-                if (rb != null)
-                    rb.isKinematic = true;
+        if (!hit.transform.CompareTag("Box"))
+            return;
 
-                // Disable colliders to prevent collisions while holding
-                foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
-                    c.enabled = false;
+        heldBox = hit.transform.gameObject;
 
-                // Parents the box to the hold point
-                heldBox.transform.SetParent(holdPoint);
-                heldBox.transform.localPosition = Vector3.zero;
-                heldBox.transform.localRotation = Quaternion.identity;
+        Rigidbody rb = heldBox.GetComponent<Rigidbody>();
+        if (rb != null) rb.isKinematic = true;
 
-                isHolding = true;
-            }
-        }
+        foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
+            c.enabled = false;
+
+        heldBox.transform.SetParent(holdPoint);
+        heldBox.transform.localPosition = Vector3.zero;
+        heldBox.transform.localRotation = Quaternion.identity;
+
+        isHolding = true;
     }
 
     public bool IsHoldingBox()
@@ -90,23 +80,17 @@ public class BoxPickUp : MonoBehaviour
     {
         if (heldBox == null) return;
 
-        // Unparents the box
         heldBox.transform.SetParent(null);
 
-        // Re-enables physics
         Rigidbody rb = heldBox.GetComponent<Rigidbody>();
-        if (rb != null)
-            rb.isKinematic = false;
+        if (rb != null) rb.isKinematic = false;
 
-        // Re-enables colliders
         foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
             c.enabled = true;
 
-        // Drops the box slightly in front of player
         heldBox.transform.position += cameraOBJ.transform.forward * 0.5f;
 
         heldBox = null;
         isHolding = false;
     }
 }
-
