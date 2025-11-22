@@ -17,15 +17,15 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   externalLut:
     overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
-    overrideState: 1
-    value: 2
+    overrideState: 0
+    value: 0
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -70,11 +70,11 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
-    value: 1
+    overrideState: 0
+    value: 0
   contrast:
-    overrideState: 1
-    value: 7
+    overrideState: 0
+    value: 0
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -106,8 +106,8 @@ MonoBehaviour:
     overrideState: 0
     value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
-    overrideState: 1
-    value: {x: 1, y: 0.90753, z: 0.81788486, w: -0.05234446}
+    overrideState: 0
+    value: {x: 1, y: 1, z: 1, w: 0}
   gain:
     overrideState: 0
     value: {x: 1, y: 1, z: 1, w: 0}
@@ -1328,8 +1328,8 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   preset:
-    overrideState: 1
-    value: 3
+    overrideState: 0
+    value: 2
   maximumIterationCount:
     overrideState: 0
     value: 16
@@ -1340,7 +1340,7 @@ MonoBehaviour:
     overrideState: 0
     value: 8
   maximumMarchDistance:
-    overrideState: 1
+    overrideState: 0
     value: 100
   distanceFade:
     overrideState: 0
@@ -1365,14 +1365,14 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   filtering:
-    overrideState: 1
-    value: {x: 48.71897, y: 93.71897}
+    overrideState: 0
+    value: {x: 50, y: 95}
   minLuminance:
-    overrideState: 1
-    value: 2.6
+    overrideState: 0
+    value: 0
   maxLuminance:
-    overrideState: 1
-    value: 9
+    overrideState: 0
+    value: 0
   keyValue:
     overrideState: 0
     value: 1
@@ -1403,10 +1403,10 @@ MonoBehaviour:
     value: 1
   mode:
     overrideState: 1
-    value: 0
+    value: 1
   intensity:
     overrideState: 1
-    value: 0.27
+    value: 0.2
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1473,11 +1473,11 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   intensity:
-    overrideState: 1
-    value: 3
+    overrideState: 0
+    value: 0
   threshold:
-    overrideState: 1
-    value: 0.2
+    overrideState: 0
+    value: 1
   softKnee:
     overrideState: 0
     value: 0.5
@@ -1497,12 +1497,12 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   dirtTexture:
-    overrideState: 1
-    value: {fileID: 28933816116536082, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
+    overrideState: 0
+    value: {fileID: 0}
     defaultState: 1
   dirtIntensity:
-    overrideState: 1
-    value: 0.5
+    overrideState: 0
+    value: 0
 --- !u!114 &7122523269287871683
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1520,7 +1520,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   mode:
-    overrideState: 1
+    overrideState: 0
     value: 0
   color:
     overrideState: 0
@@ -1529,8 +1529,8 @@ MonoBehaviour:
     overrideState: 0
     value: {x: 0.5, y: 0.5}
   intensity:
-    overrideState: 1
-    value: 0.36
+    overrideState: 0
+    value: 0
   smoothness:
     overrideState: 0
     value: 0.2
