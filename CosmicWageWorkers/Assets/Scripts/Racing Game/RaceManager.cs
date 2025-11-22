@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class RaceManager : MonoBehaviour
@@ -21,6 +22,10 @@ public class RaceManager : MonoBehaviour
     [Header("Global State")]
     public static bool raceDone = false;
     public static bool playerCameFirst = false;
+
+    [Header("UI settings")]
+    public GameObject winScreen;
+    public GameObject loseScreen;
 
     private Dictionary<GameObject, RacerProgress> racers = new Dictionary<GameObject, RacerProgress>();
 
@@ -185,10 +190,13 @@ public class RaceManager : MonoBehaviour
             if(allDone && playerCameFirst)
             {
                 Debug.Log("Trigger end scene");
+                winScreen.SetActive(true);
             }
             else if(allDone && !playerCameFirst)
             {
                 Debug.Log("Replay the game");
+                loseScreen.SetActive(true);
+                //LoseCon();
             }
         }
     }
@@ -258,6 +266,31 @@ public class RaceManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void LoseCon()
+    {
+        // Get the name of the currently active scene
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // Load the scene using its name
+        SceneManager.LoadScene(currentSceneName);
+    }
+
+    public void WinCon()
+    {
+        string mainSceneName = "POCScene";
+
+        SceneManager.LoadScene(mainSceneName);
+    }
+    public void ExitToMainScene()
+    {
+        string mainSceneName = "POCScene";
+
+        SceneManager.LoadScene(mainSceneName);
+
+        //Add save, save that this game completed. 
+
+    }
 
     #region Utility
     private string FormatTime(float time)
