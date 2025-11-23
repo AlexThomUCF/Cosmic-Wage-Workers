@@ -69,17 +69,14 @@ public class FlashLight : MonoBehaviour
     }
     public void ReplenishBattery()
     {
-        //if(batteryLife < maxBatteryLife)
-        {
-            
-            batteryLife += batteryRecharge;
-            if(batteryLife > maxBatteryLife) batteryLife = maxBatteryLife;
-            batteryBar.fillAmount = batteryLife;
-            replaceBattery = false;
 
-            SoundEffectManager.Play("BatteryReplace");
+        batteryLife += batteryRecharge;
+        if (batteryLife > maxBatteryLife) batteryLife = maxBatteryLife;
+        batteryBar.fillAmount = batteryLife;
+        replaceBattery = false;
 
-        }
+        SoundEffectManager.Play("BatteryReplace");
+
     
     }
 }
