@@ -546,7 +546,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0f51c60c35984a54eada0f0f8e233f51, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -642,6 +642,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   cameraTransform: {fileID: 1388362862257490485}
+  moveInput: {x: 0, y: 0}
 --- !u!54 &2121967366529832854
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -684,6 +685,9 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 64
+  interactDistance: 3
+  interactRadius: 0.51
+  playerCamera: {fileID: 8039976528161421326}
 --- !u!114 &3377687535432016485
 MonoBehaviour:
   m_ObjectHideFlags: 0
