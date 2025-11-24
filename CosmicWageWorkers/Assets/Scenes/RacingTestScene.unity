@@ -988,9 +988,12 @@ MonoBehaviour:
   cubesPerRow: 5
   spacing: 0.4
   rowSpacing: 0.4
-  startPoint: {fileID: 52704722}
-  shelfIndex: 0
+  startPoints: []
+  zoneRenderers: []
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   boxManager: {fileID: 0}
+  zoneIndex: 0
+  rowCooldown: 0.3
 --- !u!1 &224209276
 GameObject:
   m_ObjectHideFlags: 0
@@ -6970,9 +6973,12 @@ MonoBehaviour:
   cubesPerRow: 5
   spacing: 0.4
   rowSpacing: 0.4
-  startPoint: {fileID: 22111392}
-  shelfIndex: 0
+  startPoints: []
+  zoneRenderers: []
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   boxManager: {fileID: 0}
+  zoneIndex: 0
+  rowCooldown: 0.3
 --- !u!1001 &1264345356
 PrefabInstance:
   m_ObjectHideFlags: 0
