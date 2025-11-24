@@ -28,7 +28,7 @@ public class Interaction : MonoBehaviour
     private void DoInteract(InputAction.CallbackContext context)
     {
        if(!Physics.Raycast(pTransform.position + (Vector3.up * 0.3f) + (pTransform.forward * 0.2f), 
-           pTransform.forward, out var hit,1.5f,interactLayer)) return;
+           pTransform.forward, out var hit,3.0f,interactLayer)) return;
 
 
         if(!hit.transform.TryGetComponent(out InteractableObject interactable)) return; // Check if you can get component from raycast hit
