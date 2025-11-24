@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fuzzball
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Fuzzball
-  miniGameName: RacingTestScene
+  miniGameName: racingscene
   npcProtrait: {fileID: 21300000, guid: a47d8784f7c7467479b5941774190afd, type: 3}
   dialogueLines:
   - Hello
@@ -28,16 +28,16 @@ MonoBehaviour:
   onClicks:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 7954359570867217572, guid: 6045d38a3281b264fa6246647adaa159, type: 3}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadSceneByName
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: racingscene
           m_BoolArgument: 0
         m_CallState: 2
   - m_PersistentCalls:

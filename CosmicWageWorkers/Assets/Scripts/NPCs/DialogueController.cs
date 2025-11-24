@@ -48,8 +48,12 @@ public class DialogueController : MonoBehaviour
     public void  CreateChoiceButton(string choiceText, UnityEngine.Events.UnityAction onClick)
     {
         GameObject choiceButton = Instantiate(choiceButtonPrefab, choiceContainer);
+
         choiceButton.GetComponentInChildren<TMP_Text>().text = choiceText;
         choiceButton.GetComponent<Button>().onClick.AddListener(onClick);
+
+        LayoutElement layoutElement = choiceButton.AddComponent<LayoutElement>();
+        layoutElement.preferredHeight = 120; // Adjust spacing indirectly
 
     }
 
