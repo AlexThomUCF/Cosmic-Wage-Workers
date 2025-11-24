@@ -43,7 +43,7 @@ public class HorrorAI : MonoBehaviour
             case AIState.NormalState:
                 if (enemyVision.allTrue)
                 {
-                    monsterAgent.isStopped = false;
+                   
                     monsterAgent.SetDestination(playerTransform.position);
                     if(monsterAgent.hasPath)
                     {

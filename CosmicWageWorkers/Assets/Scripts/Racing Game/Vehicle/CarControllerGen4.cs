@@ -20,7 +20,7 @@ public class VehicleGen4_Arcade : MonoBehaviour
     [Header("Physics")]
     public Vector3 centerOfMassOffset = new Vector3(0f, -0.25f, 0f);
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     void Awake()
     {

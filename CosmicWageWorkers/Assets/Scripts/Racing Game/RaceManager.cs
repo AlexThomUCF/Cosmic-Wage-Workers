@@ -51,7 +51,7 @@ public class RaceManager : MonoBehaviour
     #endregion
 
     #region Racer Registration
-    public void RegisterRacer(GameObject racer)
+    public void RegisterRacer(GameObject racer) // Add Trigger to Ai racer and Tag of any kind to register it automatically
     {
         if (!racers.ContainsKey(racer))
         {
