@@ -10,9 +10,11 @@ public class FPSManager : MonoBehaviour
     public int killsToWin = 10;
     public string nextSceneName = "ProgramPrototype";
 
+    [Header("Customer Interaction ID")]
+    public string interactionID; // Assign the ID of the customer associated with this minigame
+
     private void Awake()
     {
-        // Basic singleton that resets each scene
         Instance = this;
     }
 
@@ -23,6 +25,12 @@ public class FPSManager : MonoBehaviour
 
         if (killCount >= killsToWin)
         {
+            // Mark the interaction complete
+            if (!string.IsNullOrEmpty(interactionID))
+            {
+                CustomerManager.MarkInteractionComplete(interactionID);
+            }
+
             LoadNextScene();
         }
     }

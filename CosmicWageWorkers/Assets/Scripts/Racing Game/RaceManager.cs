@@ -26,6 +26,9 @@ public class RaceManager : MonoBehaviour
     [Header("UI settings")]
     public GameObject winScreen;
     public GameObject loseScreen;
+    
+    [Header("Customer Interaction ID")]
+    public string interactionID; // Assign the ID of the customer for this race
 
     private Dictionary<GameObject, RacerProgress> racers = new Dictionary<GameObject, RacerProgress>();
 
@@ -149,7 +152,7 @@ public class RaceManager : MonoBehaviour
 
         Debug.Log($"{data.racerName} finished the race in {FormatTime(data.overallRaceTime)}!");
 
-        // ?? Count how many racers have finished
+        // Count how many racers have finished
         int finishedCount = 0;
         foreach (var r in racers.Values)
         {
@@ -157,22 +160,28 @@ public class RaceManager : MonoBehaviour
                 finishedCount++;
         }
 
-        // ?? If this is the first to finish...
+        // If this is the first to finish...
         if (finishedCount == 1)
         {
             if (racer.CompareTag("Player"))
             {
                 playerCameFirst = true;
-                Debug.Log("?? Player came in FIRST!");
+                Debug.Log("Player came in FIRST!");
+
+                // Mark the customer interaction complete
+                if (!string.IsNullOrEmpty(interactionID))
+                {
+                    CustomerManager.MarkInteractionComplete(interactionID);
+                }
             }
             else
             {
                 playerCameFirst = false;
-                Debug.Log("? Player did NOT come first.");
+                Debug.Log("Player did NOT come first.");
             }
         }
 
-        // ?? If all racers are done, end the race
+        // Check if all racers are done
         bool allDone = true;
         foreach (var r in racers.Values)
         {
@@ -187,16 +196,15 @@ public class RaceManager : MonoBehaviour
         {
             raceDone = true;
             Debug.Log("All racers have finished the race!");
-            if(allDone && playerCameFirst)
+            if (allDone && playerCameFirst)
             {
                 Debug.Log("Trigger end scene");
                 winScreen.SetActive(true);
             }
-            else if(allDone && !playerCameFirst)
+            else if (allDone && !playerCameFirst)
             {
                 Debug.Log("Replay the game");
                 loseScreen.SetActive(true);
-                //LoseCon();
             }
         }
     }

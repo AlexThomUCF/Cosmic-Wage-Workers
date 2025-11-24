@@ -7939,6 +7939,9 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 64
+  interactDistance: 3
+  interactRadius: 0.3
+  playerCamera: {fileID: 0}
 --- !u!54 &1298635169
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11946,6 +11949,7 @@ MonoBehaviour:
   killCount: 0
   killsToWin: 10
   nextSceneName: POCScene
+  interactionID: FPS
 --- !u!43 &1908143265
 Mesh:
   m_ObjectHideFlags: 0
