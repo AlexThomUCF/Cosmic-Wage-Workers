@@ -16,7 +16,7 @@ public class McGuffinRandom : MonoBehaviour
 
     void placeObjects()
     {
-        // create array to store spawned fakes
+        // create array to store spawned fakesz
         cubes = new GameObject[locations.Length];
 
         for (int i = 0; i < locations.Length; i++)
@@ -38,6 +38,6 @@ public class McGuffinRandom : MonoBehaviour
         Destroy(cubes[randomIndex]);
 
         // spawn the real mcGuffin there
-        Instantiate(mcGuffin, spawnPos, transform.rotation);
+        Instantiate(mcGuffin, spawnPos, Quaternion.Euler(-90, 90, 0));
     }
 }
