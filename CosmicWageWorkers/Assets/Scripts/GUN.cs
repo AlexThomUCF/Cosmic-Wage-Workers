@@ -31,6 +31,8 @@ public class GUN : MonoBehaviour
     private Animator animator;
 
     private float lastShootTime;
+    public string targetTag = "Enemy";
+    public float damage = 20f;
 
 
     private PlayerControls inputActions;
@@ -67,6 +69,7 @@ public class GUN : MonoBehaviour
             //use object pool
             animator.SetBool("IsShooting", true);
             SoundEffectManager.Play("Shoot");
+            shootingSystem.Play();
             Vector3 direction = GetDirection();
 
             if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, mask))
@@ -74,8 +77,22 @@ public class GUN : MonoBehaviour
                 TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
 
                 StartCoroutine(SpawnTrail(trail, hit));
+                CustomOnCollisionEnter(hit.collider);
 
                 lastShootTime = Time.time;
+                Debug.Log(hit.collider);
+            }
+        }
+    }
+
+    public void CustomOnCollisionEnter(Collider collision)
+    {
+        if (collision.CompareTag(targetTag))
+        {
+            EnemyBase enemy = collision.GetComponent<EnemyBase>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
             }
         }
     }
@@ -114,5 +131,5 @@ public class GUN : MonoBehaviour
         Instantiate(imapctParticleSystem, hit.point, Quaternion.LookRotation(hit.normal)); // Impact particle is facing the direction the hit is facing 
 
         Destroy(trail.gameObject, trail.time);
-    }
+    }   
 }

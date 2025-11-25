@@ -14,7 +14,7 @@ public class GunRecoil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //AddRecoil();
+        AddRecoil();
     }
 
     public void AddRecoil()
