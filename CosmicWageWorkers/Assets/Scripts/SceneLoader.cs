@@ -1,8 +1,19 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [SerializeField] Animator transitonAnim;
+    [SerializeField] GameObject transitonObj;
+    [SerializeField] Canvas canvas;
+
+    public void Awake()
+    {
+        transitonObj = GameObject.Find("Scene Tansition");
+        transitonAnim = transitonObj.GetComponent<Animator>();
+       canvas = transitonObj.GetComponentInChildren<Canvas>();
+    }
     public void LoadSceneByName(string sceneName)
     {
         if (string.IsNullOrEmpty(sceneName))
@@ -11,14 +22,33 @@ public class SceneLoader : MonoBehaviour
             return;
         }
         NPC.isInDialogue = false;
-        SceneManager.LoadScene(sceneName);
+        StartCoroutine(LoadLevel(sceneName));
+        
     }
 
     public void ExitDialogue()
     {
-        DialogueController.Instance?.ShowDialogueUI(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        Debug.Log("Dialogue closed.");
+        if (DialogueController.Instance != null)
+        {
+            DialogueController.Instance?.ShowDialogueUI(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Debug.Log("Dialogue closed.");
+        }
+        else
+            return;
     }
-}
+    public IEnumerator LoadLevel(string sceneName)
+    {
+        transitonAnim.SetTrigger("End");
+        ExitDialogue();
+        Debug.Log("Doing transition");
+        Debug.Log("Animator reference: " + transitonAnim, transitonAnim);
+        canvas.sortingOrder = 2;
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(sceneName);
+        transitonAnim.SetTrigger("Start");
+        canvas.sortingOrder = -1;
+        //change scene
+    }
+} 

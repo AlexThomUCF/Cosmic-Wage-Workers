@@ -907,6 +907,7 @@ MonoBehaviour:
   winScreen: {fileID: 1634862785}
   loseScreen: {fileID: 1588953015}
   interactionID: Racing
+  loader: {fileID: 0}
 --- !u!4 &40223533
 Transform:
   m_ObjectHideFlags: 0
@@ -916,11 +917,11 @@ Transform:
   m_GameObject: {fileID: 40223531}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 19.67, y: 4.44, z: -19.84246}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 628795242}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &40894659
 GameObject:
@@ -25420,7 +25421,6 @@ Transform:
   - {fileID: 242664572}
   - {fileID: 420290114}
   - {fileID: 702367950}
-  - {fileID: 40223533}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &629599067 stripped
@@ -79387,6 +79387,7 @@ SceneRoots:
   - {fileID: 626061361}
   - {fileID: 1459460122}
   - {fileID: 926985709}
+  - {fileID: 40223533}
   - {fileID: 628795242}
   - {fileID: 154130538}
   - {fileID: 1073771943}

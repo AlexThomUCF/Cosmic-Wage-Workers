@@ -34,6 +34,8 @@ public class RaceManager : MonoBehaviour
 
     private bool ifCheckpointMissed = false;
 
+    [SerializeField] SceneLoader loader;
+
     #region Unity Functions
     private void Awake()
     {
@@ -41,6 +43,8 @@ public class RaceManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        loader = FindFirstObjectByType<SceneLoader>();
     }
 
     private void Update()
@@ -200,11 +204,16 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Trigger end scene");
                 winScreen.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
             }
             else if (allDone && !playerCameFirst)
             {
                 Debug.Log("Replay the game");
                 loseScreen.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }
@@ -287,14 +296,19 @@ public class RaceManager : MonoBehaviour
     public void WinCon()
     {
         string mainSceneName = "POCScene";
-
-        SceneManager.LoadScene(mainSceneName);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        loader.LoadSceneByName(mainSceneName);
+        //SceneManager.LoadScene(mainSceneName);
     }
     public void ExitToMainScene()
     {
         string mainSceneName = "POCScene";
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
-        SceneManager.LoadScene(mainSceneName);
+        // SceneManager.LoadScene(mainSceneName);
+        loader.LoadSceneByName(mainSceneName);
 
         //Add save, save that this game completed. 
 

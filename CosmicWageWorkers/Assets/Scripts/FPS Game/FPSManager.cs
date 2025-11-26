@@ -5,6 +5,8 @@ public class FPSManager : MonoBehaviour
 {
     public static FPSManager Instance { get; private set; }
 
+    [SerializeField]SceneLoader loader;
+
     [Header("Win Settings")]
     public int killCount = 0;
     public int killsToWin = 10;
@@ -16,6 +18,7 @@ public class FPSManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        loader = FindFirstObjectByType<SceneLoader>();
     }
 
     public void RegisterKill()
@@ -37,6 +40,7 @@ public class FPSManager : MonoBehaviour
 
     private void LoadNextScene()
     {
-        SceneManager.LoadScene(nextSceneName);
+        loader.LoadSceneByName(nextSceneName);
+        //SceneManager.LoadScene(nextSceneName);
     }
 }
