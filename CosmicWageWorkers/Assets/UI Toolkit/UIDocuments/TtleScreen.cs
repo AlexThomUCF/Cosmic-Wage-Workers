@@ -5,11 +5,8 @@ using System.Collections.Generic;
 
 public class TtleScreen : MonoBehaviour
 {
-    [SerializeField] UIDocument titleDocument;
-    private VisualElement root;
 
     public GameObject titleScreenCamera;
-
 
     private float settingsUpDelayed = 1;
 
@@ -23,54 +20,27 @@ public class TtleScreen : MonoBehaviour
 
     public Animator cameraAnimation;
 
+
     public bool gameHasStarted;
 
     private AudioManager audioManager;
 
+    public GameObject titleScreen;
+
+    public GameObject settingsScreen;
+
+    public GameObject audioSettings;
+
+    public GameObject displaySettings;
+
+    public GameObject controlSettings;
+
+    public GameObject backButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        root = titleDocument.rootVisualElement;
-
-        var playBn = root.Q<VisualElement>("PlayBn");
-        playBn.RegisterCallback<ClickEvent>(PlayGameClick);
-
-        var settingsBn = root.Q<VisualElement>("SettingsBn");
-        settingsBn.RegisterCallback<ClickEvent>(ToggleSettingsClick);
-
-        var quitBn = root.Q<VisualElement>("QuitBn");
-        quitBn.RegisterCallback<ClickEvent>(QuitGameClick);
-
-        var backBn = root.Q<VisualElement>("BackBn");
-        backBn.RegisterCallback<ClickEvent>(BackToMainClick);
-
-        var graphicsDropDown= root.Q<DropdownField>("Graphics");
-        List<string> qualityLevels = new List<string>(QualitySettings.names);
-        graphicsDropDown.choices = qualityLevels;
-
-        graphicsDropDown.index = QualitySettings.GetQualityLevel();
-        graphicsDropDown.RegisterValueChangedCallback(evt =>
-        {
-            int selectedIndex = graphicsDropDown.index;
-            QualitySettings.SetQualityLevel(selectedIndex, true);
-            Debug.Log("You switch quality level to:   " + QualitySettings.names[selectedIndex]);
-        });
-
-
-        var vsyncBn = root.Q<RadioButtonGroup>("Vsync");
-        vsyncBn.choices = new List<string> { "On", "Off" };
-
-        var audioBn = root.Q<VisualElement>("AudioBn");
-        audioBn.RegisterCallback<ClickEvent>(OpenAudio);
-
-        var displayBn = root.Q<VisualElement>("DisplayBn");
-        displayBn.RegisterCallback<ClickEvent>(OpenDisplay);
-
-        var controlsBn = root.Q<VisualElement>("ControlsBn");
-        controlsBn.RegisterCallback<ClickEvent>(OpenControls);
-
         audioManager.PlayVoice(audioManager.helloThere);
  
     }
@@ -78,54 +48,42 @@ public class TtleScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //To bring up settings
          if (settingsOn)
         {
-            var mmPanel = root.Q<VisualElement>("MainMenuBn");
-            mmPanel.style.display = DisplayStyle.None;
-
-            var titleMainMenu = root.Q<VisualElement>("Title");
-            titleMainMenu.style.display = DisplayStyle.None;
+            titleScreen.SetActive(false);
 
             settingsUpDelayed -= Time.deltaTime;
             if (settingsUpDelayed < 0)
             {
-                var settingsPanel = root.Q<VisualElement>("SettingsPanel");
-                settingsPanel.style.display = DisplayStyle.Flex;
 
+                settingsScreen.SetActive(true);
                 settingsUpDelayed = 1;
                 settingsOn = false;
             }
 
         }
+
+         //To shut off settings
         if (settingsOff)
         {
-
-            var settingsPanel = root.Q<VisualElement>("SettingsPanel");
-            settingsPanel.style.display = DisplayStyle.None;
+            settingsScreen.SetActive(false);
 
             settingsDownDelayed -= Time.deltaTime;
             if (settingsDownDelayed < 0)
             {
-                var mmPanel = root.Q<VisualElement>("MainMenuBn");
-                mmPanel.style.display = DisplayStyle.Flex;
 
-                var titleMainMenu = root.Q<VisualElement>("Title");
-                titleMainMenu.style.display = DisplayStyle.Flex;
-
+                titleScreen.SetActive(true);
                 settingsDownDelayed = 1;
                 settingsOff = false;
 
             }
         }
-
+        //For starting game and making sure animation plays
         if (gameHasStarted)
         {
-            var mmPanel = root.Q<VisualElement>("MainMenuBn");
-            mmPanel.style.display = DisplayStyle.None;
 
-            var titleMainMenu = root.Q<VisualElement>("Title");
-            titleMainMenu.style.display = DisplayStyle.None;
-
+            titleScreen.SetActive(false);
             gameStaredDelayed -= Time.deltaTime;
             if (gameStaredDelayed < 0)
             {
@@ -134,7 +92,8 @@ public class TtleScreen : MonoBehaviour
         }
     }
 
-    private void PlayGameClick(ClickEvent evt)
+    //Starts Game
+    public void PlayGameClick()
     {
         Debug.Log("GameHasStarted");
         gameHasStarted = true;
@@ -145,7 +104,8 @@ public class TtleScreen : MonoBehaviour
         
     }
 
-    private void ToggleSettingsClick(ClickEvent evt)
+    //Goes into settings
+    public void ToggleSettingsClick()
     {
         Debug.Log("SettingsAreOpened");
         settingsOn = true;
@@ -156,77 +116,73 @@ public class TtleScreen : MonoBehaviour
 
     }
 
-    private void QuitGameClick(ClickEvent evt)
+    //Quit button
+    public void QuitGameClick()
     {
         Debug.Log("GameHasStopped");
         Application.Quit();
     }
 
-    private void BackToMainClick(ClickEvent evt)
+    //Return to title if in settings
+    public void BackToMainClick()
     {
         Debug.Log("SettingsAreClosed");
 
         audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
 
+
+        audioSettings.SetActive(false);
+
+        controlSettings.SetActive(false);
+
+        displaySettings.SetActive(false);
+
         settingsOff = true;
         cameraAnimation.SetTrigger("SettingsDown");
     }
 
-    private void OpenAudio(ClickEvent evt)
+    //Opens Audio Section
+    public void OpenAudio()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
         audioManager.PlayVoice(audioManager.helloThere);
 
+        audioSettings.SetActive(true);
 
-        var optionsPanel = root.Q<VisualElement>("OptionsPanel");
-        optionsPanel.style.display = DisplayStyle.Flex;
+        controlSettings.SetActive(false);
 
-        var audioPanel = root.Q<VisualElement>("Audio");
-        audioPanel.style.display = DisplayStyle.Flex;
+        displaySettings.SetActive(false);
 
-        var displayPanel = root.Q<VisualElement>("Display");
-        displayPanel.style.display = DisplayStyle.None;
-
-        var controlsPanel = root.Q<VisualElement>("Controls");
-        controlsPanel.style.display = DisplayStyle.None;
 
     }
 
-    private void OpenDisplay(ClickEvent evt)
+    //Opens display settings
+    public void OpenDisplay()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
         audioManager.PlayVoice(audioManager.helloThere);
 
-        var optionsPanel = root.Q<VisualElement>("OptionsPanel");
-        optionsPanel.style.display = DisplayStyle.Flex;
+        audioSettings.SetActive(false);
 
-        var audioPanel = root.Q<VisualElement>("Audio");
-        audioPanel.style.display = DisplayStyle.None;
+        controlSettings.SetActive(false);
 
-        var displayPanel = root.Q<VisualElement>("Display");
-        displayPanel.style.display = DisplayStyle.Flex;
+        displaySettings.SetActive(true);
 
-        var controlsPanel = root.Q<VisualElement>("Controls");
-        controlsPanel.style.display = DisplayStyle.None;
+
     }
 
-    private void OpenControls(ClickEvent evt)
+    //Opens Controls
+    public void OpenControls()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
         audioManager.PlayVoice(audioManager.helloThere);
 
-        var optionsPanel = root.Q<VisualElement>("OptionsPanel");
-        optionsPanel.style.display = DisplayStyle.Flex;
+        audioSettings.SetActive(false);
+        controlSettings.SetActive(true);
+        displaySettings.SetActive(false);
 
-        var audioPanel = root.Q<VisualElement>("Audio");
-        audioPanel.style.display = DisplayStyle.None;
 
-        var displayPanel = root.Q<VisualElement>("Display");
-        displayPanel.style.display = DisplayStyle.None;
-
-        var controlsPanel = root.Q<VisualElement>("Controls");
-        controlsPanel.style.display = DisplayStyle.Flex;
     }
 
 

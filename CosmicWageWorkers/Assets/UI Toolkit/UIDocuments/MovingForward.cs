@@ -12,6 +12,7 @@ public class MovingForward : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Movement for customer in title screen
         transform.Translate(speed * Time.deltaTime * Vector3.forward);
 
         if (transform.position.z >= 887)

@@ -13,6 +13,7 @@ public class CustomerSpawn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Spanws customer In
         InvokeRepeating("SpawnCustomer", spawnDelay, spawnRate);
     }
 
@@ -22,6 +23,7 @@ public class CustomerSpawn : MonoBehaviour
         
     }
 
+    //Function for spawning customer
     private void SpawnCustomer()
     {
         Instantiate(customer, spawnPos, Quaternion.identity);
