@@ -2232,7 +2232,7 @@ MonoBehaviour:
   pauseButtons: {fileID: 1992204692}
   pauseStars: {fileID: 1992204693}
   generalHUD: {fileID: 0}
-  pauseAni: {fileID: 1992204691}
+  pauseAni: {fileID: 0}
   pauseOnDelay: 1
   pauseDelay: 0.3
   pauseLeave: 0
@@ -36892,6 +36892,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1433528535}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1433528537}
   m_SourcePrefab: {fileID: 100100000, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
 --- !u!4 &1433528533 stripped
 Transform:
@@ -36924,6 +36927,34 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.77, y: 9.77, z: 7.77}
   m_Center: {x: -0.97, y: 3.46, z: -9.15}
+--- !u!23 &1433528536 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7635826562936255635, guid: 7ecb37f2d93c41f4ea9ee3ac1aafbfec, type: 3}
+  m_PrefabInstance: {fileID: 1433528532}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1433528537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433528534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8550b66f496c868458afff0fa90df8e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShelfStocking
+  cubePrefab: {fileID: 0}
+  cubesPerRow: 5
+  spacing: 0.4
+  rowSpacing: 0.4
+  startPoints: []
+  zoneRenderers:
+  - {fileID: 1433528536}
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  boxManager: {fileID: 0}
+  zoneIndex: 0
+  rowCooldown: 0.3
 --- !u!1 &1439088977
 GameObject:
   m_ObjectHideFlags: 0
@@ -54083,11 +54114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
---- !u!95 &1992204691 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2050002399949237028, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
-  m_PrefabInstance: {fileID: 1992204686}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1992204692 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2144855687744695276, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
