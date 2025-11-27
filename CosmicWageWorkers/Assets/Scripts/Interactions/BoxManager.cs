@@ -12,7 +12,6 @@ public class BoxManager : MonoBehaviour
     public float spawnDelay = 1f;
 
     [Header("UI")]
-    public TextMeshProUGUI alertText;
     public TextMeshProUGUI percentText;
 
     [Header("UI Settings")]
@@ -27,7 +26,6 @@ public class BoxManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateUI();
         SpawnBox();
     }
 
@@ -43,24 +41,22 @@ public class BoxManager : MonoBehaviour
     {
         if (currentZoneIndex >= stockZones.Count)
         {
-            alertText.text = "All Zones Fully Stocked!";
-            return;
+            return; // All zones stocked
         }
 
         Vector3 pos = GetRandomSpawnPos();
         currentBox = Instantiate(boxPrefab, pos + Vector3.up * spawnHeight, Quaternion.identity);
 
-        // Make sure box is interactable
+        // Ensure box has necessary components
         currentBox.tag = "Box";
         if (currentBox.GetComponent<Collider>() == null)
             currentBox.AddComponent<BoxCollider>();
+
         if (currentBox.GetComponent<Rigidbody>() == null)
         {
             Rigidbody rb = currentBox.AddComponent<Rigidbody>();
             rb.isKinematic = false;
         }
-
-        alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
     }
 
     private Vector3 GetRandomSpawnPos()
@@ -75,15 +71,11 @@ public class BoxManager : MonoBehaviour
         rowsStockedThisZone++;
 
         if (rowsStockedThisZone < rowsPerZone)
-        {
-            alertText.text = $"Zone {currentZoneIndex + 1}: {rowsStockedThisZone}/{rowsPerZone} Rows Stocked";
             return;
-        }
 
-        // Zone complete → destroy box
+        // Zone complete — destroy box & progress to next
         if (currentBox != null)
         {
-            // Force player to drop it if holding
             BoxPickUp pickup = FindObjectOfType<BoxPickUp>();
             if (pickup != null)
                 pickup.ForceDropBox();
@@ -94,7 +86,6 @@ public class BoxManager : MonoBehaviour
         currentZoneIndex++;
         rowsStockedThisZone = 0;
 
-        alertText.text = "Zone Complete! Preparing next box...";
         StartCoroutine(SpawnNextBox());
     }
 
@@ -107,10 +98,5 @@ public class BoxManager : MonoBehaviour
     public int GetCurrentZoneIndex()
     {
         return currentZoneIndex;
-    }
-
-    private void UpdateUI()
-    {
-        alertText.text = $"Deliver Box to Stock Zone {currentZoneIndex + 1}";
     }
 }
