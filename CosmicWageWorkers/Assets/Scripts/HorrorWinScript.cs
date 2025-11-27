@@ -5,7 +5,11 @@ public class HorrorWinScript : MonoBehaviour
 {
     [Header("Customer Interaction ID")]
     public string interactionID; // Assign the ID of the customer for this minigame
-
+    [SerializeField] SceneLoader loader;
+    public void Awake()
+    {
+        loader = FindAnyObjectByType<SceneLoader>();
+    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && RealItem.hasItem)
@@ -19,8 +23,10 @@ public class HorrorWinScript : MonoBehaviour
             }
 
             // Load the main scene
+            
             string mainSceneName = "POCScene";
-            SceneManager.LoadScene(mainSceneName);
+            loader.LoadSceneByName(mainSceneName);
+            //SceneManager.LoadScene(mainSceneName);
         }
     }
 }
