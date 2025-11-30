@@ -128,7 +128,7 @@ public class HorrorAI : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            string mainSceneName = "POCScene";
+            string mainSceneName = "MainScene";
 
             SceneManager.LoadScene(mainSceneName);
         }
