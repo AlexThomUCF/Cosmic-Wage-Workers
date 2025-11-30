@@ -3,21 +3,26 @@ using UnityEngine.SceneManagement;
 
 public class QuickSceneToggle : MonoBehaviour
 {
-    private bool inBackroom = false;
+    private bool inHorrorScene = false;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (!inBackroom)
+            if (inHorrorScene)
             {
-                SceneManager.LoadScene("backroomhorror");
-                inBackroom = true;
+                SceneManager.LoadScene("MainScene");
+                inHorrorScene = false;
             }
             else
             {
-                SceneManager.LoadScene("MainScene");
-                inBackroom = false;
+                SceneManager.LoadScene("backroomhorror");
+                inHorrorScene = true;
             }
         }
     }
