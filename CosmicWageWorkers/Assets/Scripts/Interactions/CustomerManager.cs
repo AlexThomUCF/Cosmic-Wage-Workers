@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -12,7 +12,7 @@ public class CustomerManager : MonoBehaviour
     private List<CustomerInteraction> availableInteractions = new();
 
     [Header("Spawn Settings")]
-    public List<Transform> spawnPoints; // Assign your 5 aisles in order
+    public List<Transform> spawnPoints;
 
     [Header("Cinemachine Cameras")]
     public CinemachineCamera mainCam;
@@ -23,8 +23,11 @@ public class CustomerManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource intercomAudio;
-    [Tooltip("Assign 5 clips for aisle 1–5 in order")]
     public AudioClip[] aisleAnnouncementClips;
+
+    [Header("Player References")]
+    public BoxPickUp playerBoxPickup;
+    public PickupMop playerMopPickup;
 
     [Header("Settings")]
     public float minTime = 10f;
@@ -35,7 +38,6 @@ public class CustomerManager : MonoBehaviour
 
     void Start()
     {
-        // Build list of interactions that haven’t been done yet
         availableInteractions = new List<CustomerInteraction>(
             allInteractions.FindAll(i => !completedInteractions.Contains(i.interactionID))
         );
@@ -49,8 +51,8 @@ public class CustomerManager : MonoBehaviour
         {
             if (!interactionActive && availableInteractions.Count > 0)
             {
-                float waitTime = Random.Range(minTime, maxTime);
-                yield return new WaitForSeconds(waitTime);
+                float wait = Random.Range(minTime, maxTime);
+                yield return new WaitForSeconds(wait);
 
                 yield return StartCoroutine(HandleCustomerInteraction());
             }
@@ -65,7 +67,15 @@ public class CustomerManager : MonoBehaviour
     {
         interactionActive = true;
 
-        // Switch to intercom camera
+        // DROP BOX (if held)
+        if (playerBoxPickup != null)
+            playerBoxPickup.ForceDropBox();
+
+        // DROP MOP (if held)
+        if (playerMopPickup != null)
+            playerMopPickup.ForceDropMop();
+
+        // Switch to intercom cam
         mainCam.Priority = 0;
         intercomCam.Priority = 10;
         yield return new WaitForSeconds(1.5f);
@@ -74,17 +84,14 @@ public class CustomerManager : MonoBehaviour
         int index = Random.Range(0, availableInteractions.Count);
         CustomerInteraction chosen = availableInteractions[index];
 
-        // Pick random spawn point (aisle)
+        // Spawn location
         int aisleIndex = Random.Range(0, spawnPoints.Count);
-        Transform spawnPoint = spawnPoints[aisleIndex];
+        Transform spawn = spawnPoints[aisleIndex];
 
-        // Spawn the customer
-        Instantiate(chosen.customerPrefab, spawnPoint.position, spawnPoint.rotation);
+        Instantiate(chosen.customerPrefab, spawn.position, spawn.rotation);
 
-        // Show on-screen dialogue
-        dialogueText.text = $"A customer has appeared at {spawnPoint.name}!";
+        dialogueText.text = $"A customer has appeared at {spawn.name}!";
 
-        // Play intercom announcement for that aisle
         if (intercomAudio != null && aisleAnnouncementClips.Length > aisleIndex)
             intercomAudio.PlayOneShot(aisleAnnouncementClips[aisleIndex]);
 
@@ -95,9 +102,9 @@ public class CustomerManager : MonoBehaviour
         mainCam.Priority = 10;
     }
 
-    public static void MarkInteractionComplete(string interactionID)
+    public static void MarkInteractionComplete(string id)
     {
-        completedInteractions.Add(interactionID);
+        completedInteractions.Add(id);
     }
 
     public void OnReturnToMainScene()
