@@ -5,31 +5,31 @@ public class ShelfStocking : MonoBehaviour
     [Header("Stocking Settings")]
     public GameObject cubePrefab;
     public int cubesPerRow = 5;
-    public float spacing = 0.4f;      // distance between cubes in a row (X axis)
-    public float rowSpacing = 0.4f;   // distance between rows along Z
+    public float spacing = 0.4f;
+    public float rowSpacing = 0.4f;
 
     [Header("Start Points (One per vertical shelf)")]
-    public Transform[] startPoints;   // 4 shelves top → bottom
+    public Transform[] startPoints;
 
     [Header("Zone Highlight")]
-    public Renderer[] zoneRenderers;  // all renderers in this stock zone
+    public Renderer[] zoneRenderers;
     public Color highlightColor = Color.yellow;
     private Color[] originalColors;
 
     [Header("Zone Info")]
     public BoxManager boxManager;
-    public int zoneIndex;   // Which stock zone this shelf belongs to
+    public int zoneIndex;
 
     [Header("Input Settings")]
-    public float rowCooldown = 0.3f; // seconds between rows
+    public float rowCooldown = 0.3f;
     private float lastRowTime = 0f;
 
     private PlayerControls controls;
     private BoxPickUp playerPickup;
     private bool isPlayerNearby;
 
-    private int nextShelfIndex = 0; // current active shelf
-    private int rowInShelf = 0;     // rows stocked in current shelf
+    private int nextShelfIndex = 0;
+    private int rowInShelf = 0;
     private const int rowsPerShelf = 2;
 
     private void Awake()
@@ -56,6 +56,20 @@ public class ShelfStocking : MonoBehaviour
             if (zoneRenderers[i] != null)
                 originalColors[i] = zoneRenderers[i].material.color;
         }
+
+        // Restore saved progress
+        nextShelfIndex = ShelfProgressData.GetNextShelf(zoneIndex);
+        rowInShelf = ShelfProgressData.GetRowInShelf(zoneIndex);
+
+        // Inform BoxManager of already-stocked rows
+        if (boxManager != null)
+            boxManager.SetRowsStockedForZone(zoneIndex, nextShelfIndex * rowsPerShelf + rowInShelf);
+
+        // Spawn any missing cubes to match saved state
+        for (int shelf = 0; shelf < nextShelfIndex; shelf++)
+            SpawnFullShelf(shelf);
+        if (rowInShelf > 0 && nextShelfIndex < startPoints.Length)
+            SpawnPartialShelf(nextShelfIndex, rowInShelf);
     }
 
     private void Update()
@@ -65,16 +79,13 @@ public class ShelfStocking : MonoBehaviour
         if (!isPlayerNearby || playerPickup == null || !playerPickup.IsHoldingBox())
             return;
 
-        // Only stock if this shelf belongs to the current zone
         if (boxManager.GetCurrentZoneIndex() != zoneIndex) return;
-
         if (nextShelfIndex >= startPoints.Length) return;
 
-        // Only allow stocking if cooldown has passed
         if (controls.Gameplay.Use.IsPressed() && Time.time - lastRowTime >= rowCooldown)
         {
             StockRow();
-            lastRowTime = Time.time; // reset cooldown
+            lastRowTime = Time.time;
         }
     }
 
@@ -85,8 +96,8 @@ public class ShelfStocking : MonoBehaviour
         for (int i = 0; i < cubesPerRow; i++)
         {
             Vector3 pos = currentShelfStart.position
-                          + currentShelfStart.right * (i * spacing)       // cubes side by side (X)
-                          + currentShelfStart.forward * (rowInShelf * rowSpacing); // rows along Z
+                          + currentShelfStart.right * (i * spacing)
+                          + currentShelfStart.forward * (rowInShelf * rowSpacing);
 
             Instantiate(cubePrefab, pos, Quaternion.identity, transform);
         }
@@ -94,7 +105,6 @@ public class ShelfStocking : MonoBehaviour
         SoundEffectManager.Play("StockSound");
 
         rowInShelf++;
-
         if (rowInShelf >= rowsPerShelf)
         {
             rowInShelf = 0;
@@ -103,6 +113,9 @@ public class ShelfStocking : MonoBehaviour
 
         // Notify BoxManager
         boxManager?.OnRowStocked();
+
+        // Save progress
+        ShelfProgressData.SetShelfProgress(zoneIndex, nextShelfIndex, rowInShelf);
     }
 
     private void UpdateZoneHighlight()
@@ -115,13 +128,11 @@ public class ShelfStocking : MonoBehaviour
             {
                 if (shouldHighlight)
                 {
-                    // Oscillates 0 → 0.5 for partial yellow
                     float intensity = ((Mathf.Sin(Time.time * 2f) + 1f) / 2f) * 0.5f;
                     zoneRenderers[i].material.color = Color.Lerp(originalColors[i], highlightColor, intensity);
                 }
                 else
                 {
-                    // Revert to original color
                     zoneRenderers[i].material.color = originalColors[i];
                 }
             }
@@ -143,6 +154,36 @@ public class ShelfStocking : MonoBehaviour
         {
             isPlayerNearby = false;
             playerPickup = null;
+        }
+    }
+
+    private void SpawnFullShelf(int shelfIndex)
+    {
+        for (int row = 0; row < rowsPerShelf; row++)
+        {
+            Transform start = startPoints[shelfIndex];
+            for (int i = 0; i < cubesPerRow; i++)
+            {
+                Vector3 pos = start.position
+                              + start.right * (i * spacing)
+                              + start.forward * (row * rowSpacing);
+                Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+            }
+        }
+    }
+
+    private void SpawnPartialShelf(int shelfIndex, int rows)
+    {
+        Transform start = startPoints[shelfIndex];
+        for (int row = 0; row < rows; row++)
+        {
+            for (int i = 0; i < cubesPerRow; i++)
+            {
+                Vector3 pos = start.position
+                              + start.right * (i * spacing)
+                              + start.forward * (row * rowSpacing);
+                Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ public class BoxManager : MonoBehaviour
 {
     [Header("Boxes & Zones")]
     public GameObject boxPrefab;
-    public List<Transform> stockZones;  // Each stock zone root
+    public List<Transform> stockZones;
     public float spawnHeight = 1f;
     public float spawnDelay = 1f;
 
@@ -26,7 +26,13 @@ public class BoxManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnBox();
+        // Restore saved zone progress
+        currentZoneIndex = ShelfProgressData.GetZoneIndex();
+        rowsStockedThisZone = ShelfProgressData.GetRowsStockedThisZone(currentZoneIndex);
+
+        // Only spawn box if zone not complete
+        if (currentZoneIndex < stockZones.Count)
+            SpawnBox();
     }
 
     private void Update()
@@ -39,15 +45,11 @@ public class BoxManager : MonoBehaviour
 
     private void SpawnBox()
     {
-        if (currentZoneIndex >= stockZones.Count)
-        {
-            return; // All zones stocked
-        }
+        if (currentZoneIndex >= stockZones.Count) return;
 
         Vector3 pos = GetRandomSpawnPos();
         currentBox = Instantiate(boxPrefab, pos + Vector3.up * spawnHeight, Quaternion.identity);
 
-        // Ensure box has necessary components
         currentBox.tag = "Box";
         if (currentBox.GetComponent<Collider>() == null)
             currentBox.AddComponent<BoxCollider>();
@@ -69,6 +71,9 @@ public class BoxManager : MonoBehaviour
     public void OnRowStocked()
     {
         rowsStockedThisZone++;
+
+        // Save progress
+        ShelfProgressData.SetRowsStockedForZone(currentZoneIndex, rowsStockedThisZone);
 
         if (rowsStockedThisZone < rowsPerZone)
             return;
@@ -98,5 +103,11 @@ public class BoxManager : MonoBehaviour
     public int GetCurrentZoneIndex()
     {
         return currentZoneIndex;
+    }
+
+    public void SetRowsStockedForZone(int zone, int rows)
+    {
+        if (zone == currentZoneIndex)
+            rowsStockedThisZone = rows;
     }
 }

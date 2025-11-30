@@ -24,7 +24,7 @@ public class HorrorWinScript : MonoBehaviour
 
             // Load the main scene
             
-            string mainSceneName = "POCScene";
+            string mainSceneName = "MainScene";
             loader.LoadSceneByName(mainSceneName);
             //SceneManager.LoadScene(mainSceneName);
         }
