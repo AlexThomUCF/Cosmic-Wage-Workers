@@ -2142,11 +2142,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4816788438916281907, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
   m_PrefabInstance: {fileID: 448077783}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &448077785 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 199106822273360075, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
-  m_PrefabInstance: {fileID: 448077783}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &448077786 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2144855687744695276, guid: 79c9da9f098bc7e4f96cf0d67ded870e, type: 3}
@@ -12103,9 +12098,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd40ce63f716161468327507eaa71bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSManager
+  loader: {fileID: 0}
   killCount: 0
   killsToWin: 10
-  nextSceneName: POCScene
+  nextSceneName: MainScene
   interactionID: FPS
 --- !u!43 &1908143265
 Mesh:
@@ -12910,8 +12906,13 @@ MonoBehaviour:
   pauseMenu: {fileID: 448077788}
   optionsMenu: {fileID: 448077787}
   pauseButtons: {fileID: 448077786}
-  managerInPause: {fileID: 448077785}
   pauseStars: {fileID: 448077784}
+  generalHUD: {fileID: 0}
+  pauseAni: {fileID: 0}
+  pauseOnDelay: 1
+  pauseDelay: 0.3
+  pauseLeave: 0
+  pauseOn: 0
 --- !u!4 &1960523602
 Transform:
   m_ObjectHideFlags: 0

@@ -295,7 +295,7 @@ public class RaceManager : MonoBehaviour
 
     public void WinCon()
     {
-        string mainSceneName = "POCScene";
+        string mainSceneName = "MainScene";
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         loader.LoadSceneByName(mainSceneName);
@@ -303,7 +303,7 @@ public class RaceManager : MonoBehaviour
     }
     public void ExitToMainScene()
     {
-        string mainSceneName = "POCScene";
+        string mainSceneName = "MainScene";
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
