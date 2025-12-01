@@ -1,46 +1,41 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public static class ShelfProgressData
 {
-    private static Dictionary<int, int> zoneNextShelf = new();
-    private static Dictionary<int, int> zoneRowInShelf = new();
-    private static int zoneIndex = 0;
-    private static Dictionary<int, int> rowsThisZone = new();
+    private const string ZoneKey = "Shelf_Zone_";
+    private const string RowKey = "Shelf_Row_";
 
-    public static void SetShelfProgress(int zone, int nextShelf, int rowInShelf)
+    public static void SetShelfProgress(int zoneIndex, int nextShelf, int rowInShelf)
     {
-        zoneNextShelf[zone] = nextShelf;
-        zoneRowInShelf[zone] = rowInShelf;
+        PlayerPrefs.SetInt(ZoneKey + zoneIndex, nextShelf);
+        PlayerPrefs.SetInt(RowKey + zoneIndex, rowInShelf);
+        PlayerPrefs.Save();
     }
 
-    public static int GetNextShelf(int zone)
+    public static int GetNextShelf(int zoneIndex)
     {
-        return zoneNextShelf.ContainsKey(zone) ? zoneNextShelf[zone] : 0;
+        return PlayerPrefs.GetInt(ZoneKey + zoneIndex, 0);
     }
 
-    public static int GetRowInShelf(int zone)
+    public static int GetRowInShelf(int zoneIndex)
     {
-        return zoneRowInShelf.ContainsKey(zone) ? zoneRowInShelf[zone] : 0;
+        return PlayerPrefs.GetInt(RowKey + zoneIndex, 0);
     }
 
-    public static void SetZoneIndex(int index)
+    public static int GetRowsStockedThisZone(int zoneIndex)
     {
-        zoneIndex = index;
+        int nextShelf = GetNextShelf(zoneIndex);
+        int rowInShelf = GetRowInShelf(zoneIndex);
+        return nextShelf * 2 + rowInShelf; // 2 rows per shelf
     }
 
-    public static int GetZoneIndex()
+    public static void ResetAllZones(int totalZones)
     {
-        return zoneIndex;
-    }
-
-    public static void SetRowsStockedForZone(int zone, int rows)
-    {
-        rowsThisZone[zone] = rows;
-    }
-
-    public static int GetRowsStockedThisZone(int zone)
-    {
-        return rowsThisZone.ContainsKey(zone) ? rowsThisZone[zone] : 0;
+        for (int i = 0; i < totalZones; i++)
+        {
+            PlayerPrefs.DeleteKey(ZoneKey + i);
+            PlayerPrefs.DeleteKey(RowKey + i);
+        }
+        PlayerPrefs.Save();
     }
 }

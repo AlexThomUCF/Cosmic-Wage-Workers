@@ -7,7 +7,7 @@ public class ShelfStocking : MonoBehaviour
     public int cubesPerRow = 5;
     public float spacing = 0.4f;
     public float rowSpacing = 0.4f;
-    public Vector3 cubeRotationOffset = Vector3.zero; // rotation in degrees relative to shelf
+    public Vector3 cubeRotationOffset = Vector3.zero;
 
     [Header("Start Points (One per vertical shelf)")]
     public Transform[] startPoints;
@@ -50,7 +50,6 @@ public class ShelfStocking : MonoBehaviour
 
     private void Start()
     {
-        // store original colors
         originalColors = new Color[zoneRenderers.Length];
         for (int i = 0; i < zoneRenderers.Length; i++)
         {
@@ -58,15 +57,12 @@ public class ShelfStocking : MonoBehaviour
                 originalColors[i] = zoneRenderers[i].material.color;
         }
 
-        // Restore saved progress
         nextShelfIndex = ShelfProgressData.GetNextShelf(zoneIndex);
         rowInShelf = ShelfProgressData.GetRowInShelf(zoneIndex);
 
-        // Inform BoxManager of already-stocked rows
         if (boxManager != null)
             boxManager.SetRowsStockedForZone(zoneIndex, nextShelfIndex * rowsPerShelf + rowInShelf);
 
-        // Spawn any missing cubes to match saved state
         for (int shelf = 0; shelf < nextShelfIndex; shelf++)
             SpawnFullShelf(shelf);
         if (rowInShelf > 0 && nextShelfIndex < startPoints.Length)
@@ -101,7 +97,6 @@ public class ShelfStocking : MonoBehaviour
                           + currentShelfStart.forward * (rowInShelf * rowSpacing);
 
             Quaternion rot = currentShelfStart.rotation * Quaternion.Euler(cubeRotationOffset);
-
             Instantiate(cubePrefab, pos, rot, transform);
         }
 
@@ -114,10 +109,7 @@ public class ShelfStocking : MonoBehaviour
             nextShelfIndex++;
         }
 
-        // Notify BoxManager
         boxManager?.OnRowStocked();
-
-        // Save progress
         ShelfProgressData.SetShelfProgress(zoneIndex, nextShelfIndex, rowInShelf);
     }
 
@@ -135,9 +127,7 @@ public class ShelfStocking : MonoBehaviour
                     zoneRenderers[i].material.color = Color.Lerp(originalColors[i], highlightColor, intensity);
                 }
                 else
-                {
                     zoneRenderers[i].material.color = originalColors[i];
-                }
             }
         }
     }
@@ -172,7 +162,6 @@ public class ShelfStocking : MonoBehaviour
                               + start.forward * (row * rowSpacing);
 
                 Quaternion rot = start.rotation * Quaternion.Euler(cubeRotationOffset);
-
                 Instantiate(cubePrefab, pos, rot, transform);
             }
         }
@@ -190,7 +179,6 @@ public class ShelfStocking : MonoBehaviour
                               + start.forward * (row * rowSpacing);
 
                 Quaternion rot = start.rotation * Quaternion.Euler(cubeRotationOffset);
-
                 Instantiate(cubePrefab, pos, rot, transform);
             }
         }

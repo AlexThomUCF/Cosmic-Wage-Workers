@@ -21,16 +21,20 @@ public class BoxManager : MonoBehaviour
     private int rowsStockedThisZone = 0;
     private const int rowsPerZone = 8; // 4 shelves × 2 rows
 
-    private float displayedPercentage = 0f;
     private GameObject currentBox;
 
     private void Start()
     {
-        // Restore saved zone progress
-        currentZoneIndex = ShelfProgressData.GetZoneIndex();
-        rowsStockedThisZone = ShelfProgressData.GetRowsStockedThisZone(currentZoneIndex);
+        currentZoneIndex = 0;
 
-        // Only spawn box if zone not complete
+        // Restore saved progress across all zones
+        for (int z = 0; z < stockZones.Count; z++)
+        {
+            int stockedRows = ShelfProgressData.GetRowsStockedThisZone(z);
+            if (stockedRows >= rowsPerZone)
+                currentZoneIndex = Mathf.Max(currentZoneIndex, z + 1);
+        }
+
         if (currentZoneIndex < stockZones.Count)
             SpawnBox();
     }
@@ -38,9 +42,7 @@ public class BoxManager : MonoBehaviour
     private void Update()
     {
         if (percentText != null)
-        {
             percentText.text = $"{currentZoneIndex}/{stockZones.Count} Zones Stocked";
-        }
     }
 
     private void SpawnBox()
@@ -71,27 +73,23 @@ public class BoxManager : MonoBehaviour
     public void OnRowStocked()
     {
         rowsStockedThisZone++;
+        ShelfProgressData.SetShelfProgress(currentZoneIndex, rowsStockedThisZone / 2, rowsStockedThisZone % 2);
 
-        // Save progress
-        ShelfProgressData.SetRowsStockedForZone(currentZoneIndex, rowsStockedThisZone);
-
-        if (rowsStockedThisZone < rowsPerZone)
-            return;
-
-        // Zone complete — destroy box & progress to next
-        if (currentBox != null)
+        if (rowsStockedThisZone >= rowsPerZone)
         {
-            BoxPickUp pickup = FindObjectOfType<BoxPickUp>();
-            if (pickup != null)
-                pickup.ForceDropBox();
+            if (currentBox != null)
+            {
+                BoxPickUp pickup = FindObjectOfType<BoxPickUp>();
+                if (pickup != null)
+                    pickup.ForceDropBox();
+                Destroy(currentBox);
+            }
 
-            Destroy(currentBox);
+            currentZoneIndex++;
+            rowsStockedThisZone = 0;
+            if (currentZoneIndex < stockZones.Count)
+                StartCoroutine(SpawnNextBox());
         }
-
-        currentZoneIndex++;
-        rowsStockedThisZone = 0;
-
-        StartCoroutine(SpawnNextBox());
     }
 
     private IEnumerator SpawnNextBox()
@@ -100,10 +98,7 @@ public class BoxManager : MonoBehaviour
         SpawnBox();
     }
 
-    public int GetCurrentZoneIndex()
-    {
-        return currentZoneIndex;
-    }
+    public int GetCurrentZoneIndex() => currentZoneIndex;
 
     public void SetRowsStockedForZone(int zone, int rows)
     {
