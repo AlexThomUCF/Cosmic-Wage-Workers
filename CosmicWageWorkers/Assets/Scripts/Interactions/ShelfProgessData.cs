@@ -26,7 +26,7 @@ public static class ShelfProgressData
     {
         int nextShelf = GetNextShelf(zoneIndex);
         int rowInShelf = GetRowInShelf(zoneIndex);
-        return nextShelf * 2 + rowInShelf; // 2 rows per shelf
+        return Mathf.Clamp(nextShelf * 2 + rowInShelf, 0, 8); // max 8 rows per zone
     }
 
     public static void ResetAllZones(int totalZones)

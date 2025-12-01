@@ -50,19 +50,21 @@ public class ShelfStocking : MonoBehaviour
 
     private void Start()
     {
+        // Save original colors
         originalColors = new Color[zoneRenderers.Length];
         for (int i = 0; i < zoneRenderers.Length; i++)
-        {
             if (zoneRenderers[i] != null)
                 originalColors[i] = zoneRenderers[i].material.color;
-        }
 
+        // Restore saved progress
         nextShelfIndex = ShelfProgressData.GetNextShelf(zoneIndex);
         rowInShelf = ShelfProgressData.GetRowInShelf(zoneIndex);
 
+        // Update BoxManager's rows stocked
         if (boxManager != null)
             boxManager.SetRowsStockedForZone(zoneIndex, nextShelfIndex * rowsPerShelf + rowInShelf);
 
+        // Spawn cubes to match saved progress
         for (int shelf = 0; shelf < nextShelfIndex; shelf++)
             SpawnFullShelf(shelf);
         if (rowInShelf > 0 && nextShelfIndex < startPoints.Length)
@@ -121,13 +123,9 @@ public class ShelfStocking : MonoBehaviour
         {
             if (zoneRenderers[i] != null)
             {
-                if (shouldHighlight)
-                {
-                    float intensity = ((Mathf.Sin(Time.time * 2f) + 1f) / 2f) * 0.5f;
-                    zoneRenderers[i].material.color = Color.Lerp(originalColors[i], highlightColor, intensity);
-                }
-                else
-                    zoneRenderers[i].material.color = originalColors[i];
+                zoneRenderers[i].material.color = shouldHighlight
+                    ? Color.Lerp(originalColors[i], highlightColor, (Mathf.Sin(Time.time * 2f) + 1f) / 4f)
+                    : originalColors[i];
             }
         }
     }
@@ -154,33 +152,27 @@ public class ShelfStocking : MonoBehaviour
     {
         Transform start = startPoints[shelfIndex];
         for (int row = 0; row < rowsPerShelf; row++)
-        {
             for (int i = 0; i < cubesPerRow; i++)
             {
                 Vector3 pos = start.position
                               + start.right * (i * spacing)
                               + start.forward * (row * rowSpacing);
-
                 Quaternion rot = start.rotation * Quaternion.Euler(cubeRotationOffset);
                 Instantiate(cubePrefab, pos, rot, transform);
             }
-        }
     }
 
     private void SpawnPartialShelf(int shelfIndex, int rows)
     {
         Transform start = startPoints[shelfIndex];
         for (int row = 0; row < rows; row++)
-        {
             for (int i = 0; i < cubesPerRow; i++)
             {
                 Vector3 pos = start.position
                               + start.right * (i * spacing)
                               + start.forward * (row * rowSpacing);
-
                 Quaternion rot = start.rotation * Quaternion.Euler(cubeRotationOffset);
                 Instantiate(cubePrefab, pos, rot, transform);
             }
-        }
     }
 }
