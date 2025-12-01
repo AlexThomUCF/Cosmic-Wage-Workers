@@ -7,6 +7,7 @@ public class ShelfStocking : MonoBehaviour
     public int cubesPerRow = 5;
     public float spacing = 0.4f;
     public float rowSpacing = 0.4f;
+    public Vector3 cubeRotationOffset = Vector3.zero; // rotation in degrees relative to shelf
 
     [Header("Start Points (One per vertical shelf)")]
     public Transform[] startPoints;
@@ -99,7 +100,9 @@ public class ShelfStocking : MonoBehaviour
                           + currentShelfStart.right * (i * spacing)
                           + currentShelfStart.forward * (rowInShelf * rowSpacing);
 
-            Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+            Quaternion rot = currentShelfStart.rotation * Quaternion.Euler(cubeRotationOffset);
+
+            Instantiate(cubePrefab, pos, rot, transform);
         }
 
         SoundEffectManager.Play("StockSound");
@@ -159,15 +162,18 @@ public class ShelfStocking : MonoBehaviour
 
     private void SpawnFullShelf(int shelfIndex)
     {
+        Transform start = startPoints[shelfIndex];
         for (int row = 0; row < rowsPerShelf; row++)
         {
-            Transform start = startPoints[shelfIndex];
             for (int i = 0; i < cubesPerRow; i++)
             {
                 Vector3 pos = start.position
                               + start.right * (i * spacing)
                               + start.forward * (row * rowSpacing);
-                Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+
+                Quaternion rot = start.rotation * Quaternion.Euler(cubeRotationOffset);
+
+                Instantiate(cubePrefab, pos, rot, transform);
             }
         }
     }
@@ -182,7 +188,10 @@ public class ShelfStocking : MonoBehaviour
                 Vector3 pos = start.position
                               + start.right * (i * spacing)
                               + start.forward * (row * rowSpacing);
-                Instantiate(cubePrefab, pos, Quaternion.identity, transform);
+
+                Quaternion rot = start.rotation * Quaternion.Euler(cubeRotationOffset);
+
+                Instantiate(cubePrefab, pos, rot, transform);
             }
         }
     }
