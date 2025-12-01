@@ -7,15 +7,13 @@ public class BoxManager : MonoBehaviour
 {
     [Header("Boxes & Zones")]
     public GameObject boxPrefab;
-    public List<Transform> stockZones;
+    public List<Transform> stockZones;         // Each stock zone root
+    public List<Transform> boxSpawnPoints;     // Predefined spawn points for boxes
     public float spawnHeight = 1f;
     public float spawnDelay = 1f;
 
     [Header("UI")]
     public TextMeshProUGUI percentText;
-
-    [Header("UI Settings")]
-    public float lerpSpeed = 5f;
 
     private int currentZoneIndex = 0;
     private int rowsStockedThisZone = 0;
@@ -25,9 +23,8 @@ public class BoxManager : MonoBehaviour
 
     private void Start()
     {
-        currentZoneIndex = 0;
-
         // Restore saved progress across all zones
+        currentZoneIndex = 0;
         for (int z = 0; z < stockZones.Count; z++)
         {
             int stockedRows = ShelfProgressData.GetRowsStockedThisZone(z);
@@ -47,10 +44,13 @@ public class BoxManager : MonoBehaviour
 
     private void SpawnBox()
     {
-        if (currentZoneIndex >= stockZones.Count) return;
+        if (currentZoneIndex >= stockZones.Count || boxSpawnPoints.Count == 0) return;
 
-        Vector3 pos = GetRandomSpawnPos();
-        currentBox = Instantiate(boxPrefab, pos + Vector3.up * spawnHeight, Quaternion.identity);
+        // Choose the spawn point corresponding to the zone index (loop if not enough points)
+        Transform spawnPoint = boxSpawnPoints[Mathf.Min(currentZoneIndex, boxSpawnPoints.Count - 1)];
+        Vector3 pos = spawnPoint.position + Vector3.up * spawnHeight;
+
+        currentBox = Instantiate(boxPrefab, pos, Quaternion.identity);
 
         currentBox.tag = "Box";
         if (currentBox.GetComponent<Collider>() == null)
@@ -61,13 +61,6 @@ public class BoxManager : MonoBehaviour
             Rigidbody rb = currentBox.AddComponent<Rigidbody>();
             rb.isKinematic = false;
         }
-    }
-
-    private Vector3 GetRandomSpawnPos()
-    {
-        float x = Random.Range(-10f, 10f);
-        float z = Random.Range(-10f, 10f);
-        return new Vector3(x, 0f, z);
     }
 
     public void OnRowStocked()
