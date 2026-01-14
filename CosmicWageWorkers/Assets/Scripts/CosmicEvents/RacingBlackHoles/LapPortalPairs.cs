@@ -84,6 +84,7 @@ public class OneWayTeleporter : MonoBehaviour
         targetPos += flatForward * exitForwardOffset;
 
         target.transform.position = targetPos;
+        target.transform.rotation = Quaternion.LookRotation(flatForward, Vector3.up);
 
         if (zeroRigidbodyVelocity)
         {

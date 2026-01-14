@@ -34,6 +34,17 @@ public class RaceManager : MonoBehaviour
 
     private bool ifCheckpointMissed = false;
 
+    public bool TryGetRacerProgress(GameObject racer, out RacerProgress progress)
+    {
+        return racers.TryGetValue(racer, out progress);
+    }
+
+    public Transform GetCheckpointTransform(int index)
+    {
+        return checkpoints[index].transform;
+    }
+
+
     [SerializeField] SceneLoader loader;
 
     #region Unity Functions
@@ -337,3 +348,5 @@ public class RacerProgress
     public bool raceStarted = false;
     public bool raceFinished = false;
 }
+
+
