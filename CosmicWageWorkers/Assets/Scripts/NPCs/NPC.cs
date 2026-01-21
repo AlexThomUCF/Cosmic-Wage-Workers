@@ -14,8 +14,6 @@ public class NPC : MonoBehaviour, IInteraction
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
     public static bool isInDialogue = false;
- 
-    
 
     public void Start()
     {
@@ -48,7 +46,6 @@ public class NPC : MonoBehaviour, IInteraction
       isDialogueActive = true;
       isInDialogue = true;
       dialogueIndex = 0;
-
 
 
         dialogueUI.SetNPCInfo(dialogueData.npcName, dialogueData.npcProtrait);

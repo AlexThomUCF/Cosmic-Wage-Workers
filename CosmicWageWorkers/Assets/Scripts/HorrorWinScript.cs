@@ -23,13 +23,9 @@ public class HorrorWinScript : MonoBehaviour
             }
 
             // Load the main scene
-            Debug.Log("Before increment: " + FinalMiniGame.miniGameCount);
-            FinalMiniGame.miniGameCount++;
-            Debug.Log("After increment: " + FinalMiniGame.miniGameCount);
-
+            
             string mainSceneName = "MainScene";
             loader.LoadSceneByName(mainSceneName);
-            Debug.Log("After Scene Load: " + FinalMiniGame.miniGameCount);
             //SceneManager.LoadScene(mainSceneName);
         }
     }

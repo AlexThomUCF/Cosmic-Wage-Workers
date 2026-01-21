@@ -10,7 +10,7 @@ public class FPSManager : MonoBehaviour
     [Header("Win Settings")]
     public int killCount = 0;
     public int killsToWin = 10;
-    public string nextSceneName = "MainScene";
+    public string nextSceneName = "ProgramPrototype";
 
     [Header("Customer Interaction ID")]
     public string interactionID; // Assign the ID of the customer associated with this minigame
@@ -40,8 +40,7 @@ public class FPSManager : MonoBehaviour
 
     private void LoadNextScene()
     {
-        string titleScreenName = "UI";
-        //loader.LoadSceneByName(titleScreenName); doesn't finish fade to main scene for some reason
-        SceneManager.LoadScene(titleScreenName);
+        loader.LoadSceneByName(nextSceneName);
+        //SceneManager.LoadScene(nextSceneName);
     }
 }
