@@ -34,6 +34,7 @@ public class GUN : MonoBehaviour
     public string targetTag = "Enemy";
     public float damage = 20f;
 
+    public bool canMove = false;
 
     private PlayerControls inputActions;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,6 +62,22 @@ public class GUN : MonoBehaviour
     {
         Shoot();
     }
+    public void Update()
+    {
+        RaycastHit aimCrosshair;
+        if(Physics.Raycast(bulletSpawnPoint.transform.position, transform.forward, out aimCrosshair))
+        {
+            Debug.Log(aimCrosshair.collider.name);
+            if(aimCrosshair.collider.CompareTag("Enemy"))
+            {
+                canMove = true;
+            }
+        }
+        else
+        {
+            canMove = false;
+        }
+    }
 
     public void Shoot()
     {
@@ -74,6 +91,7 @@ public class GUN : MonoBehaviour
 
             if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, mask))
             {
+               
                 TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
 
                 StartCoroutine(SpawnTrail(trail, hit));

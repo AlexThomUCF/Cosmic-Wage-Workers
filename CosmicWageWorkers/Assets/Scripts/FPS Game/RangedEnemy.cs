@@ -18,6 +18,8 @@ public class RangedEnemy : EnemyBase
 
     private bool isNotHidden;
 
+    public GUN gun;
+
     void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -25,6 +27,7 @@ public class RangedEnemy : EnemyBase
             player = playerObj.transform;
 
         agent = GetComponent<NavMeshAgent>();
+        gun = FindAnyObjectByType<GUN>();
         shootTimer = shootCooldown;
     }
 
@@ -45,6 +48,8 @@ public class RangedEnemy : EnemyBase
         {
             agent.ResetPath(); // Optional: stop very close to player
         }
+
+        BeingAimedAt(gun.canMove);
 
         // Rotate toward player
         Vector3 lookDirection = player.position - transform.position;
@@ -84,16 +89,31 @@ public class RangedEnemy : EnemyBase
             if (hit.transform ==player) //if hit true
             {
                 isNotHidden = true;
-                Debug.Log("Player not hidden");
+                //Debug.Log("Player not hidden");
             }
             else // if behind object
             {
-                Debug.Log("Player is Hidden");
+                //Debug.Log("Player is Hidden");
             }
         }
         else
         {
-            Debug.Log("Hit nothing, can't find player");
+            //Debug.Log("Hit nothing, can't find player");
+        }
+    }
+    void BeingAimedAt(bool pointedAt)
+    {
+        if(pointedAt == true)
+        {
+            Debug.Log("Move out the way");
+            Vector3 angleDistance = player.position - transform.position; // maybe dont go to player position but a position closer to range enemy then goes back towards player
+            Vector3 angledDir = Quaternion.AngleAxis(30f, Vector3.up) * angleDistance;
+            agent.SetDestination(angledDir);
+        }
+        else
+        {
+            Debug.Log("Stay in position");
+            return;
         }
     }
 }
