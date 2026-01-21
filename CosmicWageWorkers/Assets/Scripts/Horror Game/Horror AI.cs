@@ -47,15 +47,15 @@ public class HorrorAI : MonoBehaviour
                     monsterAgent.SetDestination(playerTransform.position);
                     if(monsterAgent.hasPath)
                     {
-                        Debug.Log("This has a path");
+                       // Debug.Log("This has a path");
                     }
                     else if(!monsterAgent.hasPath)
                     {
-                        Debug.Log("NO PATH");
+                        //Debug.Log("NO PATH");
                     }
                     else
                     {
-                        Debug.Log("Unknown problem");
+                        //Debug.Log("Unknown problem");
                     }
                 }
 
@@ -78,7 +78,7 @@ public class HorrorAI : MonoBehaviour
             case AIState.EnragedState:
 
                 StartCoroutine(WaitForSwap());
-                Debug.Log("IN MAD STATE");
+                //Debug.Log("IN MAD STATE");
                 monsterAgent.speed = 20f;
                 monsterAgent.SetDestination(playerTransform.position);
                 Destroy(flashLight.fLight);
@@ -128,7 +128,7 @@ public class HorrorAI : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            string mainSceneName = "MainScene";
+            string mainSceneName = "backroomhorror";
 
             SceneManager.LoadScene(mainSceneName);
         }

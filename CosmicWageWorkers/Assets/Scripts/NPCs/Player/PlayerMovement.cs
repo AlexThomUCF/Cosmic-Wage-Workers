@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     [Header("Camera")]
-    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform cameraTransform; 
 
     private Rigidbody rb;
     public Vector2 moveInput;

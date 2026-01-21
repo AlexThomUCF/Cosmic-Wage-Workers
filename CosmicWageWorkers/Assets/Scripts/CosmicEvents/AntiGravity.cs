@@ -16,6 +16,7 @@ public class AntiGravity : MonoBehaviour
     public CosmicPhenomenonUIManager uiManager;
 
     private bool gravityActive = false;
+    public bool gravityRoutineOn;
     private Coroutine gravityRoutine;
 
     private void Start()
@@ -44,6 +45,7 @@ public class AntiGravity : MonoBehaviour
         if (gravityRoutine != null)
         {
             StopCoroutine(gravityRoutine);
+            gravityRoutineOn = false;
             gravityRoutine = null;
             Physics.gravity = new Vector3(0, -9.81f, 0); // restore normal gravity
         }
@@ -55,6 +57,7 @@ public class AntiGravity : MonoBehaviour
     {
         while (true)
         {
+            gravityRoutineOn = true;
             // Turn gravity off
             Physics.gravity = Vector3.zero;
             gravityActive = true;

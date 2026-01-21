@@ -4,11 +4,15 @@ using System.Collections;
 public class SpeedBoostPickup : MonoBehaviour
 {
     [Header("Boost Settings")]
-    public float boostMultiplier = 1.5f;     // how much stronger the boost is
-    public float boostDuration = 3f;         // how long the boost lasts (seconds)
+    public float boostMultiplier = 1.5f;
+    public float boostDuration = 3f;
 
     [Header("Respawn Settings")]
-    public float respawnTime = 5f;           // seconds before pickup reappears
+    public float respawnTime = 5f;
+
+    [Header("Audio")]
+    public AudioClip collectSound;        // Drag sound here
+    public AudioSource audioSource;       // Drag an AudioSource here (optional)
 
     private Renderer rend;
     private Collider col;
@@ -17,6 +21,10 @@ public class SpeedBoostPickup : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         col = GetComponent<Collider>();
+
+        // Auto-assign an AudioSource if not set
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -24,6 +32,9 @@ public class SpeedBoostPickup : MonoBehaviour
         VehicleGen4_Arcade car = other.GetComponent<VehicleGen4_Arcade>();
         if (car != null)
         {
+            // Play sound on collect
+            PlayCollectSound();
+
             // Apply the boost
             StartCoroutine(ApplySpeedBoost(car));
 
@@ -32,36 +43,43 @@ public class SpeedBoostPickup : MonoBehaviour
         }
     }
 
+    private void PlayCollectSound()
+    {
+        if (audioSource != null && collectSound != null)
+        {
+            audioSource.PlayOneShot(collectSound);
+        }
+        else
+        {
+            Debug.LogWarning("Collect sound or AudioSource not assigned on " + name);
+        }
+    }
+
     private IEnumerator ApplySpeedBoost(VehicleGen4_Arcade car)
     {
-        // Save original stats
         float originalTorque = car.maxMotorTorque;
         float originalSpeedCap = car.maxSpeedKph;
 
-        // Apply boost
         car.maxMotorTorque *= boostMultiplier;
         car.maxSpeedKph *= boostMultiplier;
 
-        // Wait for duration
         yield return new WaitForSeconds(boostDuration);
 
-        // Restore values
         car.maxMotorTorque = originalTorque;
         car.maxSpeedKph = originalSpeedCap;
     }
 
     private IEnumerator Respawn()
     {
-        // Hide and disable pickup
         rend.enabled = false;
         col.enabled = false;
 
-        // Wait before reappearing
         yield return new WaitForSeconds(respawnTime);
 
-        // Reactivate pickup
         rend.enabled = true;
         col.enabled = true;
     }
 }
+
+
 

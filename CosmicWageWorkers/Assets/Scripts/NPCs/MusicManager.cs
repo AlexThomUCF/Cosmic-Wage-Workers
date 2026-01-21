@@ -1,5 +1,6 @@
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class MusicManager : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip backgroundMusic;
     [SerializeField] private Slider musicSlider;
+
+    [SerializeField] private string excludedSceneName = "MainScene";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
@@ -31,6 +34,17 @@ public class MusicManager : MonoBehaviour
         }
 
         musicSlider.onValueChanged.AddListener(delegate { SetVolume(musicSlider.value); });
+    }
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name != excludedSceneName)
+        {
+            PauseBackgroundMusic();
+        }
+        else if(!audioSource.isPlaying && audioSource.time > 0f)
+        {
+            audioSource.Play();
+        }
     }
 
     public static void SetVolume(float volume)

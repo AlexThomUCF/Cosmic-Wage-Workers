@@ -3696,6 +3696,57 @@ Transform:
   - {fileID: 119563763}
   m_Father: {fileID: 1380654465}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &794750657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 794750658}
+  - component: {fileID: 794750659}
+  m_Layer: 0
+  m_Name: Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &794750658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794750657}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.59358, y: 0.83145, z: -17.02298}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &794750659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794750657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd4ba164ab8f76449de90af1fcb9acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  pools:
+  - tag: Trail
+    prefab: {fileID: 6852233506064812897, guid: 636677a6a9cc5ce47bec70a453c8f302, type: 3}
+    size: 20
+  - tag: Impact
+    prefab: {fileID: 27975315363233689, guid: 87d5567d66721e34197aa50f439191f5, type: 3}
+    size: 20
 --- !u!1 &803524799
 GameObject:
   m_ObjectHideFlags: 0
@@ -9279,6 +9330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   backgroundMusic: {fileID: 8300000, guid: 69388b15ca97bbe49b9f5f36acd0da4a, type: 3}
   musicSlider: {fileID: 1862223788}
+  excludedSceneName: MainScene
 --- !u!82 &1468446201
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14592,16 +14644,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   addBulletSpread: 0
   bulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
-  shootingSystem: {fileID: 6122211136517677044, guid: f47698673b774ba439867f32629cbc8a, type: 3}
-  bulletSpawnPoint: {fileID: 116849407}
-  imapctParticleSystem: {fileID: 642420291740347369, guid: 87d5567d66721e34197aa50f439191f5, type: 3}
-  bulletTrail: {fileID: 3976024215226820530, guid: 636677a6a9cc5ce47bec70a453c8f302, type: 3}
   shootDelay: 0.5
+  maxDistance: 300
+  damage: 20
+  targetTag: Enemy
   mask:
     serializedVersion: 2
     m_Bits: 257
-  targetTag: Enemy
-  damage: 20
+  bulletSpawnPoint: {fileID: 116849407}
+  muzzleFlash: {fileID: 642420291740347369, guid: 87d5567d66721e34197aa50f439191f5, type: 3}
 --- !u!95 &7991403330769079319
 Animator:
   serializedVersion: 7
@@ -14642,3 +14693,4 @@ SceneRoots:
   - {fileID: 1960523602}
   - {fileID: 1468446202}
   - {fileID: 435559950}
+  - {fileID: 794750658}

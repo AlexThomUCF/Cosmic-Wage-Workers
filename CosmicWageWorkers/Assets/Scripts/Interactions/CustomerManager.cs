@@ -88,7 +88,11 @@ public class CustomerManager : MonoBehaviour
         int aisleIndex = Random.Range(0, spawnPoints.Count);
         Transform spawn = spawnPoints[aisleIndex];
 
-        Instantiate(chosen.customerPrefab, spawn.position, spawn.rotation);
+        // Instantiate customer
+        GameObject customer = Instantiate(chosen.customerPrefab, spawn.position, spawn.rotation);
+
+        // ADJUST TO BOTTOM OF MODEL
+        AdjustToGround(customer, spawn.position);
 
         dialogueText.text = $"A customer has appeared at {spawn.name}!";
 
@@ -100,6 +104,19 @@ public class CustomerManager : MonoBehaviour
         dialogueText.text = "";
         intercomCam.Priority = 0;
         mainCam.Priority = 10;
+    }
+
+    private void AdjustToGround(GameObject customer, Vector3 spawnPos)
+    {
+        Renderer rend = customer.GetComponentInChildren<Renderer>();
+        if (rend == null) return;
+
+        Bounds b = rend.bounds;
+
+        float bottomY = b.min.y;
+        float offsetY = spawnPos.y - bottomY;
+
+        customer.transform.position += new Vector3(0, offsetY, 0);
     }
 
     public static void MarkInteractionComplete(string id)

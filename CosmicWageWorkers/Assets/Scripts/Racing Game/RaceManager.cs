@@ -34,17 +34,6 @@ public class RaceManager : MonoBehaviour
 
     private bool ifCheckpointMissed = false;
 
-    public bool TryGetRacerProgress(GameObject racer, out RacerProgress progress)
-    {
-        return racers.TryGetValue(racer, out progress);
-    }
-
-    public Transform GetCheckpointTransform(int index)
-    {
-        return checkpoints[index].transform;
-    }
-
-
     [SerializeField] SceneLoader loader;
 
     #region Unity Functions
@@ -309,6 +298,9 @@ public class RaceManager : MonoBehaviour
         string mainSceneName = "MainScene";
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Debug.Log("Before increment: " + FinalMiniGame.miniGameCount);
+        FinalMiniGame.miniGameCount++;
+        Debug.Log("After increment: " + FinalMiniGame.miniGameCount);
         loader.LoadSceneByName(mainSceneName);
         //SceneManager.LoadScene(mainSceneName);
     }
@@ -348,5 +340,3 @@ public class RacerProgress
     public bool raceStarted = false;
     public bool raceFinished = false;
 }
-
-

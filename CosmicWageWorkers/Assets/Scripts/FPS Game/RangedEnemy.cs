@@ -84,16 +84,16 @@ public class RangedEnemy : EnemyBase
             if (hit.transform ==player) //if hit true
             {
                 isNotHidden = true;
-                Debug.Log("Player not hidden");
+               // Debug.Log("Player not hidden");
             }
             else // if behind object
             {
-                Debug.Log("Player is Hidden");
+              //  Debug.Log("Player is Hidden");
             }
         }
         else
         {
-            Debug.Log("Hit nothing, can't find player");
+           //Debug.Log("Hit nothing, can't find player");
         }
     }
 }
