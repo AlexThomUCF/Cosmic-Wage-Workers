@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GravityColorChange : MonoBehaviour
 {
-  
+
 
     private AntiGravity gravity;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,7 +20,7 @@ public class GravityColorChange : MonoBehaviour
         }
         else
         {
-            GetComponent<Renderer>().material.color= Color.green;
+            GetComponent<Renderer>().material.color = Color.green;
         }
     }
 }

@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
     public void Awake()
     {
         transitonObj = GameObject.Find("Scene Tansition");
-        transitonAnim = transitonObj.GetComponent<Animator>();  
+        transitonAnim = transitonObj.GetComponent<Animator>();
        canvas = transitonObj.GetComponentInChildren<Canvas>();
     }
     public void LoadSceneByName(string sceneName)

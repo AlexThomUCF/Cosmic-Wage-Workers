@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(rangedEnemyPrefab, spawn.position, spawn.rotation);
         //Play sound
         //Spawn audio component on each portal, sound should be based on how close the player is to the enemy
-        Destroy(clone.gameObject, 8f);
+        Destroy(clone, 3.5f);
     }
 
     

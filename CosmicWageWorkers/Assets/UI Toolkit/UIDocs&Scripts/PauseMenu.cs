@@ -77,22 +77,16 @@ public class PauseMenu : MonoBehaviour
             pauseAni.SetTrigger("PauseOn");
             generalHUD.SetActive(false);
             pauseOn = true;
-            UnityEngine.Cursor.visible = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-            
         }
         else
         {
             Time.timeScale = 1f;
             pauseAni.SetTrigger("PauseOff");
             pauseLeave = true;
-            UnityEngine.Cursor.visible = false;
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-
+            }
+    
+        
         }
-
-
-    }
     
 
     //Removes everything from pause to bring in options
