@@ -9315,7 +9315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1468446200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9330,7 +9330,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   backgroundMusic: {fileID: 8300000, guid: 69388b15ca97bbe49b9f5f36acd0da4a, type: 3}
   musicSlider: {fileID: 1862223788}
-  excludedSceneName: MainScene
 --- !u!82 &1468446201
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14644,15 +14643,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   addBulletSpread: 0
   bulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
+  shootingSystem: {fileID: 0}
+  bulletSpawnPoint: {fileID: 116849407}
+  imapctParticleSystem: {fileID: 0}
+  bulletTrail: {fileID: 0}
   shootDelay: 0.5
-  maxDistance: 300
-  damage: 20
-  targetTag: Enemy
   mask:
     serializedVersion: 2
     m_Bits: 257
-  bulletSpawnPoint: {fileID: 116849407}
-  muzzleFlash: {fileID: 642420291740347369, guid: 87d5567d66721e34197aa50f439191f5, type: 3}
+  targetTag: Enemy
+  damage: 20
+  canMove: 0
 --- !u!95 &7991403330769079319
 Animator:
   serializedVersion: 7
