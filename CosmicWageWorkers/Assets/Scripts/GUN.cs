@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 [RequireComponent(typeof(Animator))]
 public class GUN : MonoBehaviour
@@ -36,6 +37,7 @@ public class GUN : MonoBehaviour
 
     public bool canMove = false;
     public Camera fpsCam;
+    private CinemachineImpulseSource impulseSource;
    
 
 
@@ -47,6 +49,8 @@ public class GUN : MonoBehaviour
     {
         inputActions = new PlayerControls();
         animator = GetComponent<Animator>();
+
+        impulseSource = GetComponentInParent<CinemachineImpulseSource>();
     }
 
     void OnEnable()
@@ -91,6 +95,7 @@ public class GUN : MonoBehaviour
             SoundEffectManager.Play("Shoot");
             muzzleFlash.Play();
             Vector3 direction = GetDirection();
+            CameraShakeManager.instance.CameraShake(impulseSource);
 
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, float.MaxValue, mask))
             {
