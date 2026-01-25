@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2950313273758440283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3362701771103708304}
+  m_Layer: 0
+  m_Name: RayGunFire point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3362701771103708304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2950313273758440283}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.33, z: 4.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 294350479751224515}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &260935338618583848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10,7 +41,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.15931164
+      value: 0.15931162
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalScale.y
@@ -18,35 +49,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.15931164
+      value: 0.15931162
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -59.03
+      value: 0.79999995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4868
+      value: -0.37020016
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: 1.370003
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -66,18 +97,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3362701771103708304}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 422506564400104010}
+      addedObject: {fileID: 1189931227651587833}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3224603043460328536}
   m_SourcePrefab: {fileID: 100100000, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
+--- !u!4 &294350479751224515 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
+  m_PrefabInstance: {fileID: 260935338618583848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1107444188426389113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3cb4fc84ba11709459710b5ee8bb0dc8, type: 3}
   m_PrefabInstance: {fileID: 260935338618583848}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &422506564400104010
+--- !u!95 &1189931227651587833
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -87,7 +129,7 @@ Animator:
   m_GameObject: {fileID: 1107444188426389113}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9abcdbfdf35fedf4cba1290e3dd60b69, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -99,3 +141,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3224603043460328536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107444188426389113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc7c0c0541369047b18e9299edd5880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GUN
+  addBulletSpread: 0
+  bulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
+  shootingSystem: {fileID: 6122211136517677044, guid: f47698673b774ba439867f32629cbc8a, type: 3}
+  bulletSpawnPoint: {fileID: 3362701771103708304}
+  imapctParticleSystem: {fileID: 642420291740347369, guid: 87d5567d66721e34197aa50f439191f5, type: 3}
+  bulletTrail: {fileID: 3976024215226820530, guid: 636677a6a9cc5ce47bec70a453c8f302, type: 3}
+  shootDelay: 0.2
+  mask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  targetTag: Enemy
+  damage: 20
+  canMove: 0
+  fpsCam: {fileID: 0}

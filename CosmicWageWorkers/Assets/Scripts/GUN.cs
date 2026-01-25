@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
@@ -12,7 +12,7 @@ public class GUN : MonoBehaviour
     private Vector3 bulletSpreadVariance = new Vector3(0.1f, 0.1f, 0.1f);
 
     [SerializeField]
-    private ParticleSystem shootingSystem; //muzzle flash
+    public ParticleSystem muzzleFlash; //muzzle flash
 
     [SerializeField] private Transform bulletSpawnPoint;
 
@@ -35,6 +35,9 @@ public class GUN : MonoBehaviour
     public float damage = 20f;
 
     public bool canMove = false;
+    public Camera fpsCam;
+   
+
 
     private PlayerControls inputActions;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -67,7 +70,7 @@ public class GUN : MonoBehaviour
         RaycastHit aimCrosshair;
         if(Physics.Raycast(bulletSpawnPoint.transform.position, transform.forward, out aimCrosshair))
         {
-            Debug.Log(aimCrosshair.collider.name);
+            // Debug.Log(aimCrosshair.collider.name);
             if(aimCrosshair.collider.CompareTag("Enemy"))
             {
                 canMove = true;
@@ -86,13 +89,13 @@ public class GUN : MonoBehaviour
             //use object pool
             animator.SetBool("IsShooting", true);
             SoundEffectManager.Play("Shoot");
-            shootingSystem.Play();
+            muzzleFlash.Play();
             Vector3 direction = GetDirection();
 
-            if (Physics.Raycast(bulletSpawnPoint.position, direction, out RaycastHit hit, float.MaxValue, mask))
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, float.MaxValue, mask))
             {
                
-                TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.position, Quaternion.identity);
+                TrailRenderer trail = Instantiate(bulletTrail, bulletSpawnPoint.transform.position, Quaternion.identity);
 
                 StartCoroutine(SpawnTrail(trail, hit));
                 CustomOnCollisionEnter(hit.collider);
@@ -149,5 +152,6 @@ public class GUN : MonoBehaviour
         Instantiate(imapctParticleSystem, hit.point, Quaternion.LookRotation(hit.normal)); // Impact particle is facing the direction the hit is facing 
 
         Destroy(trail.gameObject, trail.time);
-    }   
+    }
+
 }
