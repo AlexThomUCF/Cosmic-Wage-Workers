@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189905871036906098}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.23324306, y: -0.08775168, z: -0.021139277, w: 0.9682203}
   m_LocalPosition: {x: 0, y: 0.66700006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   ReferenceFrame: 0
   RecenterTarget: 0
   PanAxis:
-    Value: 0
+    Value: -10.357358
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -129,7 +129,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   TiltAxis:
-    Value: 0
+    Value: -27.088829
     Center: 0
     Range: {x: -90, y: 90}
     Wrap: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
         LegacyInput: 
         LegacyGain: 1
         CancelDeltaTime: 0
-      InputValue: 0
+      InputValue: -0
       Driver:
         AccelTime: 0.2
         DecelTime: 0.2
@@ -688,13 +688,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5712467674679250503}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.000000059604645, z: 0}
+  m_LocalRotation: {x: -0.13050392, y: -0.7271984, z: -0.14416096, w: 0.6583076}
+  m_LocalPosition: {x: 0, y: -0.12798983, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3079470199203382491}
-  - {fileID: 7659630441412951075}
   - {fileID: 5891770479211480756}
   m_Father: {fileID: 6629754461873219218}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -865,7 +864,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7659630441412951075}
   m_Father: {fileID: 6669132456153030295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1559083268011992772
@@ -1074,11 +1074,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 6669132456153030295}
+    m_TransformParent: {fileID: 3079470199203382491}
     m_Modifications:
     - target: {fileID: 294350479751224515, guid: a05a6a9449fc2f345a5352d27aa691cc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.15931161
+      objectReference: {fileID: 0}
+    - target: {fileID: 294350479751224515, guid: a05a6a9449fc2f345a5352d27aa691cc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.15931161
+      objectReference: {fileID: 0}
+    - target: {fileID: 294350479751224515, guid: a05a6a9449fc2f345a5352d27aa691cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.79999995
+      value: 0.8000002
       objectReference: {fileID: 0}
     - target: {fileID: 294350479751224515, guid: a05a6a9449fc2f345a5352d27aa691cc, type: 3}
       propertyPath: m_LocalPosition.y
