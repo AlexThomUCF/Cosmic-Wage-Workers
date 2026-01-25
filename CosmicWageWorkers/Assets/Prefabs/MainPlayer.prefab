@@ -233,7 +233,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0f51c60c35984a54eada0f0f8e233f51, type: 2}
+  - {fileID: 2100000, guid: 2c3b22455e0b1d640880c6ff06df4a5e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -372,6 +372,9 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 64
+  interactDistance: 3
+  interactRadius: 0.3
+  playerCamera: {fileID: 5676151147076207719}
 --- !u!114 &5484470794360054093
 MonoBehaviour:
   m_ObjectHideFlags: 0
