@@ -30,7 +30,7 @@ MonoBehaviour:
   m_Nodes:
   - rid: 7702727167086952640
   - rid: 7702727167086952659
-  m_VersionTimestamp: 639050161914409095
+  m_VersionTimestamp: 639050177931975842
   m_SerializedVersion: 1
   m_DebugInfo: {fileID: -3073326746908312871}
   m_RuntimeGraph: {fileID: 2571029490721784916}
@@ -285,7 +285,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 3
+        m_Value: 10
     - rid: 7702727167086952672
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -293,7 +293,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 1
+        m_Value: 0
     - rid: 7702727167086952673
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -410,14 +410,14 @@ MonoBehaviour:
           rid: 7702727167086952644
         BlackboardGroupReferences: []
         Root:
-          rid: 7702727167086952694
+          rid: 7702727167086952751
         m_ActiveNodes: []
         m_NodesToTick: []
         m_NodesToEnd:
           rid: 7702727167086952646
         m_EndedNodes:
           rid: 7702727167086952647
-        m_VersionTimestamp: 639050161914409095
+        m_VersionTimestamp: 639050177931975842
     - rid: 7702727167086952644
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -436,84 +436,6 @@ MonoBehaviour:
         m_Variables:
         - rid: 7702727167086952696
         - rid: 7702727167086952697
-    - rid: 7702727167086952683
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 3
-    - rid: 7702727167086952684
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
-    - rid: 7702727167086952685
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0.2
-    - rid: 7702727167086952686
-      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: SpeedMagnitude
-    - rid: 7702727167086952687
-      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
-    - rid: 7702727167086952694
-      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 7948127276266159944
-          m_Value1: 11028226716962845926
-        Graph:
-          rid: 7702727167086952643
-        m_Parent:
-          rid: -2
-        m_Child:
-          rid: 7702727167086952695
-        Repeat: 1
-        AllowMultipleRepeatsPerTick: 0
-    - rid: 7702727167086952695
-      type: {class: PatrolAction, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 3676633697386431911
-          m_Value1: 1938327188094331455
-        Graph:
-          rid: 7702727167086952643
-        m_Parent:
-          rid: 7702727167086952694
-        Agent:
-          rid: 7702727167086952696
-        Waypoints:
-          rid: 7702727167086952697
-        Speed:
-          rid: 7702727167086952683
-        WaypointWaitTime:
-          rid: 7702727167086952684
-        DistanceThreshold:
-          rid: 7702727167086952685
-        AnimatorSpeedParam:
-          rid: 7702727167086952686
-        PreserveLatestPatrolPoint:
-          rid: 7702727167086952687
     - rid: 7702727167086952696
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -530,6 +452,84 @@ MonoBehaviour:
           m_Value1: 4416651547710666849
         Name: Patrol
         m_Value: []
+    - rid: 7702727167086952746
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 10
+    - rid: 7702727167086952747
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 7702727167086952748
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0.2
+    - rid: 7702727167086952749
+      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: SpeedMagnitude
+    - rid: 7702727167086952750
+      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 7702727167086952751
+      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 7948127276266159944
+          m_Value1: 11028226716962845926
+        Graph:
+          rid: 7702727167086952643
+        m_Parent:
+          rid: -2
+        m_Child:
+          rid: 7702727167086952752
+        Repeat: 1
+        AllowMultipleRepeatsPerTick: 0
+    - rid: 7702727167086952752
+      type: {class: PatrolAction, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 3676633697386431911
+          m_Value1: 1938327188094331455
+        Graph:
+          rid: 7702727167086952643
+        m_Parent:
+          rid: 7702727167086952751
+        Agent:
+          rid: 7702727167086952696
+        Waypoints:
+          rid: 7702727167086952697
+        Speed:
+          rid: 7702727167086952746
+        WaypointWaitTime:
+          rid: 7702727167086952747
+        DistanceThreshold:
+          rid: 7702727167086952748
+        AnimatorSpeedParam:
+          rid: 7702727167086952749
+        PreserveLatestPatrolPoint:
+          rid: 7702727167086952750
 --- !u!114 &6739360957952839428
 MonoBehaviour:
   m_ObjectHideFlags: 1
