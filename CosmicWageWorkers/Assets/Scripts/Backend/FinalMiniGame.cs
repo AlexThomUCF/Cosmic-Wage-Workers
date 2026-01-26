@@ -27,6 +27,7 @@ public class FinalMiniGame : MonoBehaviour
         if (miniGameCount == 2)
         {
             miniGameCount = -999; // or any sentinel value
+            loader = FindAnyObjectByType<SceneLoader>();
             StartCoroutine(InvasionComing());
             
         }

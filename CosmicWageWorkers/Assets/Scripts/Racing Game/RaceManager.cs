@@ -218,6 +218,7 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Trigger end scene");
                 winScreen.SetActive(true);
+            FinalMiniGame.miniGameCount++;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
