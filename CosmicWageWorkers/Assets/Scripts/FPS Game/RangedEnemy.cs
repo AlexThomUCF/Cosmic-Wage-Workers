@@ -5,6 +5,7 @@ public class RangedEnemy : EnemyBase
 {
     [Header("Movement")]
     public float stoppingDistance = 2f; // Optional: keep minimum distance
+    public float moveRange = 3f;
 
     [Header("Shooting")]
     public GameObject projectilePrefab;
@@ -40,25 +41,30 @@ public class RangedEnemy : EnemyBase
 
         // Always move toward the player
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance > stoppingDistance)
+        //Mathf.Round(distance);
+        if (distance > agent.stoppingDistance)
         {
             agent.SetDestination(player.position);
         }
-        else //Alex note(If distance < stopping distance, Position where player is not hidden and stops a distance away from them?)
-        {
-            agent.ResetPath(); // Optional: stop very close to player
+        else if (distance < agent.stoppingDistance - moveRange)//Alex note(If distance < stopping distance, Position where player is not hidden and stops a distance away from them?)
+        { // When player gets to close to ranged enemy move them? or when player aims at enemy move them then have them wait a while to move again?
+            //agent.SetDestination
+            //agent.ResetPath(); // Optional: stop very close to player
+            Debug.Log("Too close to me");
+            agent.SetDestination(-player.position);
+            Debug.Log(distance);
+            
         }
 
-        BeingAimedAt(gun.canMove);
-
-        // Rotate toward player
-        Vector3 lookDirection = player.position - transform.position;
+            // Rotate toward player
+            Vector3 lookDirection = player.position - transform.position;
         lookDirection.y = 0;
         if (lookDirection != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(lookDirection);
 
         BehindObject();// checks if player is behind an object
 
+        
         // Handle shooting continuously
         shootTimer -= Time.deltaTime;
         if (shootTimer <= 0f)
@@ -101,20 +107,6 @@ public class RangedEnemy : EnemyBase
             //Debug.Log("Hit nothing, can't find player");
         }
     }
-    void BeingAimedAt(bool pointedAt)
-    {
-        if(pointedAt == true)
-        {
-            Debug.Log("Move out the way");
-            Vector3 angleDistance = player.position - transform.position; // maybe dont go to player position but a position closer to range enemy then goes back towards player
-            Vector3 angledDir = Quaternion.AngleAxis(30f, Vector3.up) * angleDistance;
-            agent.SetDestination(angledDir);
-        }
-        else
-        {
-            Debug.Log("Stay in position");
-            return;
-        }
-    }
+   
 }
 
