@@ -48,6 +48,8 @@ public class BathroomsUnhide : MonoBehaviour
     private bool doorOpened = false;
 
     public float doorTimer;
+
+    public float doorCloseDelay;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -78,12 +80,11 @@ public class BathroomsUnhide : MonoBehaviour
             if (doorTimer <= 0)
             {
                 CloseDoor();
-                player.transform.position = new Vector3(-111f, 5f, 332f);
-                doorOpened = false;
-                horrorGameStarted = false;
-                lastSoup.SetActive(true);
-                lastMop.SetActive(true);
-                SectionsTurnedOff();
+                doorCloseDelay -= Time.deltaTime;
+                if (doorCloseDelay <= 0)
+                {
+                    ReturnToBathroom();
+                }
 
             }
         }
@@ -100,7 +101,7 @@ public class BathroomsUnhide : MonoBehaviour
         doorAnimator.SetTrigger("DoorClosed");
     }
 
-    private void SectionsTurnedOff()
+    private void ReturnToBathroom()
     {
         firstSection.SetActive(false);
         secondSection.SetActive(false);
@@ -109,6 +110,11 @@ public class BathroomsUnhide : MonoBehaviour
         firstWall.SetActive(true);
         firstLight.SetActive(true);
         lastLight.SetActive(true);
+        player.transform.position = new Vector3(-111f, 5f, 332f);
+        doorOpened = false;
+        horrorGameStarted = false;
+        lastSoup.SetActive(true);
+        lastMop.SetActive(true);
 
     }
 
