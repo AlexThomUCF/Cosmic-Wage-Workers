@@ -8,6 +8,8 @@ public class BathroomsUnhide : MonoBehaviour
 
     public GameObject firstPuddle;
 
+    public GameObject firstMop;
+
     public GameObject firstSection;
 
     public GameObject firstLight;
@@ -16,11 +18,15 @@ public class BathroomsUnhide : MonoBehaviour
 
     public GameObject secondLight;
 
+    public GameObject secondMop;
+
     public GameObject secondPuddle;
 
     public GameObject secondSection;
 
     public GameObject thirdWall;
+
+    public GameObject thirdMop;
 
     public GameObject thirdLight;
 
@@ -31,6 +37,8 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject fourthLight;
 
     public GameObject lastLight;
+
+    public GameObject lastMop;
 
     public Animator doorAnimator;
 
@@ -51,29 +59,17 @@ public class BathroomsUnhide : MonoBehaviour
     {
         if (player.transform.position.z > 341 && horrorGameStarted)
         {
-            firstWall.SetActive(false);
-            firstPuddle.SetActive(false);
-            firstLight.SetActive(false);
-            secondLight.SetActive(true);
-            firstSection.SetActive(true);
+            FirstSection();
         }
 
         if (player.transform.position.z > 356 && horrorGameStarted)
         {
-            secondWall.SetActive(false);
-            secondPuddle.SetActive(false);
-            secondLight.SetActive(false);
-            thirdLight.SetActive(true);
-            secondSection.SetActive(true);
+            SecondSection();
         }
+
         if (player.transform.position.z > 387 && horrorGameStarted)
         {
-            thirdWall.SetActive(false);
-            thirdPuddle.SetActive(false);
-            thirdLight.SetActive(false);
-            fourthLight.SetActive(true);
-            thirdSection.SetActive(true);
-
+            ThirdSection();
         }
 
         if (doorOpened)
@@ -82,10 +78,11 @@ public class BathroomsUnhide : MonoBehaviour
             if (doorTimer <= 0)
             {
                 CloseDoor();
+                player.transform.position = new Vector3(-111f, 5f, 332f);
                 doorOpened = false;
                 horrorGameStarted = false;
                 lastSoup.SetActive(true);
-                player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 332f);
+                lastMop.SetActive(true);
                 SectionsTurnedOff();
 
             }
@@ -113,6 +110,37 @@ public class BathroomsUnhide : MonoBehaviour
         firstLight.SetActive(true);
         lastLight.SetActive(true);
 
+    }
+
+    private void FirstSection()
+    {
+        firstWall.SetActive(false);
+        firstPuddle.SetActive(false);
+        firstLight.SetActive(false);
+        secondLight.SetActive(true);
+        firstSection.SetActive(true);
+        firstMop.SetActive(false);
+        
+    }
+
+    private void SecondSection()
+    {
+        secondWall.SetActive(false);
+        secondPuddle.SetActive(false);
+        secondLight.SetActive(false);
+        thirdLight.SetActive(true);
+        secondSection.SetActive(true);
+        secondMop.SetActive(false);
+    }
+
+    private void ThirdSection()
+    {
+        thirdWall.SetActive(false);
+        thirdPuddle.SetActive(false);
+        thirdLight.SetActive(false);
+        fourthLight.SetActive(true);
+        thirdSection.SetActive(true);
+        thirdMop.SetActive(false);
     }
 
     public void BackToMainScene()
