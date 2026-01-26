@@ -25,7 +25,7 @@ public class CarControl : MonoBehaviour
     private float currentForwardInput;
     private float currentTurnInput;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     void Start()
     {
