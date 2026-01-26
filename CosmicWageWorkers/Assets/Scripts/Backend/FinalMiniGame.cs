@@ -18,7 +18,7 @@ public class FinalMiniGame : MonoBehaviour
         {
             Destroy(gameObject);
         }
-            loader = FindAnyObjectByType<SceneLoader>();
+            //loader = FindAnyObjectByType<SceneLoader>();
     }
 
     // Update is called once per frame
