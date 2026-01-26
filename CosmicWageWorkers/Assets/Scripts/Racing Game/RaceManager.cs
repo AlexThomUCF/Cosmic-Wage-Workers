@@ -209,16 +209,17 @@ public class RaceManager : MonoBehaviour
                 break;
             }
         }
+        
 
         
         
             raceDone = true;
             Debug.Log("All racers have finished the race!");
-            if (playerCameFirst)
+            if (racer.CompareTag("Player") && playerCameFirst)
             {
                 Debug.Log("Trigger end scene");
                 winScreen.SetActive(true);
-            FinalMiniGame.miniGameCount++;
+                FinalMiniGame.miniGameCount++;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
