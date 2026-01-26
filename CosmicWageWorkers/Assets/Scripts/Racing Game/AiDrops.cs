@@ -5,12 +5,12 @@ public class AiDrops : MonoBehaviour
     public float slowSpeed; // how slow the vehicle will slow down
 
     public CarControl car;
-    public VehicleGen4_Arcade currentCar;
+    public CarControl currentCar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter(Collider other)
     {
         car = other.GetComponent<CarControl>();
-        currentCar = other.GetComponent<VehicleGen4_Arcade>();
+        currentCar = other.GetComponent<CarControl>();
 
         if (car)
         {
