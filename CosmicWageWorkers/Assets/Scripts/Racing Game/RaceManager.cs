@@ -22,6 +22,7 @@ public class RaceManager : MonoBehaviour
     [Header("Global State")]
     public static bool raceDone = false;
     public static bool playerCameFirst = false;
+    public static bool babyCameFirst = false;
 
     [Header("UI settings")]
     public GameObject winScreen;
@@ -181,6 +182,7 @@ public class RaceManager : MonoBehaviour
             if (racer.CompareTag("Player"))
             {
                 playerCameFirst = true;
+                babyCameFirst = false;
                 Debug.Log("Player came in FIRST!");
 
                 // Mark the customer interaction complete
@@ -192,6 +194,7 @@ public class RaceManager : MonoBehaviour
             else
             {
                 playerCameFirst = false;
+                babyCameFirst = true;
                 Debug.Log("Player did NOT come first.");
             }
         }
@@ -207,11 +210,11 @@ public class RaceManager : MonoBehaviour
             }
         }
 
-        if (allDone)
-        {
+        
+        
             raceDone = true;
             Debug.Log("All racers have finished the race!");
-            if (allDone && playerCameFirst)
+            if (playerCameFirst)
             {
                 Debug.Log("Trigger end scene");
                 winScreen.SetActive(true);
@@ -219,14 +222,14 @@ public class RaceManager : MonoBehaviour
                 Cursor.visible = true;
 
             }
-            else if (allDone && !playerCameFirst)
+            else if (babyCameFirst)
             {
                 Debug.Log("Replay the game");
                 loseScreen.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-        }
+        
     }
     #endregion
 
