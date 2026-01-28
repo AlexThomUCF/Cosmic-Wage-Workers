@@ -140,7 +140,7 @@ public class BathroomsUnhide : MonoBehaviour
         firstMop.SetActive(false);
         bathroomSFX.StopStoreMusic();
         bathroomSFX.PlaySectionOpen();
-        bathroomSFX.StartMusic();
+        bathroomSFX.StartMusic();   
         firstSectionOpened = false;
         secondSectionOpened = true;
 
