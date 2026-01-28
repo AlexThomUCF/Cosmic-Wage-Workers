@@ -18,15 +18,17 @@ public class FinalMiniGame : MonoBehaviour
         {
             Destroy(gameObject);
         }
-            loader = FindAnyObjectByType<SceneLoader>();
+            //loader = FindAnyObjectByType<SceneLoader>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(miniGameCount);
         if (miniGameCount == 2)
         {
             miniGameCount = -999; // or any sentinel value
+            loader = FindAnyObjectByType<SceneLoader>();
             StartCoroutine(InvasionComing());
             
         }

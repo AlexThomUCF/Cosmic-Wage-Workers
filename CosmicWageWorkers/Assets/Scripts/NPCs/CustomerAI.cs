@@ -13,6 +13,7 @@ public class CustomerAI : MonoBehaviour
     private float waitTime;
     private float waitCounter;
     private Coroutine rotateRoutine;
+    private Animator animator;
 
     // Non-static dictionary to track which waypoints are occupied
     private Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
@@ -20,6 +21,7 @@ public class CustomerAI : MonoBehaviour
     void Start()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
+        if(animator == null) animator = GetComponent<Animator>();
 
         // Initialize occupied dictionary if empty
         if (occupiedWaypoints.Count == 0 && waypoints != null)
@@ -35,7 +37,9 @@ public class CustomerAI : MonoBehaviour
     {
         if (!isWaiting && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
+            
             isWaiting = true;
+            animator.SetTrigger("IsWaiting");
             waitTime = Random.Range(2f, 5f);
             waitCounter = 0f;
 
@@ -45,10 +49,12 @@ public class CustomerAI : MonoBehaviour
 
         if (isWaiting)
         {
+         
             waitCounter += Time.deltaTime;
             if (waitCounter >= waitTime)
             {
                 isWaiting = false;
+                animator.SetTrigger("IsWalking");
 
                 // Mark current waypoint as free
                 if (currentTarget != null)
@@ -85,6 +91,7 @@ public class CustomerAI : MonoBehaviour
 
     IEnumerator SmoothFaceTarget(Transform target)
     {
+      
         if (target == null) yield break;
 
         Vector3 lookDir = target.forward;
@@ -105,5 +112,7 @@ public class CustomerAI : MonoBehaviour
         }
 
         transform.rotation = targetRot;
+        
+
     }
 }
