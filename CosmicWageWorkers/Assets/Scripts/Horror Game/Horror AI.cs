@@ -128,7 +128,7 @@ public class HorrorAI : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            string mainSceneName = "MainScene";
+            string mainSceneName = "backroomhorror";  // might need to change back to MainScene
 
             SceneManager.LoadScene(mainSceneName);
         }
@@ -142,26 +142,4 @@ public class HorrorAI : MonoBehaviour
         yield return new WaitForSeconds(4f);
     }
 
-    
-
-
-    /*IEnumerator DetectedAttack()// used just for exclamation mark spawn
-    {
-        monsterAgent.isStopped = true;
-
-        if (tempMark == 0)
-        {
-
-            newObject = Instantiate(noticeMark, childTransform.position, Quaternion.identity);
-            //guardAudio.Play();
-            newObject.transform.SetParent(childTransform);
-            tempMark++;
-            Destroy(newObject, 1.8f);
-        }
-
-        yield return new WaitForSeconds(1.8f);
-
-        monsterAgent.isStopped = false;
-        tempMark = 0;
-    }*/
 }
