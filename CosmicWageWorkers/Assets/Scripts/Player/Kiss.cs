@@ -1,16 +1,37 @@
+using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.VFX;
 
 public class Kiss : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private PlayerControls controls;
+
+    public AudioClip Smooch;
+    AudioSource MainPlayer;
+
+    private void Awake()
     {
-        
+        controls = new PlayerControls();
+        MainPlayer = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
+    }
+    private void Update()
+    {
+        if (controls.Gameplay.Kiss.IsPressed())
+        {
+            Debug.Log("Kiss action triggered!");
+            MainPlayer.PlayOneShot(Smooch);
+        }
     }
 }
