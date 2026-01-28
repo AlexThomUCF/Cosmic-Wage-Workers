@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class CustomerSpawning : MonoBehaviour
 {
     public GameObject npcPrefab;
+    public Material[] materials; 
     public int npcCount = 10;
     public Transform[] waypoints;
 
@@ -26,6 +27,12 @@ public class CustomerSpawning : MonoBehaviour
 
             // Spawn the NPC
             GameObject npc = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);
+            Material randomMat = materials[Random.Range(0, materials.Length)];
+
+            SkinnedMeshRenderer smr = npc.GetComponentInChildren<SkinnedMeshRenderer>();
+            smr.material = randomMat;
+
+
 
             // Assign waypoints to the NPC
             CustomerAI ai = npc.GetComponent<CustomerAI>();

@@ -21,7 +21,7 @@ public class HorrorWinScript : MonoBehaviour
             {
                 CustomerManager.MarkInteractionComplete(interactionID);
             }
-
+            FinalMiniGame.miniGameCount++;
             // Load the main scene
             
             string mainSceneName = "MainScene";
