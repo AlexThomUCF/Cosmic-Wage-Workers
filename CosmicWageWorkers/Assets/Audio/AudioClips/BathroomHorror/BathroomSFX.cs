@@ -7,11 +7,11 @@ public class BathroomSFX : MonoBehaviour
     public AudioClip doorClose;
     public AudioClip sectionOpen;
     public AudioSource backgroundNoise;
-    public AudioSource storeMusic;
+    public AudioSource distortedStoreMusic;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        storeMusic.Play();
+        distortedStoreMusic.Play();
     }
 
     // Update is called once per frame
@@ -45,13 +45,13 @@ public class BathroomSFX : MonoBehaviour
         backgroundNoise.Stop();
     }
 
-    public void StopStoreMusic()
+    public void StopDistortedMusic()
     {
-        storeMusic.Stop();
+        distortedStoreMusic.Stop();
     }
 
     public void StartStoreMusic()
     {
-        storeMusic.Play();
+
     }
 }
