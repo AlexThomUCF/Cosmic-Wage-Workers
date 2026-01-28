@@ -4,6 +4,9 @@ public class BathroomsUnhide : MonoBehaviour
 {
     public GameObject player;
 
+    public GameObject guy;
+    public GameObject guy2;
+
     public GameObject blockOut;
 
     public GameObject firstWall;
@@ -70,6 +73,7 @@ public class BathroomsUnhide : MonoBehaviour
         if (player.transform.position.z > 341 && firstSectionOpened)
         {
             FirstSection();
+
         }
 
         if (player.transform.position.z > 356 && secondSectionOpened)
@@ -101,15 +105,16 @@ public class BathroomsUnhide : MonoBehaviour
     public void OpenDoor()
     {
         bathroomSFX.StopMusic();
+        bathroomSFX.PlayDoorOpen();
         doorAnimator.SetTrigger("DoorOpen");
         doorOpened = true;
-        bathroomSFX.PlayDoorOpen();
     }   
 
     public void CloseDoor()
     {
-        doorAnimator.SetTrigger("DoorClosed");
         bathroomSFX.PlayDoorClose();
+        doorAnimator.SetTrigger("DoorClosed");
+        blockOut.SetActive(false);      
     }
 
     private void ReturnToBathroom()
@@ -124,7 +129,6 @@ public class BathroomsUnhide : MonoBehaviour
         player.transform.position = new Vector3(-111f, 5f, 332f);
         doorOpened = false;
         horrorGameStarted = false;
-        bathroomSFX.StartStoreMusic();
         lastSoup.SetActive(true);
         lastMop.SetActive(true);
 
@@ -138,11 +142,12 @@ public class BathroomsUnhide : MonoBehaviour
         secondLight.SetActive(true);
         firstSection.SetActive(true);
         firstMop.SetActive(false);
-        bathroomSFX.StopStoreMusic();
+        bathroomSFX.StopDistortedMusic();
         bathroomSFX.PlaySectionOpen();
         bathroomSFX.StartMusic();   
         firstSectionOpened = false;
         secondSectionOpened = true;
+        blockOut.SetActive(true);
 
     }
 
@@ -157,6 +162,8 @@ public class BathroomsUnhide : MonoBehaviour
         bathroomSFX.PlaySectionOpen();
         secondSectionOpened = false;
         thirdSectionOpened = true;
+        guy.SetActive(true);
+
     }
 
     private void ThirdSection()
@@ -169,6 +176,8 @@ public class BathroomsUnhide : MonoBehaviour
         thirdMop.SetActive(false); 
         bathroomSFX.PlaySectionOpen();
         thirdSectionOpened = false;
+        guy2.SetActive(true);
+
     }
 
     public void BackToMainScene()

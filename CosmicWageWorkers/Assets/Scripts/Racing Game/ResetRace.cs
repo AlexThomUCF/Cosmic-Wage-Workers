@@ -17,5 +17,9 @@ public class ResetRace : MonoBehaviour
         {
             SceneManager.LoadScene("racingscene");
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            RaceManager.playerCameFirst = true;
+        }
     }
 }
