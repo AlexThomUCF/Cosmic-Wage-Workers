@@ -4,63 +4,63 @@ public class BathroomsUnhide : MonoBehaviour
 {
     public GameObject player;
 
-    public GameObject guy;
-    public GameObject guy2;
-
+    [Header("*** Obstacles ***")]
+    public GameObject roach;
+    public GameObject roach2;
     public GameObject blockOut;
+    public GameObject firstWaveOfRoaches;
+    public GameObject secondWaveOfRoaches;
 
+    [Header("*** Walls ***")]
     public GameObject firstWall;
-
-    public GameObject firstPuddle;
-
-    public GameObject firstMop;
-
-    public GameObject firstSection;
-
-    public GameObject firstLight;
-
     public GameObject secondWall;
-
-    public GameObject secondLight;
-
-    public GameObject secondMop;
-
-    public GameObject secondPuddle;
-
-    public GameObject secondSection;
-
     public GameObject thirdWall;
 
+    [Header("*** Mops ***")]
+    public GameObject firstMop;
+    public GameObject secondMop;
     public GameObject thirdMop;
-
-    public GameObject thirdLight;
-
-    public GameObject thirdPuddle;
-
-    public GameObject thirdSection;
-
-    public GameObject fourthLight;
-
-    public GameObject lastLight;
-
     public GameObject lastMop;
 
-    public Animator doorAnimator;
+    [Header("*** Sections ***")]
+    public GameObject firstSection;
+    public GameObject secondSection;
+    public GameObject thirdSection;
 
+    [Header("*** Puddles ***")]
+    public GameObject firstPuddle;
+    public GameObject secondPuddle;
+    public GameObject thirdPuddle;
     public GameObject lastSoup;
 
-    public BathroomSFX bathroomSFX;
+    [Header("*** Lights ***")]
+    public GameObject firstLight;
+    public GameObject secondLight;
+    public GameObject thirdLight;
+    public GameObject fourthLight;
+    public GameObject lastLight;
 
+
+    [Header("*** Others ***")]
+    public Animator doorAnimator;
+    public BathroomSFX bathroomSFX;
+    
     private bool horrorGameStarted = true; 
     private bool doorOpened = false;
 
     private bool firstSectionOpened = true;
     private bool secondSectionOpened = false;
     private bool thirdSectionOpened = false;
+    private bool fourthSectionOpened = false;
+    private bool canLeaveBathroom = false;
+    private bool wave1started = false;
+    private bool wave2started = false;
 
     public float doorTimer;
 
     public float doorCloseDelay;
+
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -86,12 +86,46 @@ public class BathroomsUnhide : MonoBehaviour
             ThirdSection();
         }
 
+        if (player.transform.position.z > 410 && fourthSectionOpened)
+        {
+            WaveOne();
+        }
+
+        if (player.transform.position.z > 425 && wave1started && !wave2started)
+        {
+            WaveTwo();
+        }
+
+        if (thirdSectionOpened && player.transform.position.z < 350)
+        {
+            RestartLevel();
+        }
+
+        if (fourthSectionOpened && player.transform.position.z < 376)
+        {
+            RestartLevel();
+        }
+
+        if (wave1started && player.transform.position.z < 389)
+        {
+            RestartLevel();
+        }
+
+        if (wave2started && player.transform.position.z < 410)
+        {
+            RestartLevel();
+        }
+
+
+
+
+
         if (doorOpened)
         {
             doorTimer -= Time.deltaTime;
             if (doorTimer <= 0)
             {
-                CloseDoor();
+                CloseEventDoor();
                 doorCloseDelay -= Time.deltaTime;
                 if (doorCloseDelay <= 0)
                 {
@@ -100,28 +134,37 @@ public class BathroomsUnhide : MonoBehaviour
 
             }
         }
+
+        if (lastSoup == null)
+        {
+            canLeaveBathroom = true;
+        }
     }
 
-    public void OpenDoor()
+    public void OpenEventDoor()
     {
-        bathroomSFX.StopMusic();
+        bathroomSFX.StopAllMusic();
         bathroomSFX.PlayDoorOpen();
         doorAnimator.SetTrigger("DoorOpen");
         doorOpened = true;
     }   
 
-    public void CloseDoor()
+    public void CloseEventDoor()
     {
         bathroomSFX.PlayDoorClose();
         doorAnimator.SetTrigger("DoorClosed");
         blockOut.SetActive(false);      
     }
 
+
     private void ReturnToBathroom()
     {
+        wave1started = false;
+        wave2started = false;
         firstSection.SetActive(false);
         secondSection.SetActive(false);
         thirdSection.SetActive(false);
+        fourthSectionOpened = false;
         fourthLight.SetActive(false);
         firstWall.SetActive(true);
         firstLight.SetActive(true);
@@ -160,9 +203,10 @@ public class BathroomsUnhide : MonoBehaviour
         secondSection.SetActive(true);
         secondMop.SetActive(false);
         bathroomSFX.PlaySectionOpen();
+        bathroomSFX.PlayBugNoises();
         secondSectionOpened = false;
         thirdSectionOpened = true;
-        guy.SetActive(true);
+        roach.SetActive(true);
 
     }
 
@@ -175,17 +219,47 @@ public class BathroomsUnhide : MonoBehaviour
         thirdSection.SetActive(true);
         thirdMop.SetActive(false); 
         bathroomSFX.PlaySectionOpen();
+        bathroomSFX.PlayCrawlNoises();
         thirdSectionOpened = false;
-        guy2.SetActive(true);
+        fourthSectionOpened = true;
+        roach2.SetActive(true);
 
+    }
+
+
+
+    private void WaveOne()
+    {
+        wave1started = true;
+        firstWaveOfRoaches.SetActive(true);
+        bathroomSFX.WaveNoise();
+        fourthSectionOpened = false;
+
+    }
+
+    private void WaveTwo()
+    {
+        wave1started = false;
+        wave2started = true;
+        secondWaveOfRoaches.SetActive(true);
+        bathroomSFX.WaveNoise();
     }
 
     public void BackToMainScene()
     {
-        if (!horrorGameStarted)
+        if (!horrorGameStarted && canLeaveBathroom)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         }
+        else
+        {
+            bathroomSFX.PlayDoorBang();
+        }
+    }
+
+    private void RestartLevel()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
 }

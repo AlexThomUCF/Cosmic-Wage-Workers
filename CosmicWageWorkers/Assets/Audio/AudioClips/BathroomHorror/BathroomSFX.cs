@@ -3,11 +3,19 @@ using UnityEngine;
 public class BathroomSFX : MonoBehaviour
 {
     public AudioSource bathSource;
+
+    [Header("*** Audio Clips ***")]
     public AudioClip doorOpen;
     public AudioClip doorClose;
+    public AudioClip doorBang;
     public AudioClip sectionOpen;
+    public AudioClip waveStarted;
+
+    [Header("*** Audio Background ***")]
     public AudioSource backgroundNoise;
     public AudioSource distortedStoreMusic;
+    public AudioSource bugNoises;
+    public AudioSource crawlNoise;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +27,11 @@ public class BathroomSFX : MonoBehaviour
     {
         
     }
+
+    public void PlayDoorBang()
+    {
+        bathSource.PlayOneShot(doorBang);
+    } 
 
     public void PlayDoorOpen()
     {
@@ -50,8 +63,26 @@ public class BathroomSFX : MonoBehaviour
         distortedStoreMusic.Stop();
     }
 
-    public void StartStoreMusic()
+    public void PlayBugNoises()
     {
+        bugNoises.Play();
+    }
 
+    public void PlayCrawlNoises()
+    {
+        crawlNoise.Play();
+    }
+
+    public void WaveNoise()
+    {
+        bathSource.PlayOneShot(waveStarted);
+    }
+
+    public void StopAllMusic()
+    {
+        backgroundNoise.Stop();
+        distortedStoreMusic.Stop();
+        bugNoises.Stop();
+        crawlNoise.Stop();
     }
 }
