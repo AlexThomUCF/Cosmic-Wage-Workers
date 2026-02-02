@@ -124,7 +124,7 @@ public class ShelfStocking : MonoBehaviour
             if (zoneRenderers[i] != null)
             {
                 zoneRenderers[i].material.color = shouldHighlight
-                    ? Color.Lerp(originalColors[i], highlightColor, (Mathf.Sin(Time.time * 2f) + 1f) / 4f)
+                    ? Color.Lerp(originalColors[i], highlightColor, (Mathf.Sin(Time.time * 2f) + 1f) / 1f)
                     : originalColors[i];
             }
         }
