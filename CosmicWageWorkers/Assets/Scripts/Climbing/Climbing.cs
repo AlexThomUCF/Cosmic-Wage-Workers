@@ -8,10 +8,10 @@ public class Climbing : MonoBehaviour
     public int rows = 30;
 
     [Header("Cell Size")]
-    public float cellWidth = 1.2f;   // Z
-    public float cellHeight = 1.2f;  // Y
+    public float cellWidth = 1.2f;   // Z axis
+    public float cellHeight = 1.2f;  // Y axis
 
-    [Header("Grid Origin")]
+    [Header("Grid Origin (Hold 0,0)")]
     public Vector3 gridOrigin;
 
     [Header("Movement")]
@@ -20,7 +20,7 @@ public class Climbing : MonoBehaviour
     [Header("Body Offset")]
     public float bodyXOffset = -0.4f;
 
-    [Header("Hands")]
+    [Header("Hands (World Space)")]
     public Transform leftHand;
     public Transform rightHand;
 
@@ -32,25 +32,24 @@ public class Climbing : MonoBehaviour
 
     void Start()
     {
+        // Start in middle column, bottom row
         currentColumn = columns / 2;
         currentRow = 0;
 
-        // Do NOT touch hand positions — they stay where you placed them
-        Vector3 startHold = GetHoldPosition(currentColumn, currentRow);
-
-        // Body starts slightly back from the shelf
-        transform.position = GetBodyPosition(startHold);
+        // Hands stay EXACTLY where you placed them in the scene
+        // Body moves toward their midpoint
+        transform.position = GetBodyTargetFromHands();
     }
 
     void Update()
     {
         if (isMoving) return;
 
-        if (Input.GetKeyDown(KeyCode.A)) TryMove(-1, 0);
-        if (Input.GetKeyDown(KeyCode.D)) TryMove(1, 0);
-        if (Input.GetKeyDown(KeyCode.W)) TryMove(0, 1);
-        if (Input.GetKeyDown(KeyCode.Q)) TryMove(-1, 1);
-        if (Input.GetKeyDown(KeyCode.E)) TryMove(1, 1);
+        if (Input.GetKeyDown(KeyCode.A)) TryMove(-1, 0);   // Left
+        if (Input.GetKeyDown(KeyCode.D)) TryMove(1, 0);    // Right
+        if (Input.GetKeyDown(KeyCode.W)) TryMove(0, 1);    // Up
+        if (Input.GetKeyDown(KeyCode.Q)) TryMove(-1, 1);   // Left-Up
+        if (Input.GetKeyDown(KeyCode.E)) TryMove(1, 1);    // Right-Up
     }
 
     void TryMove(int colDelta, int rowDelta)
@@ -67,7 +66,7 @@ public class Climbing : MonoBehaviour
         Vector3 holdPos = GetHoldPosition(currentColumn, currentRow);
 
         SnapHandToHold(holdPos);
-        StartCoroutine(MoveBodyToHold(holdPos));
+        StartCoroutine(MoveBodyToHands());
     }
 
     void SnapHandToHold(Vector3 holdPosition)
@@ -89,21 +88,23 @@ public class Climbing : MonoBehaviour
         );
     }
 
-    Vector3 GetBodyPosition(Vector3 holdPosition)
+    Vector3 GetBodyTargetFromHands()
     {
+        Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
+
         return new Vector3(
-            holdPosition.x + bodyXOffset,
-            holdPosition.y,
-            holdPosition.z
+            midpoint.x + bodyXOffset,
+            midpoint.y,
+            midpoint.z
         );
     }
 
-    IEnumerator MoveBodyToHold(Vector3 holdPosition)
+    IEnumerator MoveBodyToHands()
     {
         isMoving = true;
 
         Vector3 start = transform.position;
-        Vector3 target = GetBodyPosition(holdPosition);
+        Vector3 target = GetBodyTargetFromHands();
 
         float elapsed = 0f;
 
