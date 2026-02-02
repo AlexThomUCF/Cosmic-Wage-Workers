@@ -24,6 +24,9 @@ public class Climbing : MonoBehaviour
     public Transform leftHand;
     public Transform rightHand;
 
+    [Header("Camera")]
+    public ShelfCamera shelfCamera;
+
     private int currentColumn;
     private int currentRow;
 
@@ -32,18 +35,22 @@ public class Climbing : MonoBehaviour
 
     void Start()
     {
-        // Start in middle column, bottom row
+        // Start in the middle, bottom row
         currentColumn = columns / 2;
         currentRow = 0;
 
-        // Hands stay EXACTLY where you placed them in the scene
-        // Body moves toward their midpoint
+        // Hands remain where you placed them in the scene
+        // Body moves to their midpoint
         transform.position = GetBodyTargetFromHands();
     }
 
     void Update()
     {
         if (isMoving) return;
+
+        // Lock climbing while looking ahead
+        if (shelfCamera != null && shelfCamera.IsLookingAhead())
+            return;
 
         if (Input.GetKeyDown(KeyCode.A)) TryMove(-1, 0);   // Left
         if (Input.GetKeyDown(KeyCode.D)) TryMove(1, 0);    // Right
