@@ -55,7 +55,7 @@ public class TurretShootWhenSeePlayer : MonoBehaviour
         if (rb != null)
         {
             
-            rb.velocity = dir * projectileSpeed;
+            rb.linearVelocity = dir * projectileSpeed;
         }
         else
         {

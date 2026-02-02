@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(NPC.isInDialogue)
+        {
+            return; // can't move while talking to npc
+        }
         Move();
     }
 
