@@ -1,46 +1,46 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Climbing : MonoBehaviour
 {
-    [Header("Grid Size")]
+    [Header("Grid Settings")]
     public int columns = 5;
     public int rows = 30;
-
-    [Header("Cell Size")]
     public float cellWidth = 1.2f;   // Z axis
     public float cellHeight = 1.2f;  // Y axis
-
-    [Header("Grid Origin (Hold 0,0)")]
     public Vector3 gridOrigin;
 
     [Header("Movement")]
     public float moveDuration = 0.25f;
+    public float bodyXOffset = -0.4f; // offset from shelf to avoid clipping
 
-    [Header("Body Offset")]
-    public float bodyXOffset = -0.4f;
-
-    [Header("Hands (World Space)")]
+    [Header("Hands")]
     public Transform leftHand;
     public Transform rightHand;
+    private bool rightHandNext = true;
 
     [Header("Camera")]
-    public ShelfCamera shelfCamera;
+    public ShelfCamera shelfCamera; // reference to camera for look mode
+
+    [Header("Stamina")]
+    public HandStamina handStamina;
+
+    [Header("Lose Settings")]
+    public string reloadSceneName = "MainScene";
 
     private int currentColumn;
     private int currentRow;
-
     private bool isMoving;
-    private bool rightHandNext = true;
 
     void Start()
     {
-        // Start in the middle, bottom row
+        // Start middle column, bottom row
         currentColumn = columns / 2;
         currentRow = 0;
 
-        // Hands remain where you placed them in the scene
-        // Body moves to their midpoint
+        // Hands stay where placed in scene
         transform.position = GetBodyTargetFromHands();
     }
 
@@ -48,10 +48,11 @@ public class Climbing : MonoBehaviour
     {
         if (isMoving) return;
 
-        // Lock climbing while looking ahead
+        // Block climbing while holding space
         if (shelfCamera != null && shelfCamera.IsLookingAhead())
             return;
 
+        // Climbing inputs
         if (Input.GetKeyDown(KeyCode.A)) TryMove(-1, 0);   // Left
         if (Input.GetKeyDown(KeyCode.D)) TryMove(1, 0);    // Right
         if (Input.GetKeyDown(KeyCode.W)) TryMove(0, 1);    // Up
@@ -79,9 +80,15 @@ public class Climbing : MonoBehaviour
     void SnapHandToHold(Vector3 holdPosition)
     {
         if (rightHandNext)
+        {
             rightHand.position = holdPosition;
+            if (handStamina != null) handStamina.lastMovedHand = rightHand;
+        }
         else
+        {
             leftHand.position = holdPosition;
+            if (handStamina != null) handStamina.lastMovedHand = leftHand;
+        }
 
         rightHandNext = !rightHandNext;
     }
@@ -98,7 +105,6 @@ public class Climbing : MonoBehaviour
     Vector3 GetBodyTargetFromHands()
     {
         Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
-
         return new Vector3(
             midpoint.x + bodyXOffset,
             midpoint.y,
@@ -118,8 +124,7 @@ public class Climbing : MonoBehaviour
         while (elapsed < moveDuration)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / moveDuration;
-            t = Mathf.SmoothStep(0f, 1f, t);
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / moveDuration);
 
             transform.position = Vector3.Lerp(start, target, t);
             yield return null;

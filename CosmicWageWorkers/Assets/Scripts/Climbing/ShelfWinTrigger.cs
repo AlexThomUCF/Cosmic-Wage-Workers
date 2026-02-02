@@ -65,6 +65,13 @@ public class ShelfWinTrigger : MonoBehaviour
 
         playerInside = true;
 
+        // Stop stamina when entering win trigger
+        HandStamina stamina = other.GetComponent<HandStamina>();
+        if (stamina != null)
+        {
+            stamina.stopStamina = true;
+        }
+
         promptUI.alpha = 1f;
         promptUI.interactable = true;
         promptUI.blocksRaycasts = true;
