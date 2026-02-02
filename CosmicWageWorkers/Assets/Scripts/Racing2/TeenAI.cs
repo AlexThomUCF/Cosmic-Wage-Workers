@@ -29,7 +29,7 @@ public class TeenAI : MonoBehaviour
 
         float distToPlayer = Vector3.Distance(transform.position, player.position);//detect range from player 
 
-        if (distToPlayer > runWhenDistanceLessThan) return; //detect if too lcose to player
+        if (distToPlayer > runWhenDistanceLessThan) return; //detect if too close to player
 
         timer -= Time.deltaTime;
 
