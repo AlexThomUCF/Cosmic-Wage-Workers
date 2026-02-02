@@ -15,19 +15,27 @@ public class CustomerAI : MonoBehaviour
     private Coroutine rotateRoutine;
     private Animator animator;
 
-    // Non-static dictionary to track which waypoints are occupied
-    private Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
+    // SHARED across all customers
+    private static Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
 
     void Start()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
-        if(animator == null) animator = GetComponent<Animator>();
+        if (animator == null) animator = GetComponent<Animator>();
 
-        // Initialize occupied dictionary if empty
-        if (occupiedWaypoints.Count == 0 && waypoints != null)
+        // Small QoL tweaks to reduce pushing
+        agent.stoppingDistance = 0.8f;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+        agent.avoidancePriority = Random.Range(30, 60);
+
+        // Initialize shared waypoint dictionary safely
+        if (waypoints != null)
         {
             foreach (var wp in waypoints)
-                occupiedWaypoints[wp] = false;
+            {
+                if (!occupiedWaypoints.ContainsKey(wp))
+                    occupiedWaypoints.Add(wp, false);
+            }
         }
 
         PickNewDestination();
@@ -37,27 +45,29 @@ public class CustomerAI : MonoBehaviour
     {
         if (!isWaiting && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            
             isWaiting = true;
             animator.SetTrigger("IsWaiting");
+
             waitTime = Random.Range(2f, 5f);
             waitCounter = 0f;
 
-            if (rotateRoutine != null) StopCoroutine(rotateRoutine);
+            if (rotateRoutine != null)
+                StopCoroutine(rotateRoutine);
+
             rotateRoutine = StartCoroutine(SmoothFaceTarget(currentTarget));
         }
 
         if (isWaiting)
         {
-         
             waitCounter += Time.deltaTime;
+
             if (waitCounter >= waitTime)
             {
                 isWaiting = false;
                 animator.SetTrigger("IsWalking");
 
-                // Mark current waypoint as free
-                if (currentTarget != null)
+                // Free the waypoint when leaving
+                if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
                     occupiedWaypoints[currentTarget] = false;
 
                 PickNewDestination();
@@ -67,22 +77,20 @@ public class CustomerAI : MonoBehaviour
 
     void PickNewDestination()
     {
-        if (waypoints == null || waypoints.Length == 0) return;
+        if (waypoints == null || waypoints.Length == 0)
+            return;
 
         List<Transform> availableWaypoints = new List<Transform>();
+
         foreach (var wp in waypoints)
         {
-            if (!occupiedWaypoints[wp])
+            if (occupiedWaypoints.ContainsKey(wp) && !occupiedWaypoints[wp])
                 availableWaypoints.Add(wp);
         }
 
         if (availableWaypoints.Count == 0)
-        {
-            // All waypoints occupied, just wait and retry next frame
-            return;
-        }
+            return; // All occupied — try again later
 
-        // Pick a random free waypoint
         currentTarget = availableWaypoints[Random.Range(0, availableWaypoints.Count)];
         occupiedWaypoints[currentTarget] = true;
 
@@ -91,15 +99,17 @@ public class CustomerAI : MonoBehaviour
 
     IEnumerator SmoothFaceTarget(Transform target)
     {
-      
-        if (target == null) yield break;
+        if (target == null)
+            yield break;
 
         Vector3 lookDir = target.forward;
-        lookDir.y = 0;
-        if (lookDir == Vector3.zero) yield break;
+        lookDir.y = 0f;
 
-        Quaternion targetRot = Quaternion.LookRotation(lookDir);
+        if (lookDir == Vector3.zero)
+            yield break;
+
         Quaternion startRot = transform.rotation;
+        Quaternion targetRot = Quaternion.LookRotation(lookDir);
 
         float duration = 0.5f;
         float t = 0f;
@@ -112,7 +122,12 @@ public class CustomerAI : MonoBehaviour
         }
 
         transform.rotation = targetRot;
-        
+    }
 
+    void OnDestroy()
+    {
+        // Safety cleanup in case an NPC despawns mid-walk
+        if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
+            occupiedWaypoints[currentTarget] = false;
     }
 }
