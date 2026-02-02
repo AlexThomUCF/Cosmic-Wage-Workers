@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections;
 
-public class ShelfClimber : MonoBehaviour
+public class Climbing : MonoBehaviour
 {
     [Header("Grid Size")]
     public int columns = 5;
@@ -13,37 +14,43 @@ public class ShelfClimber : MonoBehaviour
     [Header("Grid Origin")]
     public Vector3 gridOrigin;
 
+    [Header("Movement")]
+    public float moveDuration = 0.25f;
+
     private int currentColumn;
     private int currentRow;
 
     private float fixedX;
+    private bool isMoving;
 
     void Start()
     {
-        currentColumn = columns / 2; // middle (2)
+        currentColumn = columns / 2;
         currentRow = 0;
 
         fixedX = transform.position.x;
 
-        UpdateWorldPosition();
+        transform.position = GetWorldPosition(currentColumn, currentRow);
     }
 
     void Update()
     {
+        if (isMoving) return;
+
         if (Input.GetKeyDown(KeyCode.A))
-            TryMove(-1, 0);      // Left
+            TryMove(-1, 0);
 
         if (Input.GetKeyDown(KeyCode.D))
-            TryMove(1, 0);       // Right
+            TryMove(1, 0);
 
         if (Input.GetKeyDown(KeyCode.W))
-            TryMove(0, 1);       // Up
+            TryMove(0, 1);
 
         if (Input.GetKeyDown(KeyCode.Q))
-            TryMove(-1, 1);      // Left-Up
+            TryMove(-1, 1);
 
         if (Input.GetKeyDown(KeyCode.E))
-            TryMove(1, 1);       // Right-Up
+            TryMove(1, 1);
     }
 
     void TryMove(int colDelta, int rowDelta)
@@ -51,27 +58,42 @@ public class ShelfClimber : MonoBehaviour
         int newCol = currentColumn + colDelta;
         int newRow = currentRow + rowDelta;
 
-        // Grid bounds
-        if (newCol < 0 || newCol >= columns)
-            return;
-
-        if (newRow < 0 || newRow >= rows)
-            return;
+        if (newCol < 0 || newCol >= columns) return;
+        if (newRow < 0 || newRow >= rows) return;
 
         currentColumn = newCol;
         currentRow = newRow;
 
-        UpdateWorldPosition();
+        Vector3 targetPos = GetWorldPosition(currentColumn, currentRow);
+        StartCoroutine(MoveToPosition(targetPos));
     }
 
-    void UpdateWorldPosition()
+    Vector3 GetWorldPosition(int col, int row)
     {
-        Vector3 newPos = new Vector3(
+        return new Vector3(
             fixedX,
-            gridOrigin.y + currentRow * cellHeight,
-            gridOrigin.z + currentColumn * cellWidth
+            gridOrigin.y + row * cellHeight,
+            gridOrigin.z + col * cellWidth
         );
+    }
 
-        transform.position = newPos;
+    IEnumerator MoveToPosition(Vector3 target)
+    {
+        isMoving = true;
+
+        Vector3 start = transform.position;
+        float elapsed = 0f;
+
+        while (elapsed < moveDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / moveDuration;
+
+            transform.position = Vector3.Lerp(start, target, t);
+            yield return null;
+        }
+
+        transform.position = target;
+        isMoving = false;
     }
 }
