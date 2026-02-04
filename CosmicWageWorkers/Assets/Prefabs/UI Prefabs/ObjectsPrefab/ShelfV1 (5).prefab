@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3767675631124358190}
   - component: {fileID: 3398183993921154329}
   - component: {fileID: 8099852249349365699}
-  - component: {fileID: 2557366483115200753}
   - component: {fileID: 1166223815227642783}
   - component: {fileID: 5857701419798777949}
   - component: {fileID: 1226290090851086353}
@@ -93,28 +92,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &2557366483115200753
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21730206135365834}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000018
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999994
-  m_BaseOffset: 0.49999997
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &1166223815227642783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -170,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 2557366483115200753}
+  propAgent: {fileID: 0}
   animator: {fileID: 5857701419798777949}
   exitArea: {fileID: 0}
 --- !u!1 &2779971375692291335
@@ -184,7 +161,6 @@ GameObject:
   - component: {fileID: 3716583622659420158}
   - component: {fileID: 846292483148810834}
   - component: {fileID: 4520556394500997089}
-  - component: {fileID: 3379067657765938359}
   - component: {fileID: 3874249464612831950}
   - component: {fileID: 9202019507268968891}
   - component: {fileID: 539525421154951751}
@@ -266,28 +242,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &3379067657765938359
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2779971375692291335}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.4999999
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.9999998
-  m_BaseOffset: 0.4999999
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &3874249464612831950
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -343,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 3379067657765938359}
+  propAgent: {fileID: 0}
   animator: {fileID: 9202019507268968891}
   exitArea: {fileID: 0}
 --- !u!1 &3517127883749561051
@@ -357,7 +311,6 @@ GameObject:
   - component: {fileID: 8672512327980636343}
   - component: {fileID: 2429527953785364842}
   - component: {fileID: 7932879282493750328}
-  - component: {fileID: 9038820033369048169}
   - component: {fileID: 3185437143017799238}
   - component: {fileID: 4557035357901167877}
   - component: {fileID: 4349639944774515678}
@@ -439,28 +392,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &9038820033369048169
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3517127883749561051}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.4999999
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999994
-  m_BaseOffset: 0.49999997
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &3185437143017799238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -516,7 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 9038820033369048169}
+  propAgent: {fileID: 0}
   animator: {fileID: 4557035357901167877}
   exitArea: {fileID: 0}
 --- !u!1 &3994837571235514732
@@ -531,7 +462,6 @@ GameObject:
   - component: {fileID: 1235423390023179174}
   - component: {fileID: 3319127934521977572}
   - component: {fileID: 207250155846763919}
-  - component: {fileID: 3611909174359909767}
   - component: {fileID: 5409115406235814306}
   - component: {fileID: 3713632554781764883}
   m_Layer: 0
@@ -634,28 +564,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!195 &3611909174359909767
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3994837571235514732}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000075
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.999999
-  m_BaseOffset: 0.4999995
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &5409115406235814306
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -689,7 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 3611909174359909767}
+  propAgent: {fileID: 0}
   animator: {fileID: 207250155846763919}
   exitArea: {fileID: 0}
 --- !u!1 &4775816676952397370
@@ -703,7 +611,6 @@ GameObject:
   - component: {fileID: 520230483312232886}
   - component: {fileID: 4451229957017493515}
   - component: {fileID: 3977481306893311749}
-  - component: {fileID: 6874406906055560614}
   - component: {fileID: 4073116178070932034}
   - component: {fileID: 8608437187665979070}
   - component: {fileID: 8818465045281629039}
@@ -785,28 +692,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &6874406906055560614
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4775816676952397370}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000037
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1.0000002
-  m_BaseOffset: 0.5000001
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &4073116178070932034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -862,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 6874406906055560614}
+  propAgent: {fileID: 0}
   animator: {fileID: 8608437187665979070}
   exitArea: {fileID: 0}
 --- !u!1 &6329633646750731642
@@ -876,7 +761,6 @@ GameObject:
   - component: {fileID: 2702352813898027773}
   - component: {fileID: 7355159654186982617}
   - component: {fileID: 6252484660860372275}
-  - component: {fileID: 5410290567550083154}
   - component: {fileID: 1057419038195616979}
   - component: {fileID: 2946201886666044947}
   - component: {fileID: 396256287772328238}
@@ -958,28 +842,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &5410290567550083154
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6329633646750731642}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000018
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999803
-  m_BaseOffset: 0.49999902
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &1057419038195616979
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1035,7 +897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 5410290567550083154}
+  propAgent: {fileID: 0}
   animator: {fileID: 2946201886666044947}
   exitArea: {fileID: 0}
 --- !u!1 &6564109389215650599
@@ -1049,7 +911,6 @@ GameObject:
   - component: {fileID: 8593366420601174609}
   - component: {fileID: 4937663349594780027}
   - component: {fileID: 3215173164874891333}
-  - component: {fileID: 6005543453461621052}
   - component: {fileID: 7061204956459530505}
   - component: {fileID: 1806165278941483607}
   - component: {fileID: 6669684758569616951}
@@ -1131,28 +992,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &6005543453461621052
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6564109389215650599}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000018
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999994
-  m_BaseOffset: 0.49999997
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &7061204956459530505
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1208,7 +1047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 6005543453461621052}
+  propAgent: {fileID: 0}
   animator: {fileID: 1806165278941483607}
   exitArea: {fileID: 0}
 --- !u!1 &7261344361793884926
@@ -1222,7 +1061,6 @@ GameObject:
   - component: {fileID: 7106501230362018097}
   - component: {fileID: 6359493108451510749}
   - component: {fileID: 6386810255139947386}
-  - component: {fileID: 1371454679753859287}
   - component: {fileID: 836193148763752054}
   - component: {fileID: 5317359532470424043}
   - component: {fileID: 4602159130173034026}
@@ -1304,28 +1142,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &1371454679753859287
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7261344361793884926}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000037
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999934
-  m_BaseOffset: 0.49999967
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &836193148763752054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1381,7 +1197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 1371454679753859287}
+  propAgent: {fileID: 0}
   animator: {fileID: 5317359532470424043}
   exitArea: {fileID: 0}
 --- !u!1 &7621308739860125758
@@ -1395,7 +1211,6 @@ GameObject:
   - component: {fileID: 2760682467113417134}
   - component: {fileID: 8530379478624987306}
   - component: {fileID: 5187889609428958084}
-  - component: {fileID: 3146395736417801390}
   - component: {fileID: 8617982953671442429}
   - component: {fileID: 2538982923879931184}
   - component: {fileID: 4586964994538708573}
@@ -1477,28 +1292,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &3146395736417801390
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7621308739860125758}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.4999999
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.9999979
-  m_BaseOffset: 0.49999896
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &8617982953671442429
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1554,7 +1347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 3146395736417801390}
+  propAgent: {fileID: 0}
   animator: {fileID: 2538982923879931184}
   exitArea: {fileID: 0}
 --- !u!1 &8251245167287950973
@@ -1568,7 +1361,6 @@ GameObject:
   - component: {fileID: 7923410033231994525}
   - component: {fileID: 1734917303618709457}
   - component: {fileID: 4409047297775341541}
-  - component: {fileID: 8650326687932554032}
   - component: {fileID: 779677833545082555}
   - component: {fileID: 997811798351766170}
   - component: {fileID: 5259286937897573435}
@@ -1650,28 +1442,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &8650326687932554032
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8251245167287950973}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5000075
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.99999803
-  m_BaseOffset: 0.49999902
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!65 &779677833545082555
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1727,7 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76c500aa7684b746b7919de3b70833f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Prop
-  propAgent: {fileID: 8650326687932554032}
+  propAgent: {fileID: 0}
   animator: {fileID: 997811798351766170}
   exitArea: {fileID: 0}
 --- !u!1001 &2730560093461204723

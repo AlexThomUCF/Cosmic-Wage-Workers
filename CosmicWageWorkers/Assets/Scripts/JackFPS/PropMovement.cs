@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PropMovement : MonoBehaviour
 {
-    public int propPerShelve = 2;
+    public int propPerShelve = 10;
     List<GameObject> props = new List<GameObject>();
 
 
@@ -13,13 +13,6 @@ public class PropMovement : MonoBehaviour
         SearchForChild();
         RandomPropMovement();   
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SearchForChild()
     {
         foreach (Transform child in transform)
@@ -29,7 +22,7 @@ public class PropMovement : MonoBehaviour
             {
                 props.Add(child.gameObject);
                 
-            }
+            }   
         }
     }
 
@@ -38,15 +31,13 @@ public class PropMovement : MonoBehaviour
         int propListLength = props.Count;
         for (int i = 0; i < propPerShelve; i++)
         {
-            int randomInt = Random.Range(0, propListLength);
-            GameObject randomProp = props[randomInt];
+            //int randomInt = Random.Range(0, propListLength);
+            GameObject randomProp = props[i];
             Debug.Log("Prop: " + randomProp.name);
             // randomProp.SetActive(false);
             //Play animation
             randomProp.transform.SetParent(null);
             randomProp.tag = "MovingProp";
         }
-
-
     }
 }
