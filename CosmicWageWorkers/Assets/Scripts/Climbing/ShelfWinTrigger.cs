@@ -4,6 +4,9 @@ using System.Collections;
 
 public class ShelfWinTrigger : MonoBehaviour
 {
+    [Header("Customer Interaction ID")]
+    public string interactionID; // Assign the ID of the customer for this minigame
+
     [Header("References")]
     public GameObject grabItem;
     public CanvasGroup promptUI;
@@ -52,6 +55,14 @@ public class ShelfWinTrigger : MonoBehaviour
             fadeCanvas.alpha = elapsed / fadeDuration;
             yield return null;
         }
+
+        // Mark the interaction complete
+        if (!string.IsNullOrEmpty(interactionID))
+        {
+            CustomerManager.MarkInteractionComplete(interactionID);
+        }
+        FinalMiniGame.miniGameCount++;
+        // Load the main scene
 
         fadeCanvas.alpha = 1f;
 
