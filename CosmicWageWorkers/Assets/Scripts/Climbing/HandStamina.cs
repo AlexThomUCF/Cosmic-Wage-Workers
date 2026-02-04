@@ -14,14 +14,14 @@ public class HandStamina : MonoBehaviour
 
     [Header("Settings")]
     public float maxStamina = 100f;
-    public float drainRate = 15f;     // per second
-    public float regenRate = 10f;     // per second
+    public float drainRate = 15f;
+    public float regenRate = 10f;
 
     [Header("Lose Settings")]
     public string reloadSceneName = "ShelvesScene";
 
     [HideInInspector] public Transform lastMovedHand;
-    [HideInInspector] public bool stopStamina = false; // <--- new flag to stop drain
+    [HideInInspector] public bool stopStamina = false; // New flag to stop drain
 
     private float leftStamina;
     private float rightStamina;
@@ -40,7 +40,7 @@ public class HandStamina : MonoBehaviour
 
     void Update()
     {
-        if (stopStamina) return;  // <-- stop updates when win state
+        if (stopStamina) return;  // Stop updates when win state
 
         if (lastMovedHand == null) return;
 

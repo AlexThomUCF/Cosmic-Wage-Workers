@@ -40,7 +40,7 @@ public class ShelfWinTrigger : MonoBehaviour
     {
         hasGrabbed = true;
 
-        // Hide UI & item
+        // Hide UI and item
         promptUI.alpha = 0f;
         grabItem.SetActive(false);
 

@@ -14,7 +14,7 @@ public class Climbing : MonoBehaviour
 
     [Header("Movement")]
     public float moveDuration = 0.25f;
-    public float bodyXOffset = -0.4f; // offset from shelf to avoid clipping
+    public float bodyXOffset = -0.4f; // Offset from shelf to avoid clipping
 
     [Header("Hands")]
     public Transform leftHand;
@@ -22,7 +22,7 @@ public class Climbing : MonoBehaviour
     private bool rightHandNext = true;
 
     [Header("Camera")]
-    public ShelfCamera shelfCamera; // reference to camera for look mode
+    public ShelfCamera shelfCamera; // Reference to camera for look mode
 
     [Header("Stamina")]
     public HandStamina handStamina;
