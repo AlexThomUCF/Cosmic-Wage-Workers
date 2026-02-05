@@ -4,6 +4,11 @@ public class Billboard : MonoBehaviour
 {
     void LateUpdate()
     {
-        transform.forward = Camera.main.transform.forward;
+        Vector3 camPos = Camera.main.transform.position;
+
+        // keep same Y so it doesn't tilt
+        camPos.y = transform.position.y;
+
+        transform.LookAt(camPos);
     }
 }
