@@ -61,6 +61,8 @@ public class TurretShootWhenSeePlayer : MonoBehaviour
         {
             proj.transform.position += dir * 0.01f;
         }
+
+        Destroy(proj, 5f);
     }
 
     void OnDrawGizmosSelected()
