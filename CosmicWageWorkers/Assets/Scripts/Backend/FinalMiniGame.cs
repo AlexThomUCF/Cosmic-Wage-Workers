@@ -24,7 +24,7 @@ public class FinalMiniGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (miniGameCount == 2)
+        if (miniGameCount == 4)
         {
             miniGameCount = -999; // or any sentinel value
             loader = FindAnyObjectByType<SceneLoader>();
