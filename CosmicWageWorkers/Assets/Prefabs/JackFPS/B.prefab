@@ -14,9 +14,12 @@ GameObject:
   - component: {fileID: 8959566539088557050}
   - component: {fileID: 339608826727334099}
   - component: {fileID: 9044728662081908261}
+  - component: {fileID: 3857915011606667038}
+  - component: {fileID: 8340944473386168454}
+  - component: {fileID: -4253398400931194017}
   m_Layer: 0
   m_Name: B
-  m_TagString: Untagged
+  m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +138,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847950473415844487}
   m_Enabled: 1
-  m_AgentTypeID: 1479372276
+  m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -149,6 +152,49 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3857915011606667038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847950473415844487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2451f7103714bae4cacf3f96ee054270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtPlayer
+  player: {fileID: 0}
+--- !u!114 &8340944473386168454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847950473415844487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8835418fcb9a02846a5edbd4441db93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  health: 50
+  dmgMaterial: {fileID: 2100000, guid: c350deec353731a44b42c51d71880363, type: 2}
+  currentMaterial: {fileID: 0}
+--- !u!114 &-4253398400931194017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847950473415844487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 166182139250e1a47b59ea80512d3e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  health: 50
+  dmgMaterial: {fileID: 0}
+  currentMaterial: {fileID: 0}
 --- !u!1 &2443969766443714683
 GameObject:
   m_ObjectHideFlags: 0

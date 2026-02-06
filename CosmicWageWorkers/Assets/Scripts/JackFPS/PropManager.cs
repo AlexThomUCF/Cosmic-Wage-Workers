@@ -7,7 +7,7 @@ public class PropManager : MonoBehaviour
     [SerializeField] private int spawnCount = 10;
     public Transform[] locations;
     public GameObject[] shelfItems;
-    public Sprite mySprite;
+    public Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,8 +38,16 @@ public class PropManager : MonoBehaviour
             GameObject prefab = shelfItems[Random.Range(0, shelfItems.Length)];
 
             yield return new WaitForSeconds(3f);
-           
-            Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+
+            GameObject spawnedObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+
+            LookAtPlayer lookScript = spawnedObj.GetComponent<LookAtPlayer>();
+            if (lookScript != null)
+            {
+                lookScript.player = player.transform;
+            }
+
+
         }
 
         
