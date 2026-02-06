@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 9044728662081908261}
   - component: {fileID: 3857915011606667038}
   - component: {fileID: 8340944473386168454}
-  - component: {fileID: -4253398400931194017}
   m_Layer: 0
   m_Name: B
   m_TagString: Prop
@@ -178,22 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
   health: 50
-  dmgMaterial: {fileID: 2100000, guid: c350deec353731a44b42c51d71880363, type: 2}
-  currentMaterial: {fileID: 0}
---- !u!114 &-4253398400931194017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847950473415844487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 166182139250e1a47b59ea80512d3e94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  health: 50
-  dmgMaterial: {fileID: 0}
+  dmgMaterial: {fileID: 2100000, guid: 8decfcdf8b5f694428f1c57406d19d0d, type: 2}
   currentMaterial: {fileID: 0}
 --- !u!1 &2443969766443714683
 GameObject:
