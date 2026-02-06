@@ -2,12 +2,19 @@ using Unity.AI;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PropGravity : MonoBehaviour
 {
+    public Slider propAmount;
+
     public int escapedPropCount = 0;
     [SerializeField] private int targetAmount = 10;
 
+    public void Start()
+    {
+        propAmount.maxValue = targetAmount;
+    }
     public void Update()
     {
         
@@ -22,6 +29,8 @@ public class PropGravity : MonoBehaviour
             SceneManager.LoadScene(mainSceneName);
         }
     }
+
+    
 
     public void OnTriggerEnter(Collider other)
     {
@@ -47,8 +56,22 @@ public class PropGravity : MonoBehaviour
             rb.useGravity = false;
             Debug.Log("Everything ran");
 
-            escapedPropCount++;
+            /*escapedPropCount++;
+            propAmount.value++;*/
+
         }
         PropTracker();
     }
+
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Prop"))
+        {
+            escapedPropCount++;
+            propAmount.value++;
+            PropTracker();
+        }
+    }
+
 }
