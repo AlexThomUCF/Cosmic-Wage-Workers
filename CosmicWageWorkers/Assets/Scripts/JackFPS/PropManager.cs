@@ -4,10 +4,16 @@ using UnityEngine.AI;
 
 public class PropManager : MonoBehaviour
 {
-    [SerializeField] private int spawnCount = 10;
+    [Header("References")]
+    public Transform player;
     public Transform[] locations;
     public GameObject[] shelfItems;
-    public Transform player;
+
+    [Header("Spawn settings")]
+    [SerializeField] private int spawnCount = 10;
+    [SerializeField] private float spawnRate = .75f;
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,7 +35,7 @@ public class PropManager : MonoBehaviour
 
     IEnumerator WaitFunction()
     {
-        yield return new WaitForSeconds(.75f);
+        yield return new WaitForSeconds(spawnRate);
 
         for (int i = 0; i < spawnCount; i++)
         {
@@ -37,7 +43,7 @@ public class PropManager : MonoBehaviour
 
             GameObject prefab = shelfItems[Random.Range(0, shelfItems.Length)];
 
-            yield return new WaitForSeconds(.75f);
+            yield return new WaitForSeconds(spawnRate);
 
             GameObject spawnedObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
 
