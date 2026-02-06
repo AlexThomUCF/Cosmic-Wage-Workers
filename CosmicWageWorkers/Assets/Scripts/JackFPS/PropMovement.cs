@@ -1,16 +1,43 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PropMovement : MonoBehaviour
 {
+    public int propPerShelve = 10;
+    List<GameObject> props = new List<GameObject>();
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        SearchForChild();
+        RandomPropMovement();   
+    }
+    public void SearchForChild()
+    {
+        foreach (Transform child in transform)
+        {
+            
+            if(child.CompareTag("Prop"))
+            {
+                props.Add(child.gameObject);
+                
+            }   
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RandomPropMovement()
     {
-        
+        int propListLength = props.Count;
+        for (int i = 0; i < propPerShelve; i++)
+        {
+            //int randomInt = Random.Range(0, propListLength);
+            GameObject randomProp = props[i];
+            Debug.Log("Prop: " + randomProp.name);
+            // randomProp.SetActive(false);
+            //Play animation
+            randomProp.transform.SetParent(null);
+            randomProp.tag = "MovingProp";
+        }
     }
 }

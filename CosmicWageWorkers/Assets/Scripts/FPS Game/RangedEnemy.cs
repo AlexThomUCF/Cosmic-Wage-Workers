@@ -50,9 +50,9 @@ public class RangedEnemy : EnemyBase
         { // When player gets to close to ranged enemy move them? or when player aims at enemy move them then have them wait a while to move again?
             //agent.SetDestination
             //agent.ResetPath(); // Optional: stop very close to player
-            Debug.Log("Too close to me");
+           // Debug.Log("Too close to me");
             agent.SetDestination(-player.position);
-            Debug.Log(distance);
+          //  Debug.Log(distance);
             
         }
 
