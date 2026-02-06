@@ -11,7 +11,6 @@ public class TeenAI : MonoBehaviour
     [Header("Flee Settings")]
     public float runWhenDistanceLessThan = 15f;   // escape range
     public float repathInterval = 0.5f;          // waypoint cd
-    public float arriveDistance = 1.2f;          // target range+-
     public float minWaypointDistanceFromPlayer = 8f; // location select
 
     private NavMeshAgent agent;
@@ -34,7 +33,7 @@ public class TeenAI : MonoBehaviour
         timer -= Time.deltaTime;
 
         // If we already have a target and we're not there yet, keep going.
-        if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) > arriveDistance)
+        if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) > 1.2f)
         {
             // Optional: only re-pick sometimes, to avoid jitter.
             if (timer > 0f) return;
