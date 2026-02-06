@@ -29,7 +29,7 @@ public class PropManager : MonoBehaviour
 
     IEnumerator WaitFunction()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(.75f);
 
         for (int i = 0; i < spawnCount; i++)
         {
@@ -37,7 +37,7 @@ public class PropManager : MonoBehaviour
 
             GameObject prefab = shelfItems[Random.Range(0, shelfItems.Length)];
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(.75f);
 
             GameObject spawnedObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
 
