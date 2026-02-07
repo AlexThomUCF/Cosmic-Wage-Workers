@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HandStamina : MonoBehaviour
 {
@@ -17,14 +18,13 @@ public class HandStamina : MonoBehaviour
     public float regenRate = 10f;
 
     [Header("Lose Settings")]
-    public Climbing climbing;
+    public string reloadSceneName = "ShelvesScene";
 
     [HideInInspector] public Transform lastMovedHand;
-    [HideInInspector] public bool stopStamina = false;
+    [HideInInspector] public bool stopStamina = false; // New flag to stop drain
 
     private float leftStamina;
     private float rightStamina;
-    private bool hasLost = false;
 
     void Start()
     {
@@ -40,10 +40,10 @@ public class HandStamina : MonoBehaviour
 
     void Update()
     {
-        if (stopStamina || hasLost) return;
+        if (stopStamina) return;  // Stop updates when win state
+
         if (lastMovedHand == null) return;
 
-        // Drain/regen
         if (lastMovedHand == rightHand)
         {
             rightStamina -= drainRate * Time.deltaTime;
@@ -61,20 +61,9 @@ public class HandStamina : MonoBehaviour
         leftSlider.value = leftStamina;
         rightSlider.value = rightStamina;
 
-        // Trigger lose state
-        if ((leftStamina <= 0f || rightStamina <= 0f) && !hasLost)
+        if (leftStamina <= 0f || rightStamina <= 0f)
         {
-            hasLost = true;
-            stopStamina = true;
-
-            if (climbing != null)
-                climbing.TriggerFall();
+            SceneManager.LoadScene(reloadSceneName);
         }
-    }
-
-    public void DamageHand(Transform hand, float amount)
-    {
-        if (hand == leftHand) leftStamina -= amount;
-        else if (hand == rightHand) rightStamina -= amount;
     }
 }
