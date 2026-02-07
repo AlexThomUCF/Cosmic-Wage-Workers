@@ -21,7 +21,7 @@ public class HandStamina : MonoBehaviour
     public string reloadSceneName = "ShelvesScene";
 
     [HideInInspector] public Transform lastMovedHand;
-    [HideInInspector] public bool stopStamina = false; // New flag to stop drain
+    [HideInInspector] public bool stopStamina = false;
 
     private float leftStamina;
     private float rightStamina;
@@ -40,8 +40,7 @@ public class HandStamina : MonoBehaviour
 
     void Update()
     {
-        if (stopStamina) return;  // Stop updates when win state
-
+        if (stopStamina) return;
         if (lastMovedHand == null) return;
 
         if (lastMovedHand == rightHand)
@@ -55,6 +54,21 @@ public class HandStamina : MonoBehaviour
             rightStamina += regenRate * Time.deltaTime;
         }
 
+        ApplyClamp();
+    }
+
+    public void DamageHand(Transform hand, float amount)
+    {
+        if (hand == leftHand)
+            leftStamina -= amount;
+        else if (hand == rightHand)
+            rightStamina -= amount;
+
+        ApplyClamp();
+    }
+
+    void ApplyClamp()
+    {
         leftStamina = Mathf.Clamp(leftStamina, 0f, maxStamina);
         rightStamina = Mathf.Clamp(rightStamina, 0f, maxStamina);
 
