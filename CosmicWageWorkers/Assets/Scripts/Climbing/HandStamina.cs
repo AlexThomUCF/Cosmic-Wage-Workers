@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class HandStamina : MonoBehaviour
 {
@@ -18,13 +17,14 @@ public class HandStamina : MonoBehaviour
     public float regenRate = 10f;
 
     [Header("Lose Settings")]
-    public string reloadSceneName = "ShelvesScene";
+    public Climbing climbing;
 
     [HideInInspector] public Transform lastMovedHand;
     [HideInInspector] public bool stopStamina = false;
 
     private float leftStamina;
     private float rightStamina;
+    private bool hasLost = false;
 
     void Start()
     {
@@ -40,9 +40,10 @@ public class HandStamina : MonoBehaviour
 
     void Update()
     {
-        if (stopStamina) return;
+        if (stopStamina || hasLost) return;
         if (lastMovedHand == null) return;
 
+        // Drain/regen
         if (lastMovedHand == rightHand)
         {
             rightStamina -= drainRate * Time.deltaTime;
@@ -54,30 +55,26 @@ public class HandStamina : MonoBehaviour
             rightStamina += regenRate * Time.deltaTime;
         }
 
-        ApplyClamp();
-    }
-
-    public void DamageHand(Transform hand, float amount)
-    {
-        if (hand == leftHand)
-            leftStamina -= amount;
-        else if (hand == rightHand)
-            rightStamina -= amount;
-
-        ApplyClamp();
-    }
-
-    void ApplyClamp()
-    {
         leftStamina = Mathf.Clamp(leftStamina, 0f, maxStamina);
         rightStamina = Mathf.Clamp(rightStamina, 0f, maxStamina);
 
         leftSlider.value = leftStamina;
         rightSlider.value = rightStamina;
 
-        if (leftStamina <= 0f || rightStamina <= 0f)
+        // Trigger lose state
+        if ((leftStamina <= 0f || rightStamina <= 0f) && !hasLost)
         {
-            SceneManager.LoadScene(reloadSceneName);
+            hasLost = true;
+            stopStamina = true;
+
+            if (climbing != null)
+                climbing.TriggerFall();
         }
+    }
+
+    public void DamageHand(Transform hand, float amount)
+    {
+        if (hand == leftHand) leftStamina -= amount;
+        else if (hand == rightHand) rightStamina -= amount;
     }
 }

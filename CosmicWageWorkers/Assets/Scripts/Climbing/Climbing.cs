@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Climbing : MonoBehaviour
@@ -27,13 +28,24 @@ public class Climbing : MonoBehaviour
     public float normalTilt = -25f;
     public float lookAheadTilt = -45f;
     public float tiltSpeed = 6f;
-    public float handLeanAmount = 0.5f;  // offset toward active hand
-    public float obstacleShakeAmount = 0.3f;
-    public float obstacleShakeDuration = 0.15f;
+    public float handLeanAmount = 0.5f;
 
     [Header("Stamina")]
     public HandStamina handStamina;
     public float obstaclePenalty = 10f;
+
+    [Header("Lose/Fall")]
+    public bool isFalling = false;
+    public float fallSpeed = 10f;
+    public float groundY = 0f;
+    public CanvasGroup fadeCanvas;
+
+    [Header("Falling Hand Targets")]
+    public Transform leftFallTarget;   // Place in front of camera
+    public Transform rightFallTarget;
+    public float handFallSpeed = 3f;
+    public float handFlailAmplitude = 0.3f;
+    public float handFlailSpeed = 5f;
 
     private int currentColumn;
     private int currentRow;
@@ -41,8 +53,6 @@ public class Climbing : MonoBehaviour
     private int previousRow;
 
     private bool isMoving;
-    private bool shaking = false;
-
     private Transform activeHandDuringMove;
 
     void Start()
@@ -50,22 +60,34 @@ public class Climbing : MonoBehaviour
         currentColumn = columns / 2;
         currentRow = 0;
         transform.position = GetBodyTargetFromHands();
+
+        if (fadeCanvas != null)
+            fadeCanvas.alpha = 0f;
     }
 
     void Update()
     {
-        // Camera tilt should always update
+        // Camera tilt
         if (cameraTransform != null)
         {
-            float targetTilt = Input.GetKey(KeyCode.Space) ? lookAheadTilt : normalTilt;
-            Vector3 euler = cameraTransform.rotation.eulerAngles;
-            float tilt = Mathf.LerpAngle(euler.x, targetTilt, Time.deltaTime * tiltSpeed);
-            cameraTransform.rotation = Quaternion.Euler(tilt, euler.y, euler.z);
+            if (isFalling)
+            {
+                // Lock tilt when falling
+                Vector3 euler = cameraTransform.rotation.eulerAngles;
+                cameraTransform.rotation = Quaternion.Euler(lookAheadTilt, euler.y, euler.z);
+            }
+            else
+            {
+                float targetTilt = Input.GetKey(KeyCode.Space) ? lookAheadTilt : normalTilt;
+                Vector3 euler = cameraTransform.rotation.eulerAngles;
+                float tilt = Mathf.LerpAngle(euler.x, targetTilt, Time.deltaTime * tiltSpeed);
+                cameraTransform.rotation = Quaternion.Euler(tilt, euler.y, euler.z);
+            }
         }
 
-        if (isMoving) return;
+        if (isMoving || isFalling) return;
 
-        // Block climbing if looking ahead
+        // Block climbing while holding space
         if (Input.GetKey(KeyCode.Space)) return;
 
         // Climbing inputs
@@ -78,31 +100,61 @@ public class Climbing : MonoBehaviour
 
     void LateUpdate()
     {
-        if (cameraTransform == null) return;
-
-        // Midpoint between hands
-        Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
-
-        // Start with the explicit offset
-        Vector3 targetPos = new Vector3(
-            midpoint.x + cameraOffset.x,   // X = move back/forward
-            midpoint.y + cameraOffset.y,   // Y = height
-            midpoint.z + cameraOffset.z    // Z = side offset
-        );
-
-        // Lean slightly toward the active hand
-        if (activeHandDuringMove != null)
+        if (cameraTransform != null)
         {
-            float leanZ = activeHandDuringMove == rightHand ? handLeanAmount : -handLeanAmount;
-            targetPos.z += leanZ;
+            Vector3 targetPos;
+
+            if (isFalling)
+            {
+                // Camera follows player while falling
+                targetPos = transform.position + cameraOffset;
+            }
+            else
+            {
+                Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
+                targetPos = new Vector3(
+                    midpoint.x + cameraOffset.x,
+                    midpoint.y + cameraOffset.y,
+                    midpoint.z + cameraOffset.z
+                );
+
+                if (activeHandDuringMove != null)
+                {
+                    float leanZ = activeHandDuringMove == rightHand ? handLeanAmount : -handLeanAmount;
+                    targetPos.z += leanZ;
+                }
+            }
+
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPos, Time.deltaTime * cameraFollowSpeed);
         }
 
-        // Apply smooth camera follow
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPos, Time.deltaTime * cameraFollowSpeed);
+        if (isFalling)
+            AnimateHandsWhileFalling();
+        else
+        {
+            // Smoothly move player body toward hand midpoint
+            Vector3 bodyTarget = GetBodyTargetFromHands();
+            transform.position = Vector3.Lerp(transform.position, bodyTarget, Time.deltaTime * cameraFollowSpeed);
+        }
+    }
 
-        // Smoothly move player body toward hand midpoint
-        Vector3 bodyTarget = GetBodyTargetFromHands();
-        transform.position = Vector3.Lerp(transform.position, bodyTarget, Time.deltaTime * cameraFollowSpeed);
+    void AnimateHandsWhileFalling()
+    {
+        if (leftFallTarget != null)
+        {
+            Vector3 leftPos = leftFallTarget.position;
+            leftPos.y += Mathf.Sin(Time.time * handFlailSpeed) * handFlailAmplitude;
+            leftHand.position = Vector3.Lerp(leftHand.position, leftPos, Time.deltaTime * handFallSpeed);
+            leftHand.rotation = leftFallTarget.rotation;
+        }
+
+        if (rightFallTarget != null)
+        {
+            Vector3 rightPos = rightFallTarget.position;
+            rightPos.y += Mathf.Sin(Time.time * handFlailSpeed + Mathf.PI) * handFlailAmplitude;
+            rightHand.position = Vector3.Lerp(rightHand.position, rightPos, Time.deltaTime * handFallSpeed);
+            rightHand.rotation = rightFallTarget.rotation;
+        }
     }
 
     void TryMove(int colDelta, int rowDelta)
@@ -156,24 +208,19 @@ public class Climbing : MonoBehaviour
             if (detector != null)
                 StartCoroutine(detector.FlashRed());
 
-            // Trigger camera shake
-            if (!shaking) StartCoroutine(CameraShake());
-
-            // Roll grid back
             currentColumn = previousColumn;
             currentRow = previousRow;
 
-            // Smoothly return hand
             yield return StartCoroutine(LerpHand(hand, targetPos, handStart, handReturnDuration));
 
-            // Do NOT toggle hand; same hand goes next
+            // same hand moves next
         }
         else
         {
             rightHandNext = !rightHandNext;
         }
 
-        activeHandDuringMove = null; // Stop leaning toward hand
+        activeHandDuringMove = null;
         isMoving = false;
     }
 
@@ -190,26 +237,42 @@ public class Climbing : MonoBehaviour
         hand.position = to;
     }
 
-    IEnumerator CameraShake()
+    public void TriggerFall()
     {
-        shaking = true;
-        Vector3 originalPos = cameraTransform.position;
-        float elapsed = 0f;
-
-        while (elapsed < obstacleShakeDuration)
+        if (!isFalling)
         {
-            elapsed += Time.deltaTime;
-            Vector3 offset = new Vector3(
-                Random.Range(-obstacleShakeAmount, obstacleShakeAmount),
-                Random.Range(-obstacleShakeAmount, obstacleShakeAmount),
-                Random.Range(-obstacleShakeAmount, obstacleShakeAmount)
-            );
-            cameraTransform.position += offset;
+            isFalling = true;
+            StartCoroutine(FallAndReload());
+        }
+    }
+
+    IEnumerator FallAndReload()
+    {
+        while (transform.position.y > groundY)
+        {
+            transform.position += Vector3.down * fallSpeed * Time.deltaTime;
             yield return null;
         }
 
-        cameraTransform.position = originalPos;
-        shaking = false;
+        // Snap hands to final positions
+        if (leftFallTarget != null)
+        {
+            leftHand.position = leftFallTarget.position;
+            leftHand.rotation = leftFallTarget.rotation;
+        }
+        if (rightFallTarget != null)
+        {
+            rightHand.position = rightFallTarget.position;
+            rightHand.rotation = rightFallTarget.rotation;
+        }
+
+        // Instant black
+        if (fadeCanvas != null)
+            fadeCanvas.alpha = 1f;
+
+        yield return new WaitForSeconds(3f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     Vector3 GetHoldPosition(int col, int row)
