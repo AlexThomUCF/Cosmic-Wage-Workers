@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class Climbing : MonoBehaviour
 {
@@ -55,8 +56,12 @@ public class Climbing : MonoBehaviour
     private bool isMoving;
     private Transform activeHandDuringMove;
 
+    public PlayerAudio playerAudio;
+
     void Start()
     {
+        AudioListener.pause = false;
+
         currentColumn = columns / 2;
         currentRow = 0;
         transform.position = GetBodyTargetFromHands();
@@ -208,6 +213,8 @@ public class Climbing : MonoBehaviour
             if (detector != null)
                 StartCoroutine(detector.FlashRed());
 
+            playerAudio.PlayOneShot(playerAudio.handHitOccupied);
+
             currentColumn = previousColumn;
             currentRow = previousRow;
 
@@ -242,6 +249,12 @@ public class Climbing : MonoBehaviour
         if (!isFalling)
         {
             isFalling = true;
+
+            AudioListener.pause = true;
+            playerAudio.source.ignoreListenerPause = true;
+            playerAudio.source.Play();
+
+
             StartCoroutine(FallAndReload());
         }
     }
@@ -265,6 +278,11 @@ public class Climbing : MonoBehaviour
             rightHand.position = rightFallTarget.position;
             rightHand.rotation = rightFallTarget.rotation;
         }
+
+        AudioListener.pause = false;
+        playerAudio.source.Stop();
+        playerAudio.PlayOneShot(playerAudio.hitGround);
+        AudioListener.pause = true;
 
         // Instant black
         if (fadeCanvas != null)

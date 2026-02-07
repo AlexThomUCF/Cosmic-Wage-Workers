@@ -1,10 +1,18 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class FallingItem : MonoBehaviour
 {
     private Climbing player;
     private float floorY;
     public float fallSpeed = 12f;
+
+    private PlayerAudio playerAudio;
+
+    void Awake()
+    {
+        playerAudio = FindFirstObjectByType<PlayerAudio>();
+    }
 
     public void Initialize(Climbing playerClimbing, float groundY)
     {
@@ -45,6 +53,8 @@ public class FallingItem : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
+            playerAudio.PlayOneShot(playerAudio.hitByItem);
+
             // Trigger player fall
             player.TriggerFall();
             Destroy(gameObject);
