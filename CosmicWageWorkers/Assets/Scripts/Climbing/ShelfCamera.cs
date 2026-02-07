@@ -5,14 +5,13 @@ public class ShelfCamera : MonoBehaviour
     [Header("Rotation")]
     public float normalTilt = 15f;
     public float lookAheadTilt = 35f;
-
-    [Header("Speed")]
     public float tiltSpeed = 6f;
 
     [Header("Follow")]
     public Transform leftHand;
     public Transform rightHand;
-    public Vector3 cameraOffset = new Vector3(-5f, 0f, 0f); // camera behind the player slightly
+    public Vector3 offset = new Vector3(-5f, 2f, 0f); // behind and slightly above
+
     public float followSpeed = 8f;
 
     private float currentTilt;
@@ -21,14 +20,15 @@ public class ShelfCamera : MonoBehaviour
     {
         currentTilt = normalTilt;
         SetTilt(currentTilt);
+
         if (leftHand == null || rightHand == null)
-            Debug.LogWarning("Hands not assigned for camera follow!");
+            Debug.LogWarning("Hands not assigned!");
     }
 
     void Update()
     {
-        bool lookingAhead = Input.GetKey(KeyCode.Space);
-        float targetTilt = lookingAhead ? lookAheadTilt : normalTilt;
+        // Tilt logic
+        float targetTilt = Input.GetKey(KeyCode.Space) ? lookAheadTilt : normalTilt;
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
         SetTilt(currentTilt);
     }
@@ -37,11 +37,11 @@ public class ShelfCamera : MonoBehaviour
     {
         if (leftHand == null || rightHand == null) return;
 
-        // Compute midpoint between hands
-        Vector3 handMid = (leftHand.position + rightHand.position) * 0.5f;
+        // Midpoint between hands
+        Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
 
-        // Apply offset
-        Vector3 targetPos = handMid + cameraOffset;
+        // Target camera position
+        Vector3 targetPos = midpoint + offset;
 
         // Smooth follow
         transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * followSpeed);
