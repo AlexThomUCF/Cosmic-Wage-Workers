@@ -4,7 +4,12 @@ using System.Collections;
 
 public class FreezeAndSwitchScene : MonoBehaviour
 {
+    [SerializeField] SceneLoader loader;
 
+    public void Awake()
+    {
+        loader = FindAnyObjectByType<SceneLoader>();
+    }
 
     private void OnTriggerEnter(Collider other) //detect player hit
     {
@@ -15,8 +20,11 @@ public class FreezeAndSwitchScene : MonoBehaviour
     private IEnumerator Switch()
     {
         Time.timeScale = 0f; // freeze game
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 1f; // restore
-        SceneManager.LoadScene("MainScene");
+        FinalMiniGame.miniGameCount++;
+        string mainSceneName = "MainScene";
+        loader.LoadSceneByName(mainSceneName);
+        
     }
 }

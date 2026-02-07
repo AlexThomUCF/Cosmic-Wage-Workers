@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FinalMiniGame : MonoBehaviour
 {
+    [SerializeField] private int numberOfMinigames = 0;
     private static FinalMiniGame Instance;
     public static int miniGameCount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,7 +25,7 @@ public class FinalMiniGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (miniGameCount == 4)
+        if (miniGameCount == numberOfMinigames)
         {
             miniGameCount = -999; // or any sentinel value
             loader = FindAnyObjectByType<SceneLoader>();
