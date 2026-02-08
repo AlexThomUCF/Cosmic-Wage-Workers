@@ -29,6 +29,7 @@ public class GravityManager : MonoBehaviour
             sceneLoader -= Time.deltaTime;
             if (sceneLoader <= 0f)
             {
+                FinalMiniGame.miniGameCount++;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
                 Debug.Log("Loading Next Level");
                 sceneLoader = 3f;
