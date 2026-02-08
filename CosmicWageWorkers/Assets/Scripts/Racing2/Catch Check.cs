@@ -19,9 +19,9 @@ public class FreezeAndSwitchScene : MonoBehaviour
 
     private IEnumerator Switch()
     {
-        Time.timeScale = 0f; // freeze game
+        //Time.timeScale = 0f; // freeze game
         yield return new WaitForSecondsRealtime(1f);
-        Time.timeScale = 1f; // restore
+        //Time.timeScale = 1f; // restore
         FinalMiniGame.miniGameCount++;
         string mainSceneName = "MainScene";
         loader.LoadSceneByName(mainSceneName);
