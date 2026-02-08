@@ -6,7 +6,9 @@ public class GravityManager : MonoBehaviour
     public GameObject player;
     private bool gravityOn = false;
     public float sceneLoader = 3f;
-    
+
+    public string interactionID; // ID to track the specific interaction for completion
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,6 +31,11 @@ public class GravityManager : MonoBehaviour
             sceneLoader -= Time.deltaTime;
             if (sceneLoader <= 0f)
             {
+                if (!string.IsNullOrEmpty(interactionID))
+                {
+                    CustomerManager.MarkInteractionComplete(interactionID);
+                }
+
                 FinalMiniGame.miniGameCount++;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
                 Debug.Log("Loading Next Level");

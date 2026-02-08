@@ -6,6 +6,8 @@ public class FreezeAndSwitchScene : MonoBehaviour
 {
     [SerializeField] SceneLoader loader;
 
+    public string interactionID; // ID to track the specific interaction for completion
+
     public void Awake()
     {
         loader = FindAnyObjectByType<SceneLoader>();
@@ -22,6 +24,12 @@ public class FreezeAndSwitchScene : MonoBehaviour
         //Time.timeScale = 0f; // freeze game
         yield return new WaitForSecondsRealtime(1f);
         //Time.timeScale = 1f; // restore
+
+        if (!string.IsNullOrEmpty(interactionID))
+        {
+            CustomerManager.MarkInteractionComplete(interactionID);
+        }
+
         FinalMiniGame.miniGameCount++;
         string mainSceneName = "MainScene";
         loader.LoadSceneByName(mainSceneName);
