@@ -2,76 +2,41 @@ using Unity.AI;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class PropGravity : MonoBehaviour
 {
-    public Slider propAmount;
 
     public int escapedPropCount = 0;
     [SerializeField] private int targetAmount = 10;
 
-    public void Start()
-    {
-        propAmount.maxValue = targetAmount;
-    }
-    public void Update()
-    {
-        
-    }
-
     public void PropTracker()
     {
-        if(escapedPropCount == targetAmount )
+        if (escapedPropCount >= targetAmount)
         {
-            string mainSceneName = "JackFPS";  // might need to change back to MainScene
-
-            SceneManager.LoadScene(mainSceneName);
+            SceneManager.LoadScene("JackFPS");
         }
     }
 
-    
-
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Prop"))
-        {
-            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            Debug.Log("Has RB");
 
+        if (other.CompareTag("Prop"))
+        {
+            Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb == null)
-            {
                 rb = other.gameObject.AddComponent<Rigidbody>();
-                Debug.Log("Adding rigidbody");
-            }
 
             NavMeshAgent agent = other.GetComponent<NavMeshAgent>();
             if (agent != null)
-            {
                 agent.enabled = false;
-            }
 
             Vector3 launchDir = new Vector3(0f, 1f, -1f).normalized;
             rb.AddForce(launchDir * 3f, ForceMode.Impulse);
             rb.useGravity = false;
-            Debug.Log("Everything ran");
 
-            /*escapedPropCount++;
-            propAmount.value++;*/
-
-        }
-        PropTracker();
-    }
-
-
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Prop"))
-        {
             escapedPropCount++;
-            propAmount.value++;
             PropTracker();
         }
     }
-
 }
+
