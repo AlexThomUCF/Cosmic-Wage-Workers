@@ -36,7 +36,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     // Handles enemy death
-    protected virtual void Die()
+     protected virtual void Die()
     {
         // Register a kill with the FPSManager
         if (FPSManager.Instance != null)
