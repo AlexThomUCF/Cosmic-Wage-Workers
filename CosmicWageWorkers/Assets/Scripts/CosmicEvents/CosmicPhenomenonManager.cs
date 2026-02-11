@@ -13,7 +13,7 @@ public class CosmicPhenomenonManager : MonoBehaviour
     public AntiGravity antiGravity;
     public BlackHoles blackHoles;
     public Eclipse eclipse;
-    public PrimordialSoup primordialSoup; // NEW
+    public PrimordialSoup primordialSoup;
 
     private void Start()
     {
