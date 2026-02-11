@@ -10,6 +10,8 @@ public class BathroomSFX : MonoBehaviour
     public AudioClip doorBang;
     public AudioClip sectionOpen;
     public AudioClip waveStarted;
+    public AudioClip hey;
+    public AudioClip getOut;
 
     [Header("*** Audio Background ***")]
     public AudioSource backgroundNoise;
@@ -28,55 +30,7 @@ public class BathroomSFX : MonoBehaviour
         
     }
 
-    public void PlayDoorBang()
-    {
-        bathSource.PlayOneShot(doorBang);
-    } 
-
-    public void PlayDoorOpen()
-    {
-        bathSource.PlayOneShot(doorOpen);
-    }
-
-    public void PlayDoorClose()
-    {
-        bathSource.PlayOneShot(doorClose);
-    }
-
-    public void PlaySectionOpen()
-    {
-        bathSource.PlayOneShot(sectionOpen);
-    }   
-
-    public void StartMusic()
-    {
-        backgroundNoise.Play();
-    }
-
-    public void StopMusic()     
-    {
-        backgroundNoise.Stop();
-    }
-
-    public void StopDistortedMusic()
-    {
-        distortedStoreMusic.Stop();
-    }
-
-    public void PlayBugNoises()
-    {
-        bugNoises.Play();
-    }
-
-    public void PlayCrawlNoises()
-    {
-        crawlNoise.Play();
-    }
-
-    public void WaveNoise()
-    {
-        bathSource.PlayOneShot(waveStarted);
-    }
+ 
 
     public void StopAllMusic()
     {

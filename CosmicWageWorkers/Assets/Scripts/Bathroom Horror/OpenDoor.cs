@@ -33,11 +33,11 @@ public class OpenDoor : MonoBehaviour
         StartCoroutine(RotateDoor());
         if (isOpen)
         {
-            bathroomSFX.PlayDoorClose();
+            bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorClose);
         }
         else
         {
-            bathroomSFX.PlayDoorOpen();
+            bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorOpen);
         }
     }
 
