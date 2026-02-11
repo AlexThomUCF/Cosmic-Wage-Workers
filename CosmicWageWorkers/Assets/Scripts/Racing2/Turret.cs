@@ -12,7 +12,7 @@ public class TurretShootWhenSeePlayer : MonoBehaviour
     [Header("Shooting")]
     public Transform firePoint;
     public GameObject projectilePrefab;
-    public float fireRate = 0.4f;
+    public float fireRate = 0.33f;
     public float projectileSpeed = 20f;
     public float spawnOffset = 0.1f;
 
