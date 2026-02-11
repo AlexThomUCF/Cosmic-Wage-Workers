@@ -48,6 +48,7 @@ public class BathroomsUnhide : MonoBehaviour
     private bool horrorGameStarted = true; 
     private bool doorOpened = false;
 
+
     private bool firstSectionOpened = true;
     private bool secondSectionOpened = false;
     private bool thirdSectionOpened = false;
@@ -57,6 +58,7 @@ public class BathroomsUnhide : MonoBehaviour
     private bool wave2started = false;
 
     public float doorTimer;
+    public bool playerReturning = false;
 
     public float doorCloseDelay;
 
@@ -169,8 +171,8 @@ public class BathroomsUnhide : MonoBehaviour
         firstWall.SetActive(true);
         firstLight.SetActive(true);
         lastLight.SetActive(true);
-        player.transform.position = new Vector3(-111f, 5f, 332f);
         doorOpened = false;
+        playerReturning = true;
         horrorGameStarted = false;
         lastSoup.SetActive(true);
         lastMop.SetActive(true);
