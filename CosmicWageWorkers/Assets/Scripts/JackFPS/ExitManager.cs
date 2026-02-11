@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ExitManager : MonoBehaviour
 {
-    public PropGravity[] exits;
+    public Transform[] exits;
 
     public Transform GetRandomExit()
     {
