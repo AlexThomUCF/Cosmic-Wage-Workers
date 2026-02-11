@@ -33,7 +33,7 @@ public class FPSManager : MonoBehaviour
             {
                 CustomerManager.MarkInteractionComplete(interactionID);
             }
-
+            FinalMiniGame.miniGameCount++;
             LoadNextScene();
         }
     }

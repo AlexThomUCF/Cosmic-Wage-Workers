@@ -18,6 +18,8 @@ public class RealItem : MonoBehaviour, IInteraction
     {
         horror = FindAnyObjectByType<HorrorAI>();
         mcGuffinItem = this.gameObject;
+
+        hasItem = true;
     }
 
     public void Interact()
