@@ -20,6 +20,8 @@ public class FallingItemManager : MonoBehaviour
     [Header("Ground")]
     public float floorY = 0f;
 
+    public PlayerAudio playerAudio;
+
     void Start()
     {
         StartCoroutine(SpawnFallingItemsRoutine());
@@ -33,8 +35,7 @@ public class FallingItemManager : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
 
             // Play audio cue
-            if (warningAudio != null)
-                warningAudio.Play();
+            playerAudio.PlayOneShot(playerAudio.warning);
 
             // Spawn item
             SpawnFallingItem();

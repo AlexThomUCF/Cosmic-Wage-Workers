@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class PropGravity : MonoBehaviour
 {
-    public bool isActiveExit = false;
 
     public int escapedPropCount = 0;
     [SerializeField] private int targetAmount = 10;
@@ -20,7 +19,6 @@ public class PropGravity : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isActiveExit) return;   //  key line
 
         if (other.CompareTag("Prop"))
         {
