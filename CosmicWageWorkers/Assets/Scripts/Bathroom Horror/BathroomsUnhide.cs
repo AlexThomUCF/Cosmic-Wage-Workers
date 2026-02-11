@@ -283,6 +283,10 @@ public class BathroomsUnhide : MonoBehaviour
     private void RestartLevel()
     {
         restartingLevel = true;
+        roach.SetActive(false);
+        roach2.SetActive(false);
+        firstWaveOfRoaches.SetActive(false);
+        secondWaveOfRoaches.SetActive(false);
     }
 
 }
