@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce7d3bc5ab42b04f8ae5c27aad6572a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PropAi
-  agent: {fileID: 6390661153899387640}
 --- !u!195 &6390661153899387640
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -176,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8835418fcb9a02846a5edbd4441db93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  health: 50
+  health: 25
   dmgMaterial: {fileID: 2100000, guid: 8decfcdf8b5f694428f1c57406d19d0d, type: 2}
   currentMaterial: {fileID: 0}
 --- !u!1 &5146931246323445396

@@ -121,6 +121,13 @@ public class GUN : MonoBehaviour
                 enemy.TakeDamage(damage);
             }
         }
+
+            // Alarm hit
+        AlarmNode alarm = collision.GetComponent<AlarmNode>();
+        if (alarm != null)
+        {
+            alarm.OnShot();
+        }
     }
 
     private Vector3 GetDirection()
