@@ -1,131 +1,236 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class AlarmSequenceManager : MonoBehaviour
 {
-    public AlarmNode[] alarms; // total = 7
-    public FPSManager fpsManager;
+    public static AlarmSequenceManager Instance;
 
-    [Header("Sequence")]
-    public float revealDelay = 1f;       // time between alarm activations
-    public float timePerAlarm = 1.5f;     // action phase time
+    [Header("Alarm Setup")]
+    public AlarmNode[] alarms;          // size = 7
+    public float revealDelay = 1f;
+    public float timePerAlarm = 2f;
 
-    private int[] sequenceLengths = { 3, 4, 5 };
-    private int currentStage = 0;
+    [Header("Sequence Settings")]
+    public int startSequenceLength = 3;
+    public int maxSequenceLength = 5;
 
-    private List<int> currentSequence = new();
-    private HashSet<int> remainingAlarms = new();
+    [Header("Breathers")]
+    public float initialStartDelay = 10f;
+    public float successCooldown = 10f;
+    public float failCooldown = 2.5f;
 
-    private float timer;
+    private List<int> currentSequence = new List<int>();
+    private List<int> remainingAlarms = new List<int>();
+
+    private int currentSequenceLength;
     private bool acceptingInput = false;
+    private float timer;
+
+    // ================================
+    // UNITY LIFECYCLE
+    // ================================
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
+        currentSequenceLength = startSequenceLength;
+    }
 
     void Start()
     {
-        StartNextSequence();
+        StartCoroutine(InitialDelay());
     }
 
     void Update()
     {
-        if (!acceptingInput) return;
+        if (!acceptingInput)
+            return;
 
         timer -= Time.deltaTime;
 
         if (timer <= 0f)
         {
-            SequenceFailed();
+            Debug.Log("[SEQUENCE] FAILED — time ran out");
+            acceptingInput = false;
+            OnSequenceFailed();
         }
     }
 
-   void StartNextSequence()
-    {
-        if (currentStage >= sequenceLengths.Length)
-        {
-            Debug.Log("[ALARM] All alarm sequences completed.");
-            return;
-        }
+    // ================================
+    // SEQUENCE FLOW
+    // ================================
 
-        Debug.Log($"[ALARM] Starting sequence {currentStage + 1} " +
-                $"(Length: {sequenceLengths[currentStage]})");
+    IEnumerator InitialDelay()
+    {
+        Debug.Log("[SEQUENCE] Waiting before first sequence");
 
         ResetAllAlarms();
-        BuildSequence(sequenceLengths[currentStage]);
+        acceptingInput = false;
 
+        yield return new WaitForSeconds(initialStartDelay);
+
+        StartNewSequence();
+    }
+
+    void StartNewSequence()
+    {
+        BuildNewSequence();
         StartCoroutine(RevealSequence());
     }
 
-    void BuildSequence(int length)
+    void BuildNewSequence()
     {
         currentSequence.Clear();
 
-        while (currentSequence.Count < length)
+        List<int> availableIDs = new List<int>();
+        for (int i = 0; i < alarms.Length; i++)
+            availableIDs.Add(i);
+
+        for (int i = 0; i < currentSequenceLength; i++)
         {
-            int id = Random.Range(0, alarms.Length);
-            if (!currentSequence.Contains(id))
-            {
-                currentSequence.Add(id);
-            }
+            int index = Random.Range(0, availableIDs.Count);
+            currentSequence.Add(availableIDs[index]);
+            availableIDs.RemoveAt(index);
         }
+
+        Debug.Log($"[SEQUENCE] New sequence: {string.Join(", ", currentSequence)}");
     }
 
     IEnumerator RevealSequence()
     {
         acceptingInput = false;
         remainingAlarms.Clear();
+        ResetAllAlarms();
 
+        // --- REVEAL PHASE (solid red, ordered) ---
         foreach (int id in currentSequence)
         {
-            alarms[id].SetActive();
+            alarms[id].Reveal(); // solid red
             remainingAlarms.Add(id);
             yield return new WaitForSeconds(revealDelay);
         }
 
-        // Reveal done → player phase starts
+        // --- PLAYER PHASE (flicker enabled) ---
+        foreach (int id in currentSequence)
+            alarms[id].SetActive();
+
         timer = currentSequence.Count * timePerAlarm;
         acceptingInput = true;
+
+        Debug.Log("[SEQUENCE] Player input enabled");
     }
 
-    public void RegisterHit(int alarmID)
-    {
-        if (!acceptingInput) return;
-        if (!remainingAlarms.Contains(alarmID)) return;
+    // ================================
+    // HIT REGISTRATION
+    // ================================
 
-        remainingAlarms.Remove(alarmID);
-        alarms[alarmID].SetIdle();
+    public void RegisterHit(int id)
+    {
+        if (!acceptingInput)
+            return;
 
         if (remainingAlarms.Count == 0)
+            return;
+
+        int expectedID = remainingAlarms[0];
+
+        if (id == expectedID)
         {
-            SequenceSuccess();
+            remainingAlarms.RemoveAt(0);
+            Debug.Log($"[SEQUENCE] Correct alarm hit: {id}");
+
+            if (remainingAlarms.Count == 0)
+            {
+                acceptingInput = false;
+                OnSequenceSuccess();
+            }
+        }
+        else
+        {
+            Debug.Log("[SEQUENCE] FAILED — wrong order");
+            acceptingInput = false;
+            OnSequenceFailed();
         }
     }
 
-    void SequenceSuccess()
+    // ================================
+    // SUCCESS / FAILURE
+    // ================================
+
+    void OnSequenceSuccess()
     {
-        acceptingInput = false;
-        currentStage++;
+        Debug.Log("[SEQUENCE] COMPLETED");
+        DecreaseSpawnRate();
 
-        Debug.Log("[ALARM] Sequence SUCCESS → enemy pressure reduced");
-
-        fpsManager.OnAlarmSuccess();
-        Invoke(nameof(StartNextSequence), 1.5f);
+        if (currentSequenceLength < maxSequenceLength)
+        {
+            currentSequenceLength++;
+            Debug.Log($"[SEQUENCE] Difficulty increased → length {currentSequenceLength}");
+            StartCoroutine(SuccessCooldown());
+        }
+        else
+        {
+            Debug.Log("[SEQUENCE] ALL SEQUENCES COMPLETE — MINIGAME DONE");
+            // Hook win condition here
+        }
     }
 
-    void SequenceFailed()
+    void OnSequenceFailed()
     {
+        IncreaseSpawnRate();
+        StartCoroutine(FailBreather());
+    }
+
+    IEnumerator SuccessCooldown()
+    {
+        ResetAllAlarms();
         acceptingInput = false;
 
-        Debug.Log("[ALARM] Sequence FAILED → enemy pressure increased");
+        Debug.Log("[SEQUENCE] Success cooldown");
 
-        fpsManager.OnAlarmFailure();
-        Invoke(nameof(StartNextSequence), 1.5f);
+        yield return new WaitForSeconds(successCooldown);
+
+        StartNewSequence();
     }
+
+    IEnumerator FailBreather()
+    {
+        ResetAllAlarms();
+        acceptingInput = false;
+
+        Debug.Log("[SEQUENCE] Fail breather");
+
+        yield return new WaitForSeconds(failCooldown);
+
+        StartNewSequence();
+    }
+
+    // ================================
+    // HELPERS
+    // ================================
 
     void ResetAllAlarms()
     {
         foreach (AlarmNode alarm in alarms)
-        {
             alarm.SetIdle();
-        }
+    }
+
+    void IncreaseSpawnRate()
+    {
+        Debug.Log("[SPAWN] Spawn rate increased");
+        // Hook into PropManager here
+    }
+
+    void DecreaseSpawnRate()
+    {
+        Debug.Log("[SPAWN] Spawn rate decreased");
+        // Hook into PropManager here
     }
 }
+
 

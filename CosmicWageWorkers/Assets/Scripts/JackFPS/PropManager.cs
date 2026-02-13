@@ -6,6 +6,7 @@ public class PropManager : MonoBehaviour
     [Header("References")]
     public Transform player;
     public Transform[] locations;
+    public Transform[] exitPoints;
     public GameObject[] shelfItems;
 
     [Header("Spawn Settings")]
@@ -39,6 +40,12 @@ public class PropManager : MonoBehaviour
         GameObject prefab = shelfItems[Random.Range(0, shelfItems.Length)];
 
         GameObject spawnedObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+
+        PropAi ai = spawnedObj.GetComponent<PropAi>();
+        if (ai != null)
+        {
+            ai.exit = exitPoints[Random.Range(0, exitPoints.Length)];
+        }
 
         LookAtPlayer lookScript = spawnedObj.GetComponent<LookAtPlayer>();
         if (lookScript != null)
