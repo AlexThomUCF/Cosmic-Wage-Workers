@@ -42,11 +42,14 @@ public class BathroomsUnhide : MonoBehaviour
 
 
     [Header("*** Others ***")]
+    public GameObject roachJS;
     public Animator doorAnimator;
     public BathroomSFX bathroomSFX;
     
     private bool horrorGameStarted = true; 
     private bool doorOpened = false;
+
+
 
     private bool firstSectionOpened = true;
     private bool secondSectionOpened = false;
@@ -55,8 +58,12 @@ public class BathroomsUnhide : MonoBehaviour
     private bool canLeaveBathroom = false;
     private bool wave1started = false;
     private bool wave2started = false;
+    private bool restartingLevel = false;
 
     public float doorTimer;
+    public float roachTimer;
+    public bool playerReturning = false;
+    
 
     public float doorCloseDelay;
 
@@ -116,6 +123,20 @@ public class BathroomsUnhide : MonoBehaviour
             RestartLevel();
         }
 
+        if (restartingLevel)
+        {
+            roachJS.SetActive(true);
+            roachTimer -= Time.deltaTime;
+             if (roachTimer <= 0)
+            {
+                roachJS.SetActive(false);
+                roachTimer = 1f;
+                restartingLevel = false;
+                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+            }
+
+        }
+
 
 
 
@@ -144,14 +165,16 @@ public class BathroomsUnhide : MonoBehaviour
     public void OpenEventDoor()
     {
         bathroomSFX.StopAllMusic();
-        bathroomSFX.PlayDoorOpen();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorOpen);
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.hey);
         doorAnimator.SetTrigger("DoorOpen");
         doorOpened = true;
     }   
 
     public void CloseEventDoor()
     {
-        bathroomSFX.PlayDoorClose();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.getOut);
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorClose);
         doorAnimator.SetTrigger("DoorClosed");
         blockOut.SetActive(false);      
     }
@@ -169,8 +192,8 @@ public class BathroomsUnhide : MonoBehaviour
         firstWall.SetActive(true);
         firstLight.SetActive(true);
         lastLight.SetActive(true);
-        player.transform.position = new Vector3(-111f, 5f, 332f);
         doorOpened = false;
+        playerReturning = true;
         horrorGameStarted = false;
         lastSoup.SetActive(true);
         lastMop.SetActive(true);
@@ -185,9 +208,9 @@ public class BathroomsUnhide : MonoBehaviour
         secondLight.SetActive(true);
         firstSection.SetActive(true);
         firstMop.SetActive(false);
-        bathroomSFX.StopDistortedMusic();
-        bathroomSFX.PlaySectionOpen();
-        bathroomSFX.StartMusic();   
+        bathroomSFX.distortedStoreMusic.Stop();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.sectionOpen);
+        bathroomSFX.backgroundNoise.Play();
         firstSectionOpened = false;
         secondSectionOpened = true;
         blockOut.SetActive(true);
@@ -202,8 +225,8 @@ public class BathroomsUnhide : MonoBehaviour
         thirdLight.SetActive(true);
         secondSection.SetActive(true);
         secondMop.SetActive(false);
-        bathroomSFX.PlaySectionOpen();
-        bathroomSFX.PlayBugNoises();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.sectionOpen);
+        bathroomSFX.bugNoises.Play();
         secondSectionOpened = false;
         thirdSectionOpened = true;
         roach.SetActive(true);
@@ -218,8 +241,8 @@ public class BathroomsUnhide : MonoBehaviour
         fourthLight.SetActive(true);
         thirdSection.SetActive(true);
         thirdMop.SetActive(false); 
-        bathroomSFX.PlaySectionOpen();
-        bathroomSFX.PlayCrawlNoises();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.sectionOpen);
+        bathroomSFX.crawlNoise.Play();
         thirdSectionOpened = false;
         fourthSectionOpened = true;
         roach2.SetActive(true);
@@ -232,7 +255,7 @@ public class BathroomsUnhide : MonoBehaviour
     {
         wave1started = true;
         firstWaveOfRoaches.SetActive(true);
-        bathroomSFX.WaveNoise();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.waveStarted);
         fourthSectionOpened = false;
 
     }
@@ -242,7 +265,7 @@ public class BathroomsUnhide : MonoBehaviour
         wave1started = false;
         wave2started = true;
         secondWaveOfRoaches.SetActive(true);
-        bathroomSFX.WaveNoise();
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.waveStarted);
     }
 
     public void BackToMainScene()
@@ -253,13 +276,17 @@ public class BathroomsUnhide : MonoBehaviour
         }
         else
         {
-            bathroomSFX.PlayDoorBang();
+            bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorBang);
         }
     }
 
     private void RestartLevel()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        restartingLevel = true;
+        roach.SetActive(false);
+        roach2.SetActive(false);
+        firstWaveOfRoaches.SetActive(false);
+        secondWaveOfRoaches.SetActive(false);
     }
 
 }
