@@ -1,19 +1,16 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class FinalMiniGame : MonoBehaviour
 {
     [SerializeField] private int numberOfMinigames = 0;
-
     private static FinalMiniGame Instance;
     public static int miniGameCount = 0;
-
-    private bool invasionStarted = false; // prevents multiple coroutines
-
-    void Awake()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] SceneLoader loader;
+    public void Awake()
     {
-        if (Instance == null)
+        if(Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -22,23 +19,28 @@ public class FinalMiniGame : MonoBehaviour
         {
             Destroy(gameObject);
         }
+            //loader = FindAnyObjectByType<SceneLoader>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (!invasionStarted && miniGameCount == numberOfMinigames)
+        if (miniGameCount == numberOfMinigames)
         {
-            invasionStarted = true;
+            miniGameCount = -999; // or any sentinel value
+            loader = FindAnyObjectByType<SceneLoader>();
             StartCoroutine(InvasionComing());
+            
         }
     }
 
     IEnumerator InvasionComing()
     {
         Debug.Log("Human Invasion coming");
-
         yield return new WaitForSeconds(10f);
 
-        SceneManager.LoadScene("FPSMainScene");
+        string mainSceneName = "FPSMainScene";
+        loader.LoadSceneByName(mainSceneName);
+
     }
 }
