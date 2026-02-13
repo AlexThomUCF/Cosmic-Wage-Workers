@@ -33,6 +33,14 @@ public class PlayerProjectile : MonoBehaviour
             }
         }
 
+         Debug.Log($"[PROJECTILE] Hit: {collision.collider.name}");
+
+    if (collision.collider.TryGetComponent(out AlarmNode alarm))
+    {
+        Debug.Log("[PROJECTILE] Alarm hit!");
+        alarm.OnShot();
+    }
+
         // Destroy the projectile on impact
         Destroy(gameObject);
     }

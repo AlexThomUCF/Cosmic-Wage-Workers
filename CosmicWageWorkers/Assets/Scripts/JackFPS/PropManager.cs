@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class PropManager : MonoBehaviour
 {
@@ -9,53 +8,62 @@ public class PropManager : MonoBehaviour
     public Transform[] locations;
     public GameObject[] shelfItems;
 
-    [Header("Spawn settings")]
-    [SerializeField] private int spawnCount = 10;
-    [SerializeField] private float spawnRate = .75f;
-    
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Spawn Settings")]
+    public float baseSpawnRate = 0.75f;
+    private float currentSpawnRate;
+
+    public bool spawningEnabled = true;
+
     void Start()
     {
-        randomSpawn();
-
+        currentSpawnRate = baseSpawnRate;
+        StartCoroutine(SpawnLoop());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator SpawnLoop()
     {
-        
-    }
-
-    public void randomSpawn()
-    {
-        StartCoroutine(WaitFunction());
-
-    }
-
-    IEnumerator WaitFunction()
-    {
-        yield return new WaitForSeconds(spawnRate);
-
-        for (int i = 0; i < spawnCount; i++)
+        while (true)
         {
-            Transform spawnPoint = locations[Random.Range(0, locations.Length)];
-
-            GameObject prefab = shelfItems[Random.Range(0, shelfItems.Length)];
-
-            yield return new WaitForSeconds(spawnRate);
-
-            GameObject spawnedObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-
-            LookAtPlayer lookScript = spawnedObj.GetComponent<LookAtPlayer>();
-            if (lookScript != null)
+            if (spawningEnabled)
             {
-                lookScript.player = player.transform;
+                SpawnOne();
             }
 
-
+            yield return new WaitForSeconds(currentSpawnRate);
         }
+    }
 
-        
+    void SpawnOne()
+    {
+        Transform spawnPoint = locations[Random.Range(0, locations.Length)];
+        GameObject prefab = shelfItems[Random.Range(0, shelfItems.Length)];
+
+        GameObject spawnedObj = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+
+        LookAtPlayer lookScript = spawnedObj.GetComponent<LookAtPlayer>();
+        if (lookScript != null)
+        {
+            lookScript.player = player;
+        }
+    }
+
+    // ====== CALLED BY GAME MANAGER ======
+
+    public void ModifySpawnRate(float multiplier)
+    {
+        currentSpawnRate = baseSpawnRate * multiplier;
+    }
+
+    public void PauseSpawning(float duration)
+    {
+        StartCoroutine(PauseCoroutine(duration));
+    }
+
+    IEnumerator PauseCoroutine(float duration)
+    {
+        spawningEnabled = false;
+        yield return new WaitForSeconds(duration);
+        spawningEnabled = true;
     }
 }
+
