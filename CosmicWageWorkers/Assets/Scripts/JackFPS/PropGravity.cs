@@ -51,7 +51,7 @@ public class PropGravity : MonoBehaviour
                 agent.enabled = false;
             }
 
-            Vector3 launchDir = new Vector3(0f, 1f, -1f).normalized;
+            Vector3 launchDir = transform.TransformDirection(new Vector3(0f, 1f, -1f)).normalized;
             rb.AddForce(launchDir * 3f, ForceMode.Impulse);
             rb.useGravity = false;
             Debug.Log("Everything ran");

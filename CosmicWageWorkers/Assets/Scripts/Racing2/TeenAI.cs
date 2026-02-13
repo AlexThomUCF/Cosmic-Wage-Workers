@@ -9,7 +9,7 @@ public class TeenAI : MonoBehaviour
     public List<Transform> waypoints = new List<Transform>();
 
     [Header("Flee Settings")]
-    public float runWhenDistanceLessThan = 15f;   // escape range
+    public float runWhenDistanceLessThan = 25f;   // escape range
     public float repathInterval = 0.5f;          // waypoint cd
     public float minWaypointDistanceFromPlayer = 8f; // location select
 
@@ -32,10 +32,10 @@ public class TeenAI : MonoBehaviour
 
         timer -= Time.deltaTime;
 
-        // If we already have a target and we're not there yet, keep going.
+        //stop when close enough to target
         if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) > 1.2f)
         {
-            // Optional: only re-pick sometimes, to avoid jitter.
+            
             if (timer > 0f) return;
         }
 
