@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &109083860595770886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651140224415910984}
+  m_Layer: 6
+  m_Name: dialoguePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &651140224415910984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109083860595770886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.025}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 207335748338292703}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &390163619931549748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 288fc43946ea0ad4ea115994faf2e04e, type: 2}
     - target: {fileID: 919132149155446097, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
       propertyPath: m_Name
-      value: Temptimidcustomer
+      value: FPSCusomer
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
       propertyPath: m_Layer
@@ -74,7 +105,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 651140224415910984}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
       insertIndex: -1
@@ -89,6 +123,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5084644339328768985}
   m_SourcePrefab: {fileID: 100100000, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
+--- !u!4 &207335748338292703 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
+  m_PrefabInstance: {fileID: 390163619931549748}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &696732408602545509 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
@@ -128,6 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialogueData: {fileID: 11400000, guid: d3e863487e473334bad0066b054aa154, type: 2}
+  normalCam: {fileID: 0}
+  dialogueCam: {fileID: 0}
+  dialogueCameraPos: {fileID: 651140224415910984}
   choiceEvents:
   - choiceText: Yes
     onChosen:
@@ -201,3 +243,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   transitonAnim: {fileID: 0}
+  transitonObj: {fileID: 0}
+  canvas: {fileID: 0}
