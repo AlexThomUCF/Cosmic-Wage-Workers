@@ -53,7 +53,7 @@ public class BoxManager : MonoBehaviour
         Transform spawnPoint = boxSpawnPoints[Mathf.Min(currentZoneIndex, boxSpawnPoints.Count - 1)];
         Vector3 pos = spawnPoint.position + Vector3.up * spawnHeight;
 
-        currentBox = Instantiate(boxPrefab, pos, Quaternion.identity);
+        currentBox = Instantiate(boxPrefab, pos, spawnPoint.rotation);
         currentBox.tag = "Box";
 
         if (currentBox.GetComponent<Collider>() == null)
