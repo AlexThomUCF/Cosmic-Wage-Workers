@@ -40,9 +40,9 @@ public class KartControllerArcade : MonoBehaviour
 
     private Rigidbody rb;
 
-    private float steerInput;
+    public float steerInput;
     private float throttleInput;
-    private bool driftHeld;
+    public bool driftHeld;
 
     private bool isGrounded;
     private float currentYawVel;

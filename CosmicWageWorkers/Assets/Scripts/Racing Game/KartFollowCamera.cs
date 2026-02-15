@@ -48,7 +48,7 @@ public class KartFollowCamera : MonoBehaviour
         // --- FOV boost ---
         float speed = 0f;
         var rb = target.GetComponent<Rigidbody>() ?? target.GetComponentInChildren<Rigidbody>();
-        if (rb != null) speed = rb.velocity.magnitude;
+        if (rb != null) speed = rb.linearVelocity.magnitude;
 
         float boost = Mathf.Clamp(speed * speedFovBoost, 0f, maxFovBoost);
         float targetFov = baseFov + boost;
