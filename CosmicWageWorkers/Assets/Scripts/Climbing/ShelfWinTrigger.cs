@@ -5,12 +5,15 @@ using System.Collections;
 public class ShelfWinTrigger : MonoBehaviour
 {
     [Header("Customer Interaction ID")]
-    public string interactionID; // Assign the ID of the customer for this minigame
+    public string interactionID;
 
     [Header("References")]
     public GameObject grabItem;
     public CanvasGroup promptUI;
     public CanvasGroup fadeCanvas;
+
+    [Header("Detection")]
+    public LayerMask playerLayer;
 
     [Header("Settings")]
     public float fadeDuration = 2f;
@@ -18,9 +21,12 @@ public class ShelfWinTrigger : MonoBehaviour
 
     private bool playerInside;
     private bool hasGrabbed;
+    private BoxCollider box;
 
     void Start()
     {
+        box = GetComponent<BoxCollider>();
+
         promptUI.alpha = 0f;
         promptUI.interactable = false;
         promptUI.blocksRaycasts = false;
@@ -30,6 +36,8 @@ public class ShelfWinTrigger : MonoBehaviour
 
     void Update()
     {
+        CheckPlayerOverlap();
+
         if (!playerInside || hasGrabbed)
             return;
 
@@ -39,15 +47,57 @@ public class ShelfWinTrigger : MonoBehaviour
         }
     }
 
+    void CheckPlayerOverlap()
+    {
+        Vector3 center = box.bounds.center;
+        Vector3 halfExtents = box.bounds.extents;
+
+        bool hit = Physics.CheckBox(
+            center,
+            halfExtents,
+            transform.rotation,
+            playerLayer
+        );
+
+        if (hit && !playerInside)
+            OnPlayerEnter();
+
+        if (!hit && playerInside)
+            OnPlayerExit();
+    }
+
+    void OnPlayerEnter()
+    {
+        playerInside = true;
+
+        HandStamina stamina = FindObjectOfType<HandStamina>();
+        if (stamina != null)
+            stamina.stopStamina = true;
+
+        promptUI.alpha = 1f;
+        promptUI.interactable = true;
+        promptUI.blocksRaycasts = true;
+    }
+
+    void OnPlayerExit()
+    {
+        playerInside = false;
+
+        promptUI.alpha = 0f;
+        promptUI.interactable = false;
+        promptUI.blocksRaycasts = false;
+    }
+
     IEnumerator GrabAndFinish()
     {
+        if (hasGrabbed)
+            yield break;
+
         hasGrabbed = true;
 
-        // Hide UI and item
         promptUI.alpha = 0f;
         grabItem.SetActive(false);
 
-        // Fade to black
         float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
@@ -56,47 +106,12 @@ public class ShelfWinTrigger : MonoBehaviour
             yield return null;
         }
 
-        // Mark the interaction complete
         if (!string.IsNullOrEmpty(interactionID))
-        {
             CustomerManager.MarkInteractionComplete(interactionID);
-        }
+
         FinalMiniGame.miniGameCount++;
-        // Load the main scene
 
         fadeCanvas.alpha = 1f;
-
         SceneManager.LoadScene(nextSceneName);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player"))
-            return;
-
-        playerInside = true;
-
-        // Stop stamina when entering win trigger
-        HandStamina stamina = other.GetComponent<HandStamina>();
-        if (stamina != null)
-        {
-            stamina.stopStamina = true;
-        }
-
-        promptUI.alpha = 1f;
-        promptUI.interactable = true;
-        promptUI.blocksRaycasts = true;
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (!other.CompareTag("Player"))
-            return;
-
-        playerInside = false;
-
-        promptUI.alpha = 0f;
-        promptUI.interactable = false;
-        promptUI.blocksRaycasts = false;
     }
 }
