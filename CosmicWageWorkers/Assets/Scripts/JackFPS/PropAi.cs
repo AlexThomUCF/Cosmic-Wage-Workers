@@ -1,31 +1,26 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-
 public class PropAi : MonoBehaviour
 {
     public NavMeshAgent agent;
-    private GameObject exit;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public Transform exit; // assigned by spawner
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-
-        exit = GameObject.FindGameObjectWithTag("Exit");
-        
     }
+
     void Start()
     {
-        agent.SetDestination(exit.transform.position);
-    }
+        if (exit == null)
+        {
+            Debug.LogError($"[PropAI] Exit not assigned on {name}");
+            return;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        agent.SetDestination(exit.position);
     }
 }

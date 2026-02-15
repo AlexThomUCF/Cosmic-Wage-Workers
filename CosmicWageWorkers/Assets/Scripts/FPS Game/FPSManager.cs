@@ -62,21 +62,6 @@ public class FPSManager : MonoBehaviour
         }
     }
 
-    // ======================
-    // ALARM CALLBACKS
-    // ======================
-
-    public void OnAlarmSuccess()
-    {
-        // Give player breathing room
-        spawner.PauseSpawning(5f);
-    }
-
-    public void OnAlarmFailure()
-    {
-        // Increase pressure
-        spawner.ModifySpawnRate(0.6f);
-    }
 
     // ======================
     // END STATES
