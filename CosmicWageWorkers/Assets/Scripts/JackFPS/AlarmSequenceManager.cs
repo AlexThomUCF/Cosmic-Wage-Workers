@@ -20,6 +20,15 @@ public class AlarmSequenceManager : MonoBehaviour
     public float successCooldown = 10f;
     public float failCooldown = 2.5f;
 
+    [Header("Failure Pressure")]
+    [SerializeField] private int maxFailures = 3;
+
+    [Header("Spawn Control")]
+    [SerializeField] private PropManager propManager;
+
+
+    private int consecutiveFailures = 0;
+
     private List<int> currentSequence = new List<int>();
     private List<int> remainingAlarms = new List<int>();
 
@@ -67,10 +76,10 @@ public class AlarmSequenceManager : MonoBehaviour
 
     IEnumerator InitialDelay()
     {
-        Debug.Log("[SEQUENCE] Waiting before first sequence");
-
         ResetAllAlarms();
         acceptingInput = false;
+
+        Debug.Log("[SEQUENCE] Waiting before first sequence");
 
         yield return new WaitForSeconds(initialStartDelay);
 
@@ -107,15 +116,15 @@ public class AlarmSequenceManager : MonoBehaviour
         remainingAlarms.Clear();
         ResetAllAlarms();
 
-        // --- REVEAL PHASE (solid red, ordered) ---
+        // --- REVEAL PHASE ---
         foreach (int id in currentSequence)
         {
-            alarms[id].Reveal(); // solid red
+            alarms[id].Reveal();
             remainingAlarms.Add(id);
             yield return new WaitForSeconds(revealDelay);
         }
 
-        // --- PLAYER PHASE (flicker enabled) ---
+        // --- PLAYER PHASE ---
         foreach (int id in currentSequence)
             alarms[id].SetActive();
 
@@ -131,10 +140,7 @@ public class AlarmSequenceManager : MonoBehaviour
 
     public void RegisterHit(int id)
     {
-        if (!acceptingInput)
-            return;
-
-        if (remainingAlarms.Count == 0)
+        if (!acceptingInput || remainingAlarms.Count == 0)
             return;
 
         int expectedID = remainingAlarms[0];
@@ -142,7 +148,6 @@ public class AlarmSequenceManager : MonoBehaviour
         if (id == expectedID)
         {
             remainingAlarms.RemoveAt(0);
-            Debug.Log($"[SEQUENCE] Correct alarm hit: {id}");
 
             if (remainingAlarms.Count == 0)
             {
@@ -152,7 +157,6 @@ public class AlarmSequenceManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("[SEQUENCE] FAILED — wrong order");
             acceptingInput = false;
             OnSequenceFailed();
         }
@@ -165,12 +169,14 @@ public class AlarmSequenceManager : MonoBehaviour
     void OnSequenceSuccess()
     {
         Debug.Log("[SEQUENCE] COMPLETED");
-        DecreaseSpawnRate();
+
+        // NEW — relieve pressure
+        consecutiveFailures = Mathf.Max(0, consecutiveFailures - 1);
+        ApplySpawnPressure();
 
         if (currentSequenceLength < maxSequenceLength)
         {
             currentSequenceLength++;
-            Debug.Log($"[SEQUENCE] Difficulty increased → length {currentSequenceLength}");
             StartCoroutine(SuccessCooldown());
         }
         else
@@ -182,7 +188,10 @@ public class AlarmSequenceManager : MonoBehaviour
 
     void OnSequenceFailed()
     {
-        IncreaseSpawnRate();
+        // NEW — increase pressure, capped
+        consecutiveFailures = Mathf.Min(consecutiveFailures + 1, maxFailures);
+        ApplySpawnPressure();
+
         StartCoroutine(FailBreather());
     }
 
@@ -190,8 +199,6 @@ public class AlarmSequenceManager : MonoBehaviour
     {
         ResetAllAlarms();
         acceptingInput = false;
-
-        Debug.Log("[SEQUENCE] Success cooldown");
 
         yield return new WaitForSeconds(successCooldown);
 
@@ -203,11 +210,23 @@ public class AlarmSequenceManager : MonoBehaviour
         ResetAllAlarms();
         acceptingInput = false;
 
-        Debug.Log("[SEQUENCE] Fail breather");
-
         yield return new WaitForSeconds(failCooldown);
 
         StartNewSequence();
+    }
+
+    // ================================
+    // PRESSURE HANDLING
+    // ================================
+
+    void ApplySpawnPressure()
+    {
+        float pressure = (float)consecutiveFailures / maxFailures;
+        Debug.Log($"[SPAWN] Pressure level {consecutiveFailures}/{maxFailures} ({pressure})");
+        propManager.SetPressureNormalized(pressure);
+
+        // Hook into PropManager here:
+        // propManager.SetPressureNormalized(pressure);
     }
 
     // ================================
@@ -220,17 +239,5 @@ public class AlarmSequenceManager : MonoBehaviour
             alarm.SetIdle();
     }
 
-    void IncreaseSpawnRate()
-    {
-        Debug.Log("[SPAWN] Spawn rate increased");
-        // Hook into PropManager here
-    }
 
-    void DecreaseSpawnRate()
-    {
-        Debug.Log("[SPAWN] Spawn rate decreased");
-        // Hook into PropManager here
-    }
 }
-
-
