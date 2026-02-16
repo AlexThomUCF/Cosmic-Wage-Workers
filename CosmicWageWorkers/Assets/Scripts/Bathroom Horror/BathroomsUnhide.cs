@@ -106,7 +106,7 @@ public class BathroomsUnhide : MonoBehaviour
             WaveOne();
         }
 
-        if (player.transform.position.z > 420 && wave1started && !wave2started)
+        if (player.transform.position.z > 422 && wave1started && !wave2started)
         {
             WaveTwo();
         }
@@ -127,6 +127,16 @@ public class BathroomsUnhide : MonoBehaviour
         }
 
         if (wave2started && player.transform.position.z < 410)
+        {
+            RestartLevel();
+        }
+
+        if (roachScript.roachExpansion1Active && player.transform.position.z < 423)
+        {
+            RestartLevel();
+        }
+
+        if (roachScript.roachExpansion2Active && player.transform.position.z < 432)
         {
             RestartLevel();
         }
@@ -267,7 +277,6 @@ public class BathroomsUnhide : MonoBehaviour
         thirdSectionOpened = false;
         fourthSectionOpened = true;
         roach2.SetActive(true);
-
     }
 
 
@@ -295,14 +304,13 @@ public class BathroomsUnhide : MonoBehaviour
     public void RoachExpansionOne()
     {
         bsAnimator.SetTrigger("BSFastFade");
-        bathroomSFX.heartBeat.Play();
+        bathroomSFX.heartBeat.PlayOneShot(bathroomSFX.heavyBreathing);
         roachScript.roachSpawningActive = false;
     }
 
     public void RoachExpansionTwo()
     {
         bsAnimator.SetTrigger("BSFastFade");
-        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.heavyBreathing);
         roachScript.roachExpansion1Active = false;
     }
 
@@ -344,26 +352,8 @@ public class BathroomsUnhide : MonoBehaviour
     {
         blackScreen.SetActive(false);
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.jumpScareSound);
-        int random = Random.Range(0, 0);
-
-        switch (random)
-        {
-            case 0:
-                cameraAnimator.SetTrigger("JumpScare");
-                roachAnimator.SetTrigger("RoachJS");
-                break;
-            case 1:
-                cameraAnimator.SetTrigger("JumpScare#2");
-                roachAnimator.SetTrigger("RoachJS#2");
-                break;
-            case 2:
-                cameraAnimator.SetTrigger("JumpScare#3");
-                roachAnimator.SetTrigger("RoachJS#3");
-                break;
-
-
-        }
-
+        cameraAnimator.SetTrigger("JumpScare");
+        roachAnimator.SetTrigger("RoachJS");
     }
 
 }
