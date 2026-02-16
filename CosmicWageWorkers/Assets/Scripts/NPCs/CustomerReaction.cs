@@ -4,13 +4,13 @@ using System.Collections;
 
 public class CustomerReaction : MonoBehaviour
 {
-    [Header("Text Bubble")]
-    public TextMeshProUGUI textBubble;
-    public Canvas canvas;
-    public float displayTime = 2f;
+    [Header("Bubble References")]
+    public GameObject bubbleRoot;              // The speech bubble root (background + text)
+    public TextMeshProUGUI textBubble;         // The TMP text inside the bubble
 
-    [Header("Typing Settings")]
-    public float typingSpeed = 0.03f; // lower = faster typing
+    [Header("Timing")]
+    public float typingSpeed = 0.03f;          // Lower = faster typing
+    public float displayTime = 2f;             // How long bubble stays after typing
 
     [Header("Messages")]
     [TextArea]
@@ -18,9 +18,16 @@ public class CustomerReaction : MonoBehaviour
 
     private Coroutine bubbleRoutine;
 
+    private void Start()
+    {
+        if (bubbleRoot != null)
+            bubbleRoot.SetActive(false);
+    }
+
     public void ReactToKiss()
     {
-        if (kissLines.Length == 0 || textBubble == null) return;
+        if (kissLines == null || kissLines.Length == 0) return;
+        if (textBubble == null || bubbleRoot == null) return;
 
         string message = kissLines[Random.Range(0, kissLines.Length)];
 
@@ -32,7 +39,7 @@ public class CustomerReaction : MonoBehaviour
 
     private IEnumerator TypeAndShow(string message)
     {
-        canvas.enabled = true;
+        bubbleRoot.SetActive(true);
         textBubble.text = "";
 
         // Typewriter effect
@@ -42,10 +49,10 @@ public class CustomerReaction : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        // Wait before hiding
+        // Wait after full text appears
         yield return new WaitForSeconds(displayTime);
 
-        canvas.enabled = false;
+        bubbleRoot.SetActive(false);
         textBubble.text = "";
     }
 }
