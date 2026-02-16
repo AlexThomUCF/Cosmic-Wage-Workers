@@ -11,6 +11,11 @@ public class FreezeAndSwitchScene : MonoBehaviour
         loader = FindAnyObjectByType<SceneLoader>();
     }
 
+    public void Start()
+    {
+        loader = FindAnyObjectByType<SceneLoader>();
+    }
+
     private void OnTriggerEnter(Collider other) //detect player hit
     {
         if (!other.CompareTag("Player")) return;

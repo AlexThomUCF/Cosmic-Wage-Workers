@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 public class NPC : MonoBehaviour, IInteraction
 {
@@ -15,9 +16,39 @@ public class NPC : MonoBehaviour, IInteraction
     private bool isTyping, isDialogueActive;
     public static bool isInDialogue = false;
 
+    
+    public CinemachineCamera normalCam;
+    public CinemachineCamera dialogueCam;
+
+    private Vector3 originalCameraPosition;
+    public Transform dialogueCameraPos;
+
     public void Start()
     {
         dialogueUI = DialogueController.Instance;
+
+        GameObject camObj = GameObject.FindWithTag("dialogueCam"); // make sure the tag exists
+        if (camObj != null)
+        {
+            dialogueCam = camObj.GetComponent<CinemachineCamera>();
+        }
+        else
+        {
+            Debug.LogError("DialogueCam not found in scene! Check tag.");
+        }
+
+        GameObject normalObj = GameObject.FindWithTag("NormalCam");
+        if (normalObj != null)
+        {
+            normalCam = normalObj.GetComponent<CinemachineCamera>();
+        }
+        else
+        {
+            Debug.LogError("Normal not found in scene! Check tag.");
+        }
+
+
+
     }
     public void Interact()
     {
@@ -54,6 +85,15 @@ public class NPC : MonoBehaviour, IInteraction
         //Pauce controller? if you want game to pause when interacting with dialogue, PauseController.SetPause(true);
 
         DisplayCurrentLine();
+
+        dialogueCam.transform.position = dialogueCameraPos.position;
+        dialogueCam.transform.rotation = dialogueCameraPos.rotation;
+
+        dialogueCam.Priority = 20;
+        normalCam.Priority = 10;
+
+        
+        // mainCamera.transform.position = dialogueCameraPos.position; //Puts dialogue cam infront of NPC
 
 
     }
@@ -167,6 +207,10 @@ public class NPC : MonoBehaviour, IInteraction
         dialogueUI.ShowDialogueUI(false);
         Cursor.lockState = CursorLockMode.Locked; // Locks cursor to center
         Cursor.visible = false;
+
+        //mainCamera.transform.position = originalCameraPosition; // Moves camera back into regular position
+        dialogueCam.Priority = 0;
+        normalCam.Priority = 20;
 
         //pauseccontroller un pause game here
     }
