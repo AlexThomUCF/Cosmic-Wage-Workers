@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class HorrorWinScript : MonoBehaviour
 {
     [Header("Customer Interaction ID")]
     public string interactionID; // Assign the ID of the customer for this minigame
     [SerializeField] SceneLoader loader;
+    [SerializeField] private UnityEvent eventObj;
     public void Awake()
     {
         loader = FindAnyObjectByType<SceneLoader>();
@@ -24,9 +26,11 @@ public class HorrorWinScript : MonoBehaviour
             FinalMiniGame.miniGameCount++;
             // Load the main scene
             
-            string mainSceneName = "MainScene";
-            loader.LoadSceneByName(mainSceneName);
-            //SceneManager.LoadScene(mainSceneName);
+            eventObj.Invoke();
+
+            //string mainSceneName = "MainScene";
+           // loader.LoadSceneByName(mainSceneName);
+           // SceneManager.LoadScene(mainSceneName);
         }
     }
 }
