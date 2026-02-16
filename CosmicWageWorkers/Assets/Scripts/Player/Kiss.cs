@@ -21,12 +21,19 @@ public class Kiss : MonoBehaviour
     public float kissVisibleTime = 0.3f;
     public float fadeDuration = 1f;
 
+    [Header("Kiss Targeting")]
+    public float maxKissDistance = 3f; // max distance to kiss
+    public float maxKissAngle = 45f;   // max angle from forward
+    public LayerMask customerLayer;    // Layer for customers
+
     private Coroutine fadeRoutine;
+    private Camera playerCam;
 
     private void Awake()
     {
         controls = new PlayerControls();
         audioSource = GetComponent<AudioSource>();
+        playerCam = Camera.main;
     }
 
     private void OnEnable()
@@ -43,11 +50,34 @@ public class Kiss : MonoBehaviour
     {
         if (controls.Gameplay.Kiss.WasPressedThisFrame())
         {
-            DoKiss();
+            // Only attempt kiss if facing a customer
+            if (CanKissCustomer(out Transform customer))
+                DoKiss(customer);
         }
     }
 
-    private void DoKiss()
+    private bool CanKissCustomer(out Transform customer)
+    {
+        customer = null;
+
+        // Raycast forward to see if we hit a customer
+        Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, maxKissDistance, customerLayer))
+        {
+            Vector3 toCustomer = (hit.transform.position - playerCam.transform.position).normalized;
+            float angle = Vector3.Angle(playerCam.transform.forward, toCustomer);
+
+            if (angle <= maxKissAngle)
+            {
+                customer = hit.transform;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void DoKiss(Transform customer)
     {
         // Play sound
         if (smooch != null)
@@ -59,6 +89,9 @@ public class Kiss : MonoBehaviour
 
         if (purpleHearts != null)
             purpleHearts.Play();
+
+        // Optionally, make the customer react here
+        // Example: customer.GetComponent<CustomerReaction>()?.ReactToKiss();
 
         // Restart UI fade if already running
         if (fadeRoutine != null)
