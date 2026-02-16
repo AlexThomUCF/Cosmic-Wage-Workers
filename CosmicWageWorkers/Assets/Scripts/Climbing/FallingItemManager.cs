@@ -22,6 +22,9 @@ public class FallingItemManager : MonoBehaviour
 
     public PlayerAudio playerAudio;
 
+    // Stop spawning when player hits the height trigger
+    private bool stopSpawning = false;
+
     void Start()
     {
         StartCoroutine(SpawnFallingItemsRoutine());
@@ -31,8 +34,16 @@ public class FallingItemManager : MonoBehaviour
     {
         while (!playerClimbing.isFalling)
         {
+            if (stopSpawning)
+            {
+                // Exit the loop; existing items keep falling
+                yield break;
+            }
+
             float waitTime = Random.Range(minSpawnInterval, maxSpawnInterval);
             yield return new WaitForSeconds(waitTime);
+
+            if (stopSpawning) yield break;
 
             // Play audio cue
             playerAudio.PlayOneShot(playerAudio.warning);
@@ -44,12 +55,18 @@ public class FallingItemManager : MonoBehaviour
 
     void SpawnFallingItem()
     {
-        if (spawnPoints.Length == 0 || fallingItemPrefab == null) return;
+        if (spawnPoints.Length == 0 || fallingItemPrefab == null || stopSpawning) return;
 
         int colIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[colIndex];
 
         GameObject item = Instantiate(fallingItemPrefab, spawnPoint.position, Quaternion.identity);
         item.AddComponent<FallingItem>().Initialize(playerClimbing, floorY);
+    }
+
+    // Called when the player hits the height trigger
+    public void StopSpawning()
+    {
+        stopSpawning = true;
     }
 }
