@@ -5,13 +5,16 @@ using System.Collections;
 public class CustomerReaction : MonoBehaviour
 {
     [Header("Text Bubble")]
-    public TextMeshProUGUI textBubble; // assign a world-space canvas TMP text here
-    public Canvas canvas;               // world-space canvas parent
-    public float displayTime = 2f;      // how long the bubble shows
+    public TextMeshProUGUI textBubble;
+    public Canvas canvas;
+    public float displayTime = 2f;
+
+    [Header("Typing Settings")]
+    public float typingSpeed = 0.03f; // lower = faster typing
 
     [Header("Messages")]
     [TextArea]
-    public string[] kissLines;          // messages to display when kissed
+    public string[] kissLines;
 
     private Coroutine bubbleRoutine;
 
@@ -19,21 +22,27 @@ public class CustomerReaction : MonoBehaviour
     {
         if (kissLines.Length == 0 || textBubble == null) return;
 
-        // Pick random line
         string message = kissLines[Random.Range(0, kissLines.Length)];
 
-        // Stop existing routine
         if (bubbleRoutine != null)
             StopCoroutine(bubbleRoutine);
 
-        bubbleRoutine = StartCoroutine(ShowBubble(message));
+        bubbleRoutine = StartCoroutine(TypeAndShow(message));
     }
 
-    private IEnumerator ShowBubble(string message)
+    private IEnumerator TypeAndShow(string message)
     {
-        textBubble.text = message;
         canvas.enabled = true;
+        textBubble.text = "";
 
+        // Typewriter effect
+        foreach (char letter in message)
+        {
+            textBubble.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        // Wait before hiding
         yield return new WaitForSeconds(displayTime);
 
         canvas.enabled = false;
