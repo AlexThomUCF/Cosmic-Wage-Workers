@@ -90,8 +90,8 @@ public class Kiss : MonoBehaviour
         if (purpleHearts != null)
             purpleHearts.Play();
 
-        // Optionally, make the customer react here
-        // Example: customer.GetComponent<CustomerReaction>()?.ReactToKiss();
+        // Make customer react with a text bubble
+        customer.GetComponent<CustomerReaction>()?.ReactToKiss();
 
         // Restart UI fade if already running
         if (fadeRoutine != null)
