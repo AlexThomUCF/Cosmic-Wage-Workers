@@ -50,10 +50,10 @@ public class BoxManager : MonoBehaviour
     {
         if (currentZoneIndex >= stockZones.Count || boxSpawnPoints.Count == 0) return;
 
-        Transform spawnPoint = boxSpawnPoints[Mathf.Min(currentZoneIndex, boxSpawnPoints.Count - 1)];
+        Transform spawnPoint = boxSpawnPoints[Random.Range(0, boxSpawnPoints.Count)];
         Vector3 pos = spawnPoint.position + Vector3.up * spawnHeight;
 
-        currentBox = Instantiate(boxPrefab, pos, Quaternion.identity);
+        currentBox = Instantiate(boxPrefab, pos, spawnPoint.rotation);
         currentBox.tag = "Box";
 
         if (currentBox.GetComponent<Collider>() == null)
