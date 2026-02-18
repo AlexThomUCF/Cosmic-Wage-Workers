@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class BathroomsUnhide : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject lastLight;
 
 
+
     [Header("*** Others ***")]
     public GameObject roachJS;
     public Animator doorAnimator;
@@ -52,8 +54,8 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject jumpScareBlackScreen;
 
     
-    private bool horrorGameStarted = true; 
-    private bool doorOpened = false;
+    public bool horrorGameStarted = true; 
+    public bool doorOpened = false;
 
 
 
@@ -65,9 +67,12 @@ public class BathroomsUnhide : MonoBehaviour
     private bool wave1started = false;
     private bool wave2started = false;
     private bool restartingLevel = false;
+    private bool lightsOn = true;
 
     public float doorTimer;
     public float roachTimer;
+    public float lightTimer;
+    
     public float blackScreenTimer;
     public bool playerReturning = false;
     
@@ -185,6 +190,7 @@ public class BathroomsUnhide : MonoBehaviour
             canLeaveBathroom = true;
         }
     }
+
 
     public void OpenEventDoor()
     {

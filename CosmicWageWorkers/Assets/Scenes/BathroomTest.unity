@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: be4ddab7577181f4ba5508e402459620, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -6552,6 +6552,57 @@ Transform:
   - {fileID: 1356830833}
   m_Father: {fileID: 32396146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &262811938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 262811939}
+  - component: {fileID: 262811940}
+  m_Layer: 0
+  m_Name: LightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &262811939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262811938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -110.67697, y: 2.99, z: 343.7829}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &262811940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262811938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5734c9c3cec6b4597af37b5ce740cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  secondSpotLight1: {fileID: 623671368}
+  secondSpotLight2: {fileID: 623671367}
+  thirdSpotLight1: {fileID: 615941343}
+  thirdSpotLight2: {fileID: 615941342}
+  fourthSpotLight1: {fileID: 492069283}
+  fourthSpotLight2: {fileID: 492069282}
+  bathroomUnhide: {fileID: 1755960845}
 --- !u!1 &265666384
 GameObject:
   m_ObjectHideFlags: 0
@@ -39309,7 +39360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7677990395189651501, guid: bc19400a5ffbb9b4ca606ca766db9c62, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7952500136820442034, guid: bc19400a5ffbb9b4ca606ca766db9c62, type: 3}
       propertyPath: m_LocalScale.x
@@ -40980,7 +41031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7677990395189651501, guid: bc19400a5ffbb9b4ca606ca766db9c62, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7952500136820442034, guid: bc19400a5ffbb9b4ca606ca766db9c62, type: 3}
       propertyPath: m_LocalScale.x
@@ -41879,8 +41930,11 @@ MonoBehaviour:
   bathroomSFX: {fileID: 962263231}
   blackScreen: {fileID: 1579730462}
   jumpScareBlackScreen: {fileID: 1518202453}
+  horrorGameStarted: 1
+  doorOpened: 0
   doorTimer: 3
   roachTimer: 1.5
+  lightTimer: 0.5
   blackScreenTimer: 1
   playerReturning: 0
   doorCloseDelay: 1
@@ -52501,6 +52555,7 @@ SceneRoots:
   - {fileID: 1697992430}
   - {fileID: 1386199195}
   - {fileID: 1755960844}
+  - {fileID: 262811939}
   - {fileID: 1009712606}
   - {fileID: 962263230}
   - {fileID: 1459084220}
