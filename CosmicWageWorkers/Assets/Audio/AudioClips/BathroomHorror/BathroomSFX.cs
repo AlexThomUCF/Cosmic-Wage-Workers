@@ -12,10 +12,14 @@ public class BathroomSFX : MonoBehaviour
     public AudioClip waveStarted;
     public AudioClip hey;
     public AudioClip getOut;
+    public AudioClip jumpScareSound;
+    public AudioClip heavyBreathing;
+
 
     [Header("*** Audio Background ***")]
     public AudioSource backgroundNoise;
     public AudioSource distortedStoreMusic;
+    public AudioSource heartBeat;
     public AudioSource bugNoises;
     public AudioSource crawlNoise;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,5 +42,6 @@ public class BathroomSFX : MonoBehaviour
         distortedStoreMusic.Stop();
         bugNoises.Stop();
         crawlNoise.Stop();
+        heartBeat.Stop();
     }
 }

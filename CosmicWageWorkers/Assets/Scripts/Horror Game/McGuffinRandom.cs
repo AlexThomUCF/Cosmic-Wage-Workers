@@ -22,7 +22,7 @@ public class McGuffinRandom : MonoBehaviour
         for (int i = 0; i < locations.Length; i++)
         {
             // spawn a fake cube and store it in array
-            cubes[i] = Instantiate(fakeObject, locations[i].position, transform.rotation);
+            cubes[i] = Instantiate(fakeObject, locations[i].position, Quaternion.Euler(-90, 90, 0));
         }
     }
 
