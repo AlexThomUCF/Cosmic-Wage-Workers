@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class AlarmSequenceManager : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class AlarmSequenceManager : MonoBehaviour
 
     [Header("Spawn Control")]
     [SerializeField] private PropManager propManager;
+
+    [Header("End Minigame")]
+    public string sceneToLoadAfterGame;
+    public float endDelay = 1.5f;
 
 
     private int consecutiveFailures = 0;
@@ -182,9 +187,25 @@ public class AlarmSequenceManager : MonoBehaviour
         else
         {
             Debug.Log("[SEQUENCE] ALL SEQUENCES COMPLETE — MINIGAME DONE");
-            // Hook win condition here
+
+            StopAllCoroutines();
+            Invoke(nameof(LoadNextScene), endDelay);
+        }
+
+    }
+
+    void LoadNextScene()
+    {
+        if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
+        {
+            SceneManager.LoadScene(sceneToLoadAfterGame);
+        }
+        else
+        {
+            Debug.LogWarning("Scene name not set in AlarmSequenceManager.");
         }
     }
+
 
     void OnSequenceFailed()
     {
@@ -238,6 +259,5 @@ public class AlarmSequenceManager : MonoBehaviour
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
     }
-
 
 }
