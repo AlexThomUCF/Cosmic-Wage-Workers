@@ -31,14 +31,17 @@ public class AlarmSequenceManager : MonoBehaviour
     public string sceneToLoadAfterGame;
     public float endDelay = 1.5f;
 
+    [HideInInspector]
+    public int currentSequenceIndex = 0;
+
 
     private int consecutiveFailures = 0;
 
-    private List<int> currentSequence = new List<int>();
+    public List<int> currentSequence = new List<int>();
     private List<int> remainingAlarms = new List<int>();
 
     private int currentSequenceLength;
-    private bool acceptingInput = false;
+    public bool acceptingInput = false;
     private float timer;
 
     // ================================
@@ -91,7 +94,7 @@ public class AlarmSequenceManager : MonoBehaviour
         StartNewSequence();
     }
 
-    void StartNewSequence()
+    public void StartNewSequence()
     {
         BuildNewSequence();
         StartCoroutine(RevealSequence());
@@ -122,14 +125,18 @@ public class AlarmSequenceManager : MonoBehaviour
         ResetAllAlarms();
 
         // --- REVEAL PHASE ---
-        foreach (int id in currentSequence)
+        for (int i = 0; i < currentSequence.Count; i++)
         {
+            int id = currentSequence[i];
+            currentSequenceIndex = i;  // <-- Track current alarm
             alarms[id].Reveal();
             remainingAlarms.Add(id);
+
             yield return new WaitForSeconds(revealDelay);
         }
 
         // --- PLAYER PHASE ---
+        currentSequenceIndex = 0; // reset to first for gameplay
         foreach (int id in currentSequence)
             alarms[id].SetActive();
 
@@ -138,7 +145,6 @@ public class AlarmSequenceManager : MonoBehaviour
 
         Debug.Log("[SEQUENCE] Player input enabled");
     }
-
     // ================================
     // HIT REGISTRATION
     // ================================

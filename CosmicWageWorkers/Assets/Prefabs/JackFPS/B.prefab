@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 9044728662081908261}
   - component: {fileID: 3857915011606667038}
   - component: {fileID: 8340944473386168454}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: B
   m_TagString: Prop
   m_Icon: {fileID: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PropAi
   agent: {fileID: 0}
+  exit: {fileID: 0}
 --- !u!195 &9044728662081908261
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2114447543146044894}
   - component: {fileID: 376090905867525027}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Test 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
