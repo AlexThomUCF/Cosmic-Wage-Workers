@@ -11165,9 +11165,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSManager
   loader: {fileID: 0}
+  spawner: {fileID: 0}
   killCount: 0
   killsToWin: 10
   nextSceneName: MainScene
+  enemiesEscaped: 0
+  maxEscapesAllowed: 5
+  loseSceneName: GameOver
   interactionID: FPS
 --- !u!43 &1908143265
 Mesh:
@@ -13642,6 +13646,18 @@ PrefabInstance:
       propertyPath: freezeMeter
       value: 
       objectReference: {fileID: 677309702}
+    - target: {fileID: 5519924683003101933, guid: 9f8fb24252cb022408c5511a8ed68617, type: 3}
+      propertyPath: isRole
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519924683003101933, guid: 9f8fb24252cb022408c5511a8ed68617, type: 3}
+      propertyPath: dashSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519924683003101933, guid: 9f8fb24252cb022408c5511a8ed68617, type: 3}
+      propertyPath: dashSmoothness
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7599929144552148804, guid: 9f8fb24252cb022408c5511a8ed68617, type: 3}
       propertyPath: m_LocalPosition.x
       value: -60.4
