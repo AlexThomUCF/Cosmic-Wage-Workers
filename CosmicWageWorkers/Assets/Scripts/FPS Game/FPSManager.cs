@@ -32,6 +32,7 @@ public class FPSManager : MonoBehaviour
 
         Instance = this;
         loader = FindFirstObjectByType<SceneLoader>();
+
     }
 
     // ======================
@@ -61,6 +62,7 @@ public class FPSManager : MonoBehaviour
             LoseGame();
         }
     }
+
 
 
     // ======================

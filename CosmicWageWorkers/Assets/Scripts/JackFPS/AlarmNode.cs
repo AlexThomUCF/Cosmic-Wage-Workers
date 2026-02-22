@@ -152,6 +152,17 @@ public class AlarmNode : MonoBehaviour
 
         manager.RegisterHit(alarmID);
     }
+   
+    public void RevealCutscene()
+    {
+        // Only play visual and audio, don't affect sequence manager
+        if (flickerRoutine != null)
+            StopCoroutine(flickerRoutine);
+
+        rend.material = activeMat;
+        if (alarmClip != null)
+            audioSource.PlayOneShot(alarmClip, volume);
+    }
 }
 
 

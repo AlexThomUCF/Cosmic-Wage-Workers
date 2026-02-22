@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class AlarmSequenceManager : MonoBehaviour
 {
@@ -26,14 +27,21 @@ public class AlarmSequenceManager : MonoBehaviour
     [Header("Spawn Control")]
     [SerializeField] private PropManager propManager;
 
+    [Header("End Minigame")]
+    public string sceneToLoadAfterGame;
+    public float endDelay = 1.5f;
+
+    [HideInInspector]
+    public int currentSequenceIndex = 0;
+
 
     private int consecutiveFailures = 0;
 
-    private List<int> currentSequence = new List<int>();
+    public List<int> currentSequence = new List<int>();
     private List<int> remainingAlarms = new List<int>();
 
     private int currentSequenceLength;
-    private bool acceptingInput = false;
+    public bool acceptingInput = false;
     private float timer;
 
     // ================================
@@ -86,7 +94,7 @@ public class AlarmSequenceManager : MonoBehaviour
         StartNewSequence();
     }
 
-    void StartNewSequence()
+    public void StartNewSequence()
     {
         BuildNewSequence();
         StartCoroutine(RevealSequence());
@@ -117,14 +125,18 @@ public class AlarmSequenceManager : MonoBehaviour
         ResetAllAlarms();
 
         // --- REVEAL PHASE ---
-        foreach (int id in currentSequence)
+        for (int i = 0; i < currentSequence.Count; i++)
         {
+            int id = currentSequence[i];
+            currentSequenceIndex = i;  // <-- Track current alarm
             alarms[id].Reveal();
             remainingAlarms.Add(id);
+
             yield return new WaitForSeconds(revealDelay);
         }
 
         // --- PLAYER PHASE ---
+        currentSequenceIndex = 0; // reset to first for gameplay
         foreach (int id in currentSequence)
             alarms[id].SetActive();
 
@@ -133,7 +145,6 @@ public class AlarmSequenceManager : MonoBehaviour
 
         Debug.Log("[SEQUENCE] Player input enabled");
     }
-
     // ================================
     // HIT REGISTRATION
     // ================================
@@ -182,9 +193,25 @@ public class AlarmSequenceManager : MonoBehaviour
         else
         {
             Debug.Log("[SEQUENCE] ALL SEQUENCES COMPLETE — MINIGAME DONE");
-            // Hook win condition here
+
+            StopAllCoroutines();
+            Invoke(nameof(LoadNextScene), endDelay);
+        }
+
+    }
+
+    void LoadNextScene()
+    {
+        if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
+        {
+            SceneManager.LoadScene(sceneToLoadAfterGame);
+        }
+        else
+        {
+            Debug.LogWarning("Scene name not set in AlarmSequenceManager.");
         }
     }
+
 
     void OnSequenceFailed()
     {
@@ -238,6 +265,5 @@ public class AlarmSequenceManager : MonoBehaviour
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
     }
-
 
 }
