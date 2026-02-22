@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.4f;
