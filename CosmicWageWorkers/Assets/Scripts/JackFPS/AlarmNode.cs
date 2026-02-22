@@ -38,15 +38,11 @@ public class AlarmNode : MonoBehaviour
 
         audioSource.playOnAwake = false;
         audioSource.loop = false;
-        audioSource.spatialBlend = 0f; // 2D
+        audioSource.spatialBlend = 0f;
         audioSource.volume = volume;
 
         SetIdle();
     }
-
-    // ------------------------
-    // Visual States
-    // ------------------------
 
     public void SetIdle()
     {
@@ -59,7 +55,6 @@ public class AlarmNode : MonoBehaviour
         rend.material = idleMat;
     }
 
-    // MEMORY PHASE — triple beep
     public void Reveal()
     {
         if (flickerRoutine != null)
@@ -69,12 +64,10 @@ public class AlarmNode : MonoBehaviour
         PlayTripleBeep();
     }
 
-    // EXECUTION PHASE — flicker, no audio
     public void SetActive()
     {
         isActive = true;
 
-        // Stop any audio that might still be playing
         StopAudioImmediate();
 
         if (flickerRoutine != null)
@@ -83,9 +76,6 @@ public class AlarmNode : MonoBehaviour
         flickerRoutine = StartCoroutine(Flicker());
     }
 
-    // ------------------------
-    // Flicker
-    // ------------------------
     IEnumerator Flicker()
     {
         bool red = true;
@@ -98,41 +88,28 @@ public class AlarmNode : MonoBehaviour
         }
     }
 
-    // ------------------------
-    // Audio
-    // ------------------------
     void PlayTripleBeep()
     {
         if (alarmClip == null) return;
 
         StopAudioImmediate();
-
         audioRoutine = StartCoroutine(TripleBeepCoroutine());
     }
 
     IEnumerator TripleBeepCoroutine()
     {
-        if (alarmClip == null) yield break;
-
         for (int i = 0; i < beepCount; i++)
         {
-            // Forcefully reset the audio
             audioSource.Stop();
             audioSource.clip = alarmClip;
             audioSource.Play();
 
-            // Wait only the length of the beep
             yield return new WaitForSeconds(beepLength);
 
-            // Stop immediately so it doesn’t linger
             audioSource.Stop();
-
-            // Wait gap before next beep
             yield return new WaitForSeconds(beepGap);
         }
     }
-
-
 
     void StopAudioImmediate()
     {
@@ -142,36 +119,35 @@ public class AlarmNode : MonoBehaviour
         audioSource.Stop();
     }
 
-    // ------------------------
-    // Hit logic
-    // ------------------------
     public void OnShot()
     {
-        if (!isActive)
-            return;
-
+        if (!isActive) return;
         manager.RegisterHit(alarmID);
     }
-   
+
     public void RevealCutscene()
     {
-        // Only play visual and audio, don't affect sequence manager
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
-        rend.material = activeMat;
-        if (alarmClip != null)
+        isActive = false;
+
+        if (rend != null && activeMat != null)
+            rend.material = activeMat;
+
+        if (alarmClip != null && audioSource != null)
+        {
+            audioSource.Stop();
             audioSource.PlayOneShot(alarmClip, volume);
+        }
+
+        StartCoroutine(CutsceneFlash());
+    }
+
+    IEnumerator CutsceneFlash()
+    {
+        yield return new WaitForSeconds(0.25f);
+        if (rend != null && idleMat != null)
+            rend.material = idleMat;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
