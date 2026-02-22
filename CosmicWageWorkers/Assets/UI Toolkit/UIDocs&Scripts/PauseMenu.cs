@@ -1,111 +1,82 @@
 using UnityEngine;
-using System.ComponentModel.Design.Serialization;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public bool gameIsPaused;
-    public GameObject pauseMenu;
-    public GameObject optionsMenu;
-    public GameObject pauseButtons;
-    public GameObject pauseStars;
-    public GameObject generalHUD;
-    public Animator pauseAni;
-    public float pauseOnDelay = 1f;
-    public float pauseDelay = 0.3f;
-    public bool pauseLeave;
-    public bool pauseOn;
+    [Header("References")]
+    public GameObject generalHUD;          // Your HUD
+    public Animator pauseAni;              // Animator on PausePanel
+    public CanvasGroup pauseCanvasGroup;   // CanvasGroup on PausePanel
 
+    private bool gameIsPaused;
+    private bool isTransitioning;
 
- 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        //For pause animations to play
-        if (pauseLeave)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isTransitioning)
         {
-            pauseDelay -= Time.deltaTime;
-            
-         
-        }
-
-        if (pauseOn)
-        {
-            pauseOnDelay -= Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PauseGame();
-        }
-
-        if (pauseDelay < 0)
-        {
-            pauseLeave = false;
-            pauseMenu.SetActive(false);
-            generalHUD.SetActive(true);
-            pauseDelay = 0.3f;
-
-}
-
-        if (pauseOnDelay < 0)
-        {
-            Time.timeScale = 0f;
-            pauseOn = false;
-            pauseOnDelay = 1f;
+            if (gameIsPaused)
+                StartUnpause();
+            else
+                StartPause();
         }
     }
 
-    //Function to pause the game
-    public void PauseGame()
+    // -------------------------
+    // START PAUSE
+    // -------------------------
+    void StartPause()
     {
-        gameIsPaused = !gameIsPaused;
+        isTransitioning = true;
+        gameIsPaused = true;
 
-        if (gameIsPaused)
-        {
-            pauseMenu.SetActive(true);
-            pauseAni.SetTrigger("PauseOn");
-            generalHUD.SetActive(false);
-            pauseOn = true;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            pauseAni.SetTrigger("PauseOff");
-            pauseLeave = true;
-            }
-    
-        
-        }
-    
+        // Show the panel using CanvasGroup
+        pauseCanvasGroup.alpha = 1f;
+        pauseCanvasGroup.interactable = true;
+        pauseCanvasGroup.blocksRaycasts = true;
 
-    //Removes everything from pause to bring in options
-    public void TurnOnOptions()
-    {
-        pauseButtons.SetActive(false);
-        pauseStars.SetActive(false);
-        optionsMenu.SetActive(true);
+        generalHUD.SetActive(false);
+
+        pauseAni.SetTrigger("PauseOn");
     }
 
-    // Removes options and brings everything back
-    public void TurnOffOptions()
+    // -------------------------
+    // START UNPAUSE
+    // -------------------------
+    void StartUnpause()
     {
-        pauseButtons.SetActive(true);
-        pauseStars.SetActive(true);
-        optionsMenu.SetActive(false);
+        isTransitioning = true;
+
+        Time.timeScale = 1f; // Resume so animation plays correctly
+        pauseAni.SetTrigger("PauseOff");
     }
 
-    //Return to title screen
+    // -------------------------
+    // CALLED BY RELAY (Animation Event)
+    // -------------------------
+    public void OnPauseAnimationFinished()
+    {
+        // Freeze time after pause animation
+        Time.timeScale = 0f;
+        isTransitioning = false;
+    }
+
+    public void OnUnpauseAnimationFinished()
+    {
+        // Hide the panel visually
+        pauseCanvasGroup.alpha = 0f;
+        pauseCanvasGroup.interactable = false;
+        pauseCanvasGroup.blocksRaycasts = false;
+
+        generalHUD.SetActive(true);
+
+        gameIsPaused = false;
+        isTransitioning = false;
+    }
+
+    // -------------------------
+    // RETURN TO MAIN MENU
+    // -------------------------
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
