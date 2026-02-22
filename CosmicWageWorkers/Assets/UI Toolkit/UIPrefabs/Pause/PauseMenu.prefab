@@ -13209,6 +13209,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6406271963301504057}
   - component: {fileID: 7055275644168612255}
+  - component: {fileID: 508285533877895729}
+  - component: {fileID: 6106064893303863088}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -13261,6 +13263,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &508285533877895729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8748081376413299520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa83136df4d42f49b3f77da68fffcd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseAnimationRelay
+  pauseMenu: {fileID: 0}
+--- !u!225 &6106064893303863088
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8748081376413299520}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8955803392760962837
 GameObject:
   m_ObjectHideFlags: 0
