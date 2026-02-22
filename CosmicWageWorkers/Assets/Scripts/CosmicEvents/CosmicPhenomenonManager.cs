@@ -24,12 +24,40 @@ public class CosmicPhenomenonManager : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minTimeBetweenEvents, maxTimeBetweenEvents);
-            yield return new WaitForSeconds(waitTime);
+            // Wait until dialogue is NOT active
+            yield return new WaitUntil(() =>
+                DialogueController.Instance == null ||
+                !DialogueController.Instance.dialoguePanel.activeSelf
+            );
 
-            TriggerRandomEvent();
+            float waitTime = Random.Range(minTimeBetweenEvents, maxTimeBetweenEvents);
+            float timer = 0f;
+
+            // Countdown that pauses if dialogue opens
+            while (timer < waitTime)
+            {
+                if (DialogueController.Instance != null &&
+                    DialogueController.Instance.dialoguePanel.activeSelf)
+                {
+                    // Pause until dialogue closes
+                    yield return new WaitUntil(() =>
+                        !DialogueController.Instance.dialoguePanel.activeSelf
+                    );
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            // Final safety check before triggering
+            if (DialogueController.Instance == null ||
+                !DialogueController.Instance.dialoguePanel.activeSelf)
+            {
+                TriggerRandomEvent();
+            }
         }
     }
+
 
     private void TriggerRandomEvent()
     {
