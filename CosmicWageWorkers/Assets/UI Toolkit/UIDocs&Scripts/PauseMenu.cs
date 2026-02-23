@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseStars;
     public GameObject generalHUD;
     public Animator pauseAni;
-    public float pauseOnDelay = 1f;
+    public float pauseOnDelay = 0.3f;
     public float pauseDelay = 0.3f;
     public bool pauseLeave;
     public bool pauseOn;
@@ -34,17 +34,17 @@ public class PauseMenu : MonoBehaviour
         //For pause animations to play
         if (pauseLeave)
         {
-            pauseDelay -= Time.deltaTime;
+            pauseDelay -= Time.unscaledDeltaTime;
             
          
         }
 
         if (pauseOn)
         {
-            pauseOnDelay -= Time.deltaTime;
+            pauseOnDelay -= Time.unscaledDeltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !pauseOn)
         {
             PauseGame();
         }
@@ -60,9 +60,7 @@ public class PauseMenu : MonoBehaviour
 
         if (pauseOnDelay < 0)
         {
-            Time.timeScale = 0f;
             pauseOn = false;
-            pauseOnDelay = 1f;
         }
     }
 
@@ -77,13 +75,18 @@ public class PauseMenu : MonoBehaviour
             pauseAni.SetTrigger("PauseOn");
             generalHUD.SetActive(false);
             pauseOn = true;
+            Time.timeScale = 0f;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
         }
         else
         {
             Time.timeScale = 1f;
             pauseAni.SetTrigger("PauseOff");
             pauseLeave = true;
-            }
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+        }
     
         
         }

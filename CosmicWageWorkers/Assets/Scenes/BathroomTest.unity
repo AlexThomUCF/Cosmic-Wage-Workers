@@ -25,8 +25,8 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: be4ddab7577181f4ba5508e402459620, type: 2}
+  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -23820,6 +23820,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 3530304510504463612, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5484470794360054093, guid: fe718cebcb62d924b9c1d4590f6c6bdb, type: 3}
       propertyPath: holdPoint
       value: 
@@ -27076,6 +27080,7 @@ GameObject:
   - component: {fileID: 1154813875}
   - component: {fileID: 1154813877}
   - component: {fileID: 1154813876}
+  - component: {fileID: 1154813878}
   m_Layer: 0
   m_Name: csw_bathroom_stall_walls
   m_TagString: Untagged
@@ -27154,6 +27159,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154813874}
   m_Mesh: {fileID: -5203730317084023294, guid: 97af0eda330670348b9b92eef5cf98bb, type: 3}
+--- !u!65 &1154813878
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154813874}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.034399077, y: 0.04666953, z: 0.05437536}
+  m_Center: {x: 0.00000028282716, y: 0.00008954885, z: 0.0000000049340128}
 --- !u!1 &1156053593
 GameObject:
   m_ObjectHideFlags: 0
@@ -31046,8 +31072,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.019978788, y: 0.0005627841, z: 0.039958525}
-  m_Center: {x: -0.00000023841858, y: 0.000000001891749, z: 0.0000000037252903}
+  m_Size: {x: 0.019978788, y: 0.04470957, z: 0.03995853}
+  m_Center: {x: 0.000010712489, y: 0.02236112, z: 0.0000000037000956}
 --- !u!114 &1321245422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32741,7 +32767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7677990395189651501, guid: bc19400a5ffbb9b4ca606ca766db9c62, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7952500136820442034, guid: bc19400a5ffbb9b4ca606ca766db9c62, type: 3}
       propertyPath: m_LocalScale.x
