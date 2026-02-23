@@ -7,8 +7,12 @@ using UnityEngine.InputSystem;
 public class FlashLight : MonoBehaviour
 {
     public GameObject fLight;
-    public Image batteryBar;
-
+    public Image batterySprite;
+    
+    [Header("Battery Visual Settings")]
+    [Range(0f, 1f)]
+    public float minAlpha = 0.2f; // Minimum opacity at 0% battery
+    
     public float batteryLife, maxBatteryLife;
     public float burnCost;
     public bool replaceBattery = false;
@@ -16,15 +20,11 @@ public class FlashLight : MonoBehaviour
 
     public AudioSource source;
     private PlayerControls controls;
-    //public Battery battery;
-    private bool isFlashlightOn = false; // Track flashlight state
+    private bool isFlashlightOn = false;
 
     void Awake()
     {
-        //battery = FindAnyObjectByType<Battery>();
         controls = new PlayerControls();
-
-        // Bind flashlight toggle event
         controls.Gameplay.Flashlight.performed += ctx => ToggleFlash();
     }
 
@@ -40,7 +40,6 @@ public class FlashLight : MonoBehaviour
 
     void Update()
     {
-        // Reduce battery only if flashlight is on
         if (isFlashlightOn)
         {
             batteryLife -= burnCost * Time.deltaTime;
@@ -53,9 +52,21 @@ public class FlashLight : MonoBehaviour
             }
         }
 
-        batteryBar.fillAmount = batteryLife / maxBatteryLife;
+        UpdateBatteryVisual();
+    }
 
-      //  ReplenishBattery();
+    private void UpdateBatteryVisual()
+    {
+        if (batterySprite == null) return;
+        
+        float batteryPercent = batteryLife / maxBatteryLife;
+        
+        // Fade alpha from minAlpha to 1.0
+        float alpha = Mathf.Lerp(minAlpha, 1f, batteryPercent);
+        
+        Color color = batterySprite.color;
+        color.a = alpha;
+        batterySprite.color = color;
     }
 
     public void ToggleFlash()
@@ -67,16 +78,15 @@ public class FlashLight : MonoBehaviour
             SoundEffectManager.Play("Click");
         }
     }
+    
     public void ReplenishBattery()
     {
-
         batteryLife += batteryRecharge;
         if (batteryLife > maxBatteryLife) batteryLife = maxBatteryLife;
-        batteryBar.fillAmount = batteryLife;
         replaceBattery = false;
-
+        
+        UpdateBatteryVisual();
+        
         SoundEffectManager.Play("BatteryReplace");
-
-    
     }
 }
