@@ -18,6 +18,10 @@ public class TurretShootWhenSeePlayer : MonoBehaviour
 
     private float nextFireTime;
 
+    
+
+
+
     void Update()
     {
         if (player == null || projectilePrefab == null || firePoint == null) return;
@@ -62,7 +66,10 @@ public class TurretShootWhenSeePlayer : MonoBehaviour
             proj.transform.position += dir * 0.01f;
         }
 
+        
+
         Destroy(proj, 5f);
+        
     }
 
     void OnDrawGizmosSelected()
