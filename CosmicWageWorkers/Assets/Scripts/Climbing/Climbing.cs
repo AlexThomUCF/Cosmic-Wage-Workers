@@ -21,6 +21,16 @@ public class Climbing : MonoBehaviour
     public Transform leftHand;
     public Transform rightHand;
     private bool rightHandNext = true;
+    private Transform activeHandDuringMove;
+
+    [Header("Hand Sprites")]
+    public Sprite leftHandOpen;
+    public Sprite leftHandClosed;
+    public Sprite rightHandOpen;
+    public Sprite rightHandClosed;
+
+    private SpriteRenderer leftHandRenderer;
+    private SpriteRenderer rightHandRenderer;
 
     [Header("Camera")]
     public Transform cameraTransform;
@@ -42,7 +52,7 @@ public class Climbing : MonoBehaviour
     public CanvasGroup fadeCanvas;
 
     [Header("Falling Hand Targets")]
-    public Transform leftFallTarget;   // Place in front of camera
+    public Transform leftFallTarget;
     public Transform rightFallTarget;
     public float handFallSpeed = 3f;
     public float handFlailAmplitude = 0.3f;
@@ -54,7 +64,6 @@ public class Climbing : MonoBehaviour
     private int previousRow;
 
     private bool isMoving;
-    private Transform activeHandDuringMove;
 
     public PlayerAudio playerAudio;
 
@@ -68,6 +77,12 @@ public class Climbing : MonoBehaviour
 
         if (fadeCanvas != null)
             fadeCanvas.alpha = 0f;
+
+        // Get sprite renderers
+        leftHandRenderer = leftHand.GetComponent<SpriteRenderer>();
+        rightHandRenderer = rightHand.GetComponent<SpriteRenderer>();
+
+        UpdateHandSprites();
     }
 
     void Update()
@@ -77,7 +92,6 @@ public class Climbing : MonoBehaviour
         {
             if (isFalling)
             {
-                // Lock tilt when falling
                 Vector3 euler = cameraTransform.rotation.eulerAngles;
                 cameraTransform.rotation = Quaternion.Euler(lookAheadTilt, euler.y, euler.z);
             }
@@ -92,10 +106,8 @@ public class Climbing : MonoBehaviour
 
         if (isMoving || isFalling) return;
 
-        // Block climbing while holding space
         if (Input.GetKey(KeyCode.Space)) return;
 
-        // Climbing inputs
         if (Input.GetKeyDown(KeyCode.A)) TryMove(-1, 0);
         if (Input.GetKeyDown(KeyCode.D)) TryMove(1, 0);
         if (Input.GetKeyDown(KeyCode.W)) TryMove(0, 1);
@@ -110,10 +122,7 @@ public class Climbing : MonoBehaviour
             Vector3 targetPos;
 
             if (isFalling)
-            {
-                // Camera follows player while falling
                 targetPos = transform.position + cameraOffset;
-            }
             else
             {
                 Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
@@ -137,7 +146,6 @@ public class Climbing : MonoBehaviour
             AnimateHandsWhileFalling();
         else
         {
-            // Smoothly move player body toward hand midpoint
             Vector3 bodyTarget = GetBodyTargetFromHands();
             transform.position = Vector3.Lerp(transform.position, bodyTarget, Time.deltaTime * cameraFollowSpeed);
         }
@@ -219,8 +227,6 @@ public class Climbing : MonoBehaviour
             currentRow = previousRow;
 
             yield return StartCoroutine(LerpHand(hand, targetPos, handStart, handReturnDuration));
-
-            // same hand moves next
         }
         else
         {
@@ -229,6 +235,9 @@ public class Climbing : MonoBehaviour
 
         activeHandDuringMove = null;
         isMoving = false;
+
+        // Update hand sprites after move
+        UpdateHandSprites();
     }
 
     IEnumerator LerpHand(Transform hand, Vector3 from, Vector3 to, float duration)
@@ -254,7 +263,6 @@ public class Climbing : MonoBehaviour
             playerAudio.source.ignoreListenerPause = true;
             playerAudio.source.Play();
 
-
             StartCoroutine(FallAndReload());
         }
     }
@@ -267,7 +275,6 @@ public class Climbing : MonoBehaviour
             yield return null;
         }
 
-        // Snap hands to final positions
         if (leftFallTarget != null)
         {
             leftHand.position = leftFallTarget.position;
@@ -284,7 +291,6 @@ public class Climbing : MonoBehaviour
         playerAudio.PlayOneShot(playerAudio.hitGround);
         AudioListener.pause = true;
 
-        // Instant black
         if (fadeCanvas != null)
             fadeCanvas.alpha = 1f;
 
@@ -306,5 +312,19 @@ public class Climbing : MonoBehaviour
     {
         Vector3 midpoint = (leftHand.position + rightHand.position) * 0.5f;
         return new Vector3(midpoint.x + bodyXOffset, midpoint.y, midpoint.z);
+    }
+
+    void UpdateHandSprites()
+    {
+        if (rightHandNext)
+        {
+            leftHandRenderer.sprite = leftHandClosed;
+            rightHandRenderer.sprite = rightHandOpen;
+        }
+        else
+        {
+            leftHandRenderer.sprite = leftHandOpen;
+            rightHandRenderer.sprite = rightHandClosed;
+        }
     }
 }
