@@ -52,8 +52,11 @@ public class BathroomsUnhide : MonoBehaviour
     public BathroomSFX bathroomSFX;
     public GameObject blackScreen;
     public GameObject jumpScareBlackScreen;
+    public GameObject promptUpUI;
 
-    
+
+
+    [Header("*** Variables ***")]
     public bool horrorGameStarted = true; 
     public bool doorOpened = false;
 
@@ -202,6 +205,7 @@ public class BathroomsUnhide : MonoBehaviour
         bsAnimator.SetTrigger("BSFastFade");
         doorAnimator.SetTrigger("DoorOpen");
         doorOpened = true;
+        promptUpUI.SetActive(false);
     }   
 
     public void CloseEventDoor()
