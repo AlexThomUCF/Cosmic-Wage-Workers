@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip hitSound;
 
+
+
     void Start()
     {
         Destroy(gameObject, lifetime);
@@ -23,6 +25,7 @@ public class Projectile : MonoBehaviour
             {
                 player.FreezeHit();
                 AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                slimehitEffect.Instance.PlayEffect();
             }
         }
 
