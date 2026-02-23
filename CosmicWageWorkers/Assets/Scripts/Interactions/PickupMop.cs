@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickupMop : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class PickupMop : MonoBehaviour
 
     private PlayerControls controls;
 
+    [Header("Pickup Indicator")]
+    public Image pickupIndicator;       // UI icon in center
+    public float indicatorScaleSpeed = 5f;
+    public float maxIndicatorScale = 1f;   // fully visible
+    public float minIndicatorScale = 0f;   // hidden
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -34,6 +41,28 @@ public class PickupMop : MonoBehaviour
     {
         controls.Gameplay.Interact.performed -= _ => Interact();
         controls.Gameplay.Disable();
+    }
+
+    private void Update()
+    {
+        // Smoothly grow/shrink pickup indicator
+        if (pickupIndicator != null)
+        {
+            float targetScale = IsLookingAtMop() ? maxIndicatorScale : minIndicatorScale;
+            float newScale = Mathf.Lerp(pickupIndicator.transform.localScale.x, targetScale, Time.unscaledDeltaTime * indicatorScaleSpeed);
+            pickupIndicator.transform.localScale = new Vector3(newScale, newScale, newScale);
+        }
+    }
+
+    private bool IsLookingAtMop()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, pickupRange, mopLayer))
+        {
+            if (hit.transform.CompareTag("Mop"))
+                return true;
+        }
+        return false;
     }
 
     private void Interact()

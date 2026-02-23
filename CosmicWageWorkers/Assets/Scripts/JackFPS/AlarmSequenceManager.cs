@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class AlarmSequenceManager : MonoBehaviour
 {
     public static AlarmSequenceManager Instance;
 
     [Header("Alarm Setup")]
-    public AlarmNode[] alarms;          // size = 7
+    public AlarmNode[] alarms;
     public float revealDelay = 1f;
     public float timePerAlarm = 2f;
 
@@ -26,6 +27,9 @@ public class AlarmSequenceManager : MonoBehaviour
     [Header("Spawn Control")]
     [SerializeField] private PropManager propManager;
 
+    [Header("End Minigame")]
+    public string sceneToLoadAfterGame;
+    public float endDelay = 1.5f;
 
     private int consecutiveFailures = 0;
 
@@ -33,12 +37,8 @@ public class AlarmSequenceManager : MonoBehaviour
     private List<int> remainingAlarms = new List<int>();
 
     private int currentSequenceLength;
-    private bool acceptingInput = false;
+    public bool acceptingInput = false;
     private float timer;
-
-    // ================================
-    // UNITY LIFECYCLE
-    // ================================
 
     void Awake()
     {
@@ -64,22 +64,16 @@ public class AlarmSequenceManager : MonoBehaviour
 
         if (timer <= 0f)
         {
-            Debug.Log("[SEQUENCE] FAILED — time ran out");
+            Debug.Log("SEQUENCE FAILED — time ran out");
             acceptingInput = false;
             OnSequenceFailed();
         }
     }
 
-    // ================================
-    // SEQUENCE FLOW
-    // ================================
-
     IEnumerator InitialDelay()
     {
         ResetAllAlarms();
         acceptingInput = false;
-
-        Debug.Log("[SEQUENCE] Waiting before first sequence");
 
         yield return new WaitForSeconds(initialStartDelay);
 
@@ -107,7 +101,7 @@ public class AlarmSequenceManager : MonoBehaviour
             availableIDs.RemoveAt(index);
         }
 
-        Debug.Log($"[SEQUENCE] New sequence: {string.Join(", ", currentSequence)}");
+        Debug.Log("New sequence: " + string.Join(", ", currentSequence));
     }
 
     IEnumerator RevealSequence()
@@ -116,7 +110,6 @@ public class AlarmSequenceManager : MonoBehaviour
         remainingAlarms.Clear();
         ResetAllAlarms();
 
-        // --- REVEAL PHASE ---
         foreach (int id in currentSequence)
         {
             alarms[id].Reveal();
@@ -124,19 +117,12 @@ public class AlarmSequenceManager : MonoBehaviour
             yield return new WaitForSeconds(revealDelay);
         }
 
-        // --- PLAYER PHASE ---
         foreach (int id in currentSequence)
             alarms[id].SetActive();
 
         timer = currentSequence.Count * timePerAlarm;
         acceptingInput = true;
-
-        Debug.Log("[SEQUENCE] Player input enabled");
     }
-
-    // ================================
-    // HIT REGISTRATION
-    // ================================
 
     public void RegisterHit(int id)
     {
@@ -162,15 +148,8 @@ public class AlarmSequenceManager : MonoBehaviour
         }
     }
 
-    // ================================
-    // SUCCESS / FAILURE
-    // ================================
-
     void OnSequenceSuccess()
     {
-        Debug.Log("[SEQUENCE] COMPLETED");
-
-        // NEW — relieve pressure
         consecutiveFailures = Mathf.Max(0, consecutiveFailures - 1);
         ApplySpawnPressure();
 
@@ -181,14 +160,19 @@ public class AlarmSequenceManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("[SEQUENCE] ALL SEQUENCES COMPLETE — MINIGAME DONE");
-            // Hook win condition here
+            StopAllCoroutines();
+            Invoke(nameof(LoadNextScene), endDelay);
         }
+    }
+
+    void LoadNextScene()
+    {
+        if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
+            SceneManager.LoadScene(sceneToLoadAfterGame);
     }
 
     void OnSequenceFailed()
     {
-        // NEW — increase pressure, capped
         consecutiveFailures = Mathf.Min(consecutiveFailures + 1, maxFailures);
         ApplySpawnPressure();
 
@@ -215,29 +199,15 @@ public class AlarmSequenceManager : MonoBehaviour
         StartNewSequence();
     }
 
-    // ================================
-    // PRESSURE HANDLING
-    // ================================
-
     void ApplySpawnPressure()
     {
         float pressure = (float)consecutiveFailures / maxFailures;
-        Debug.Log($"[SPAWN] Pressure level {consecutiveFailures}/{maxFailures} ({pressure})");
         propManager.SetPressureNormalized(pressure);
-
-        // Hook into PropManager here:
-        // propManager.SetPressureNormalized(pressure);
     }
-
-    // ================================
-    // HELPERS
-    // ================================
 
     void ResetAllAlarms()
     {
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
     }
-
-
 }
