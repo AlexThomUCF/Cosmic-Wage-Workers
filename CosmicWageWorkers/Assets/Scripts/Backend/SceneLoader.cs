@@ -51,4 +51,10 @@ public class SceneLoader : MonoBehaviour
         canvas.sortingOrder = -1;
         //change scene
     }
+
+    public void ExitMiniGame()
+    {
+        string mainScene = "MainScene";
+        LoadLevel(mainScene);
+    }
 } 

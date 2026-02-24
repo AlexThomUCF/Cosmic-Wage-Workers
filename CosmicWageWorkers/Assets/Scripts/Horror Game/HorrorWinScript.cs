@@ -24,12 +24,13 @@ public class HorrorWinScript : MonoBehaviour
                 CustomerManager.MarkInteractionComplete(interactionID);
             }
             FinalMiniGame.miniGameCount++;
+            SaveSystem.SaveGame();
             // Load the main scene
-            
+
             eventObj.Invoke();
 
-            //string mainSceneName = "MainScene";
-           // loader.LoadSceneByName(mainSceneName);
+            string mainSceneName = "MainScene";
+            loader.LoadSceneByName(mainSceneName);
            // SceneManager.LoadScene(mainSceneName);
         }
     }

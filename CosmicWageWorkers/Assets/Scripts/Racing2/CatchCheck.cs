@@ -35,6 +35,7 @@ public class CatchCheck : MonoBehaviour
         }
 
         FinalMiniGame.miniGameCount++;
+        SaveSystem.SaveGame();
 
         SceneManager.LoadScene("MainScene"); // direct load, no loader
     }

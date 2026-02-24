@@ -140,4 +140,9 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("UI"); // Replace with your main menu scene name
     }
+
+    public void ExitMiniGame()
+    {
+        SceneManager.LoadScene("MainScene");
+    }
 }
