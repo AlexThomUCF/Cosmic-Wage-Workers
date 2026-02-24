@@ -110,6 +110,7 @@ public class ShelfWinTrigger : MonoBehaviour
             CustomerManager.MarkInteractionComplete(interactionID);
 
         FinalMiniGame.miniGameCount++;
+        SaveSystem.SaveGame();
 
         fadeCanvas.alpha = 1f;
         SceneManager.LoadScene(nextSceneName);
