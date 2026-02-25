@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1991439677481468729}
   - component: {fileID: 9118962332572273772}
   - component: {fileID: 6493435530296147527}
-  - component: {fileID: 2150234262611445073}
   - component: {fileID: 7289856269244284591}
+  - component: {fileID: 2150234262611445073}
   - component: {fileID: 171053778785200783}
   - component: {fileID: 6543200202565406938}
   m_Layer: 0
@@ -32,11 +32,11 @@ Transform:
   m_GameObject: {fileID: 189905871036906098}
   serializedVersion: 2
   m_LocalRotation: {x: -0.23324306, y: -0.08775168, z: -0.021139277, w: 0.9682203}
-  m_LocalPosition: {x: 0, y: 0.66700006, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7599929144552148804}
+  m_Father: {fileID: 6629754461873219218}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1991439677481468729
 MonoBehaviour:
@@ -141,6 +141,23 @@ MonoBehaviour:
       Wait: 1
       Time: 2
     Restrictions: 0
+--- !u!114 &7289856269244284591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189905871036906098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
+  NoiseProfile: {fileID: 11400000, guid: e767c0a53e26fa346943589d1aa7f7cd, type: 2}
+  PivotOffset: {x: 0, y: 0, z: 0}
+  AmplitudeGain: 1
+  FrequencyGain: 1
+  m_NoiseOffsets: {x: -206.6604, y: -201.8341, z: 859.9636}
 --- !u!114 &2150234262611445073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,23 +203,6 @@ MonoBehaviour:
         DecelTime: 0.2
   PlayerIndex: -1
   AutoEnableInputs: 1
---- !u!114 &7289856269244284591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189905871036906098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBasicMultiChannelPerlin
-  NoiseProfile: {fileID: 11400000, guid: e767c0a53e26fa346943589d1aa7f7cd, type: 2}
-  PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 1
-  FrequencyGain: 1
-  m_NoiseOffsets: {x: -206.6604, y: -201.8341, z: 859.9636}
 --- !u!114 &171053778785200783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,7 +285,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7307099902209683420}
-  - {fileID: 748285875588525461}
   - {fileID: 6629754461873219218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -412,13 +411,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   jumpForce: 5
+  dashSpeed: 12
+  dashSmoothness: 10
+  dashDuration: 0.2
   groundCheck: {fileID: 7307099902209683420}
   groundCheckRadius: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 128
   cameraTransform: {fileID: 6669132456153030295}
+  cameraRoot: {fileID: 0}
+  maxRollAngle: 10
+  rollSmoothness: 8
   moveInput: {x: 0, y: 0}
+  isRole: 0
 --- !u!54 &8071507652354274804
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1283,6 +1289,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 748285875588525461}
   - {fileID: 6669132456153030295}
   m_Father: {fileID: 7599929144552148804}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

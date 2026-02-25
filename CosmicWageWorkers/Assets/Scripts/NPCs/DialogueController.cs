@@ -9,7 +9,7 @@ public class DialogueController : MonoBehaviour
     public GameObject dialoguePanel;
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
-    public Transform choiceContainer;
+    public Transform[] choicePanels; // Assign in Inspector
     public GameObject choiceButtonPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -42,19 +42,32 @@ public class DialogueController : MonoBehaviour
 
     public void ClearChoices()
     {
-        foreach(Transform child in choiceContainer) Destroy(child.gameObject);
+        foreach (Transform panel in choicePanels)
+        {
+            foreach (Transform child in panel)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 
-    public void  CreateChoiceButton(string choiceText, UnityEngine.Events.UnityAction onClick)
+    public void CreateChoiceButton(string choiceText, UnityEngine.Events.UnityAction onClick, int panelIndex)
     {
-        GameObject choiceButton = Instantiate(choiceButtonPrefab, choiceContainer);
+        if (panelIndex < 0 || panelIndex >= choicePanels.Length)
+        {
+            Debug.LogWarning("Invalid panel index!");
+            return;
+        }
+
+        // Clear previous button in that panel (optional safety)
+        foreach (Transform child in choicePanels[panelIndex])
+            Destroy(child.gameObject);
+
+        // Spawn button inside predefined panel
+        GameObject choiceButton = Instantiate(choiceButtonPrefab, choicePanels[panelIndex]);
 
         choiceButton.GetComponentInChildren<TMP_Text>().text = choiceText;
         choiceButton.GetComponent<Button>().onClick.AddListener(onClick);
-
-        LayoutElement layoutElement = choiceButton.AddComponent<LayoutElement>();
-        layoutElement.preferredHeight = 120; // Adjust spacing indirectly
-
     }
 
 }

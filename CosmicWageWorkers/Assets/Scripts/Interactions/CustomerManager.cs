@@ -38,6 +38,8 @@ public class CustomerManager : MonoBehaviour
 
     void Start()
     {
+        SaveSystem.LoadGame();
+
         availableInteractions = new List<CustomerInteraction>(
             allInteractions.FindAll(i => !completedInteractions.Contains(i.interactionID))
         );
@@ -116,5 +118,26 @@ public class CustomerManager : MonoBehaviour
         );
 
         StartCoroutine(RandomCustomerRoutine());
+    }
+
+    public static HashSet<string> GetCompletedInteractions()
+    {
+        return completedInteractions;
+    }
+
+    public static void SetCompletedInteractions(List<string> ids)
+    {
+        completedInteractions = new HashSet<string>(ids);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveSystem.SaveGame();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            SaveSystem.SaveGame();
     }
 }
