@@ -58,30 +58,74 @@ public class AntiGravity : MonoBehaviour
         while (true)
         {
             gravityRoutineOn = true;
+
+            // If dialogue is active, force normal gravity and wait
+            if (DialogueController.Instance != null &&
+                DialogueController.Instance.dialoguePanel.activeSelf)
+            {
+                Physics.gravity = new Vector3(0, -9.81f, 0);
+                gravityActive = false;
+
+                yield return new WaitUntil(() =>
+                    !DialogueController.Instance.dialoguePanel.activeSelf
+                );
+            }
+
             // Turn gravity off
             Physics.gravity = Vector3.zero;
             gravityActive = true;
 
-            // Optional: give player a small upward push
             if (playerRb != null)
                 playerRb.AddForce(Vector3.up * gravityForce, ForceMode.Impulse);
 
-            // Wait random time with gravity off
             float offTime = Random.Range(minGravityOffTime, maxGravityOffTime);
-            yield return new WaitForSeconds(offTime);
+            float timer = 0f;
 
-            // Turn gravity back on
+            // Off timer that pauses during dialogue
+            while (timer < offTime)
+            {
+                if (DialogueController.Instance != null &&
+                    DialogueController.Instance.dialoguePanel.activeSelf)
+                {
+                    Physics.gravity = new Vector3(0, -9.81f, 0);
+                    gravityActive = false;
+
+                    yield return new WaitUntil(() =>
+                        !DialogueController.Instance.dialoguePanel.activeSelf
+                    );
+
+                    // Resume anti-gravity properly
+                    Physics.gravity = Vector3.zero;
+                    gravityActive = true;
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            // Restore gravity
             Physics.gravity = new Vector3(0, -9.81f, 0);
             gravityActive = false;
 
-            // Wait before turning off again
-            yield return new WaitForSeconds(gravityOnDuration);
+            float onTimer = 0f;
+
+            while (onTimer < gravityOnDuration)
+            {
+                if (DialogueController.Instance != null &&
+                    DialogueController.Instance.dialoguePanel.activeSelf)
+                {
+                    yield return new WaitUntil(() =>
+                        !DialogueController.Instance.dialoguePanel.activeSelf
+                    );
+                }
+
+                onTimer += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 
-    /// <summary>
-    /// Optional check for UI or gameplay systems
-    /// </summary>
+
     public bool IsGravityActive()
     {
         return gravityActive;

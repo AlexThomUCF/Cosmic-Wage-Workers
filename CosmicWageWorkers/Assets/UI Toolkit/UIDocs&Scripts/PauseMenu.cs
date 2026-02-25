@@ -1,117 +1,148 @@
 using UnityEngine;
-using System.ComponentModel.Design.Serialization;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
-    public bool gameIsPaused;
-    public GameObject pauseMenu;
-    public GameObject optionsMenu;
-    public GameObject pauseButtons;
-    public GameObject pauseStars;
-    public GameObject generalHUD;
-    public Animator pauseAni;
-    public float pauseOnDelay = 0.3f;
-    public float pauseDelay = 0.3f;
-    public bool pauseLeave;
-    public bool pauseOn;
+    [Header("Panels & Animator")]
+    public Animator pauseAni;               // Animator on PausePanel
+    public CanvasGroup pauseCanvasGroup;    // Main pause panel
+    public CanvasGroup pauseButtons;        // Buttons group
+    public CanvasGroup optionsPanel;        // Options panel
 
+    [Header("Other")]
+    public GameObject generalHUD;           // HUD
+    public GameObject ResumeButton;         // Default button for controller/keyboard
 
- 
+    private bool gameIsPaused = false;
+    private bool isTransitioning = false;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-        
+        Time.timeScale = 1f; // ensure game starts unpaused
+        optionsPanel.alpha = 0f;
+        optionsPanel.interactable = false;
+        optionsPanel.blocksRaycasts = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //For pause animations to play
-        if (pauseLeave)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isTransitioning)
         {
-            pauseDelay -= Time.unscaledDeltaTime;
-            
-         
-        }
-
-        if (pauseOn)
-        {
-            pauseOnDelay -= Time.unscaledDeltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && !pauseOn)
-        {
-            PauseGame();
-        }
-
-        if (pauseDelay < 0)
-        {
-            pauseLeave = false;
-            pauseMenu.SetActive(false);
-            generalHUD.SetActive(true);
-            pauseDelay = 0.3f;
-
-}
-
-        if (pauseOnDelay < 0)
-        {
-            pauseOn = false;
+            if (gameIsPaused) StartUnpause();
+            else StartPause();
         }
     }
 
-    //Function to pause the game
-    public void PauseGame()
+    // Start pausing
+    void StartPause()
     {
-        gameIsPaused = !gameIsPaused;
+        isTransitioning = true;
+        gameIsPaused = true;
 
-        if (gameIsPaused)
-        {
-            pauseMenu.SetActive(true);
-            pauseAni.SetTrigger("PauseOn");
-            generalHUD.SetActive(false);
-            pauseOn = true;
-            Time.timeScale = 0f;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-            UnityEngine.Cursor.visible = true;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            pauseAni.SetTrigger("PauseOff");
-            pauseLeave = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            UnityEngine.Cursor.visible = false;
-        }
-    
-        
-        }
-    
+        // Show main pause panel
+        pauseCanvasGroup.alpha = 1f;
+        pauseCanvasGroup.interactable = true;
+        pauseCanvasGroup.blocksRaycasts = true;
 
-    //Removes everything from pause to bring in options
-    public void TurnOnOptions()
-    {
-        pauseButtons.SetActive(false);
-        pauseStars.SetActive(false);
-        optionsMenu.SetActive(true);
+        // Show buttons panel, hide options
+        pauseButtons.alpha = 1f;
+        pauseButtons.interactable = true;
+        pauseButtons.blocksRaycasts = true;
+
+        optionsPanel.alpha = 0f;
+        optionsPanel.interactable = false;
+        optionsPanel.blocksRaycasts = false;
+
+        generalHUD.SetActive(false);
+
+        // Unlock cursor for UI
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        pauseAni.SetTrigger("PauseOn");
+        EventSystem.current.SetSelectedGameObject(ResumeButton);
     }
 
-    // Removes options and brings everything back
-    public void TurnOffOptions()
+    // Start unpausing
+    void StartUnpause()
     {
-        pauseButtons.SetActive(true);
-        pauseStars.SetActive(true);
-        optionsMenu.SetActive(false);
+        isTransitioning = true;
+        pauseAni.SetTrigger("PauseOff");
     }
 
-    //Return to title screen
-    public void GoToMainMenu()
+    // Called at end of PauseOn animation
+    public void OnPauseAnimationFinished()
+    {
+        Time.timeScale = 0f;
+        isTransitioning = false;
+    }
+
+    // Called at end of PauseOff animation
+    public void OnUnpauseAnimationFinished()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("UI");
+
+        // Hide pause panel
+        pauseCanvasGroup.alpha = 0f;
+        pauseCanvasGroup.interactable = false;
+        pauseCanvasGroup.blocksRaycasts = false;
+
+        generalHUD.SetActive(true);
+
+        // Lock cursor back for gameplay
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        gameIsPaused = false;
+        isTransitioning = false;
+    }
+
+    // Resume button
+    public void ResumeGame()
+    {
+        if (!isTransitioning && gameIsPaused) StartUnpause();
+    }
+
+    // Open options panel
+    public void OpenOptions()
+    {
+        if (isTransitioning) return;
+
+        pauseButtons.alpha = 0f;
+        pauseButtons.interactable = false;
+        pauseButtons.blocksRaycasts = false;
+
+        optionsPanel.alpha = 1f;
+        optionsPanel.interactable = true;
+        optionsPanel.blocksRaycasts = true;
+
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    // Close options panel
+    public void CloseOptions()
+    {
+        optionsPanel.alpha = 0f;
+        optionsPanel.interactable = false;
+        optionsPanel.blocksRaycasts = false;
+
+        pauseButtons.alpha = 1f;
+        pauseButtons.interactable = true;
+        pauseButtons.blocksRaycasts = true;
+
+        EventSystem.current.SetSelectedGameObject(ResumeButton);
+    }
+
+    // Main menu button
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("UI"); // Replace with your main menu scene name
+    }
+
+    public void ExitMiniGame()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }

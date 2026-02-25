@@ -9,6 +9,10 @@ public class FallingItem : MonoBehaviour
 
     private PlayerAudio playerAudio;
 
+    // New fields for spinning
+    private Vector3 spinAxis;
+    private float spinSpeed;
+
     void Awake()
     {
         playerAudio = FindFirstObjectByType<PlayerAudio>();
@@ -31,13 +35,21 @@ public class FallingItem : MonoBehaviour
         Collider col = GetComponent<Collider>();
         if (col != null)
             col.isTrigger = false;
+
+        // Setup random spin
+        spinAxis = Random.onUnitSphere; // random rotation axis
+        spinSpeed = Random.Range(60f, 120f); // degrees per second
     }
 
     void Update()
     {
         if (player != null && !player.isFalling)
         {
+            // Move downward
             transform.position += Vector3.down * fallSpeed * Time.deltaTime;
+
+            // Spin
+            transform.Rotate(spinAxis, spinSpeed * Time.deltaTime, Space.World);
 
             // Hit floor
             if (transform.position.y <= floorY)

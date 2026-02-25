@@ -17,6 +17,8 @@ public class FinalMiniGame : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            SaveSystem.LoadGame(); // Ensure data loads
         }
         else
         {

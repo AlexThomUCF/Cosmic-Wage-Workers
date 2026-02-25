@@ -5,6 +5,11 @@ public class Projectile : MonoBehaviour
     public float lifetime = 5f;
     public string targetTag = "Player"; // Enemy projectiles hit the player
 
+    public AudioSource audioSource;
+    public AudioClip hitSound;
+
+
+
     void Start()
     {
         Destroy(gameObject, lifetime);
@@ -19,10 +24,14 @@ public class Projectile : MonoBehaviour
             if (player != null)
             {
                 player.FreezeHit();
+                AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                slimehitEffect.Instance.PlayEffect();
             }
         }
 
         // Destroy projectile immediately on impact
+        
         Destroy(gameObject);
+        
     }
 }

@@ -27,6 +27,8 @@ public class TtleScreen : MonoBehaviour
 
     public GameObject titleScreen;
 
+    public GameObject loadGameMenu;
+
     public GameObject settingsScreen;
 
     public GameObject audioSettings;
@@ -95,13 +97,18 @@ public class TtleScreen : MonoBehaviour
     //Starts Game
     public void PlayGameClick()
     {
-        Debug.Log("GameHasStarted");
-        gameHasStarted = true;
-        cameraAnimation.SetTrigger("GameStarted");
+        Debug.Log("Open Load Menu");
+        Debug.Log(Application.persistentDataPath);
 
         audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
-        
+
+        // Hide main title buttons
+        titleScreen.SetActive(false);
+
+        // Show Continue / New Game menu
+        loadGameMenu.SetActive(true);
+
     }
 
     //Goes into settings
@@ -183,6 +190,32 @@ public class TtleScreen : MonoBehaviour
         displaySettings.SetActive(false);
 
 
+    }
+
+    public void ContinueGameClick()
+    {
+        if (SaveSystem.SaveExists())
+        {
+            SaveSystem.LoadGame();
+        }
+
+        loadGameMenu.SetActive(false);
+        gameHasStarted = true;
+        cameraAnimation.SetTrigger("GameStarted");
+    }
+
+    public void NewGameClick()
+    {
+        SaveSystem.DeleteSave();
+
+        PlayerPrefs.DeleteAll();
+
+        FinalMiniGame.miniGameCount = 0;
+        CustomerManager.SetCompletedInteractions(new System.Collections.Generic.List<string>());
+
+        loadGameMenu.SetActive(false);
+        gameHasStarted = true;
+        cameraAnimation.SetTrigger("GameStarted");
     }
 
 

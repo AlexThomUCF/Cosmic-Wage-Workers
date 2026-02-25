@@ -1,24 +1,29 @@
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class BoxPickUp : MonoBehaviour
 {
     [Header("Pick Up Settings")]
+    public GameObject cameraOBJ;
+    public Transform holdPoint;
     public float maxPickupRange = 3f;
-    public GameObject cameraOBJ; // References to the player camera
-    public Transform holdPoint; // Where the box is held
 
     private GameObject heldBox;
     private bool isHolding = false;
-
-    [Header("Optional Event")]
-    public UnityEvent onInteract;
+    private Collider playerCollider;
 
     private PlayerControls controls;
+
+    [Header("Pickup Indicator")]
+    public Image pickupIndicator;       // UI icon in center
+    public float indicatorScaleSpeed = 5f;
+    public float maxIndicatorScale = 1f;   // fully visible
+    public float minIndicatorScale = 0f;   // hidden
 
     private void Awake()
     {
         controls = new PlayerControls();
+        playerCollider = cameraOBJ.GetComponentInParent<Collider>();
     }
 
     private void OnEnable()
@@ -33,27 +38,44 @@ public class BoxPickUp : MonoBehaviour
         controls.Gameplay.Disable();
     }
 
+    private void FixedUpdate()
+    {
+        if (isHolding && heldBox != null)
+        {
+            // Snap box to hold point
+            heldBox.transform.position = holdPoint.position;
+            heldBox.transform.rotation = holdPoint.rotation;
+        }
+    }
+
     private void Update()
     {
-        // Safety: If held box gets destroyed, reset holding state
-        if (isHolding && heldBox == null)
+        // Smoothly grow/shrink pickup indicator
+        if (pickupIndicator != null)
         {
-            isHolding = false;
+            float targetScale = IsLookingAtBox() ? maxIndicatorScale : minIndicatorScale;
+            float newScale = Mathf.Lerp(pickupIndicator.transform.localScale.x, targetScale, Time.unscaledDeltaTime * indicatorScaleSpeed);
+            pickupIndicator.transform.localScale = new Vector3(newScale, newScale, newScale);
         }
+    }
+
+    private bool IsLookingAtBox()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, maxPickupRange))
+        {
+            if (hit.transform.CompareTag("Box"))
+                return true;
+        }
+        return false;
     }
 
     private void Interact()
     {
-        onInteract?.Invoke();
-
         if (!isHolding)
-        {
             TryPickUpBox();
-        }
         else
-        {
             DropBox();
-        }
     }
 
     private void TryPickUpBox()
@@ -65,33 +87,36 @@ public class BoxPickUp : MonoBehaviour
             {
                 heldBox = hit.transform.gameObject;
 
-                // Disable physics while holding
-                Rigidbody rb = heldBox.GetComponent<Rigidbody>();
-                if (rb != null)
-                    rb.isKinematic = true;
-
-                // Disable colliders while holding
-                foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
-                    c.enabled = false;
+                // Set fixed scale while holding
+                heldBox.transform.localScale = new Vector3(8f, 8f, 8f);
 
                 // Parent to hold point
                 heldBox.transform.SetParent(holdPoint);
                 heldBox.transform.localPosition = Vector3.zero;
                 heldBox.transform.localRotation = Quaternion.identity;
 
+                // Disable physics while held
+                Rigidbody rb = heldBox.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = true;
+                    rb.useGravity = false;
+                }
+
+                // Ignore collisions with player
+                if (playerCollider != null)
+                {
+                    foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
+                        Physics.IgnoreCollision(c, playerCollider, true);
+                }
+
                 isHolding = true;
             }
         }
     }
 
-    public bool IsHoldingBox()
-    {
-        return isHolding && heldBox != null;
-    }
-
     public void ForceDropBox()
     {
-        if (!isHolding) return;
         DropBox();
     }
 
@@ -99,22 +124,30 @@ public class BoxPickUp : MonoBehaviour
     {
         if (heldBox == null) return;
 
+        // Restore fixed scale when dropped
+        heldBox.transform.localScale = new Vector3(22f, 22f, 22f);
+
         // Unparent
         heldBox.transform.SetParent(null);
 
-        // Re-enable physics
+        // Restore physics
         Rigidbody rb = heldBox.GetComponent<Rigidbody>();
         if (rb != null)
+        {
             rb.isKinematic = false;
+            rb.useGravity = true;
+        }
 
-        // Re-enable colliders
-        foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
-            c.enabled = true;
-
-        // Drop slightly in front of player
-        heldBox.transform.position += cameraOBJ.transform.forward * 0.5f;
+        // Restore collisions
+        if (playerCollider != null)
+        {
+            foreach (Collider c in heldBox.GetComponentsInChildren<Collider>())
+                Physics.IgnoreCollision(c, playerCollider, false);
+        }
 
         heldBox = null;
         isHolding = false;
     }
+
+    public bool IsHoldingBox() => isHolding && heldBox != null;
 }
