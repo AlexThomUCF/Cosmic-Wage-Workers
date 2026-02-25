@@ -172,6 +172,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Role"",
+                    ""type"": ""Button"",
+                    ""id"": ""57959db7-cc5c-4764-bc43-6fcd8f88060b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""baef06c2-9f29-4869-b222-e4ccc97fe3ed"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -328,6 +346,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Kiss"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40090d93-f35a-4c66-b1ff-4f6473db0209"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Role"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""390655ea-69b1-4107-90bc-37656fc6df4d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -357,6 +397,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Kiss = m_Gameplay.FindAction("Kiss", throwIfNotFound: true);
+        m_Gameplay_Role = m_Gameplay.FindAction("Role", throwIfNotFound: true);
+        m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -446,6 +488,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Look;
     private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_Kiss;
+    private readonly InputAction m_Gameplay_Role;
+    private readonly InputAction m_Gameplay_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -493,6 +537,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Kiss".
         /// </summary>
         public InputAction @Kiss => m_Wrapper.m_Gameplay_Kiss;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Role".
+        /// </summary>
+        public InputAction @Role => m_Wrapper.m_Gameplay_Role;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Attack".
+        /// </summary>
+        public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -546,6 +598,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Kiss.started += instance.OnKiss;
             @Kiss.performed += instance.OnKiss;
             @Kiss.canceled += instance.OnKiss;
+            @Role.started += instance.OnRole;
+            @Role.performed += instance.OnRole;
+            @Role.canceled += instance.OnRole;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         /// <summary>
@@ -584,6 +642,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Kiss.started -= instance.OnKiss;
             @Kiss.performed -= instance.OnKiss;
             @Kiss.canceled -= instance.OnKiss;
+            @Role.started -= instance.OnRole;
+            @Role.performed -= instance.OnRole;
+            @Role.canceled -= instance.OnRole;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         /// <summary>
@@ -700,5 +764,19 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnKiss(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Role" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRole(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

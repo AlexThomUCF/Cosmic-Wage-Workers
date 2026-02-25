@@ -180,7 +180,7 @@ public class NPC : MonoBehaviour, IInteraction
                 ChooseOption(nextIndex);
             };
 
-            dialogueUI.CreateChoiceButton(choiceText, action);
+            dialogueUI.CreateChoiceButton(choiceText, action, i);
         }
     }
 
