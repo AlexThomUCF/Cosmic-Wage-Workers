@@ -4,9 +4,7 @@ public class RespawnObjects : MonoBehaviour
 {
     public GameObject gravityObject;
     public bool objectActive = false;
-    public float xPosition;
-    public float yPosition;
-    public float zPosition;
+    public Vector3 spawnPosition;
     private float respawnTimer = 5f;
     private float spawnInterval = 5f; // Time in seconds between spawns
     private float spawnDelay = 0f; // Time until the next spawn
@@ -36,6 +34,6 @@ public class RespawnObjects : MonoBehaviour
     private void Respawning() 
     {
         Instantiate(gravityObject);
-        gravityObject.transform.position = new Vector3(xPosition, yPosition, zPosition);
+        gravityObject.transform.position = spawnPosition;
     }
 }
