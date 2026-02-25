@@ -15,6 +15,7 @@ public class DebugWin : MonoBehaviour
     {
         // Increment mini game counter
         FinalMiniGame.miniGameCount++;
+        SaveSystem.SaveGame();
 
         // Load MainScene
         SceneManager.LoadScene("MainScene");
