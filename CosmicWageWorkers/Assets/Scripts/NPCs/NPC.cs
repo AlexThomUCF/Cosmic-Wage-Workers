@@ -12,6 +12,7 @@ public class NPC : MonoBehaviour, IInteraction
 
     private DialogueController dialogueUI;
     public NPCDialogue dialogueData;
+    public SceneLoader loader;
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
     public static bool isInDialogue = false;
@@ -47,6 +48,8 @@ public class NPC : MonoBehaviour, IInteraction
             Debug.LogError("Normal not found in scene! Check tag.");
         }
 
+        loader = FindAnyObjectByType<SceneLoader>();
+
 
 
     }
@@ -70,6 +73,8 @@ public class NPC : MonoBehaviour, IInteraction
         {
             StartDialogue();
         }
+
+        loader.targetImage.sprite = dialogueData.loadingScreen;
     }
 
     private void OnEnable()
