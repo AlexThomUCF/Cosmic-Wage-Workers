@@ -72,6 +72,24 @@ public class NPC : MonoBehaviour, IInteraction
         }
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(RegisterWhenReady());
+    }
+
+    private IEnumerator RegisterWhenReady()
+    {
+        AssignExit assignExit = null;
+
+        while (assignExit == null)
+        {
+            assignExit = FindAnyObjectByType<AssignExit>();
+            yield return null; // wait one frame
+        }
+
+        assignExit.RegisterNPC(this);
+    }
+
     void StartDialogue()
     { 
       isDialogueActive = true;

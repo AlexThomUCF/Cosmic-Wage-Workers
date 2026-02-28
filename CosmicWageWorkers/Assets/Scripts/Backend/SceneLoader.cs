@@ -45,7 +45,7 @@ public class SceneLoader : MonoBehaviour
         Debug.Log("Doing transition");
         Debug.Log("Animator reference: " + transitonAnim, transitonAnim);
         canvas.sortingOrder = 2;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(8); // Used to be 1 changed to 8, The longer wait for seconds the longer you wait on loading screen.
         SceneManager.LoadScene(sceneName);
         transitonAnim.SetTrigger("Start");
         canvas.sortingOrder = -1;
