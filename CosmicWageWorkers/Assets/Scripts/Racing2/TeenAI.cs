@@ -17,7 +17,7 @@ public class TeenAI : MonoBehaviour
     private float timer;
     private Transform currentTarget;
 
-    
+    public AudioSource attractsound;
 
     void Awake()
     {
@@ -39,7 +39,7 @@ public class TeenAI : MonoBehaviour
         {
             
             if (timer > 0f) return;
-            
+            attractsound.Play();
         }
 
         if (timer > 0f) return;
