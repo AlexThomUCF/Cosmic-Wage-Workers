@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.IO;
-using UnityEngine.SceneManagement;  // Needed for accessing the scene name
+using UnityEngine.SceneManagement;
 
 public class FPSLogger : MonoBehaviour
 {
@@ -8,37 +8,53 @@ public class FPSLogger : MonoBehaviour
     private int frameCount = 0;
     private StreamWriter sw;
 
-    void Start()
+    void Awake()
     {
-        // Add scene name to the file path to avoid overwriting
-        string sceneName = SceneManager.GetActiveScene().name;  // Get the current scene name
-        string path = Application.persistentDataPath + "/" + sceneName + "_mimmaxavg.csv";  // Unique file name based on scene
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-        // Debug log to verify the file path
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if (sw != null)
+        {
+            sw.Flush();
+            sw.Close();
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Close old file if exists
+        if (sw != null)
+        {
+            sw.Flush();
+            sw.Close();
+        }
+
+        string path = Application.persistentDataPath + "/" + scene.name + "_mimmaxavg.csv";
+
         Debug.Log("Saving file to: " + path);
 
         sw = new StreamWriter(path, true);
-        sw.WriteLine("Frame, Min FPS, Max FPS, Avg FPS");
+        sw.WriteLine("Frame, FPS");
     }
 
     void Update()
     {
+        if (sw == null) return;
+
         elapsedTime += Time.deltaTime;
         frameCount++;
 
-        if (elapsedTime >= 1f) // every second
+        if (elapsedTime >= 1f)
         {
             float fps = frameCount / elapsedTime;
-            Debug.Log($"FPS: {fps}");  // Confirm FPS calculation
             sw.WriteLine($"{Time.frameCount}, {fps}");
             frameCount = 0;
             elapsedTime = 0f;
         }
-    }
-
-    void OnApplicationQuit()
-    {
-        sw.Flush();  // Make sure data is written to the file
-        sw.Close();  // Close the StreamWriter
     }
 }

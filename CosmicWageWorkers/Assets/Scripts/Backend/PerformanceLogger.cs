@@ -10,6 +10,11 @@ public class PerformanceLogger : MonoBehaviour
     private float timer = 0f;
     private StreamWriter sw;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Update()
     {
         float frameTime = Time.unscaledDeltaTime * 1000f;
