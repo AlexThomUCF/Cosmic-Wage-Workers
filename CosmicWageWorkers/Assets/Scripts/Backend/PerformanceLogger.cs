@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;  // Needed for accessing the scene name
 
 public class PerformanceLogger : MonoBehaviour
 {
     private List<float> frameTimes = new List<float>();
     private float testDuration = 60f;
     private float timer = 0f;
+    private StreamWriter sw;
 
     void Update()
     {
@@ -17,6 +19,7 @@ public class PerformanceLogger : MonoBehaviour
 
         if (timer >= testDuration)
         {
+            Debug.Log("Test duration completed. Saving results...");
             SaveResults();
             enabled = false;
         }
@@ -32,7 +35,11 @@ public class PerformanceLogger : MonoBehaviour
         float averageFrameTime = total / frameTimes.Count;
         float averageFPS = 1000f / averageFrameTime;
 
-        string path = Application.persistentDataPath + "/benchmark.csv";
+        string sceneName = SceneManager.GetActiveScene().name;
+        string path = Application.persistentDataPath + "/" + sceneName + "_frametimes.csv";
+
+        // Debug log to confirm file path
+        Debug.Log("Saving file to: " + path);
 
         using (StreamWriter writer = new StreamWriter(path))
         {
@@ -46,5 +53,14 @@ public class PerformanceLogger : MonoBehaviour
         }
 
         Debug.Log("Average FPS: " + averageFPS);
+    }
+
+    void OnApplicationQuit()
+    {
+        if (sw != null)
+        {
+            sw.Flush();  // Ensure that all data is written before exiting
+            sw.Close();  // Close the StreamWriter
+        }
     }
 }
