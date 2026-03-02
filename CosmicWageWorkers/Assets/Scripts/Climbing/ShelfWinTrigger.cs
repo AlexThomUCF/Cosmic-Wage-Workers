@@ -19,6 +19,9 @@ public class ShelfWinTrigger : MonoBehaviour
     public float fadeDuration = 2f;
     public string nextSceneName = "MainScene";
 
+    [Header("Sound")]
+    public AudioClip pickupClip; // drag your audio file here
+
     private bool playerInside;
     private bool hasGrabbed;
     private BoxCollider box;
@@ -95,9 +98,15 @@ public class ShelfWinTrigger : MonoBehaviour
 
         hasGrabbed = true;
 
+        // Play pickup sound at the object's position
+        if (pickupClip != null)
+            AudioSource.PlayClipAtPoint(pickupClip, transform.position);
+
+        // Hide prompt and grabbed object
         promptUI.alpha = 0f;
         grabItem.SetActive(false);
 
+        // Fade out screen
         float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
@@ -106,6 +115,7 @@ public class ShelfWinTrigger : MonoBehaviour
             yield return null;
         }
 
+        // Mark interaction complete
         if (!string.IsNullOrEmpty(interactionID))
             CustomerManager.MarkInteractionComplete(interactionID);
 
