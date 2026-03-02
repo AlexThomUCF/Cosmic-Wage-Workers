@@ -26,6 +26,8 @@ public class CatchCheck : MonoBehaviour
         catchsound.Play();
         yield return new WaitForSecondsRealtime(2f);
         FindObjectOfType<endscene>().PlayAnim();
+        yield return new WaitForSecondsRealtime(3f);
+        FindObjectOfType<endscene>().ShowWinUI();
         yield return new WaitForSecondsRealtime(5f);
 
         Time.timeScale = 0f;
