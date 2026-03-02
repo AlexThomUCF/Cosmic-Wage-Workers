@@ -19,6 +19,8 @@ public class RaceIntroManager : MonoBehaviour
     [Header("Start Settings")]
     public bool playOnStart = true;
 
+    public GameObject gameplayHUD;
+
     private Rigidbody[] aiBodies;
 
     void Start()
@@ -32,6 +34,7 @@ public class RaceIntroManager : MonoBehaviour
         // Disable gameplay
         if (playerController != null) playerController.enabled = false;
         if (raceManager != null) raceManager.enabled = false;
+        if (gameplayHUD) gameplayHUD.SetActive(false);
 
         // Freeze AI cars
         aiBodies = new Rigidbody[aiCars.Length];
@@ -88,5 +91,6 @@ public class RaceIntroManager : MonoBehaviour
         // Resume gameplay
         if (playerController != null) playerController.enabled = true;
         if (raceManager != null) raceManager.enabled = true;
+        if (gameplayHUD) gameplayHUD.SetActive(true);
     }
 }

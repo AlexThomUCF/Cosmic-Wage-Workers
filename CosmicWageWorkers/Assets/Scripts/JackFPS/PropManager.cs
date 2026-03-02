@@ -19,24 +19,48 @@ public class PropManager : MonoBehaviour
     [SerializeField] private float maxMultiplier = 2f;
 
     private float currentSpawnRate;
-    public bool spawningEnabled = true;
+    public bool spawningEnabled = false;   // ← START DISABLED
+
+    private Coroutine spawnRoutine;
 
     void Start()
     {
         RecalculateSpawnRate();
-        StartCoroutine(SpawnLoop());
+        // DO NOT start spawning automatically
+    }
+
+    // ===== SPAWN CONTROL =====
+
+    public void StartSpawning()
+    {
+        if (spawnRoutine == null)
+        {
+            spawningEnabled = true;
+            spawnRoutine = StartCoroutine(SpawnLoop());
+        }
+    }
+
+    public void StopSpawning()
+    {
+        spawningEnabled = false;
+
+        if (spawnRoutine != null)
+        {
+            StopCoroutine(spawnRoutine);
+            spawnRoutine = null;
+        }
     }
 
     IEnumerator SpawnLoop()
     {
         while (true)
         {
+            yield return new WaitForSeconds(currentSpawnRate);
+
             if (spawningEnabled)
             {
                 SpawnOne();
             }
-
-            yield return new WaitForSeconds(currentSpawnRate);
         }
     }
 
@@ -60,15 +84,18 @@ public class PropManager : MonoBehaviour
         }
     }
 
-    // ====== CALLED BY ALARM / GAME MANAGER ======
+    void RecalculateSpawnRate()
+    {
+        currentSpawnRate = baseSpawnRate * spawnRateMultiplier;
+    }
+
+    // ====== PRESSURE SYSTEM (unchanged) ======
 
     public void IncreasePressure(float amount)
     {
         spawnRateMultiplier -= amount;
         spawnRateMultiplier = Mathf.Clamp(spawnRateMultiplier, minMultiplier, maxMultiplier);
         RecalculateSpawnRate();
-
-        Debug.Log($"[SPAWN] Pressure increased → x{spawnRateMultiplier}");
     }
 
     public void DecreasePressure(float amount)
@@ -76,34 +103,11 @@ public class PropManager : MonoBehaviour
         spawnRateMultiplier += amount;
         spawnRateMultiplier = Mathf.Clamp(spawnRateMultiplier, minMultiplier, maxMultiplier);
         RecalculateSpawnRate();
-
-        Debug.Log($"[SPAWN] Pressure decreased → x{spawnRateMultiplier}");
-    }
-
-    void RecalculateSpawnRate()
-    {
-        currentSpawnRate = baseSpawnRate * spawnRateMultiplier;
-    }
-
-    public void PauseSpawning(float duration)
-    {
-        StartCoroutine(PauseCoroutine(duration));
-    }
-
-    IEnumerator PauseCoroutine(float duration)
-    {
-        spawningEnabled = false;
-        yield return new WaitForSeconds(duration);
-        spawningEnabled = true;
     }
 
     public void SetPressureNormalized(float pressure01)
     {
-        // pressure01: 0 = calm, 1 = max panic
         spawnRateMultiplier = Mathf.Lerp(maxMultiplier, minMultiplier, pressure01);
         RecalculateSpawnRate();
-
-        Debug.Log($"[SPAWN] Pressure {pressure01:F2} → multiplier {spawnRateMultiplier:F2} → rate {currentSpawnRate:F2}s");
     }
-
 }
