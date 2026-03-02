@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class BathroomsUnhide : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject lastLight;
 
 
+
     [Header("*** Others ***")]
     public GameObject roachJS;
     public Animator doorAnimator;
@@ -50,10 +52,13 @@ public class BathroomsUnhide : MonoBehaviour
     public BathroomSFX bathroomSFX;
     public GameObject blackScreen;
     public GameObject jumpScareBlackScreen;
+    public GameObject promptUpUI;
 
-    
-    private bool horrorGameStarted = true; 
-    private bool doorOpened = false;
+
+
+    [Header("*** Variables ***")]
+    public bool horrorGameStarted = true; 
+    public bool doorOpened = false;
 
 
 
@@ -65,9 +70,12 @@ public class BathroomsUnhide : MonoBehaviour
     private bool wave1started = false;
     private bool wave2started = false;
     private bool restartingLevel = false;
+    private bool lightsOn = true;
 
     public float doorTimer;
     public float roachTimer;
+    public float lightTimer;
+    
     public float blackScreenTimer;
     public bool playerReturning = false;
     
@@ -106,7 +114,7 @@ public class BathroomsUnhide : MonoBehaviour
             WaveOne();
         }
 
-        if (player.transform.position.z > 420 && wave1started && !wave2started)
+        if (player.transform.position.z > 422 && wave1started && !wave2started)
         {
             WaveTwo();
         }
@@ -127,6 +135,16 @@ public class BathroomsUnhide : MonoBehaviour
         }
 
         if (wave2started && player.transform.position.z < 410)
+        {
+            RestartLevel();
+        }
+
+        if (roachScript.roachExpansion1Active && player.transform.position.z < 423)
+        {
+            RestartLevel();
+        }
+
+        if (roachScript.roachExpansion2Active && player.transform.position.z < 432)
         {
             RestartLevel();
         }
@@ -176,6 +194,7 @@ public class BathroomsUnhide : MonoBehaviour
         }
     }
 
+
     public void OpenEventDoor()
     {
         bathroomSFX.StopAllMusic();
@@ -186,6 +205,7 @@ public class BathroomsUnhide : MonoBehaviour
         bsAnimator.SetTrigger("BSFastFade");
         doorAnimator.SetTrigger("DoorOpen");
         doorOpened = true;
+        promptUpUI.SetActive(false);
     }   
 
     public void CloseEventDoor()
@@ -267,7 +287,6 @@ public class BathroomsUnhide : MonoBehaviour
         thirdSectionOpened = false;
         fourthSectionOpened = true;
         roach2.SetActive(true);
-
     }
 
 
@@ -295,14 +314,13 @@ public class BathroomsUnhide : MonoBehaviour
     public void RoachExpansionOne()
     {
         bsAnimator.SetTrigger("BSFastFade");
-        bathroomSFX.heartBeat.Play();
+        bathroomSFX.heartBeat.PlayOneShot(bathroomSFX.heavyBreathing);
         roachScript.roachSpawningActive = false;
     }
 
     public void RoachExpansionTwo()
     {
         bsAnimator.SetTrigger("BSFastFade");
-        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.heavyBreathing);
         roachScript.roachExpansion1Active = false;
     }
 
@@ -344,26 +362,8 @@ public class BathroomsUnhide : MonoBehaviour
     {
         blackScreen.SetActive(false);
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.jumpScareSound);
-        int random = Random.Range(0, 0);
-
-        switch (random)
-        {
-            case 0:
-                cameraAnimator.SetTrigger("JumpScare");
-                roachAnimator.SetTrigger("RoachJS");
-                break;
-            case 1:
-                cameraAnimator.SetTrigger("JumpScare#2");
-                roachAnimator.SetTrigger("RoachJS#2");
-                break;
-            case 2:
-                cameraAnimator.SetTrigger("JumpScare#3");
-                roachAnimator.SetTrigger("RoachJS#3");
-                break;
-
-
-        }
-
+        cameraAnimator.SetTrigger("JumpScare");
+        roachAnimator.SetTrigger("RoachJS");
     }
 
 }
