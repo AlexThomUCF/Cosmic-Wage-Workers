@@ -16,26 +16,18 @@ public class CatchCheck : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         triggered = true;
-<<<<<<< HEAD
         
         StartCoroutine(Switch(other.gameObject));
 
-=======
-        catchsound.Play();
-        StartCoroutine(Switch(other.gameObject));
->>>>>>> 5294a35 (add climatic camera)
     }
 
     private IEnumerator Switch(GameObject player)
     {
-<<<<<<< HEAD
         catchsound.Play();
         yield return new WaitForSecondsRealtime(2f);
         FindObjectOfType<endscene>().PlayAnim();
         yield return new WaitForSecondsRealtime(5f);
 
-=======
->>>>>>> 5294a35 (add climatic camera)
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 1f;
