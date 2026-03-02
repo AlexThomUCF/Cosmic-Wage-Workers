@@ -20,11 +20,6 @@ public class GravityManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.transform.position.y < 27.0f)
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-            Debug.Log("Restarting Level");
-        }
 
         if (gravityOn)
         {
