@@ -6,7 +6,9 @@ public class endscene : MonoBehaviour
     public GameObject origin_teen;
     public Camera c1;
     public Camera c2;
-    
+    public GameObject winui;
+
+
 
     public void PlayAnim()
     {
@@ -16,5 +18,11 @@ public class endscene : MonoBehaviour
         c1.gameObject.SetActive(false);
         c2.gameObject.SetActive(true);
         
+        
+
+    }
+    public void ShowWinUI()
+    {
+        winui.SetActive(true);
     }
 }
