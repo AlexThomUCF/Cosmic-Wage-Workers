@@ -11,6 +11,7 @@ public class NPCDialogue : ScriptableObject
     public string miniGameName;
     public Sprite npcProtrait;
     public string[] dialogueLines;
+    public Sprite loadingScreen;
 
     [Tooltip("will next npc line autoprogress without playing clicking ")]
     public bool[] autoProgressLines; 

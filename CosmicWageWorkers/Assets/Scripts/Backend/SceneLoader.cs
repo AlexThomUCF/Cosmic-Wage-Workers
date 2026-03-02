@@ -1,18 +1,22 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] Animator transitonAnim;
     [SerializeField] GameObject transitonObj;
-    [SerializeField] Canvas canvas;
+    [SerializeField] public Canvas canvas;
+    [SerializeField] public Image targetImage;
+    NPCDialogue dialogueData;
 
     public void Awake()
     {
         transitonObj = GameObject.Find("Scene Tansition");
         transitonAnim = transitonObj.GetComponent<Animator>();
-       canvas = transitonObj.GetComponentInChildren<Canvas>();
+        //canvas = dialogueData.loadingScreen.GetComponent<Canvas>();
+        canvas = transitonObj.GetComponentInChildren<Canvas>();
     }
     public void LoadSceneByName(string sceneName)
     {
@@ -45,7 +49,7 @@ public class SceneLoader : MonoBehaviour
         Debug.Log("Doing transition");
         Debug.Log("Animator reference: " + transitonAnim, transitonAnim);
         canvas.sortingOrder = 2;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(8); // Used to be 1 changed to 8, The longer wait for seconds the longer you wait on loading screen.
         SceneManager.LoadScene(sceneName);
         transitonAnim.SetTrigger("Start");
         canvas.sortingOrder = -1;

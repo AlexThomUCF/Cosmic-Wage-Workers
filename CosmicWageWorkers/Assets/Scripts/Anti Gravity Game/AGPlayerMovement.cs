@@ -22,6 +22,8 @@ public class AGPlayerMovement : MonoBehaviour
     private float speedMultiplier = 1f;
     private float coyoteTimeCounter;   
     private float coyoteTime = 0.2f; 
+    private float jumpBufferCounter;
+    private float jumpBufferTime = 0.2f;
 
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class AGPlayerMovement : MonoBehaviour
         else
         {
             coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time when in the air
+            jumpBufferCounter -= Time.deltaTime; // Decrease jump buffer time when in the air
         }
     }
 
@@ -48,6 +51,13 @@ public class AGPlayerMovement : MonoBehaviour
         if(NPC.isInDialogue)
         {
             return; // can't move while talking to npc
+        }
+        
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            jumpBufferCounter = 0f; // Reset jump buffer after jumping
+            coyoteTimeCounter = 0f; // Reset coyote time after jumping
         }
         Move();
     }
@@ -83,10 +93,9 @@ public class AGPlayerMovement : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        if (value.isPressed && coyoteTimeCounter > 0f)
+        if (value.isPressed)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            coyoteTimeCounter = 0f; 
+            jumpBufferCounter = jumpBufferTime; // Set jump buffer time when jump is pressed
         }
     }
 

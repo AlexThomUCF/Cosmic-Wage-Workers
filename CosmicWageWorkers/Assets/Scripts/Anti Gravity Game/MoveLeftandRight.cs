@@ -3,11 +3,12 @@ using UnityEngine.Rendering;
 
 public class MoveLeftandRight : MonoBehaviour
 {
-    public float xLeft;
-    public float xRight;
-    public float moveSpeed = 5f;
+    public float xLeftTimer = 3f;
+    public float xRightTimer = 3f;
+    public bool moveLeft;
+    public bool moveRight;
 
-    private int direction = 1; // 1 for right, -1 for left
+    public float moveSpeed = 5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,14 +18,27 @@ public class MoveLeftandRight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.right * direction * moveSpeed * Time.deltaTime);
-        if(transform.position.x >= xRight)
+        if (moveRight)
         {
-            direction = -1; // Change direction to left
+            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            xRightTimer -= Time.deltaTime;
+            if (xRightTimer <= 0f)
+            {
+                moveRight = false;
+                moveLeft = true;
+                xRightTimer = 3f;
+            }
         }
-        else if(transform.position.x <= xLeft)
+        if (moveLeft)
         {
-            direction = 1; // Change direction to right
+            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+            xLeftTimer -= Time.deltaTime;
+            if (xLeftTimer <= 0f)
+            {
+                moveRight = true;
+                moveLeft = false;
+                xLeftTimer = 3f;
+            }
         }
     }
 }
