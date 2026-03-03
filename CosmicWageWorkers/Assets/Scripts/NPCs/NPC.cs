@@ -74,6 +74,8 @@ public class NPC : MonoBehaviour, IInteraction
             StartDialogue();
         }
 
+        dialogueUI.SetCloseButton(this.EndDialogue);
+
         loader.targetImage.sprite = dialogueData.loadingScreen;
     }
 
