@@ -24,15 +24,16 @@ public class CatchCheck : MonoBehaviour
     private IEnumerator Switch(GameObject player)
     {
         catchsound.Play();
-        yield return new WaitForSecondsRealtime(2f);
-        FindObjectOfType<endscene>().PlayAnim();
-        yield return new WaitForSecondsRealtime(3f);
-        FindObjectOfType<endscene>().ShowWinUI();
-        yield return new WaitForSecondsRealtime(5f);
-
-        Time.timeScale = 0f;
+        
         yield return new WaitForSecondsRealtime(1f);
-        Time.timeScale = 1f;
+        FindObjectOfType<endscene>().PlayAnim();
+         
+        
+        
+        
+        
+
+      
 
         if (!string.IsNullOrEmpty(interactionID))
         {
