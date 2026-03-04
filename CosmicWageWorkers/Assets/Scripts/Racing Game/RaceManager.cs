@@ -9,6 +9,7 @@ public class RaceManager : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource Babycry;
+    public AudioSource Babylaugh;
 
     [Header("UI References (Player Only)")]
     [SerializeField] private TextMeshProUGUI currentLapTimeText;
@@ -233,6 +234,7 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Replay the game");
                 loseScreen.SetActive(true);
+                Babylaugh.Play();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
