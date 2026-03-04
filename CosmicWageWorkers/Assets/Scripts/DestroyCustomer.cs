@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DestroyCustomer : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.GetComponent<CustomerAI>() != null)
         {
