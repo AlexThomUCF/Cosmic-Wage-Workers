@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class OneWayTeleporter : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioSource Teleportsfx;
     [Header("Assign these")]
     public Transform entryPortal;   // trigger is here (or on this GameObject)
     public Transform exitPortal;    // destination
@@ -58,6 +60,7 @@ public class OneWayTeleporter : MonoBehaviour
         if (target == null) target = other.transform.root.gameObject;
 
         Teleport(target);
+        Teleportsfx.Play();
     }
 
     private void Teleport(GameObject target)

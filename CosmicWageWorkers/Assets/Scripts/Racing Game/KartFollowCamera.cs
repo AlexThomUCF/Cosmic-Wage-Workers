@@ -22,6 +22,11 @@ public class KartFollowCamera : MonoBehaviour
     public ParticleSystem fovParticle;
     public float fovThreshold = 70f; // FOV value above which particles activate
 
+
+    [Header("Audio")]
+    public AudioSource boostSound;
+    
+
     private Camera cam;
     private Vector3 velocity;
     private bool particlePlaying = false;
@@ -60,6 +65,7 @@ public class KartFollowCamera : MonoBehaviour
             if (cam.fieldOfView >= fovThreshold && !particlePlaying)
             {
                 fovParticle.Play();
+                boostSound.Play();
                 particlePlaying = true;
             }
             else if (cam.fieldOfView < fovThreshold && particlePlaying)
