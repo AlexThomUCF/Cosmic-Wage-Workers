@@ -4,9 +4,11 @@ public class DestroyCustomer : MonoBehaviour
 {
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.GetComponent<CustomerAI>() != null)
+        CustomerLife life = other.gameObject.GetComponent<CustomerLife>();
+
+        if (life != null)
         {
-            Destroy(other.gameObject);
+            life.RemoveCustomer();
         }
     }
 }

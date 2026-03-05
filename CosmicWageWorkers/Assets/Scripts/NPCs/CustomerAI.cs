@@ -22,7 +22,16 @@ public class CustomerAI : MonoBehaviour
 
     // SHARED across all customers
     private static Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
+    public void ResetAgent(Vector3 spawnPos)
+    {
+        agent.Warp(spawnPos);
+        agent.ResetPath();
+    }
     void Start()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
