@@ -23,7 +23,7 @@ public class FallingItemManager : MonoBehaviour
     public float floorY = 0f;
 
     public PlayerAudio playerAudio;
-
+    
     private bool stopSpawning = false;
 
     void Start()
