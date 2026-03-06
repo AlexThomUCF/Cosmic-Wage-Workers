@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class FPSManager : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class FPSManager : MonoBehaviour
     [Header("Customer Interaction ID")]
     public string interactionID;
 
+    [Header("UI")]
+    public TextMeshProUGUI killText;
+
     private bool gameEnded = false;
 
     private void Awake()
@@ -33,6 +38,9 @@ public class FPSManager : MonoBehaviour
         Instance = this;
         loader = FindFirstObjectByType<SceneLoader>();
 
+        killText.text = (killCount.ToString() + " / " + killsToWin.ToString());
+        
+
     }
 
     // ======================
@@ -44,6 +52,8 @@ public class FPSManager : MonoBehaviour
         if (gameEnded) return;
 
         killCount++;
+        killText.text = (killCount.ToString() + " / " + killsToWin.ToString());
+
 
         if (killCount >= killsToWin)
         {

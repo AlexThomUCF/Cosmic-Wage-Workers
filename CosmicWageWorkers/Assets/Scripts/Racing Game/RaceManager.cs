@@ -7,6 +7,11 @@ public class RaceManager : MonoBehaviour
 {
     public static RaceManager Instance;
 
+    [Header("Audio")]
+    public AudioSource Babycry;
+    public AudioSource Babylaugh;
+    public AudioSource misspoint;
+
     [Header("UI References (Player Only)")]
     [SerializeField] private TextMeshProUGUI currentLapTimeText;
     [SerializeField] private TextMeshProUGUI bestLapTimeText;
@@ -104,6 +109,7 @@ public class RaceManager : MonoBehaviour
             else
             {
                 ShowCheckpointMissedText(racer);
+                misspoint.Play();
             }
         }
     }
@@ -218,6 +224,7 @@ public class RaceManager : MonoBehaviour
             if (racer.CompareTag("Player") && playerCameFirst)
             {
                 Debug.Log("Trigger end scene");
+                Babycry.Play();
                 winScreen.SetActive(true);
                 FinalMiniGame.miniGameCount++;
                 SaveSystem.SaveGame();
@@ -229,6 +236,7 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Replay the game");
                 loseScreen.SetActive(true);
+                Babylaugh.Play();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
