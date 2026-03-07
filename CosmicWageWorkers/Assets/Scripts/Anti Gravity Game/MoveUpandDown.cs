@@ -4,6 +4,7 @@ public class MoveUpandDown : MonoBehaviour
 {
     public float yUp = 3f;
     public float yDown = 3f;
+    public float startingThreshold = 3f;    
     public bool movingUp;
     public bool movingDown;
     public float moveSpeed = 5f;
@@ -26,7 +27,8 @@ public class MoveUpandDown : MonoBehaviour
             {
                 movingUp = false;
                 movingDown = true;
-                yUp = 3f;
+                yUp = startingThreshold;
+
             }
         }
 
@@ -38,8 +40,23 @@ public class MoveUpandDown : MonoBehaviour
             {
                 movingUp = true;
                 movingDown = false;
-                yDown = 3f;
+                yDown = startingThreshold;
             }
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(transform);
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(null);
         }
     }
 }
