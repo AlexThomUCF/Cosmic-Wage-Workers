@@ -7,48 +7,82 @@ public class BreakRoomDoor : MonoBehaviour
     public float openYOffset = 5.75f;
     public float doorSpeed = 5f;
 
-    [Header("Proximity Settings")]
-    public float openDistance = 5f;
-    public float closeDistance = 3f;
+    [Header("Trigger Settings")]
+    public float triggerRadius = 5f;
 
-    private Transform player;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip doorOpenSound;
+    public AudioClip doorCloseSound;
+
     private bool isDoorOpen = false;
     private float targetYPosition;
     private float initialYPosition;
+    private int playersNearby = 0;
 
     void Start()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            player = playerObject.transform;
-        }
-
-        initialYPosition = transform.localPosition.y;
+        initialYPosition = transform.position.y;
         targetYPosition = initialYPosition + closedYOffset;
+
+        BoxCollider trigger = gameObject.AddComponent<BoxCollider>();
+        trigger.isTrigger = true;
+        trigger.size = new Vector3(triggerRadius * 2, 5f, triggerRadius * 2);
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f;
+        }
     }
 
     void Update()
     {
-        if (player == null) return;
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (!isDoorOpen && distanceToPlayer < openDistance)
+        if (playersNearby > 0 && !isDoorOpen)
         {
             isDoorOpen = true;
             targetYPosition = initialYPosition + openYOffset;
+
+            if (audioSource != null && doorOpenSound != null)
+            {
+                audioSource.PlayOneShot(doorOpenSound);
+            }
         }
-        else if (isDoorOpen && distanceToPlayer > openDistance + 2f)
+        else if (playersNearby == 0 && isDoorOpen)
         {
             isDoorOpen = false;
             targetYPosition = initialYPosition + closedYOffset;
-        }
 
-        transform.localPosition = new Vector3(
-            transform.localPosition.x,
-            Mathf.MoveTowards(transform.localPosition.y, targetYPosition, doorSpeed * Time.deltaTime),
-            transform.localPosition.z
+            if (audioSource != null && doorCloseSound != null)
+            {
+                audioSource.PlayOneShot(doorCloseSound);
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        transform.position = new Vector3(
+            transform.position.x,
+            Mathf.MoveTowards(transform.position.y, targetYPosition, doorSpeed * Time.deltaTime),
+            transform.position.z
         );
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playersNearby++;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playersNearby--;
+        }
     }
 }

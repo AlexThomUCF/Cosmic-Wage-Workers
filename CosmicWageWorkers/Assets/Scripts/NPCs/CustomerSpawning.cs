@@ -42,7 +42,20 @@ public class CustomerSpawning : MonoBehaviour
          entranceWaypoint.position,
          entranceWaypoint.rotation);
 
-        // Apply random material
+        // Assigns Tag "NormalCustomer"
+        npc.tag = "NormalCustomer";
+
+        // Gives NormalCustomer a RigidBody, and sets it to Kinematic
+        Rigidbody rb = npc.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = npc.AddComponent<Rigidbody>();
+        }
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        // Applies Random Material
         Material randomMat = materials[Random.Range(0, materials.Length)];
         SkinnedMeshRenderer smr = npc.GetComponentInChildren<SkinnedMeshRenderer>();
         smr.material = randomMat;
