@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class RaceIntroManager : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class RaceIntroManager : MonoBehaviour
     [Header("Start Settings")]
     public bool playOnStart = true;
 
+    [Header("Countdown UI")]
+    public GameObject countdownCanvas;
+    public TextMeshProUGUI countdownText;
+
     public GameObject gameplayHUD;
 
     private Rigidbody[] aiBodies;
@@ -34,7 +39,10 @@ public class RaceIntroManager : MonoBehaviour
         // Disable gameplay
         if (playerController != null) playerController.enabled = false;
         if (raceManager != null) raceManager.enabled = false;
-        if (gameplayHUD) gameplayHUD.SetActive(false);
+        if (gameplayHUD != null) gameplayHUD.SetActive(false);
+
+        if (countdownCanvas != null)
+            countdownCanvas.SetActive(false);
 
         // Freeze AI cars
         aiBodies = new Rigidbody[aiCars.Length];
@@ -64,13 +72,24 @@ public class RaceIntroManager : MonoBehaviour
                 cam.enabled = false;
         }
 
-        // Play intro cams
-        foreach (Camera cam in introCameras)
+        // Play intro cameras
+        for (int i = 0; i < introCameras.Count; i++)
         {
+            Camera cam = introCameras[i];
             if (cam == null) continue;
 
             cam.enabled = true;
-            yield return new WaitForSeconds(timePerCamera);
+
+            // If this is the LAST camera → run countdown
+            if (i == introCameras.Count - 1)
+            {
+                yield return StartCoroutine(CountdownRoutine());
+            }
+            else
+            {
+                yield return new WaitForSeconds(timePerCamera);
+            }
+
             cam.enabled = false;
         }
 
@@ -88,9 +107,57 @@ public class RaceIntroManager : MonoBehaviour
                 aiBodies[i].isKinematic = false;
         }
 
-        // Resume gameplay
+        // Resume gameplay AFTER countdown
         if (playerController != null) playerController.enabled = true;
         if (raceManager != null) raceManager.enabled = true;
-        if (gameplayHUD) gameplayHUD.SetActive(true);
+        if (gameplayHUD != null) gameplayHUD.SetActive(true);
+    }
+
+        IEnumerator CountdownRoutine()
+    {
+        if (countdownCanvas != null)
+            countdownCanvas.SetActive(true);
+
+        countdownText.transform.localScale = Vector3.one;
+
+        countdownText.text = "3";
+        yield return new WaitForSeconds(1f);
+
+        countdownText.text = "2";
+        yield return new WaitForSeconds(1f);
+
+        countdownText.text = "1";
+        yield return new WaitForSeconds(1f);
+
+        // GO POP EFFECT
+        countdownText.text = "GO!";
+        yield return StartCoroutine(GoPopEffect());
+
+        yield return new WaitForSeconds(0.6f);
+
+        if (countdownCanvas != null)
+            countdownCanvas.SetActive(false);
+    }
+
+        IEnumerator GoPopEffect()
+    {
+        float duration = 0.25f;
+        float timer = 0f;
+
+        Vector3 startScale = Vector3.one * 0.5f;
+        Vector3 endScale = Vector3.one * 1.5f;
+
+        countdownText.transform.localScale = startScale;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+
+            countdownText.transform.localScale = Vector3.Lerp(startScale, endScale, t);
+            yield return null;
+        }
+
+        countdownText.transform.localScale = Vector3.one;
     }
 }
