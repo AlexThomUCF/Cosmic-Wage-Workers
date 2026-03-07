@@ -6,6 +6,7 @@ public class BathroomTrigger : MonoBehaviour, IInteraction
 
     public UnityEvent onInteract { get; set; } = new UnityEvent();
     public bool canTrigger = true;
+    public string miniGameToLoad;
     [SerializeField] SceneLoader loader;
 
     public void Awake()
@@ -16,7 +17,7 @@ public class BathroomTrigger : MonoBehaviour, IInteraction
     {
         if (canTrigger)
         {
-            loader.LoadSceneByName("BathroomTest");
+            loader.LoadSceneByName(miniGameToLoad);
             canTrigger = false;
         }
         else if (!canTrigger)
