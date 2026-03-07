@@ -25,6 +25,7 @@ public class CustomerAI : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     public void ResetAgent(Vector3 spawnPos)
@@ -35,14 +36,16 @@ public class CustomerAI : MonoBehaviour
     void Start()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
-        if (animator == null) animator = GetComponent<Animator>();
 
         // Small QoL tweaks to reduce pushing
         agent.stoppingDistance = 0.8f;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         agent.avoidancePriority = Random.Range(30, 60);
 
-        // Initialize shared waypoint dictionary safely
+    }
+
+    public void InitializeWaypoints()
+    {
         if (waypoints != null)
         {
             foreach (var wp in waypoints)
@@ -52,7 +55,6 @@ public class CustomerAI : MonoBehaviour
             }
         }
 
-        // Initialize final waypoints
         if (finalWaypoints != null)
         {
             foreach (var wp in finalWaypoints)
@@ -61,8 +63,6 @@ public class CustomerAI : MonoBehaviour
                     occupiedWaypoints.Add(wp, false);
             }
         }
-
-        PickNewDestination();
     }
 
     void Update()
@@ -114,7 +114,7 @@ public class CustomerAI : MonoBehaviour
         }
     }
 
-    void PickNewDestination()
+    public void PickNewDestination()
     {
         // If visited enough, pick a final waypoint
         if (visitedCount >= maxVisits && finalWaypoints != null && finalWaypoints.Length > 0)
@@ -154,7 +154,10 @@ public class CustomerAI : MonoBehaviour
         }
 
         if (availableWaypoints.Count == 0)
-            return; // All occupied — try again later
+        {
+            Invoke(nameof(PickNewDestination), 1f);
+            return;
+        }
 
         currentTarget = availableWaypoints[Random.Range(0, availableWaypoints.Count)];
         occupiedWaypoints[currentTarget] = true;
@@ -224,13 +227,14 @@ public class CustomerAI : MonoBehaviour
             rotateRoutine = null;
         }
 
+        if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
+            occupiedWaypoints[currentTarget] = false;
+
         currentTarget = null;
 
         agent.ResetPath();
 
         animator.ResetTrigger("IsWaiting");
         animator.ResetTrigger("IsWalking");
-
-        PickNewDestination();
     }
 }
