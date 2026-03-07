@@ -16,20 +16,24 @@ public class FallingItemManager : MonoBehaviour
     public AudioSource warningAudio;
 
     [Header("References")]
-    public Climbing playerClimbing; // player reference
-    public Image warningIcon;       // assign your UI Image from Canvas
+    public Climbing playerClimbing;
+    public Image warningIcon;
 
     [Header("Ground")]
     public float floorY = 0f;
 
     public PlayerAudio playerAudio;
-    
+
     private bool stopSpawning = false;
 
     void Start()
     {
         if (warningIcon != null)
-            warningIcon.enabled = false;
+        {
+            Color c = warningIcon.color;
+            c.a = 0f;
+            warningIcon.color = c;
+        }
 
         StartCoroutine(SpawnFallingItemsRoutine());
     }
@@ -70,56 +74,66 @@ public class FallingItemManager : MonoBehaviour
         Vector3 spinAxis = Random.onUnitSphere;
         float spinSpeed = Random.Range(60f, 120f);
 
-        // Faster flash for sync with sound
-        float flashInterval = 0.25f; // flashes every 0.25s
+        float flashInterval = 0.25f;
         float flashTimer = flashInterval;
 
         float hitRadius = 1f;
 
-        // Enable the icon at top-middle
         if (warningIcon != null)
         {
-            warningIcon.enabled = true;
-
             RectTransform rt = warningIcon.rectTransform;
             rt.anchorMin = new Vector2(0.5f, 1f);
             rt.anchorMax = new Vector2(0.5f, 1f);
             rt.pivot = new Vector2(0.5f, 1f);
-            rt.anchoredPosition = new Vector2(0f, -50f); // 50 units down from top
+            rt.anchoredPosition = new Vector2(0f, -50f);
             rt.localScale = Vector3.one;
+
+            Color c = warningIcon.color;
+            c.a = 1f;
+            warningIcon.color = c;
         }
 
         while (item != null)
         {
-            // Move and spin the item
             item.transform.position += Vector3.down * fallSpeed * Time.deltaTime;
             item.transform.Rotate(spinAxis, spinSpeed * Time.deltaTime, Space.World);
 
-            // Flash the icon
-            if (warningIcon != null && warningIcon.enabled)
+            if (warningIcon != null)
             {
                 flashTimer -= Time.deltaTime;
+
                 if (flashTimer <= 0f)
                 {
-                    warningIcon.enabled = !warningIcon.enabled;
+                    Color c = warningIcon.color;
+                    c.a = (c.a == 1f) ? 0f : 1f;
+                    warningIcon.color = c;
+
                     flashTimer = flashInterval;
                 }
             }
 
-            // Hide icon when item passes player
             if (item.transform.position.y <= playerClimbing.transform.position.y)
             {
-                if (warningIcon != null) warningIcon.enabled = false;
+                if (warningIcon != null)
+                {
+                    Color c = warningIcon.color;
+                    c.a = 0f;
+                    warningIcon.color = c;
+                }
             }
 
-            // Destroy item if hits floor
             if (item.transform.position.y <= floorY)
             {
                 Destroy(item);
-                if (warningIcon != null) warningIcon.enabled = false;
+
+                if (warningIcon != null)
+                {
+                    Color c = warningIcon.color;
+                    c.a = 0f;
+                    warningIcon.color = c;
+                }
             }
 
-            // Player collision with horizontal check
             if (playerClimbing != null)
             {
                 Vector3 horizontalDistance = item.transform.position - playerClimbing.transform.position;
@@ -128,17 +142,30 @@ public class FallingItemManager : MonoBehaviour
                 if (item.transform.position.y <= playerClimbing.transform.position.y + 1f &&
                     horizontalDistance.magnitude <= hitRadius)
                 {
-                    if (playerAudio != null) playerAudio.PlayOneShot(playerAudio.hitByItem);
+                    if (playerAudio != null)
+                        playerAudio.PlayOneShot(playerAudio.hitByItem);
+
                     playerClimbing.TriggerFall();
                     Destroy(item);
-                    if (warningIcon != null) warningIcon.enabled = false;
+
+                    if (warningIcon != null)
+                    {
+                        Color c = warningIcon.color;
+                        c.a = 0f;
+                        warningIcon.color = c;
+                    }
                 }
             }
 
             yield return null;
         }
 
-        if (warningIcon != null) warningIcon.enabled = false;
+        if (warningIcon != null)
+        {
+            Color c = warningIcon.color;
+            c.a = 0f;
+            warningIcon.color = c;
+        }
     }
 
     public void StopSpawning()
