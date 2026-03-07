@@ -211,4 +211,26 @@ public class CustomerAI : MonoBehaviour
         if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
             occupiedWaypoints[currentTarget] = false;
     }
+    public void ResetAI()
+    {
+        visitedCount = 0;
+        isWaiting = false;
+        waitCounter = 0f;
+        waitTime = 0f;
+
+        if (rotateRoutine != null)
+        {
+            StopCoroutine(rotateRoutine);
+            rotateRoutine = null;
+        }
+
+        currentTarget = null;
+
+        agent.ResetPath();
+
+        animator.ResetTrigger("IsWaiting");
+        animator.ResetTrigger("IsWalking");
+
+        PickNewDestination();
+    }
 }

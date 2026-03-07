@@ -56,6 +56,8 @@ public class CustomerSpawning : MonoBehaviour
         ai.finalWaypoints = endWaypoints;
         ai.exitWaypoint = exitWaypoint;
 
+        ai.ResetAI();
+
         CustomerLife life = npc.GetComponent<CustomerLife>();
         if (life == null)
         {
