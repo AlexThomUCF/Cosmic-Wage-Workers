@@ -20,6 +20,9 @@ public class DropChance : MonoBehaviour
         StartCoroutine(DropLoop());
     }
 
+    [Header("Audio")]
+    public AudioSource dropSound;
+
     // Update is called once per frame
     void Update()
     {
@@ -39,6 +42,7 @@ public class DropChance : MonoBehaviour
             {
                 Vector3 offset = new Vector3(0f, -0.3f, -2f);
                 GameObject clone = Instantiate(droppingItem, dropPosition.position, transform.rotation);
+                dropSound.Play();
                 Destroy(clone, 3f);
                 Debug.Log($"Dropped item after {waitTime:F1}s!");
             }

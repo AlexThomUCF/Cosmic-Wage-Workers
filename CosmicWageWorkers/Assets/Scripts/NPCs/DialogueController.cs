@@ -11,6 +11,7 @@ public class DialogueController : MonoBehaviour
     public Image portraitImage;
     public Transform[] choicePanels; // Assign in Inspector
     public GameObject choiceButtonPrefab;
+    public Button closeButton;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -38,6 +39,12 @@ public class DialogueController : MonoBehaviour
     public void SetDialogueText(string text)
     {
         dialogueText.text = text;
+    }
+
+    public void SetCloseButton(UnityAction onClickAction)
+    {
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(onClickAction);
     }
 
     public void ClearChoices()

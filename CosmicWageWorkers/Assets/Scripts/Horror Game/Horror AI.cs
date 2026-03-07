@@ -15,6 +15,8 @@ public class HorrorAI : MonoBehaviour
     private EnemyVision enemyVision;
     private FlashLight flashLight;
 
+    public AudioSource Catchsound;
+
     public enum AIState
     {
         NormalState,EnragedState
@@ -126,15 +128,19 @@ public class HorrorAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
-        {
-            string mainSceneName = "backroomhorror";  // might need to change back to MainScene
+        if (!other.CompareTag("Player")) return;
+        StartCoroutine(LoadSceneAfterDelay());
 
-            SceneManager.LoadScene(mainSceneName);
-        }
-        
     }
-        
+    private IEnumerator LoadSceneAfterDelay()
+    {
+        Time.timeScale = 0f;
+        Catchsound.Play();                
+        yield return new WaitForSecondsRealtime(1f); // delay 1 seconds to play audio clip before loading the scene
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("backroomhorror");
+    }
+
 
     IEnumerator WaitForSwap()
     {

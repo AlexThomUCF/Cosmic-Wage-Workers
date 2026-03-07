@@ -50,6 +50,8 @@ public class KartControllerArcade : MonoBehaviour
     private float driftCharge;
     private float boostTimer;
 
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -231,6 +233,7 @@ public class KartControllerArcade : MonoBehaviour
             {
                 // scale duration a bit by charge
                 boostTimer = Mathf.Lerp(0.35f, boostDuration, t);
+               
             }
             driftCharge = 0f;
         }

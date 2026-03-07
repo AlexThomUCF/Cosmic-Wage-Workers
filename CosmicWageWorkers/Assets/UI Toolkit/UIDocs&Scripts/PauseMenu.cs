@@ -143,6 +143,9 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitMiniGame()
     {
-        SceneManager.LoadScene("MainScene");
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            SceneManager.LoadScene("MainScene");
+        }
     }
 }

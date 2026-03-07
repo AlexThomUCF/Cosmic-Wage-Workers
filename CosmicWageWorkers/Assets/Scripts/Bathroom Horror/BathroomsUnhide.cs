@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
 public class BathroomsUnhide : MonoBehaviour
 {
     public GameObject player;
+
+
+    
 
     [Header("*** Obstacles ***")]
     public GameObject roach;
@@ -53,6 +57,7 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject blackScreen;
     public GameObject jumpScareBlackScreen;
     public GameObject promptUpUI;
+
 
 
 
@@ -197,9 +202,17 @@ public class BathroomsUnhide : MonoBehaviour
 
     public void OpenEventDoor()
     {
+        StartCoroutine(OpenEventDoorRoutine());
+    }
+
+    private IEnumerator OpenEventDoorRoutine()
+    {   
+        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.knock);
+        yield return new WaitForSeconds(1.5f);
         bathroomSFX.StopAllMusic();
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorOpen);
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.hey);
+        
         roachScript.StopRoachSpawning();
         RoachesDisappear();
         bsAnimator.SetTrigger("BSFastFade");
