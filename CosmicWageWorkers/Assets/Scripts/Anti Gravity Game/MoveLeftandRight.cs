@@ -19,39 +19,28 @@ public class MoveLeftandRight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if (moveRight)
-        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-        xLeftThreshold -= Time.deltaTime;
-        if (xLeftThreshold <= 0f)
+        if (moveRight)
         {
-            moveRight = false;
-            moveLeft = true;
-            xLeftThreshold = startingThreshold;
+            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            xLeftThreshold -= Time.deltaTime;
+            if (xLeftThreshold <= 0f)
+            {
+                moveRight = false;
+                moveLeft = true;
+                xLeftThreshold = startingThreshold;
+            }
         }
-    if (moveLeft)
-        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
-        xRightThreshold -= Time.deltaTime;
-        if (xRightThreshold <= 0f)
+        else if (moveLeft)
         {
-            moveRight = true;
-            moveLeft = false;
-            xRightThreshold = startingThreshold;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.transform.SetParent(transform);
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.transform.SetParent(null);
+            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+            xRightThreshold -= Time.deltaTime;
+            if (xRightThreshold <= 0f)
+            {
+                moveRight = true;
+                moveLeft = false;
+                xRightThreshold = startingThreshold;
+            }
         }
     }
 }
+
