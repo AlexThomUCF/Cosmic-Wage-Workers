@@ -757,7 +757,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 262144
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -830,6 +830,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomerAI
   agent: {fileID: 0}
   waypoints: []
+  finalWaypoints: []
+  exitWaypoint: {fileID: 0}
+  maxVisits: 5
 --- !u!23 &-4760043076080941019
 MeshRenderer:
   m_ObjectHideFlags: 0
