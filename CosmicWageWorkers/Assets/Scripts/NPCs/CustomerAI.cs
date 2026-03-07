@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +7,9 @@ public class CustomerAI : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform[] waypoints;
+    public Transform[] finalWaypoints; // The specific waypoint to go after visiting N waypoints
+    public Transform exitWaypoint;
+    public int maxVisits = 3;       // Number of random waypoints before going to finalWaypoint
 
     private Transform currentTarget;
     private bool isWaiting;
@@ -15,20 +18,34 @@ public class CustomerAI : MonoBehaviour
     private Coroutine rotateRoutine;
     private Animator animator;
 
+    private int visitedCount = 0; // Track how many waypoints the NPC has visited
+
     // SHARED across all customers
     private static Dictionary<Transform, bool> occupiedWaypoints = new Dictionary<Transform, bool>();
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+    }
 
+    public void ResetAgent(Vector3 spawnPos)
+    {
+        agent.Warp(spawnPos);
+        agent.ResetPath();
+    }
     void Start()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
-        if (animator == null) animator = GetComponent<Animator>();
 
         // Small QoL tweaks to reduce pushing
         agent.stoppingDistance = 0.8f;
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
         agent.avoidancePriority = Random.Range(30, 60);
 
-        // Initialize shared waypoint dictionary safely
+    }
+
+    public void InitializeWaypoints()
+    {
         if (waypoints != null)
         {
             foreach (var wp in waypoints)
@@ -38,23 +55,35 @@ public class CustomerAI : MonoBehaviour
             }
         }
 
-        PickNewDestination();
+        if (finalWaypoints != null)
+        {
+            foreach (var wp in finalWaypoints)
+            {
+                if (!occupiedWaypoints.ContainsKey(wp))
+                    occupiedWaypoints.Add(wp, false);
+            }
+        }
     }
 
     void Update()
     {
-        if (!isWaiting && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        // Check if agent has reached its destination
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            isWaiting = true;
-            animator.SetTrigger("IsWaiting");
+            // Only trigger this once per waypoint
+            if (!isWaiting)
+            {
+                isWaiting = true;
+                animator.SetTrigger("IsWaiting");
 
-            waitTime = Random.Range(2f, 5f);
-            waitCounter = 0f;
+                waitTime = Random.Range(2f, 5f);
+                waitCounter = 0f;
 
-            if (rotateRoutine != null)
-                StopCoroutine(rotateRoutine);
+                if (rotateRoutine != null)
+                    StopCoroutine(rotateRoutine);
 
-            rotateRoutine = StartCoroutine(SmoothFaceTarget(currentTarget));
+                rotateRoutine = StartCoroutine(SmoothFaceTarget(currentTarget));
+            }
         }
 
         if (isWaiting)
@@ -66,19 +95,55 @@ public class CustomerAI : MonoBehaviour
                 isWaiting = false;
                 animator.SetTrigger("IsWalking");
 
-                // Free the waypoint when leaving
+                // Free the waypoint
                 if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
                     occupiedWaypoints[currentTarget] = false;
 
-                PickNewDestination();
+                // If this was a regular waypoint, increment visit count
+                if (currentTarget != null && (finalWaypoints == null || !System.Array.Exists(finalWaypoints, f => f == currentTarget)))
+                {
+                    visitedCount++;
+                    PickNewDestination(); // go to next waypoint
+                }
+                else if (System.Array.Exists(finalWaypoints, f => f == currentTarget))
+                {
+                    // Only start leaving AFTER reaching final waypoint
+                    StartCoroutine(LeaveAfterWait());
+                }
             }
         }
     }
 
-    void PickNewDestination()
+    public void PickNewDestination()
     {
-        if (waypoints == null || waypoints.Length == 0)
-            return;
+        // If visited enough, pick a final waypoint
+        if (visitedCount >= maxVisits && finalWaypoints != null && finalWaypoints.Length > 0)
+        {
+            // Shuffle or pick randomly among the final waypoints
+            List<Transform> availableFinals = new List<Transform>();
+            foreach (var wp in finalWaypoints)
+            {
+                if (!occupiedWaypoints[wp])
+                    availableFinals.Add(wp);
+            }
+
+            if (availableFinals.Count > 0)
+            {
+                currentTarget = availableFinals[Random.Range(0, availableFinals.Count)];
+                occupiedWaypoints[currentTarget] = true;
+                agent.SetDestination(currentTarget.position);
+                return; // done, moving to final waypoint
+            }
+            else
+            {
+                // All final waypoints are busy → pick a random normal waypoint
+                visitedCount--; // decrement so we keep trying for final later
+            }
+
+        }
+
+
+        // Otherwise, pick a random available waypoint
 
         List<Transform> availableWaypoints = new List<Transform>();
 
@@ -89,7 +154,10 @@ public class CustomerAI : MonoBehaviour
         }
 
         if (availableWaypoints.Count == 0)
-            return; // All occupied � try again later
+        {
+            Invoke(nameof(PickNewDestination), 1f);
+            return;
+        }
 
         currentTarget = availableWaypoints[Random.Range(0, availableWaypoints.Count)];
         occupiedWaypoints[currentTarget] = true;
@@ -124,10 +192,49 @@ public class CustomerAI : MonoBehaviour
         transform.rotation = targetRot;
     }
 
+    IEnumerator LeaveAfterWait()
+    {
+        // Wait a moment at the final waypoint
+        yield return new WaitForSeconds(1f);
+
+        // Free the final waypoint
+        if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
+            occupiedWaypoints[currentTarget] = false;
+
+
+        Debug.Log("YOU CAN DESTROY ME");
+        agent.SetDestination(exitWaypoint.position);
+
+      
+    }
+
     void OnDestroy()
     {
         // Safety cleanup in case an NPC despawns mid-walk
         if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
             occupiedWaypoints[currentTarget] = false;
+    }
+    public void ResetAI()
+    {
+        visitedCount = 0;
+        isWaiting = false;
+        waitCounter = 0f;
+        waitTime = 0f;
+
+        if (rotateRoutine != null)
+        {
+            StopCoroutine(rotateRoutine);
+            rotateRoutine = null;
+        }
+
+        if (currentTarget != null && occupiedWaypoints.ContainsKey(currentTarget))
+            occupiedWaypoints[currentTarget] = false;
+
+        currentTarget = null;
+
+        agent.ResetPath();
+
+        animator.ResetTrigger("IsWaiting");
+        animator.ResetTrigger("IsWalking");
     }
 }

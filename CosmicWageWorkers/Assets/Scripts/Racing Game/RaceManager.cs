@@ -10,6 +10,7 @@ public class RaceManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource Babycry;
     public AudioSource Babylaugh;
+    public AudioSource misspoint;
 
     [Header("UI References (Player Only)")]
     [SerializeField] private TextMeshProUGUI currentLapTimeText;
@@ -108,6 +109,7 @@ public class RaceManager : MonoBehaviour
             else
             {
                 ShowCheckpointMissedText(racer);
+                misspoint.Play();
             }
         }
     }

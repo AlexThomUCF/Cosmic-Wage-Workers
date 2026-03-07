@@ -13,8 +13,8 @@ public class HandStamina : MonoBehaviour
 
     [Header("Settings")]
     public float maxStamina = 100f;
-    public float drainRate = 15f;
-    public float regenRate = 10f;
+    public float drainRate = 10f;
+    public float regenRate = 12f;
 
     [Header("Lose Settings")]
     public Climbing climbing;

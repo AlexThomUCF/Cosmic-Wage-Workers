@@ -1,46 +1,96 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CustomerSpawning : MonoBehaviour
 {
-    public GameObject npcPrefab;
+    public CustomerPool pool;
+
     public Material[] materials; 
     public int npcCount = 10;
+   
+
     public Transform[] waypoints;
+    public Transform[] endWaypoints;
+    public Transform entranceWaypoint;
+    public Transform exitWaypoint;
+
+    public float minSpawnDelay = 1f; // minimum time between spawns
+    public float maxSpawnDelay = 4f; // maximum time between spawns
 
     void Start()
     {
-        if (npcCount > waypoints.Length)
-        {
-            Debug.LogWarning("Not enough waypoints for the number of NPCs. Reducing npcCount to match waypoint count.");
-            npcCount = waypoints.Length;
-        }
+        StartCoroutine(SpawnNPCs());
+    }
 
-        // Create a list of available waypoints
-        List<Transform> availableWaypoints = new List<Transform>(waypoints);
-
+    IEnumerator SpawnNPCs()
+    {
         for (int i = 0; i < npcCount; i++)
         {
-            // Pick a random waypoint from the available ones
-            int index = Random.Range(0, availableWaypoints.Count);
-            Transform spawnPoint = availableWaypoints[index];
+            SpawnNPC();
 
-            // Spawn the NPC
-            GameObject npc = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);
-            Material randomMat = materials[Random.Range(0, materials.Length)];
-
-            SkinnedMeshRenderer smr = npc.GetComponentInChildren<SkinnedMeshRenderer>();
-            smr.material = randomMat;
-
-
-
-            // Assign waypoints to the NPC
-            CustomerAI ai = npc.GetComponent<CustomerAI>();
-            ai.waypoints = waypoints;
-
-            // Remove the used waypoint so no one else spawns here
-            availableWaypoints.RemoveAt(index);
+            float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+            yield return new WaitForSeconds(delay);
         }
+    }
+
+    public void SpawnNPC()
+    {
+        GameObject npc = pool.GetCustomer();
+
+        npc.transform.SetPositionAndRotation(
+         entranceWaypoint.position,
+         entranceWaypoint.rotation);
+
+        // Assigns Tag "NormalCustomer"
+        npc.tag = "NormalCustomer";
+
+        // Gives NormalCustomer a RigidBody, and sets it to Kinematic
+        Rigidbody rb = npc.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = npc.AddComponent<Rigidbody>();
+        }
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        // Applies Random Material
+        Material randomMat = materials[Random.Range(0, materials.Length)];
+        SkinnedMeshRenderer smr = npc.GetComponentInChildren<SkinnedMeshRenderer>();
+        smr.material = randomMat;
+
+        // Assign AI
+        CustomerAI ai = npc.GetComponent<CustomerAI>();
+
+        ai.ResetAgent(entranceWaypoint.position);
+
+        ai.waypoints = waypoints;
+        ai.finalWaypoints = endWaypoints;
+        ai.exitWaypoint = exitWaypoint;
+
+        ai.InitializeWaypoints();
+        ai.ResetAI();
+        ai.PickNewDestination();
+
+        CustomerLife life = npc.GetComponent<CustomerLife>();
+        if (life == null)
+        {
+            life = npc.AddComponent<CustomerLife>();
+        }
+        life.spawner = this;
+    }
+    public void CustomerReturned(GameObject npc)
+    {
+        pool.ReturnCustomer(npc);
+        StartCoroutine(RespawnDelay(npc));
+    }
+    IEnumerator RespawnDelay(GameObject npc)
+    {
+        float delay = Random.Range(minSpawnDelay, maxSpawnDelay);
+        yield return new WaitForSeconds(delay);
+
+        SpawnNPC();
     }
 }
 

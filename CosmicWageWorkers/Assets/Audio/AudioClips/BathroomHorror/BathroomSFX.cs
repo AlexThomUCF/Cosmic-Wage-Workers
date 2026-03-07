@@ -14,6 +14,7 @@ public class BathroomSFX : MonoBehaviour
     public AudioClip getOut;
     public AudioClip jumpScareSound;
     public AudioClip heavyBreathing;
+    public AudioClip knock;
 
 
     [Header("*** Audio Background ***")]
@@ -22,6 +23,10 @@ public class BathroomSFX : MonoBehaviour
     public AudioSource heartBeat;
     public AudioSource bugNoises;
     public AudioSource crawlNoise;
+    
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

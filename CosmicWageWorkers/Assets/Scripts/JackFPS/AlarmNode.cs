@@ -11,6 +11,10 @@ public class AlarmNode : MonoBehaviour
     [Header("Materials")]
     public Material idleMat;
     public Material activeMat;
+    public Material successMat;
+    public float successFlashTime = 0.2f;
+
+    public float repeatDelay = 1.5f; // delay between repeats when active
 
     [Header("Flicker Settings")]
     public float flickerSpeed = 0.2f;
@@ -18,12 +22,6 @@ public class AlarmNode : MonoBehaviour
     [Header("Audio (Reveal Only)")]
     public AudioClip alarmClip;
     public float volume = 0.8f;
-    [Tooltip("Length of a single beep")]
-    public float beepLength = 0.15f;
-    [Tooltip("Gap between each beep")]
-    public float beepGap = 0.1f;
-    [Tooltip("How many beeps per alarm")]
-    public int beepCount = 3;
 
     private MeshRenderer rend;
     private AudioSource audioSource;
@@ -51,29 +49,31 @@ public class AlarmNode : MonoBehaviour
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
-        StopAudioImmediate();
+        audioSource.Stop();
+
         rend.material = idleMat;
     }
 
-    public void Reveal()
+        public void Reveal()
     {
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
         rend.material = activeMat;
-        PlayTripleBeep();
+
+        PlaySoundOnce();
     }
 
-    public void SetActive()
+        public void SetActive()
     {
         isActive = true;
-
-        StopAudioImmediate();
 
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
         flickerRoutine = StartCoroutine(Flicker());
+
+        StartCoroutine(LoopSound());
     }
 
     IEnumerator Flicker()
@@ -86,30 +86,7 @@ public class AlarmNode : MonoBehaviour
             red = !red;
             yield return new WaitForSeconds(flickerSpeed);
         }
-    }
-
-    void PlayTripleBeep()
-    {
-        if (alarmClip == null) return;
-
-        StopAudioImmediate();
-        audioRoutine = StartCoroutine(TripleBeepCoroutine());
-    }
-
-    IEnumerator TripleBeepCoroutine()
-    {
-        for (int i = 0; i < beepCount; i++)
-        {
-            audioSource.Stop();
-            audioSource.clip = alarmClip;
-            audioSource.Play();
-
-            yield return new WaitForSeconds(beepLength);
-
-            audioSource.Stop();
-            yield return new WaitForSeconds(beepGap);
-        }
-    }
+    } 
 
     void StopAudioImmediate()
     {
@@ -119,9 +96,19 @@ public class AlarmNode : MonoBehaviour
         audioSource.Stop();
     }
 
-    public void OnShot()
+        public void OnShot()
     {
         if (!isActive) return;
+
+        isActive = false;
+
+        if (flickerRoutine != null)
+            StopCoroutine(flickerRoutine);
+
+        audioSource.Stop();
+
+        StartCoroutine(SuccessFlash());
+
         manager.RegisterHit(alarmID);
     }
 
@@ -149,5 +136,33 @@ public class AlarmNode : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         if (rend != null && idleMat != null)
             rend.material = idleMat;
+    }
+
+        void PlaySoundOnce()
+    {
+        if (alarmClip == null) return;
+
+        audioSource.Stop();
+        audioSource.clip = alarmClip;
+        audioSource.loop = false;
+        audioSource.Play();
+    }
+
+    IEnumerator LoopSound()
+    {
+        while (isActive)
+        {
+            PlaySoundOnce();
+            yield return new WaitForSeconds(alarmClip.length + repeatDelay);
+        }
+    }
+
+        IEnumerator SuccessFlash()
+    {
+        rend.material = successMat;
+
+        yield return new WaitForSeconds(successFlashTime);
+
+        rend.material = idleMat;
     }
 }

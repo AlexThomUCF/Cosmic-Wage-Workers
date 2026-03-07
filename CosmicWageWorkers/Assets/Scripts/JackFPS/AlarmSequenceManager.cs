@@ -31,6 +31,11 @@ public class AlarmSequenceManager : MonoBehaviour
     public string sceneToLoadAfterGame;
     public float endDelay = 1.5f;
 
+    [Header("Sequence Feedback Audio")]
+    public AudioSource sequenceAudio;
+    public AudioClip successClip;
+    public AudioClip failClip;
+
     private int consecutiveFailures = 0;
 
     private List<int> currentSequence = new List<int>();
@@ -148,8 +153,11 @@ public class AlarmSequenceManager : MonoBehaviour
         }
     }
 
-    void OnSequenceSuccess()
+        void OnSequenceSuccess()
     {
+        if (sequenceAudio && successClip)
+            sequenceAudio.PlayOneShot(successClip);
+
         consecutiveFailures = Mathf.Max(0, consecutiveFailures - 1);
         ApplySpawnPressure();
 
@@ -161,18 +169,27 @@ public class AlarmSequenceManager : MonoBehaviour
         else
         {
             StopAllCoroutines();
-            Invoke(nameof(LoadNextScene), endDelay);
+
+            Debug.Log("Final sequence completed. Stopping prop spawns.");
+
+            if (propManager != null)
+                propManager.spawningEnabled = false;
+
+            StartCoroutine(WaitForRemainingProps());
         }
     }
-
+    
     void LoadNextScene()
     {
         if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
             SceneManager.LoadScene(sceneToLoadAfterGame);
     }
 
-    void OnSequenceFailed()
+        void OnSequenceFailed()
     {
+        if (sequenceAudio && failClip)
+            sequenceAudio.PlayOneShot(failClip);
+
         consecutiveFailures = Mathf.Min(consecutiveFailures + 1, maxFailures);
         ApplySpawnPressure();
 
@@ -209,5 +226,21 @@ public class AlarmSequenceManager : MonoBehaviour
     {
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
+    }
+
+        IEnumerator WaitForRemainingProps()
+    {
+        Debug.Log("Waiting for remaining props to be cleared...");
+
+        while (GameObject.FindObjectsOfType<PropAi>().Length > 0)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        Debug.Log("All props cleared. Ending game.");
+
+        yield return new WaitForSeconds(endDelay);
+
+        LoadNextScene();
     }
 }
