@@ -52,7 +52,7 @@ public class PlayerFreeze : MonoBehaviour
         if (freezeImage != null)
         {
             var color = freezeImage.color;
-            color.a = Mathf.Lerp(0f, 0.7f, freezePercentImage); // 0.7f = max alpha at full freeze
+            color.a = Mathf.Lerp(0f, 1f, freezePercentImage * 1.6f); // 0.7f = max alpha at full freeze
             freezeImage.color = color;
         }
 
