@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class AlarmSequenceManager : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class AlarmSequenceManager : MonoBehaviour
     public AudioSource sequenceAudio;
     public AudioClip successClip;
     public AudioClip failClip;
+
+    [Header("UI")]
+    public TextMeshProUGUI clearGroceriesText;
+    public UIFlashMessage clearGroceriesMessage;
 
     private int consecutiveFailures = 0;
 
@@ -176,6 +181,13 @@ public class AlarmSequenceManager : MonoBehaviour
 
             if (propManager != null)
                 propManager.spawningEnabled = false;
+                
+            if (clearGroceriesText != null)
+                clearGroceriesText.gameObject.SetActive(true);
+            if (clearGroceriesMessage != null)
+            {
+                clearGroceriesMessage.FlashMessage();
+            }
 
             StartCoroutine(WaitForRemainingProps());
         }
@@ -246,5 +258,14 @@ public class AlarmSequenceManager : MonoBehaviour
         yield return new WaitForSeconds(endDelay);
 
         LoadNextScene();
+    }
+
+        public float GetTimerPercent()
+    {
+        if (!acceptingInput)
+            return 1f;
+
+        float maxTime = currentSequence.Count * timePerAlarm;
+        return sequenceTimer / maxTime;
     }
 }
