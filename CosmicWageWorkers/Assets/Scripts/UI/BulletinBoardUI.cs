@@ -15,10 +15,12 @@ public class BulletinBoardUI : MonoBehaviour
     private int maxMesses;
     private float displayedCleanlinessPercent = 100f;
     private float smoothSpeed = 3f;
+
     private float targetCleanlinessPercent = 100f;
 
     private void Start()
     {
+        // Find managers if not assigned
         if (messManager == null)
             messManager = Object.FindFirstObjectByType<MessManager>();
 
@@ -63,15 +65,12 @@ public class BulletinBoardUI : MonoBehaviour
         int totalProblems = currentMesses + currentTrash;
         int maxProblems = maxMesses + maxTrash;
 
-        if (maxProblems > 0)
-            targetCleanlinessPercent = ((float)(maxProblems - totalProblems) / maxProblems) * 100f;
-        else
-            targetCleanlinessPercent = 100f; // avoid divide by zero
+        targetCleanlinessPercent = ((float)(maxProblems - totalProblems) / maxProblems) * 100f;
     }
 
     private void Update()
     {
-        // Smoothly lerp to target cleanliness
+        // Smoothly interpolate the displayed cleanliness
         displayedCleanlinessPercent = Mathf.Lerp(
             displayedCleanlinessPercent,
             targetCleanlinessPercent,
@@ -81,12 +80,11 @@ public class BulletinBoardUI : MonoBehaviour
         if (cleanlinessText != null)
             cleanlinessText.text = $"Store Cleanliness: {Mathf.RoundToInt(displayedCleanlinessPercent)}%";
 
-        // Update stocking UI
+        // Update stocking progress
         if (stockingText != null && boxManager != null)
         {
             int currentZone = boxManager.GetCurrentZoneIndex();
             int totalZones = boxManager.stockZones.Count;
-
             stockingText.text = $"Shelves Stocked: {currentZone}/{totalZones} Zones";
         }
     }
@@ -101,11 +99,7 @@ public class BulletinBoardUI : MonoBehaviour
         int totalProblems = currentMesses + currentTrash;
         int maxProblems = maxMesses + maxTrash;
 
-        if (maxProblems > 0)
-            displayedCleanlinessPercent = ((float)(maxProblems - totalProblems) / maxProblems) * 100f;
-        else
-            displayedCleanlinessPercent = 100f;
-
+        displayedCleanlinessPercent = ((float)(maxProblems - totalProblems) / maxProblems) * 100f;
         targetCleanlinessPercent = displayedCleanlinessPercent;
 
         if (cleanlinessText != null)
