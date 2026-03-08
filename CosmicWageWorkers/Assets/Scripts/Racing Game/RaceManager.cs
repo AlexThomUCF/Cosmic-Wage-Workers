@@ -324,7 +324,7 @@ public class RaceManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         loader.LoadSceneByName(mainSceneName);
-        //SceneManager.LoadScene(mainSceneName);
+        SceneManager.LoadScene(mainSceneName);
     }
     public void ExitToMainScene()
     {
