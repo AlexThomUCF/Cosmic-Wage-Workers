@@ -13,7 +13,7 @@ public class HandStamina : MonoBehaviour
 
     [Header("Settings")]
     public float maxStamina = 100f;
-    public float drainRate = 10f;
+    public float drainRate = 7f;
     public float regenRate = 12f;
 
     [Header("Lose Settings")]
