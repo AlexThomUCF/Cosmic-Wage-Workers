@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class AGPlayerMovement : MonoBehaviour
 {
+    [Header("Audio")]
+    public AudioSource jumpSound;
+
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 6f;
@@ -56,6 +59,7 @@ public class AGPlayerMovement : MonoBehaviour
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            jumpSound.Play();
             jumpBufferCounter = 0f; // Reset jump buffer after jumping
             coyoteTimeCounter = 0f; // Reset coyote time after jumping
         }

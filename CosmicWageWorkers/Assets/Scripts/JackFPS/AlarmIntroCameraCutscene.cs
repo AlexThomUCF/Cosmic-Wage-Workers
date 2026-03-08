@@ -82,7 +82,7 @@ public class MultiCameraCutscene : MonoBehaviour
         if (playerController) playerController.enabled = true;
         if (shootingScript) shootingScript.enabled = true;
         if (propManager) propManager.StartSpawning();
-        if (sequenceManager) sequenceManager.enabled = false;
+        if (sequenceManager) sequenceManager.enabled = true;
         if (hudCanvas) hudCanvas.SetActive(true);
     }
 }
