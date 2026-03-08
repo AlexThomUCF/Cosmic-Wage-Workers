@@ -8,6 +8,7 @@ public class GravitySFX : MonoBehaviour
     public AudioClip boost;
     public AudioClip obstacle;
     public AudioClip clickSFX;
+    public AudioClip fartSFX;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
