@@ -14,12 +14,6 @@ public class BoxPickUp : MonoBehaviour
 
     private PlayerControls controls;
 
-    [Header("Pickup Indicator")]
-    public Image pickupIndicator;       // UI icon in center
-    public float indicatorScaleSpeed = 5f;
-    public float maxIndicatorScale = 1f;   // fully visible
-    public float minIndicatorScale = 0f;   // hidden
-
     private void Awake()
     {
         controls = new PlayerControls();
@@ -46,28 +40,6 @@ public class BoxPickUp : MonoBehaviour
             heldBox.transform.position = holdPoint.position;
             heldBox.transform.rotation = holdPoint.rotation;
         }
-    }
-
-    private void Update()
-    {
-        // Smoothly grow/shrink pickup indicator
-        if (pickupIndicator != null)
-        {
-            float targetScale = IsLookingAtBox() ? maxIndicatorScale : minIndicatorScale;
-            float newScale = Mathf.Lerp(pickupIndicator.transform.localScale.x, targetScale, Time.unscaledDeltaTime * indicatorScaleSpeed);
-            pickupIndicator.transform.localScale = new Vector3(newScale, newScale, newScale);
-        }
-    }
-
-    private bool IsLookingAtBox()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(cameraOBJ.transform.position, cameraOBJ.transform.forward, out hit, maxPickupRange))
-        {
-            if (hit.transform.CompareTag("Box"))
-                return true;
-        }
-        return false;
     }
 
     private void Interact()
