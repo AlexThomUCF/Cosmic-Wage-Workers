@@ -67,7 +67,7 @@ public class WindowMessManager : MonoBehaviour
             }
 
     // Spawn goo
-    GameObject goo = Instantiate(prefab, spawnPos, Quaternion.Euler(0f, 90f, 0f));
+    GameObject goo = Instantiate(prefab, spawnPos, Quaternion.Euler(0f, 90f, Random.Range(0f, 360f)));
 
     // Random scale
     float randomScale = Random.Range(minScale, maxScale);
