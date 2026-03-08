@@ -65,6 +65,8 @@ public class BathroomsUnhide : MonoBehaviour
     public bool horrorGameStarted = true; 
     public bool doorOpened = false;
 
+    [Header("Customer Interaction ID")]
+    public string interactionID;
 
 
     private bool firstSectionOpened = true;
@@ -341,6 +343,11 @@ public class BathroomsUnhide : MonoBehaviour
     {
         if (!horrorGameStarted && canLeaveBathroom)
         {
+            if(!string.IsNullOrEmpty(interactionID))
+            {
+                CustomerManager.MarkInteractionComplete(interactionID);
+            }
+            FinalMiniGame.miniGameCount++;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         }
         else
