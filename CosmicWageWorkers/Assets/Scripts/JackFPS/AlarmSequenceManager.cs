@@ -43,7 +43,8 @@ public class AlarmSequenceManager : MonoBehaviour
 
     private int currentSequenceLength;
     public bool acceptingInput = false;
-    private float timer;
+    private float sequenceTimer;
+
 
     void Awake()
     {
@@ -60,16 +61,17 @@ public class AlarmSequenceManager : MonoBehaviour
         StartCoroutine(InitialDelay());
     }
 
-    void Update()
+        void Update()
     {
         if (!acceptingInput)
             return;
 
-        timer -= Time.deltaTime;
+        sequenceTimer -= Time.deltaTime;
 
-        if (timer <= 0f)
+        if (sequenceTimer <= 0f)
         {
             Debug.Log("SEQUENCE FAILED — time ran out");
+
             acceptingInput = false;
             OnSequenceFailed();
         }
@@ -125,7 +127,7 @@ public class AlarmSequenceManager : MonoBehaviour
         foreach (int id in currentSequence)
             alarms[id].SetActive();
 
-        timer = currentSequence.Count * timePerAlarm;
+        sequenceTimer = currentSequence.Count * timePerAlarm;
         acceptingInput = true;
     }
 
@@ -224,6 +226,8 @@ public class AlarmSequenceManager : MonoBehaviour
 
     void ResetAllAlarms()
     {
+        sequenceTimer = 0f;
+
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
     }

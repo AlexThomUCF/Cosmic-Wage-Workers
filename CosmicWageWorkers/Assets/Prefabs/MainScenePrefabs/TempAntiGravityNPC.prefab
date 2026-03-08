@@ -125,6 +125,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2777375819355743152}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3454308387118735362}
   m_SourcePrefab: {fileID: 100100000, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
 --- !u!1 &1611704948359441533 stripped
 GameObject:
@@ -165,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialogueData: {fileID: 11400000, guid: 7320326f087f18740aa5fca3aa0b46d4, type: 2}
+  loader: {fileID: 0}
   normalCam: {fileID: 0}
   dialogueCam: {fileID: 0}
   dialogueCameraPos: {fileID: 6889064409363780064}
@@ -173,16 +177,16 @@ MonoBehaviour:
     onChosen:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 546548270952430718}
-          m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-          m_MethodName: LoadSceneByName
-          m_Mode: 5
+        - m_Target: {fileID: 3454308387118735362}
+          m_TargetAssemblyTypeName: SetActive2, Assembly-CSharp
+          m_MethodName: ActivateObject
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: AntiGravityTest
+            m_StringArgument: AGRework
             m_BoolArgument: 0
           m_CallState: 2
   - choiceText: No
@@ -231,6 +235,7 @@ MonoBehaviour:
   transitonAnim: {fileID: 0}
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
+  targetImage: {fileID: 0}
 --- !u!54 &2777375819355743152
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -258,6 +263,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!114 &3454308387118735362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611704948359441533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8245ea3d837ab2d4fa3dd400df3f758f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetActive2
+  door: {fileID: 0}
 --- !u!4 &2095930503164360391 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a70304bcdb2d606438dceb8f5e1ceac3, type: 3}
