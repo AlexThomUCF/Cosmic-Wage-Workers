@@ -396,12 +396,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e351e0257e89c459009d421eae8e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC
-  dialogueData: {fileID: 11400000, guid: 98a3c803ed68f8f4c8f3248635ce9e22, type: 2}
+  dialogueData: {fileID: 11400000, guid: 8c64ee31b09e52d468c26f9a2a03f932, type: 2}
+  loader: {fileID: 0}
   normalCam: {fileID: 0}
   dialogueCam: {fileID: 0}
   dialogueCameraPos: {fileID: 2306535003764021660}
   choiceEvents:
-  - choiceText: Yes
+  - choiceText: I'll do my best
     onChosen:
       m_PersistentCalls:
         m_Calls:
@@ -436,6 +437,7 @@ MonoBehaviour:
   transitonAnim: {fileID: 0}
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
+  targetImage: {fileID: 0}
 --- !u!114 &8813415100285152345
 MonoBehaviour:
   m_ObjectHideFlags: 0

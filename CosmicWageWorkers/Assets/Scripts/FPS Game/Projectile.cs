@@ -25,6 +25,9 @@ public class Projectile : MonoBehaviour
             {
                 player.FreezeHit();
                 AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                SoundEffectManager.Play("Freeze");
+                Destroy(gameObject);
+
                 slimehitEffect.Instance.PlayEffect();
             }
         }
