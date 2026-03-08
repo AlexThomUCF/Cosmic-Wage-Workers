@@ -42,7 +42,7 @@ public class WindowMessManager : MonoBehaviour
             for (int attempt = 0; attempt < 10; attempt++)
             {
                 Vector3 localOffset = new Vector3(
-                    Random.Range(0f, 0.2f),
+                    -0.2f,
                     Random.Range(-2f, 2f),
                     Random.Range(-1f, 1f)
                 );
