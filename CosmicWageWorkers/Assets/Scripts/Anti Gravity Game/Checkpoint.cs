@@ -6,9 +6,10 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public GameObject checkpoint1;
     public GameObject checkpoint2;
     public GameObject checkpoint3;
-    public bool checkpoint1Reached = false;
-    public bool checkpoint2Reached = false;
-    public bool checkpoint3Reached = false;
+    private bool checkpoint1Reached = false;
+    private bool checkpoint2Reached = false;
+    private bool checkpoint3Reached = false;
+    public float fallThreshold;
     public Vector3 startingPosition;
     public Vector3 checkpointPosition1;
     public Vector3 checkpointPosition2;
@@ -22,25 +23,25 @@ public class NewMonoBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < -10.0f && !checkpoint1Reached && !checkpoint2Reached && !checkpoint3Reached)
+        if (transform.position.y < fallThreshold && !checkpoint1Reached && !checkpoint2Reached && !checkpoint3Reached)
         {
             transform.position = startingPosition;
             MomentumHalted();
 
         }
 
-        if (transform.position.y < -10.0f && checkpoint1Reached && !checkpoint2Reached && !checkpoint3Reached)
+        if (transform.position.y < fallThreshold && checkpoint1Reached && !checkpoint2Reached && !checkpoint3Reached)
         {
             transform.position = checkpointPosition1;
             MomentumHalted();
         }
 
-        if (transform.position.y < -10.0f && checkpoint1Reached && checkpoint2Reached && !checkpoint3Reached)
+        if (transform.position.y < fallThreshold && checkpoint1Reached && checkpoint2Reached && !checkpoint3Reached)
         {
             transform.position = checkpointPosition2;
             MomentumHalted();
         }
-        if (transform.position.y < -10.0f && checkpoint1Reached && checkpoint2Reached && checkpoint3Reached)
+        if (transform.position.y < fallThreshold && checkpoint1Reached && checkpoint2Reached && checkpoint3Reached)
         {
             transform.position = checkpointPosition3;
             MomentumHalted();

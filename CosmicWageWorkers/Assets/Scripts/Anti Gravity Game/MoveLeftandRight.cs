@@ -3,8 +3,9 @@ using UnityEngine.Rendering;
 
 public class MoveLeftandRight : MonoBehaviour
 {
-    public float xLeftTimer = 3f;
-    public float xRightTimer = 3f;
+    public float xLeftThreshold;
+    public float xRightThreshold;
+    public float startingThreshold;
     public bool moveLeft;
     public bool moveRight;
 
@@ -21,24 +22,25 @@ public class MoveLeftandRight : MonoBehaviour
         if (moveRight)
         {
             transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
-            xRightTimer -= Time.deltaTime;
-            if (xRightTimer <= 0f)
+            xLeftThreshold -= Time.deltaTime;
+            if (xLeftThreshold <= 0f)
             {
                 moveRight = false;
                 moveLeft = true;
-                xRightTimer = 3f;
+                xLeftThreshold = startingThreshold;
             }
         }
-        if (moveLeft)
+        else if (moveLeft)
         {
             transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
-            xLeftTimer -= Time.deltaTime;
-            if (xLeftTimer <= 0f)
+            xRightThreshold -= Time.deltaTime;
+            if (xRightThreshold <= 0f)
             {
                 moveRight = true;
                 moveLeft = false;
-                xLeftTimer = 3f;
+                xRightThreshold = startingThreshold;
             }
         }
     }
 }
+
