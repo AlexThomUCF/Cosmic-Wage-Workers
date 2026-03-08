@@ -10,6 +10,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] public Canvas canvas;
     [SerializeField] public Image targetImage;
     NPCDialogue dialogueData;
+    public static bool isLoading = false;
 
     public void Awake()
     {
@@ -44,6 +45,8 @@ public class SceneLoader : MonoBehaviour
     }
     public IEnumerator LoadLevel(string sceneName)
     {
+        isLoading = true;
+
         transitonAnim.SetTrigger("End");
         ExitDialogue();
         Debug.Log("Doing transition");
@@ -53,6 +56,8 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(sceneName);
         transitonAnim.SetTrigger("Start");
         canvas.sortingOrder = -1;
+
+        isLoading = false;
         //change scene
     }
 

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class AGPlayerMovement : MonoBehaviour
 {
-    [Header("aUDIO")]
+    [Header("Audio")]
     public AudioSource jumpSound;
 
     [Header("Movement Settings")]
@@ -27,6 +27,8 @@ public class AGPlayerMovement : MonoBehaviour
     private float coyoteTime = 0.2f; 
     private float jumpBufferCounter;
     private float jumpBufferTime = 0.2f;
+
+    public ParticleSystem fartParticles;
 
     private void Awake()
     {
@@ -114,6 +116,16 @@ public class AGPlayerMovement : MonoBehaviour
         {
             Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Boost"))
+        {
+            fartParticles.Play();
+            GravitySFX gravitySFXScript = GameObject.Find("AudioManager").GetComponent<GravitySFX>();
+            gravitySFXScript.clipAudioSource.PlayOneShot(gravitySFXScript.fartSFX);
         }
     }
 }

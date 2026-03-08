@@ -24,6 +24,10 @@ public class RaceIntroManager : MonoBehaviour
     public GameObject countdownCanvas;
     public TextMeshProUGUI countdownText;
 
+    [Header("Countdown SFX")]
+    public AudioSource countdownsfx;
+    public AudioSource goSFX;
+
     public GameObject gameplayHUD;
 
     private Rigidbody[] aiBodies;
@@ -121,16 +125,20 @@ public class RaceIntroManager : MonoBehaviour
         countdownText.transform.localScale = Vector3.one;
 
         countdownText.text = "3";
+        countdownsfx.Play();
         yield return new WaitForSeconds(1f);
 
         countdownText.text = "2";
+        countdownsfx.Play();
         yield return new WaitForSeconds(1f);
 
         countdownText.text = "1";
+        countdownsfx.Play();
         yield return new WaitForSeconds(1f);
 
         // GO POP EFFECT
         countdownText.text = "GO!";
+        goSFX.Play();
         yield return StartCoroutine(GoPopEffect());
 
         yield return new WaitForSeconds(0.6f);

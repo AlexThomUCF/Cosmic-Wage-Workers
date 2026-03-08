@@ -14,7 +14,7 @@ public class AlarmNode : MonoBehaviour
     public Material successMat;
     public float successFlashTime = 0.2f;
 
-    public float repeatDelay = 1.5f; // delay between repeats when active
+    public float repeatDelay = 1.5f;
 
     [Header("Flicker Settings")]
     public float flickerSpeed = 0.2f;
@@ -49,12 +49,15 @@ public class AlarmNode : MonoBehaviour
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
+        if (audioRoutine != null)
+            StopCoroutine(audioRoutine);
+
         audioSource.Stop();
 
         rend.material = idleMat;
     }
 
-        public void Reveal()
+    public void Reveal()
     {
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
@@ -64,16 +67,18 @@ public class AlarmNode : MonoBehaviour
         PlaySoundOnce();
     }
 
-        public void SetActive()
+    public void SetActive()
     {
         isActive = true;
 
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
-        flickerRoutine = StartCoroutine(Flicker());
+        if (audioRoutine != null)
+            StopCoroutine(audioRoutine);
 
-        StartCoroutine(LoopSound());
+        flickerRoutine = StartCoroutine(Flicker());
+        audioRoutine = StartCoroutine(LoopSound());
     }
 
     IEnumerator Flicker()
@@ -84,9 +89,16 @@ public class AlarmNode : MonoBehaviour
         {
             rend.material = red ? activeMat : idleMat;
             red = !red;
-            yield return new WaitForSeconds(flickerSpeed);
+
+            // Get remaining time percent from manager
+            float timerPercent = AlarmSequenceManager.Instance.GetTimerPercent();
+
+            // Faster flicker as time runs out
+            float flashSpeed = Mathf.Lerp(0.05f, flickerSpeed, timerPercent);
+
+            yield return new WaitForSeconds(flashSpeed);
         }
-    } 
+    }
 
     void StopAudioImmediate()
     {
@@ -96,7 +108,7 @@ public class AlarmNode : MonoBehaviour
         audioSource.Stop();
     }
 
-        public void OnShot()
+    public void OnShot()
     {
         if (!isActive) return;
 
@@ -105,7 +117,7 @@ public class AlarmNode : MonoBehaviour
         if (flickerRoutine != null)
             StopCoroutine(flickerRoutine);
 
-        audioSource.Stop();
+        StopAudioImmediate();
 
         StartCoroutine(SuccessFlash());
 
@@ -134,11 +146,12 @@ public class AlarmNode : MonoBehaviour
     IEnumerator CutsceneFlash()
     {
         yield return new WaitForSeconds(0.25f);
+
         if (rend != null && idleMat != null)
             rend.material = idleMat;
     }
 
-        void PlaySoundOnce()
+    void PlaySoundOnce()
     {
         if (alarmClip == null) return;
 
@@ -157,7 +170,7 @@ public class AlarmNode : MonoBehaviour
         }
     }
 
-        IEnumerator SuccessFlash()
+    IEnumerator SuccessFlash()
     {
         rend.material = successMat;
 

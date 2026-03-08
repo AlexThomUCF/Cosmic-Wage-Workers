@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class AlarmSequenceManager : MonoBehaviour
 {
@@ -36,6 +37,10 @@ public class AlarmSequenceManager : MonoBehaviour
     public AudioClip successClip;
     public AudioClip failClip;
 
+    [Header("UI")]
+    public TextMeshProUGUI clearGroceriesText;
+    public UIFlashMessage clearGroceriesMessage;
+
     private int consecutiveFailures = 0;
 
     private List<int> currentSequence = new List<int>();
@@ -43,7 +48,8 @@ public class AlarmSequenceManager : MonoBehaviour
 
     private int currentSequenceLength;
     public bool acceptingInput = false;
-    private float timer;
+    private float sequenceTimer;
+
 
     void Awake()
     {
@@ -60,16 +66,17 @@ public class AlarmSequenceManager : MonoBehaviour
         StartCoroutine(InitialDelay());
     }
 
-    void Update()
+        void Update()
     {
         if (!acceptingInput)
             return;
 
-        timer -= Time.deltaTime;
+        sequenceTimer -= Time.deltaTime;
 
-        if (timer <= 0f)
+        if (sequenceTimer <= 0f)
         {
             Debug.Log("SEQUENCE FAILED — time ran out");
+
             acceptingInput = false;
             OnSequenceFailed();
         }
@@ -125,7 +132,7 @@ public class AlarmSequenceManager : MonoBehaviour
         foreach (int id in currentSequence)
             alarms[id].SetActive();
 
-        timer = currentSequence.Count * timePerAlarm;
+        sequenceTimer = currentSequence.Count * timePerAlarm;
         acceptingInput = true;
     }
 
@@ -174,6 +181,13 @@ public class AlarmSequenceManager : MonoBehaviour
 
             if (propManager != null)
                 propManager.spawningEnabled = false;
+                
+            if (clearGroceriesText != null)
+                clearGroceriesText.gameObject.SetActive(true);
+            if (clearGroceriesMessage != null)
+            {
+                clearGroceriesMessage.FlashMessage();
+            }
 
             StartCoroutine(WaitForRemainingProps());
         }
@@ -224,6 +238,8 @@ public class AlarmSequenceManager : MonoBehaviour
 
     void ResetAllAlarms()
     {
+        sequenceTimer = 0f;
+
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
     }
@@ -242,5 +258,14 @@ public class AlarmSequenceManager : MonoBehaviour
         yield return new WaitForSeconds(endDelay);
 
         LoadNextScene();
+    }
+
+        public float GetTimerPercent()
+    {
+        if (!acceptingInput)
+            return 1f;
+
+        float maxTime = currentSequence.Count * timePerAlarm;
+        return sequenceTimer / maxTime;
     }
 }

@@ -172,7 +172,10 @@ public class NPC : MonoBehaviour, IInteraction
         {
             dialogueUI.SetDialogueText(dialogueUI.dialogueText.text += letter);
 
-            SoundEffectManager.PlayVoice(dialogueData.voiceSound, dialogueData.voicePitch);
+            if (!SceneLoader.isLoading)
+            {
+                SoundEffectManager.PlayVoice(dialogueData.voiceSound, dialogueData.voicePitch);
+            }
             yield return new WaitForSeconds(dialogueData.typingSpeed);
         }
 

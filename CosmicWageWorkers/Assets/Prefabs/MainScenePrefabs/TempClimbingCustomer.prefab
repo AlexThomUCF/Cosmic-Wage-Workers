@@ -169,12 +169,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e351e0257e89c459009d421eae8e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  dialogueData: {fileID: 11400000, guid: babc372b55929524a80b67a5e19560d7, type: 2}
+  dialogueData: {fileID: 11400000, guid: d83a7ca4232a3a946b12857842df8876, type: 2}
+  loader: {fileID: 0}
   normalCam: {fileID: 0}
   dialogueCam: {fileID: 0}
   dialogueCameraPos: {fileID: 6966906856082035712}
   choiceEvents:
-  - choiceText: Yes
+  - choiceText: "Alright I\u2019m in!"
     onChosen:
       m_PersistentCalls:
         m_Calls:
@@ -236,6 +237,7 @@ MonoBehaviour:
   transitonAnim: {fileID: 0}
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
+  targetImage: {fileID: 0}
 --- !u!54 &7653915277910317547
 Rigidbody:
   m_ObjectHideFlags: 0
