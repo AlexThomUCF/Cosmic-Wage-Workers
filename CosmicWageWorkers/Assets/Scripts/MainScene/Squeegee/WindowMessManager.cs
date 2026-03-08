@@ -36,7 +36,9 @@ public class WindowMessManager : MonoBehaviour
             // Pick a random prefab from the list
             GameObject prefab = gooPrefabs[Random.Range(0, gooPrefabs.Count)];
             Vector3 offset = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), 0f);
-            GameObject goo = Instantiate(prefab, window.position + offset, Quaternion.identity);
+
+            // Instantiate with fixed Y rotation so the goo faces correctly
+            GameObject goo = Instantiate(prefab, window.position + offset, Quaternion.Euler(0f, 270f, 0f));
             goo.transform.up = Vector3.up;
             activeGoo.Add(goo);
         }
