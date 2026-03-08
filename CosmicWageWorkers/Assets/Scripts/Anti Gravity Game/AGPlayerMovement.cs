@@ -28,6 +28,8 @@ public class AGPlayerMovement : MonoBehaviour
     private float jumpBufferCounter;
     private float jumpBufferTime = 0.2f;
 
+    public ParticleSystem fartParticles;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -114,6 +116,16 @@ public class AGPlayerMovement : MonoBehaviour
         {
             Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Boost"))
+        {
+            fartParticles.Play();
+            GravitySFX gravitySFXScript = GameObject.Find("AudioManager").GetComponent<GravitySFX>();
+            gravitySFXScript.clipAudioSource.PlayOneShot(gravitySFXScript.fartSFX);
         }
     }
 }
