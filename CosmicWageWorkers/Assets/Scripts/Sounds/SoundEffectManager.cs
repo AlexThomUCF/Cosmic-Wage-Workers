@@ -9,7 +9,7 @@ public class SoundEffectManager : MonoBehaviour
     private static AudioSource audioSource;
     private static AudioSource voiceAudioSource;
     private static SoundEffectLibrary soundEffectLibrary;
-    [SerializeField] private  Slider sfxsSlider;
+   
 
     private void Awake()
     {
@@ -31,10 +31,7 @@ public class SoundEffectManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        sfxsSlider.onValueChanged.AddListener(delegate { OnValueChange(); });
-    }
+ 
 
     public static void Play(string soundName)
     {
@@ -55,10 +52,5 @@ public class SoundEffectManager : MonoBehaviour
     {
         audioSource.volume = volume;
         voiceAudioSource.volume = volume;
-    }
-
-    public  void OnValueChange()
-    {
-        SetVolume(sfxsSlider.value);
     }
 }

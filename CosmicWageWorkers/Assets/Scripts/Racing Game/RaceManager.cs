@@ -324,7 +324,6 @@ public class RaceManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         loader.LoadSceneByName(mainSceneName);
-        SceneManager.LoadScene(mainSceneName);
     }
     public void ExitToMainScene()
     {
@@ -332,7 +331,6 @@ public class RaceManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // SceneManager.LoadScene(mainSceneName);
         loader.LoadSceneByName(mainSceneName);
 
         //Add save, save that this game completed. 
