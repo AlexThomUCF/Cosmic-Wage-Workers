@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class AGPlayerMovement : MonoBehaviour
 {
-    [Header("aUDIO")]
+    [Header("Audio")]
     public AudioSource jumpSound;
 
     [Header("Movement Settings")]
