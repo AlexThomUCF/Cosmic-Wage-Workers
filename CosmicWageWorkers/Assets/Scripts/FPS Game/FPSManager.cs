@@ -1,5 +1,6 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FPSManager : MonoBehaviour
@@ -82,6 +83,13 @@ public class FPSManager : MonoBehaviour
     void WinGame()
     {
         gameEnded = true;
+
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "FPSMainScene")
+        {
+            FindFirstObjectByType<ReturnMainMenu>().ReturnToMainMenu();
+            return;
+        }
 
         if (!string.IsNullOrEmpty(interactionID))
         {
