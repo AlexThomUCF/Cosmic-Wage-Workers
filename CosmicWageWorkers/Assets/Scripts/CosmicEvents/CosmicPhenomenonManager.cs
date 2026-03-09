@@ -78,7 +78,11 @@ public class CosmicPhenomenonManager : MonoBehaviour
                 if (eclipse != null) eclipse.TriggerEclipse();
                 break;
             case 4:
-                if (primordialSoup != null) primordialSoup.TriggerSoup();
+                if (primordialSoup != null && primordialSoup.soupPrefab != null)
+                {
+                    Transform spawnPoint = primordialSoup.spawnPoints[Random.Range(0, primordialSoup.spawnPoints.Length)];
+                    Instantiate(primordialSoup.soupPrefab, spawnPoint.position, Quaternion.identity);
+                }
                 break;
         }
     }
