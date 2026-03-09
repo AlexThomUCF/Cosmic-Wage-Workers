@@ -13,8 +13,7 @@ public class GravityManager : MonoBehaviour
 
     void Start()
     {
-        // Save the normal gravity at the start
-        originalGravity = Physics.gravity;
+        Physics.gravity = new Vector3(0, gravityScale, 0);
 
     }
 
@@ -33,11 +32,6 @@ public class GravityManager : MonoBehaviour
 
                 FinalMiniGame.miniGameCount++;
                 SaveSystem.SaveGame();
-
-                // Reset gravity back to normal before leaving mini-game
-                Physics.gravity = originalGravity;
-
-
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
                 Debug.Log("Loading Next Level");
 
