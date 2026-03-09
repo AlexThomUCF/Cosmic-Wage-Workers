@@ -91,12 +91,6 @@ public class FPSManager : MonoBehaviour
             return;
         }
 
-        if (!string.IsNullOrEmpty(interactionID))
-        {
-            CustomerManager.MarkInteractionComplete(interactionID);
-        }
-
-        FinalMiniGame.miniGameCount++;
         loader.LoadSceneByName(nextSceneName);
     }
 

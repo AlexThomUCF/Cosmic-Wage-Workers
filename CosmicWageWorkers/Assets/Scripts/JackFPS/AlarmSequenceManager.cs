@@ -41,6 +41,9 @@ public class AlarmSequenceManager : MonoBehaviour
     public TextMeshProUGUI clearGroceriesText;
     public UIFlashMessage clearGroceriesMessage;
 
+    [Header("Customer Interaction ID")]
+    public string interactionID;
+
     private int consecutiveFailures = 0;
 
     private List<int> currentSequence = new List<int>();
@@ -257,6 +260,12 @@ public class AlarmSequenceManager : MonoBehaviour
 
         yield return new WaitForSeconds(endDelay);
 
+        if (!string.IsNullOrEmpty(interactionID))
+        {
+            CustomerManager.MarkInteractionComplete(interactionID);
+        }
+
+        FinalMiniGame.miniGameCount++;
         LoadNextScene();
     }
 
