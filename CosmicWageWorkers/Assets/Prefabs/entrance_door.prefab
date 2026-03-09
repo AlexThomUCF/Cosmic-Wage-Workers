@@ -225,6 +225,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3259627158690668725, guid: 8233ae2f7d554b64ba98c3cb7109a139, type: 3}
+--- !u!4 &1118515871714268962 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2625576695427977809, guid: 8233ae2f7d554b64ba98c3cb7109a139, type: 3}
+  m_PrefabInstance: {fileID: 3164386036615546227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1248347402052954412 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4231462857457855583, guid: 8233ae2f7d554b64ba98c3cb7109a139, type: 3}
@@ -252,8 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6defc414cf16de469571c2134f29e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlidingDoorController
-  leftGlassDoor: {fileID: 0}
-  leftSlidingDoor: {fileID: 0}
+  leftGlassDoor: {fileID: 5102660575244548392}
+  leftSlidingDoor: {fileID: 1118515871714268962}
   rightGlassDoor: {fileID: 1708870240525582260}
   rightSlidingDoor: {fileID: 1248347402052954412}
   closedXPosition: -0.09
@@ -263,8 +268,13 @@ MonoBehaviour:
   doorSpeed: 10
   triggerRadius: 7.5
   audioSource: {fileID: 0}
-  doorOpenSound: {fileID: 0}
-  doorCloseSound: {fileID: 0}
+  doorOpenSound: {fileID: 8300000, guid: 31213908eb663e246936c12ec7ffefc4, type: 3}
+  doorCloseSound: {fileID: 8300000, guid: 6713fcdff5249d5499043bb83db67441, type: 3}
+--- !u!4 &5102660575244548392 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1352660334296794021, guid: 8233ae2f7d554b64ba98c3cb7109a139, type: 3}
+  m_PrefabInstance: {fileID: 3164386036615546227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8086206488176264346 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2603694520388714007, guid: 8233ae2f7d554b64ba98c3cb7109a139, type: 3}
