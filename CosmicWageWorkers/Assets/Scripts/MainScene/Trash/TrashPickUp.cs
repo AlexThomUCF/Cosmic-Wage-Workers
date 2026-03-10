@@ -6,6 +6,7 @@ public class TrashPickup : MonoBehaviour
     public Transform holdPoint;
     public GameObject cameraOBJ;
     public float maxPickupRange = 3f;
+    public AudioSource Pickuptrashsound;
 
     [Header("Scale Settings")]
     public Vector3 heldScale = new Vector3(0.4f, 0.4f, 0.4f);
@@ -78,6 +79,7 @@ private void PickupTrash(GameObject trash)
 
     // Ensure the trash bag is upright
     trash.transform.up = Vector3.up;
+        Pickuptrashsound.Play();
 }
 
     public void DropTrash()

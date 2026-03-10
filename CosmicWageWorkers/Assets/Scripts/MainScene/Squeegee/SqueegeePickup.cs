@@ -6,6 +6,7 @@ public class SqueegeePickup : MonoBehaviour
     public Transform holdPoint;
     public GameObject cameraOBJ;
     public float maxPickupRange = 3f;
+    public AudioSource Pickupsqgsound;
 
     [Header("Scale Settings")]
     public Vector3 heldScale = new Vector3(1f, 1f, 1f);
@@ -75,6 +76,7 @@ public class SqueegeePickup : MonoBehaviour
         squeegee.transform.localScale = heldScale;
 
         squeegee.transform.up = Vector3.up;
+            Pickupsqgsound.Play();
     }
 
     public void DropSqueegee()

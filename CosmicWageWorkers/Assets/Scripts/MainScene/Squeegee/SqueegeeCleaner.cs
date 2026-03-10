@@ -4,6 +4,7 @@ public class SqueegeeCleaner : MonoBehaviour
 {
     public GameObject cameraOBJ;
     public float cleanRange = 3f;
+    public AudioSource cleanSfx;
 
     public SqueegeePickup squeegeePickup;
     public WindowMessManager messManager;
@@ -37,6 +38,7 @@ public class SqueegeeCleaner : MonoBehaviour
             if (hit.transform.CompareTag("Goo"))
             {
                 messManager.RemoveGoo(hit.transform.gameObject);
+                    cleanSfx.Play();
             }
         }
     }
