@@ -7,6 +7,7 @@ public class BoxPickUp : MonoBehaviour
     public GameObject cameraOBJ;
     public Transform holdPoint;
     public float maxPickupRange = 3f;
+    public AudioSource PickupboxSound;
 
     private GameObject heldBox;
     private bool isHolding = false;
@@ -83,6 +84,7 @@ public class BoxPickUp : MonoBehaviour
                 }
 
                 isHolding = true;
+                    PickupboxSound.Play();
             }
         }
     }

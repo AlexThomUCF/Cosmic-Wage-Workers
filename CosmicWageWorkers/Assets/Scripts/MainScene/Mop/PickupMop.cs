@@ -6,6 +6,8 @@ public class PickupMop : MonoBehaviour
     public float pickupRange = 2f;
     public LayerMask mopLayer;
     public GameObject cameraOBJ;
+    public AudioSource PickupmopSound;
+
 
     private GameObject heldMop;
     private bool isHoldingMop;
@@ -69,6 +71,7 @@ public class PickupMop : MonoBehaviour
                 cleaningOffset = Vector3.zero;
 
                 isHoldingMop = true;
+                    PickupmopSound.Play();
             }
         }
     }
