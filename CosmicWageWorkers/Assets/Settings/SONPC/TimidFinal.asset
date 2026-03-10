@@ -28,7 +28,7 @@ MonoBehaviour:
   endDialogueLines: 00010001000101
   autoProgressDelay: 1.5
   typingSpeed: 0.04
-  voiceSound: {fileID: 0}
+  voiceSound: {fileID: 8300000, guid: e6d5fe5d87dfa4c4ba0131dc477062bf, type: 3}
   voicePitch: 0.91
   onClicks:
   - m_PersistentCalls:
@@ -62,16 +62,16 @@ MonoBehaviour:
   choices:
   - dialogueIndex: 0
     choices:
-    - 'Sure '
-    - No
+    - Sure how can I help
+    - No, I'm busy right now
     nextDialogueIndexs: 0200000001000000
   - dialogueIndex: 2
     choices:
-    - 'Sure '
-    - 'Can''t right now '
+    - Sure what is it?
+    - 'Can''t do that right now '
     nextDialogueIndexs: 0400000003000000
   - dialogueIndex: 4
     choices:
     - "Alright I\u2019m in!"
-    - One moment!
+    - Sure, just give me one moment!
     nextDialogueIndexs: 0600000005000000
