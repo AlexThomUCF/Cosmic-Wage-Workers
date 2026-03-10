@@ -24,7 +24,7 @@ MonoBehaviour:
   endDialogueLines: 000101
   autoProgressDelay: 1.5
   typingSpeed: 0.04
-  voiceSound: {fileID: 8300000, guid: e6d5fe5d87dfa4c4ba0131dc477062bf, type: 3}
+  voiceSound: {fileID: 0}
   voicePitch: 0.91
   onClicks:
   - m_PersistentCalls:
@@ -58,6 +58,6 @@ MonoBehaviour:
   choices:
   - dialogueIndex: 0
     choices:
-    - "Sure! I\u2019m coming right in to save you!"
-    - "Hold on just a second! I\u2019ll be right back!"
+    - Sure!
+    - Hold on
     nextDialogueIndexs: 0100000002000000

@@ -7243,6 +7243,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025835866}
   m_CullTransparentMesh: 1
+--- !u!1 &1038260257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1038260259}
+  - component: {fileID: 1038260258}
+  m_Layer: 0
+  m_Name: DebugWin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1038260258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038260257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 751b4805126e1284681794bf441d8eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugWin
+--- !u!4 &1038260259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038260257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 46.05013, y: 0.28265, z: -17.1481}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073219416
 GameObject:
   m_ObjectHideFlags: 0
@@ -18125,6 +18169,7 @@ SceneRoots:
   - {fileID: 7194297585609072432}
   - {fileID: 2596090339693378522}
   - {fileID: 543450652869703111}
+  - {fileID: 1038260259}
   - {fileID: 738725789}
   - {fileID: 1532886058}
   - {fileID: 2103643906}

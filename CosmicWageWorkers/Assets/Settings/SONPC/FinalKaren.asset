@@ -27,7 +27,7 @@ MonoBehaviour:
   endDialogueLines: 0000000001
   autoProgressDelay: 1.5
   typingSpeed: 0.04
-  voiceSound: {fileID: 8300000, guid: e6d5fe5d87dfa4c4ba0131dc477062bf, type: 3}
+  voiceSound: {fileID: 0}
   voicePitch: 0.91
   onClicks:
   - m_PersistentCalls:
@@ -61,11 +61,11 @@ MonoBehaviour:
   choices:
   - dialogueIndex: 2
     choices:
-    - Uh sure
-    - Umm, just one moment
+    - sure
+    - just one moment
     nextDialogueIndexs: 0300000004000000
   - dialogueIndex: 3
     choices:
     - Race
-    - Umm, just one moment
+    - just one moment
     nextDialogueIndexs: 0300000004000000
