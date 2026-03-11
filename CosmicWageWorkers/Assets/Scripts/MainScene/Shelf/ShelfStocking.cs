@@ -25,6 +25,9 @@ public class ShelfStocking : MonoBehaviour
     public float rowCooldown = 0.3f;
     private float lastRowTime = 0f;
 
+    [Header("Audio")]
+    public AudioSource completeSfx;
+
     private PlayerControls controls;
     private BoxPickUp playerPickup;
     private bool isPlayerNearby;
@@ -110,6 +113,9 @@ public class ShelfStocking : MonoBehaviour
             rowInShelf = 0;
             nextShelfIndex++;
         }
+
+        if (nextShelfIndex >= startPoints.Length)
+            completeSfx.Play();
 
         boxManager?.OnRowStocked();
         ShelfProgressData.SetShelfProgress(zoneIndex, nextShelfIndex, rowInShelf);

@@ -25,6 +25,8 @@ public class CustomerManager : MonoBehaviour
     public AudioSource intercomAudio;
     public AudioClip[] aisleAnnouncementClips;
 
+    public AudioSource Megaphone;
+
     [Header("Player References")]
     public BoxPickUp playerBoxPickup;
     public PickupMop playerMopPickup;
@@ -80,6 +82,12 @@ public class CustomerManager : MonoBehaviour
         // Switch to intercom cam
         mainCam.Priority = 0;
         intercomCam.Priority = 10;
+
+        yield return new WaitForSeconds(1f);
+
+        Megaphone.Play();
+
+
         yield return new WaitForSeconds(1.5f);
 
         // Pick random interaction
