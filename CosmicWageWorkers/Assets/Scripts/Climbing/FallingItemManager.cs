@@ -5,7 +5,7 @@ using System.Collections;
 public class FallingItemManager : MonoBehaviour
 {
     [Header("Falling Items")]
-    public GameObject fallingItemPrefab;
+    public GameObject[] fallingItemPrefabs; // changed to array
     public Transform[] spawnPoints;
 
     [Header("Timing")]
@@ -58,12 +58,15 @@ public class FallingItemManager : MonoBehaviour
 
     void SpawnFallingItem()
     {
-        if (spawnPoints.Length == 0 || fallingItemPrefab == null || stopSpawning) return;
+        if (spawnPoints.Length == 0 || fallingItemPrefabs.Length == 0 || stopSpawning) return;
 
         int colIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[colIndex];
 
-        GameObject item = Instantiate(fallingItemPrefab, spawnPoint.position, Quaternion.identity);
+        int prefabIndex = Random.Range(0, fallingItemPrefabs.Length);
+        GameObject chosenPrefab = fallingItemPrefabs[prefabIndex];
+
+        GameObject item = Instantiate(chosenPrefab, spawnPoint.position, Quaternion.identity);
 
         StartCoroutine(HandleFallingItem(item));
     }
