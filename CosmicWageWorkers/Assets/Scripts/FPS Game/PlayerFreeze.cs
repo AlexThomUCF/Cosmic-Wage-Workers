@@ -89,5 +89,10 @@ public class PlayerFreeze : MonoBehaviour
         currentFreeze = Mathf.Min(currentFreeze, maxFreeze);
         timeSinceHit = 0f; // reset thaw timer
     }
+
+    public void ClearFreeze()
+    {
+        currentFreeze = 0f;
+    }
 }
 
