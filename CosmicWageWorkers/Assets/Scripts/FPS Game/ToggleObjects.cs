@@ -7,6 +7,8 @@ public class ToggleObjects : MonoBehaviour
 
     void Update()
     {
+        //Change to new unity input system
+        //Change to scroll and 1 & 2
         // Press 1 ? enable object1, disable object2
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

@@ -19,9 +19,11 @@ public class DefrostSpawner : MonoBehaviour
         }
     }
 
+    //If defrostObj spawned in spot. Don't spawn new object
+
     void SpawnDefrost()
     {
-        int spawnCount = Random.Range(1, 3);
+        int spawnCount = Random.Range(1, 5);
 
         for (int i = 0; i < spawnCount; i++)
         {
