@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class TrashDispose : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Animator targetAnimator;
+    [SerializeField] private string[] animationStateNames;
 
-    // Update is called once per frame
-    void Update()
+    public void PlayAnimationFromList()
     {
-        
+        string stateName = animationStateNames[Random.Range(0, animationStateNames.Length)];
+        targetAnimator.Play(stateName, 0, 0f);
     }
 }
