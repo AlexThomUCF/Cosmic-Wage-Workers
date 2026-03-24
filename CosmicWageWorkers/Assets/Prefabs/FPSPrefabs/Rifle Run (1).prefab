@@ -69,19 +69,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9907143
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.13596034
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -89,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 15.628
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -405,6 +405,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8210665479388501665}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5088118052480347072}
   m_SourcePrefab: {fileID: 100100000, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}
 --- !u!1 &5074418919265094257 stripped
 GameObject:
@@ -539,6 +542,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000002, y: 2.51, z: 1.0000002}
   m_Center: {x: 0, y: 1.36, z: 0}
+--- !u!114 &5088118052480347072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074418919265094257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2451f7103714bae4cacf3f96ee054270, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtPlayer
+  player: {fileID: 0}
 --- !u!4 &5557483394106986699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 135f97e40f5b7714ba6b4659b46a33e0, type: 3}

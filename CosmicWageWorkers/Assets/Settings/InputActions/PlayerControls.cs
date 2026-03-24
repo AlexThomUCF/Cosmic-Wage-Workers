@@ -192,7 +192,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shield"",
+                    ""name"": ""Parry"",
                     ""type"": ""Button"",
                     ""id"": ""b2ba51ce-1dc1-45df-b4a1-9e8aac7d5332"",
                     ""expectedControlType"": """",
@@ -385,7 +385,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shield"",
+                    ""action"": ""Parry"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -419,7 +419,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Kiss = m_Gameplay.FindAction("Kiss", throwIfNotFound: true);
         m_Gameplay_Role = m_Gameplay.FindAction("Role", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
-        m_Gameplay_Shield = m_Gameplay.FindAction("Shield", throwIfNotFound: true);
+        m_Gameplay_Parry = m_Gameplay.FindAction("Parry", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -511,7 +511,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Kiss;
     private readonly InputAction m_Gameplay_Role;
     private readonly InputAction m_Gameplay_Attack;
-    private readonly InputAction m_Gameplay_Shield;
+    private readonly InputAction m_Gameplay_Parry;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -568,9 +568,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         /// <summary>
-        /// Provides access to the underlying input action "Gameplay/Shield".
+        /// Provides access to the underlying input action "Gameplay/Parry".
         /// </summary>
-        public InputAction @Shield => m_Wrapper.m_Gameplay_Shield;
+        public InputAction @Parry => m_Wrapper.m_Gameplay_Parry;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -630,9 +630,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @Shield.started += instance.OnShield;
-            @Shield.performed += instance.OnShield;
-            @Shield.canceled += instance.OnShield;
+            @Parry.started += instance.OnParry;
+            @Parry.performed += instance.OnParry;
+            @Parry.canceled += instance.OnParry;
         }
 
         /// <summary>
@@ -677,9 +677,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @Shield.started -= instance.OnShield;
-            @Shield.performed -= instance.OnShield;
-            @Shield.canceled -= instance.OnShield;
+            @Parry.started -= instance.OnParry;
+            @Parry.performed -= instance.OnParry;
+            @Parry.canceled -= instance.OnParry;
         }
 
         /// <summary>
@@ -811,11 +811,11 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Shield" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Parry" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnShield(InputAction.CallbackContext context);
+        void OnParry(InputAction.CallbackContext context);
     }
 }

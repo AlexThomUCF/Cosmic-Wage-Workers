@@ -11,6 +11,7 @@ public class EnemyBase : MonoBehaviour
     public Material dmgMaterial;
     public Material currentMaterial;
     private Renderer enemyRenderer;
+    protected WaveSpawner spawner;
 
     public void Awake()
     {
@@ -34,15 +35,25 @@ public class EnemyBase : MonoBehaviour
             Die();
         }
     }
+    public void SetSpawner(WaveSpawner s)
+    {
+        spawner = s;
+    }
+
 
     // Handles enemy death
-     protected virtual void Die()
+    protected virtual void Die()
     {
         // Register a kill with the FPSManager
         if (FPSManager.Instance != null)
         {
             FPSManager.Instance.RegisterKill();
         }
+        if (spawner != null)
+        {
+            spawner.OnEnemyKilled();
+        }
+
 
         // Destroy this enemy object
         Destroy(gameObject);

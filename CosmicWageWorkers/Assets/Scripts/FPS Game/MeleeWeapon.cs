@@ -1,11 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 public class MeleeWeapon : MonoBehaviour
 {
     public GameObject rayCastPoint;
     public float rayCastRange;
     public LayerMask mask;
+
+    public Image parryImage;
+    public BoxCollider parryBox;
+        
+
 
     public float damage = 1f;
 
@@ -22,13 +28,13 @@ public class MeleeWeapon : MonoBehaviour
     {
         inputActions.Gameplay.Enable();
         inputActions.Gameplay.Attack.performed += OnAttack;
-        inputActions.Gameplay.Shield.performed += OnShield;
+     
     }
 
     void OnDisable()
     {
         inputActions.Gameplay.Attack.performed -= OnAttack;
-        inputActions.Gameplay.Shield.performed -= OnShield;
+        
         inputActions.Gameplay.Disable();
     }
 
@@ -38,7 +44,7 @@ public class MeleeWeapon : MonoBehaviour
     }
     private void OnShield(InputAction.CallbackContext ctx)
     {
-        Sheild();
+        
     }
 
 
@@ -48,13 +54,6 @@ public class MeleeWeapon : MonoBehaviour
         SoundEffectManager.Play("Swing");
         rayCastRange = 2f;
         StartCoroutine(ResetAttack());
-    }
-
-    public void Sheild()
-    {
-        animator.SetBool("Shield", true);
-        SoundEffectManager.Play("Shield");
-        StartCoroutine(ResetShield());
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -85,12 +84,6 @@ public class MeleeWeapon : MonoBehaviour
         animator.SetBool("Swing", false);
         rayCastRange = 0.2f;
     }
-    private IEnumerator ResetShield()
-    {
-        yield return new WaitForSeconds(1f);
-        animator.SetBool("Shield", false);
-    }
-
     public void CustomOnCollisionEnter(Collider collision)
     {
         if (collision.CompareTag("Enemy"))
