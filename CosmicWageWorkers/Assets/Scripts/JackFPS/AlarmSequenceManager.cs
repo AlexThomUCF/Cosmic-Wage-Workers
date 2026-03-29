@@ -40,6 +40,7 @@ public class AlarmSequenceManager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI clearGroceriesText;
     public UIFlashMessage clearGroceriesMessage;
+    public AlarmUIManager uiManager;
 
     private int consecutiveFailures = 0;
 
@@ -49,7 +50,6 @@ public class AlarmSequenceManager : MonoBehaviour
     private int currentSequenceLength;
     public bool acceptingInput = false;
     private float sequenceTimer;
-
 
     void Awake()
     {
@@ -66,7 +66,7 @@ public class AlarmSequenceManager : MonoBehaviour
         StartCoroutine(InitialDelay());
     }
 
-        void Update()
+    void Update()
     {
         if (!acceptingInput)
             return;
@@ -122,15 +122,30 @@ public class AlarmSequenceManager : MonoBehaviour
         remainingAlarms.Clear();
         ResetAllAlarms();
 
-        foreach (int id in currentSequence)
+        if (uiManager != null)
+            uiManager.ResetUI();
+
+        //  REVEAL PHASE (UI + world synced)
+        for (int i = 0; i < currentSequence.Count; i++)
         {
+            int id = currentSequence[i];
+
             alarms[id].Reveal();
+
+            if (uiManager != null)
+                uiManager.SetSlotActive(i);
+
             remainingAlarms.Add(id);
+
             yield return new WaitForSeconds(revealDelay);
         }
 
+        //  ACTIVE PHASE
         foreach (int id in currentSequence)
             alarms[id].SetActive();
+
+        if (uiManager != null)
+            uiManager.StartActiveFlashing();
 
         sequenceTimer = currentSequence.Count * timePerAlarm;
         acceptingInput = true;
@@ -145,7 +160,12 @@ public class AlarmSequenceManager : MonoBehaviour
 
         if (id == expectedID)
         {
+            int index = currentSequence.Count - remainingAlarms.Count;
+
             remainingAlarms.RemoveAt(0);
+
+            if (uiManager != null)
+                uiManager.MarkSuccess(index);
 
             if (remainingAlarms.Count == 0)
             {
@@ -160,10 +180,13 @@ public class AlarmSequenceManager : MonoBehaviour
         }
     }
 
-        void OnSequenceSuccess()
+    void OnSequenceSuccess()
     {
         if (sequenceAudio && successClip)
             sequenceAudio.PlayOneShot(successClip);
+
+        if (uiManager != null)
+            uiManager.StopFlashing();
 
         consecutiveFailures = Mathf.Max(0, consecutiveFailures - 1);
         ApplySpawnPressure();
@@ -181,28 +204,21 @@ public class AlarmSequenceManager : MonoBehaviour
 
             if (propManager != null)
                 propManager.spawningEnabled = false;
-                
-            if (clearGroceriesText != null)
-                clearGroceriesText.gameObject.SetActive(true);
+
             if (clearGroceriesMessage != null)
-            {
                 clearGroceriesMessage.FlashMessage();
-            }
 
             StartCoroutine(WaitForRemainingProps());
         }
     }
-    
-    void LoadNextScene()
-    {
-        if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
-            SceneManager.LoadScene(sceneToLoadAfterGame);
-    }
 
-        void OnSequenceFailed()
+    void OnSequenceFailed()
     {
         if (sequenceAudio && failClip)
             sequenceAudio.PlayOneShot(failClip);
+
+        if (uiManager != null)
+            uiManager.StopFlashing();
 
         consecutiveFailures = Mathf.Min(consecutiveFailures + 1, maxFailures);
         ApplySpawnPressure();
@@ -213,20 +229,14 @@ public class AlarmSequenceManager : MonoBehaviour
     IEnumerator SuccessCooldown()
     {
         ResetAllAlarms();
-        acceptingInput = false;
-
         yield return new WaitForSeconds(successCooldown);
-
         StartNewSequence();
     }
 
     IEnumerator FailBreather()
     {
         ResetAllAlarms();
-        acceptingInput = false;
-
         yield return new WaitForSeconds(failCooldown);
-
         StartNewSequence();
     }
 
@@ -242,16 +252,17 @@ public class AlarmSequenceManager : MonoBehaviour
 
         foreach (AlarmNode alarm in alarms)
             alarm.SetIdle();
+
+        if (uiManager != null)
+            uiManager.ResetUI();
     }
 
-        IEnumerator WaitForRemainingProps()
+    IEnumerator WaitForRemainingProps()
     {
         Debug.Log("Waiting for remaining props to be cleared...");
 
         while (GameObject.FindObjectsOfType<PropAi>().Length > 0)
-        {
             yield return new WaitForSeconds(0.5f);
-        }
 
         Debug.Log("All props cleared. Ending game.");
 
@@ -260,7 +271,13 @@ public class AlarmSequenceManager : MonoBehaviour
         LoadNextScene();
     }
 
-        public float GetTimerPercent()
+    void LoadNextScene()
+    {
+        if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
+            SceneManager.LoadScene(sceneToLoadAfterGame);
+    }
+
+    public float GetTimerPercent()
     {
         if (!acceptingInput)
             return 1f;
