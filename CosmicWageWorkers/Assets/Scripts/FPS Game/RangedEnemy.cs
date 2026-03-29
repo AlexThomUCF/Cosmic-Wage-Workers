@@ -79,6 +79,11 @@ public class RangedEnemy : EnemyBase
         if (projectilePrefab != null && shootPoint != null && isNotHidden)
         {
             GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
+            Projectile projectileScript = proj.GetComponent<Projectile>();
+            if (projectileScript != null)
+            {
+                projectileScript.shooter = transform; // store who fired it
+            }
             //Spawn particle at shootpoint.position
             //play SFXs
             Rigidbody rb = proj.GetComponent<Rigidbody>();
