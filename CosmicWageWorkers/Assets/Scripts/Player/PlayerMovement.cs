@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private Rigidbody rb;
+    public Vector2 lookInput;
     public Vector2 moveInput;
     private bool isGrounded;
     [SerializeField] private bool isRole = false;
@@ -135,6 +136,11 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+    }
+
+    public void OnLook(InputValue value)
+    {
+        lookInput = value.Get<Vector2>();
     }
 
     public void OnJump(InputValue value)
