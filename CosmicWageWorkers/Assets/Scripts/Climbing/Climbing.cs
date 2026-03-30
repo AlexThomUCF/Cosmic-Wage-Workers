@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem; // <-- New Input System
 
 public class Climbing : MonoBehaviour
 {
@@ -67,6 +68,26 @@ public class Climbing : MonoBehaviour
 
     public PlayerAudio playerAudio;
 
+    // --- Input System ---
+    private PlayerControls controls;
+    private bool isLookingUp = false;
+
+    void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Gameplay.ClimbLeft.performed += ctx => TryMove(-1, 0);
+        controls.Gameplay.ClimbRight.performed += ctx => TryMove(1, 0);
+        controls.Gameplay.ClimbUp.performed += ctx => TryMove(0, 1);
+        controls.Gameplay.ClimbUpLeft.performed += ctx => TryMove(-1, 1);
+        controls.Gameplay.ClimbUpRight.performed += ctx => TryMove(1, 1);
+        controls.Gameplay.LookUp.performed += ctx => isLookingUp = true;
+        controls.Gameplay.LookUp.canceled += ctx => isLookingUp = false;
+    }
+
+    void OnEnable() => controls.Enable();
+    void OnDisable() => controls.Disable();
+
     void Start()
     {
         AudioListener.pause = false;
@@ -78,7 +99,6 @@ public class Climbing : MonoBehaviour
         if (fadeCanvas != null)
             fadeCanvas.alpha = 0f;
 
-        // Get sprite renderers
         leftHandRenderer = leftHand.GetComponent<SpriteRenderer>();
         rightHandRenderer = rightHand.GetComponent<SpriteRenderer>();
 
@@ -97,22 +117,12 @@ public class Climbing : MonoBehaviour
             }
             else
             {
-                float targetTilt = Input.GetKey(KeyCode.Space) ? lookAheadTilt : normalTilt;
+                float targetTilt = isLookingUp ? lookAheadTilt : normalTilt;
                 Vector3 euler = cameraTransform.rotation.eulerAngles;
                 float tilt = Mathf.LerpAngle(euler.x, targetTilt, Time.deltaTime * tiltSpeed);
                 cameraTransform.rotation = Quaternion.Euler(tilt, euler.y, euler.z);
             }
         }
-
-        if (isMoving || isFalling) return;
-
-        if (Input.GetKey(KeyCode.Space)) return;
-
-        if (Input.GetKeyDown(KeyCode.A)) TryMove(-1, 0);
-        if (Input.GetKeyDown(KeyCode.D)) TryMove(1, 0);
-        if (Input.GetKeyDown(KeyCode.W)) TryMove(0, 1);
-        if (Input.GetKeyDown(KeyCode.Q)) TryMove(-1, 1);
-        if (Input.GetKeyDown(KeyCode.E)) TryMove(1, 1);
     }
 
     void LateUpdate()
@@ -236,7 +246,6 @@ public class Climbing : MonoBehaviour
         activeHandDuringMove = null;
         isMoving = false;
 
-        // Update hand sprites after move
         UpdateHandSprites();
     }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -25,9 +26,12 @@ public class PauseMenu : MonoBehaviour
         optionsPanel.blocksRaycasts = false;
     }
 
-    void Update()
+    // No Update() needed for Pause anymore
+
+    // This will be called automatically by PlayerInput when Pause action is pressed
+    public void OnPause(InputValue value)
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isTransitioning)
+        if (!isTransitioning && value.isPressed)
         {
             if (gameIsPaused) StartUnpause();
             else StartPause();
