@@ -52,11 +52,9 @@ public class RangedEnemy : EnemyBase
             agent.SetDestination(player.position);
         }
         else if (distance < agent.stoppingDistance - moveRange)//Alex note(If distance < stopping distance, Position where player is not hidden and stops a distance away from them?)
-        { // When player gets to close to ranged enemy move them? or when player aims at enemy move them then have them wait a while to move again?
-            //agent.SetDestination
-            //agent.ResetPath(); // Optional: stop very close to player
-           // Debug.Log("Too close to me");
+        { 
             agent.SetDestination(-player.position);
+            animator.SetBool("RifleIdle", true);
           //  Debug.Log(distance);
             
         }

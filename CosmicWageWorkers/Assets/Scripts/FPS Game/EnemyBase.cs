@@ -7,12 +7,18 @@ public class EnemyBase : MonoBehaviour
     [Header("Enemy Settings")]
     public float health = 50f;
 
-
+    [Header("Materials")]
     public Material dmgMaterial;
     public Material currentMaterial;
     private Material[] originalMaterials;
+
+    [Header("References")]
     private Renderer enemyRenderer;
     private SkinnedMeshRenderer newEnemyRenderer;
+    private Animator animator;
+    private RangedEnemy rangedEnemy;
+    public BoxCollider deathBox;
+    public BoxCollider normalBox;
     protected WaveSpawner spawner;
     Renderer[] renderers;
 
@@ -27,6 +33,10 @@ public class EnemyBase : MonoBehaviour
         //New stuff
         
         renderers = GetComponentsInChildren<Renderer>();
+
+        animator = GetComponent<Animator>();
+
+        rangedEnemy = GetComponent<RangedEnemy>();
     }
     // Called when the enemy takes damage
     public virtual void TakeDamage(float amount)
@@ -39,6 +49,14 @@ public class EnemyBase : MonoBehaviour
         if (health <= 0f)
         {
             //enemyRenderer.material = dmgMaterial;
+            if(animator != null && rangedEnemy != null)
+            {
+                animator.SetTrigger("Dead");
+                rangedEnemy.enabled = false; //Turns off movement script
+                
+                normalBox.enabled = false;
+                deathBox.enabled = true;
+            }
             Die();
         }
     }
@@ -63,7 +81,7 @@ public class EnemyBase : MonoBehaviour
 
 
         // Destroy this enemy object
-        Destroy(gameObject);
+        Destroy(gameObject, 3f);
     }
 
     IEnumerator DamageFlash()
