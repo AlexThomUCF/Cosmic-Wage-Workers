@@ -212,6 +212,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "GrabItem",
+                    "type": "Button",
+                    "id": "1812f002-6c2f-4da6-bdcd-15356ee724d8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -808,6 +817,28 @@
                     "action": "Turn",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "007606bb-f139-4b6e-a81f-5171cf5bcdd7",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "GrabItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3e14747-d88a-4145-bad3-a3f9a4e7a966",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "GrabItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

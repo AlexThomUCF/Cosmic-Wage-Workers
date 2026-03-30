@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem; // <-- needed for InputActionReference
 using System.Collections;
 
 public class ShelfWinTrigger : MonoBehaviour
@@ -22,6 +23,9 @@ public class ShelfWinTrigger : MonoBehaviour
     [Header("Sound")]
     public AudioClip pickupClip; // drag your audio file here
 
+    [Header("Input")]
+    public InputActionReference GrabItemAction; // <-- Input System action
+
     private bool playerInside;
     private bool hasGrabbed;
     private BoxCollider box;
@@ -35,6 +39,9 @@ public class ShelfWinTrigger : MonoBehaviour
         promptUI.blocksRaycasts = false;
 
         fadeCanvas.alpha = 0f;
+
+        // Enable the input action
+        if (GrabItemAction != null) GrabItemAction.action.Enable();
     }
 
     void Update()
@@ -44,7 +51,8 @@ public class ShelfWinTrigger : MonoBehaviour
         if (!playerInside || hasGrabbed)
             return;
 
-        if (Input.GetKeyDown(KeyCode.F))
+        // Use new Input System "Use" action
+        if (GrabItemAction != null && GrabItemAction.action.WasPerformedThisFrame())
         {
             StartCoroutine(GrabAndFinish());
         }
