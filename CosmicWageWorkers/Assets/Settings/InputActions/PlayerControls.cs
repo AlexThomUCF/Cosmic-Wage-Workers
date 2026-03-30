@@ -208,6 +208,60 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClimbLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f0b66c9-d11b-4b9b-a712-ae0f5cf1f79e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClimbUpLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""664018c7-5dcc-42be-93c3-6fe005fcdc73"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClimbUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""cd6ca173-fda5-4b4e-80d3-cb250c44a0a7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClimbUpRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""702ce446-0d8d-4963-bb1d-5c89a23c864d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClimbRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""5faf63b3-8194-4119-a0af-dbb460ebcd5a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd72799b-74b3-4c9b-b897-18e2a4b4b451"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -540,6 +594,138 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a928b098-c105-49b8-a630-c4c81558f15e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""ClimbLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c350e9f-e304-4278-b5ee-05920754b2fb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ClimbLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af20062d-04ea-445e-9ca5-15bb7a3152e8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""ClimbUpLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab47ee39-b6b6-47b0-b7ed-99815bb00948"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ClimbUpLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82a259e8-9fc5-4c76-8ecc-0982a2e1d5ab"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""ClimbUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82e7e85d-3907-4dd6-88ef-af8d2fe61f6e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ClimbUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eed6ee98-ed68-42a2-9ea9-af365c1a5e48"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""ClimbUpRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b85cb3a-cf06-40cf-beda-c82c8fd99115"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ClimbUpRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69389a6b-d1e0-4e56-99b7-6ea9eb824ac1"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""ClimbRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""55bdff8e-38f0-4d2d-aa2a-e0a54455a998"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ClimbRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a01ca24-5547-4f47-bc96-c29f853cc402"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""LookUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5211c823-27e9-47f2-961c-51fcfd846e59"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LookUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -589,6 +775,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Parry = m_Gameplay.FindAction("Parry", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+        m_Gameplay_ClimbLeft = m_Gameplay.FindAction("ClimbLeft", throwIfNotFound: true);
+        m_Gameplay_ClimbUpLeft = m_Gameplay.FindAction("ClimbUpLeft", throwIfNotFound: true);
+        m_Gameplay_ClimbUp = m_Gameplay.FindAction("ClimbUp", throwIfNotFound: true);
+        m_Gameplay_ClimbUpRight = m_Gameplay.FindAction("ClimbUpRight", throwIfNotFound: true);
+        m_Gameplay_ClimbRight = m_Gameplay.FindAction("ClimbRight", throwIfNotFound: true);
+        m_Gameplay_LookUp = m_Gameplay.FindAction("LookUp", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -682,6 +874,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Parry;
     private readonly InputAction m_Gameplay_Pause;
+    private readonly InputAction m_Gameplay_ClimbLeft;
+    private readonly InputAction m_Gameplay_ClimbUpLeft;
+    private readonly InputAction m_Gameplay_ClimbUp;
+    private readonly InputAction m_Gameplay_ClimbUpRight;
+    private readonly InputAction m_Gameplay_ClimbRight;
+    private readonly InputAction m_Gameplay_LookUp;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -745,6 +943,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Pause".
         /// </summary>
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ClimbLeft".
+        /// </summary>
+        public InputAction @ClimbLeft => m_Wrapper.m_Gameplay_ClimbLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ClimbUpLeft".
+        /// </summary>
+        public InputAction @ClimbUpLeft => m_Wrapper.m_Gameplay_ClimbUpLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ClimbUp".
+        /// </summary>
+        public InputAction @ClimbUp => m_Wrapper.m_Gameplay_ClimbUp;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ClimbUpRight".
+        /// </summary>
+        public InputAction @ClimbUpRight => m_Wrapper.m_Gameplay_ClimbUpRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ClimbRight".
+        /// </summary>
+        public InputAction @ClimbRight => m_Wrapper.m_Gameplay_ClimbRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/LookUp".
+        /// </summary>
+        public InputAction @LookUp => m_Wrapper.m_Gameplay_LookUp;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -810,6 +1032,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @ClimbLeft.started += instance.OnClimbLeft;
+            @ClimbLeft.performed += instance.OnClimbLeft;
+            @ClimbLeft.canceled += instance.OnClimbLeft;
+            @ClimbUpLeft.started += instance.OnClimbUpLeft;
+            @ClimbUpLeft.performed += instance.OnClimbUpLeft;
+            @ClimbUpLeft.canceled += instance.OnClimbUpLeft;
+            @ClimbUp.started += instance.OnClimbUp;
+            @ClimbUp.performed += instance.OnClimbUp;
+            @ClimbUp.canceled += instance.OnClimbUp;
+            @ClimbUpRight.started += instance.OnClimbUpRight;
+            @ClimbUpRight.performed += instance.OnClimbUpRight;
+            @ClimbUpRight.canceled += instance.OnClimbUpRight;
+            @ClimbRight.started += instance.OnClimbRight;
+            @ClimbRight.performed += instance.OnClimbRight;
+            @ClimbRight.canceled += instance.OnClimbRight;
+            @LookUp.started += instance.OnLookUp;
+            @LookUp.performed += instance.OnLookUp;
+            @LookUp.canceled += instance.OnLookUp;
         }
 
         /// <summary>
@@ -860,6 +1100,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @ClimbLeft.started -= instance.OnClimbLeft;
+            @ClimbLeft.performed -= instance.OnClimbLeft;
+            @ClimbLeft.canceled -= instance.OnClimbLeft;
+            @ClimbUpLeft.started -= instance.OnClimbUpLeft;
+            @ClimbUpLeft.performed -= instance.OnClimbUpLeft;
+            @ClimbUpLeft.canceled -= instance.OnClimbUpLeft;
+            @ClimbUp.started -= instance.OnClimbUp;
+            @ClimbUp.performed -= instance.OnClimbUp;
+            @ClimbUp.canceled -= instance.OnClimbUp;
+            @ClimbUpRight.started -= instance.OnClimbUpRight;
+            @ClimbUpRight.performed -= instance.OnClimbUpRight;
+            @ClimbUpRight.canceled -= instance.OnClimbUpRight;
+            @ClimbRight.started -= instance.OnClimbRight;
+            @ClimbRight.performed -= instance.OnClimbRight;
+            @ClimbRight.canceled -= instance.OnClimbRight;
+            @LookUp.started -= instance.OnLookUp;
+            @LookUp.performed -= instance.OnLookUp;
+            @LookUp.canceled -= instance.OnLookUp;
         }
 
         /// <summary>
@@ -1017,5 +1275,47 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ClimbLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClimbLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ClimbUpLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClimbUpLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ClimbUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClimbUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ClimbUpRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClimbUpRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ClimbRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClimbRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookUp(InputAction.CallbackContext context);
     }
 }
