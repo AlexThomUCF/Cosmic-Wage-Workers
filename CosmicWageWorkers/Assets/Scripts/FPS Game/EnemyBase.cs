@@ -10,8 +10,11 @@ public class EnemyBase : MonoBehaviour
 
     public Material dmgMaterial;
     public Material currentMaterial;
+    private Material[] originalMaterials;
     private Renderer enemyRenderer;
+    private SkinnedMeshRenderer newEnemyRenderer;
     protected WaveSpawner spawner;
+    Renderer[] renderers;
 
     public void Awake()
     {
@@ -20,6 +23,10 @@ public class EnemyBase : MonoBehaviour
         currentMaterial = GetComponent<Material>();
 
         currentMaterial = enemyRenderer.material;
+
+        //New stuff
+        
+        renderers = GetComponentsInChildren<Renderer>();
     }
     // Called when the enemy takes damage
     public virtual void TakeDamage(float amount)
@@ -31,7 +38,7 @@ public class EnemyBase : MonoBehaviour
 
         if (health <= 0f)
         {
-            enemyRenderer.material = dmgMaterial;
+            //enemyRenderer.material = dmgMaterial;
             Die();
         }
     }
@@ -61,9 +68,31 @@ public class EnemyBase : MonoBehaviour
 
     IEnumerator DamageFlash()
     {
-        enemyRenderer.material = dmgMaterial;
-        yield return new WaitForSeconds(.2f);
-        enemyRenderer.material = currentMaterial;
+        float duration = 0.2f;
+        float time = 0;
 
+        while (time < duration)
+        {
+            float t = 1 - (time / duration);
+
+            foreach (Renderer r in renderers)
+            {
+                foreach (Material m in r.materials)
+                {
+                    m.SetFloat("_FlashAmount", t);
+                }
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (Renderer r in renderers)
+        {
+            foreach (Material m in r.materials)
+            {
+                m.SetFloat("_FlashAmount", 0f);
+            }
+        }
     }
 }

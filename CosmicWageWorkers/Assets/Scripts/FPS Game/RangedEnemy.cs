@@ -3,18 +3,22 @@ using UnityEngine.AI;
 
 public class RangedEnemy : EnemyBase
 {
+    [Header("References")]
+    private Transform player;
+    private NavMeshAgent agent;
+    public GameObject projectilePrefab;
+    public Transform shootPoint;
+    public Animator animator;
+
     [Header("Movement")]
     public float stoppingDistance = 2f; // Optional: keep minimum distance
     public float moveRange = 3f;
 
     [Header("Shooting")]
-    public GameObject projectilePrefab;
-    public Transform shootPoint;
     public float projectileSpeed = 30f;
     public float shootCooldown = 2f;
 
-    private Transform player;
-    private NavMeshAgent agent;
+  
     private float shootTimer;
 
     private bool isNotHidden;
@@ -29,6 +33,7 @@ public class RangedEnemy : EnemyBase
 
         agent = GetComponent<NavMeshAgent>();
         gun = FindAnyObjectByType<GUN>();
+        animator = GetComponent<Animator>();
         shootTimer = shootCooldown;
     }
 
