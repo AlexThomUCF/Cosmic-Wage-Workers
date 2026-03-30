@@ -49,8 +49,13 @@ public class FallingItemManager : MonoBehaviour
 
             if (stopSpawning) yield break;
 
+            // Play warning sound
             if (playerAudio != null)
                 playerAudio.PlayOneShot(playerAudio.warning);
+
+            // Flash warning icon twice quickly
+            if (warningIcon != null)
+                StartCoroutine(FlashWarningIconTwice(0.15f)); // 0.15s per flash
 
             SpawnFallingItem();
         }
@@ -71,52 +76,38 @@ public class FallingItemManager : MonoBehaviour
         StartCoroutine(HandleFallingItem(item));
     }
 
+    IEnumerator FlashWarningIconTwice(float flashDuration)
+    {
+        Color c = warningIcon.color;
+
+        for (int i = 0; i < 2; i++)
+        {
+            c.a = 1f;
+            warningIcon.color = c;
+            yield return new WaitForSeconds(flashDuration);
+
+            c.a = 0f;
+            warningIcon.color = c;
+            yield return new WaitForSeconds(flashDuration);
+        }
+    }
+
     IEnumerator HandleFallingItem(GameObject item)
     {
         float fallSpeed = 12f;
         Vector3 spinAxis = Random.onUnitSphere;
         float spinSpeed = Random.Range(60f, 120f);
 
-        float flashInterval = 0.25f;
-        float flashTimer = flashInterval;
-
         float hitRadius = 1f;
-
-        if (warningIcon != null)
-        {
-            RectTransform rt = warningIcon.rectTransform;
-            rt.anchorMin = new Vector2(0.5f, 1f);
-            rt.anchorMax = new Vector2(0.5f, 1f);
-            rt.pivot = new Vector2(0.5f, 1f);
-            rt.anchoredPosition = new Vector2(0f, -50f);
-            rt.localScale = Vector3.one;
-
-            Color c = warningIcon.color;
-            c.a = 1f;
-            warningIcon.color = c;
-        }
 
         while (item != null)
         {
             item.transform.position += Vector3.down * fallSpeed * Time.deltaTime;
             item.transform.Rotate(spinAxis, spinSpeed * Time.deltaTime, Space.World);
 
-            if (warningIcon != null)
-            {
-                flashTimer -= Time.deltaTime;
-
-                if (flashTimer <= 0f)
-                {
-                    Color c = warningIcon.color;
-                    c.a = (c.a == 1f) ? 0f : 1f;
-                    warningIcon.color = c;
-
-                    flashTimer = flashInterval;
-                }
-            }
-
             if (item.transform.position.y <= playerClimbing.transform.position.y)
             {
+                // player reached, stop showing warning if somehow still visible
                 if (warningIcon != null)
                 {
                     Color c = warningIcon.color;

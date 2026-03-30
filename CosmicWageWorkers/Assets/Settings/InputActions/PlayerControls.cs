@@ -298,6 +298,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""GrabItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""1812f002-6c2f-4da6-bdcd-15356ee724d8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -894,6 +903,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Turn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""007606bb-f139-4b6e-a81f-5171cf5bcdd7"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""GrabItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3e14747-d88a-4145-bad3-a3f9a4e7a966"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""GrabItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -953,6 +984,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Reverse = m_Gameplay.FindAction("Reverse", throwIfNotFound: true);
         m_Gameplay_Drift = m_Gameplay.FindAction("Drift", throwIfNotFound: true);
         m_Gameplay_Turn = m_Gameplay.FindAction("Turn", throwIfNotFound: true);
+        m_Gameplay_GrabItem = m_Gameplay.FindAction("GrabItem", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -1056,6 +1088,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Reverse;
     private readonly InputAction m_Gameplay_Drift;
     private readonly InputAction m_Gameplay_Turn;
+    private readonly InputAction m_Gameplay_GrabItem;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -1160,6 +1193,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Turn => m_Wrapper.m_Gameplay_Turn;
         /// <summary>
+        /// Provides access to the underlying input action "Gameplay/GrabItem".
+        /// </summary>
+        public InputAction @GrabItem => m_Wrapper.m_Gameplay_GrabItem;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
@@ -1254,6 +1291,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Turn.started += instance.OnTurn;
             @Turn.performed += instance.OnTurn;
             @Turn.canceled += instance.OnTurn;
+            @GrabItem.started += instance.OnGrabItem;
+            @GrabItem.performed += instance.OnGrabItem;
+            @GrabItem.canceled += instance.OnGrabItem;
         }
 
         /// <summary>
@@ -1334,6 +1374,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Turn.started -= instance.OnTurn;
             @Turn.performed -= instance.OnTurn;
             @Turn.canceled -= instance.OnTurn;
+            @GrabItem.started -= instance.OnGrabItem;
+            @GrabItem.performed -= instance.OnGrabItem;
+            @GrabItem.canceled -= instance.OnGrabItem;
         }
 
         /// <summary>
@@ -1561,5 +1604,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTurn(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "GrabItem" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGrabItem(InputAction.CallbackContext context);
     }
 }
