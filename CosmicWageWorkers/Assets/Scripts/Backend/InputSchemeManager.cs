@@ -2,46 +2,59 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
-public class InputSchemeManager : MonoBehaviour
+public class DynamicInputScheme : MonoBehaviour
 {
     public PlayerInput playerInput;                  // Your PlayerInput component
     //public InputSystemUIInputModule uiInputModule;  // Your UI Input Module
 
+    private bool isGamepadActive;
+
     void Start()
     {
-        // If a gamepad is connected, switch to Gamepad
-        if (Gamepad.current != null)
-        {
-            SetScheme("Gamepad");
-        }
-        else
-        {
-            SetScheme("Keyboard");
-        }
+        UpdateScheme(); // Initial check
 
-        // Subscribe to gamepad connection events
+        // Subscribe to device connect/disconnect
         InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    void UpdateScheme()
+    {
+        // If any gamepad is connected, switch to Gamepad, else Keyboard&Mouse
+        bool gamepadConnected = Gamepad.current != null;
+
+        if (gamepadConnected && !isGamepadActive)
+        {
+            SwitchToScheme("Gamepad");
+            isGamepadActive = true;
+        }
+        else if (!gamepadConnected && isGamepadActive)
+        {
+            SwitchToScheme("Keyboard");
+            isGamepadActive = false;
+        }
     }
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
+        // Only respond to gamepads being added or removed
         if (device is Gamepad)
         {
-            if (change == InputDeviceChange.Added)
+            if (change == InputDeviceChange.Added || change == InputDeviceChange.Removed)
             {
-                SetScheme("Gamepad");
-            }
-            else if (change == InputDeviceChange.Removed)
-            {
-                SetScheme("Keyboard");
+                UpdateScheme();
             }
         }
     }
 
-    private void SetScheme(string scheme)
+    private void SwitchToScheme(string scheme)
     {
         if (playerInput != null)
-            playerInput.defaultControlScheme = scheme;
+            playerInput.SwitchCurrentControlScheme(scheme, Keyboard.current, Mouse.current, Gamepad.current);
+
+        /*if (uiInputModule != null)
+            uiInputModule.defaultActionAsset.Enable(); // ensure UI actions are active*/
+
+        Debug.Log("Switched to: " + scheme);
     }
 
     private void OnDestroy()
