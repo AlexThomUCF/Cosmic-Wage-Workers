@@ -11,37 +11,37 @@ public class BulletinBoardUI : MonoBehaviour
     public MessManager messManager;
     public BoxManager boxManager;
     public GarbageCanManager garbageManager;
+    public WindowMessManager windowMessManager;
+
+    [Header("UI Smoothing")]
+    public float smoothSpeed = 3f;
 
     private int maxMesses;
     private float displayedCleanlinessPercent = 100f;
-    private float smoothSpeed = 3f;
-
     private float targetCleanlinessPercent = 100f;
 
     private void Start()
     {
-        // Find managers if not assigned
         if (messManager == null)
             messManager = Object.FindFirstObjectByType<MessManager>();
-
         if (boxManager == null)
             boxManager = Object.FindFirstObjectByType<BoxManager>();
-
         if (garbageManager == null)
             garbageManager = Object.FindFirstObjectByType<GarbageCanManager>();
+        if (windowMessManager == null)
+            windowMessManager = Object.FindFirstObjectByType<WindowMessManager>();
 
-        // Subscribe to mess events
         if (messManager != null)
         {
             maxMesses = messManager.maxMessCount;
             messManager.OnMessCountChanged += OnCleanlinessChanged;
         }
 
-        // Subscribe to garbage events
         if (garbageManager != null)
-        {
             garbageManager.OnTrashCountChanged += OnCleanlinessChanged;
-        }
+
+        if (windowMessManager != null)
+            windowMessManager.OnWindowMessCountChanged += OnCleanlinessChanged;
 
         UpdateCleanlinessUIInstant();
     }
@@ -50,27 +50,35 @@ public class BulletinBoardUI : MonoBehaviour
     {
         if (messManager != null)
             messManager.OnMessCountChanged -= OnCleanlinessChanged;
-
         if (garbageManager != null)
             garbageManager.OnTrashCountChanged -= OnCleanlinessChanged;
+        if (windowMessManager != null)
+            windowMessManager.OnWindowMessCountChanged -= OnCleanlinessChanged;
     }
 
     private void OnCleanlinessChanged()
     {
         int currentMesses = messManager != null ? messManager.activeMesses.Count : 0;
+        int currentGoo = windowMessManager != null ? windowMessManager.ActiveGooCount() : 0;
         int currentTrash = garbageManager != null ? garbageManager.ActiveTrashCount() : 0;
 
+        int maxGoo = windowMessManager != null ? windowMessManager.windowSpawns.Length : 0;
         int maxTrash = garbageManager != null ? garbageManager.maxTrash : 0;
 
-        int totalProblems = currentMesses + currentTrash;
-        int maxProblems = maxMesses + maxTrash;
+        int totalProblems = currentMesses + currentGoo + currentTrash;
+        int maxProblems = maxMesses + maxGoo + maxTrash;
 
-        targetCleanlinessPercent = ((float)(maxProblems - totalProblems) / maxProblems) * 100f;
+        if (maxProblems <= 0) maxProblems = 1; // avoid divide by zero
+
+        targetCleanlinessPercent = Mathf.Clamp(
+            ((float)(maxProblems - totalProblems) / maxProblems) * 100f,
+            0f,
+            100f
+        );
     }
 
     private void Update()
     {
-        // Smoothly interpolate the displayed cleanliness
         displayedCleanlinessPercent = Mathf.Lerp(
             displayedCleanlinessPercent,
             targetCleanlinessPercent,
@@ -80,7 +88,6 @@ public class BulletinBoardUI : MonoBehaviour
         if (cleanlinessText != null)
             cleanlinessText.text = $"Store Cleanliness: {Mathf.RoundToInt(displayedCleanlinessPercent)}%";
 
-        // Update stocking progress
         if (stockingText != null && boxManager != null)
         {
             int currentZone = boxManager.GetCurrentZoneIndex();
@@ -92,14 +99,23 @@ public class BulletinBoardUI : MonoBehaviour
     private void UpdateCleanlinessUIInstant()
     {
         int currentMesses = messManager != null ? messManager.activeMesses.Count : 0;
+        int currentGoo = windowMessManager != null ? windowMessManager.ActiveGooCount() : 0;
         int currentTrash = garbageManager != null ? garbageManager.ActiveTrashCount() : 0;
 
+        int maxGoo = windowMessManager != null ? windowMessManager.windowSpawns.Length : 0;
         int maxTrash = garbageManager != null ? garbageManager.maxTrash : 0;
 
-        int totalProblems = currentMesses + currentTrash;
-        int maxProblems = maxMesses + maxTrash;
+        int totalProblems = currentMesses + currentGoo + currentTrash;
+        int maxProblems = maxMesses + maxGoo + maxTrash;
 
-        displayedCleanlinessPercent = ((float)(maxProblems - totalProblems) / maxProblems) * 100f;
+        if (maxProblems <= 0) maxProblems = 1;
+
+        displayedCleanlinessPercent = Mathf.Clamp(
+            ((float)(maxProblems - totalProblems) / maxProblems) * 100f,
+            0f,
+            100f
+        );
+
         targetCleanlinessPercent = displayedCleanlinessPercent;
 
         if (cleanlinessText != null)
