@@ -9,6 +9,7 @@ public class MopParry : MonoBehaviour
     public float parryCooldown = 2f;
 
     private bool canParry = true;
+    public bool isParrying { get; private set; }
 
     public BoxCollider parryBox;
     private PlayerControls inputActions;
@@ -47,6 +48,7 @@ public class MopParry : MonoBehaviour
         if (!canParry) return;
 
         canParry = false;
+        isParrying = true;   // ? start parry state
         parryBox.enabled = true;
 
         StartCoroutine(ParryRoutine());
@@ -69,6 +71,7 @@ public class MopParry : MonoBehaviour
 
         // Turn off parry hitbox
         parryBox.enabled = false;
+        isParrying = false;
 
         // Reset UI + counter
         parryLogic.ResetParryState();

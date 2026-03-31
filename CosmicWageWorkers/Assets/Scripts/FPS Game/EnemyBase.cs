@@ -13,12 +13,11 @@ public class EnemyBase : MonoBehaviour
     private Material[] originalMaterials;
 
     [Header("References")]
+    public BoxCollider rangedCollider;
     private Renderer enemyRenderer;
     private SkinnedMeshRenderer newEnemyRenderer;
     private Animator animator;
     private RangedEnemy rangedEnemy;
-    public BoxCollider deathBox;
-    public BoxCollider normalBox;
     protected WaveSpawner spawner;
     Renderer[] renderers;
 
@@ -52,10 +51,9 @@ public class EnemyBase : MonoBehaviour
             if(animator != null && rangedEnemy != null)
             {
                 animator.SetTrigger("Dead");
+                rangedEnemy.agent.isStopped = true;
+                rangedCollider.enabled = false;
                 rangedEnemy.enabled = false; //Turns off movement script
-                
-                normalBox.enabled = false;
-                deathBox.enabled = true;
             }
             Die();
         }

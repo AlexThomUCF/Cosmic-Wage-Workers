@@ -17,7 +17,7 @@ public class ParryLogic : MonoBehaviour
     public int maxBulletDeflect = 5;
     public bool resetParry = false;
 
-    private bool isResetting = false;
+    public bool isResetting = false;
 
     void Awake()
     {

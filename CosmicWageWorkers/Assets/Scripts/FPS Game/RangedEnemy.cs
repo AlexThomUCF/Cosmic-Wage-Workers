@@ -5,7 +5,7 @@ public class RangedEnemy : EnemyBase
 {
     [Header("References")]
     private Transform player;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     public GameObject projectilePrefab;
     public Transform shootPoint;
     public Animator animator;
@@ -17,8 +17,9 @@ public class RangedEnemy : EnemyBase
     [Header("Shooting")]
     public float projectileSpeed = 30f;
     public float shootCooldown = 2f;
+    private float nextShootTime;
 
-  
+
     private float shootTimer;
 
     private bool isNotHidden;
@@ -35,12 +36,12 @@ public class RangedEnemy : EnemyBase
         gun = FindAnyObjectByType<GUN>();
         animator = GetComponent<Animator>();
         shootTimer = shootCooldown;
+
+        isNotHidden = false;
     }
 
     void Update()
     {
-
-        isNotHidden = false;
 
         if (player == null) return;
 
@@ -50,6 +51,7 @@ public class RangedEnemy : EnemyBase
         if (distance > agent.stoppingDistance)
         {
             agent.SetDestination(player.position);
+            animator.SetBool("RifleIdle", false);
         }
         else if (distance < agent.stoppingDistance - moveRange)//Alex note(If distance < stopping distance, Position where player is not hidden and stops a distance away from them?)
         { 
@@ -67,19 +69,18 @@ public class RangedEnemy : EnemyBase
 
         BehindObject();// checks if player is behind an object
 
-        
+
         // Handle shooting continuously
-        shootTimer -= Time.deltaTime;
-        if (shootTimer <= 0f)
+        if (Time.time >= nextShootTime)
         {
-            shootTimer = shootCooldown;
+            nextShootTime = Time.time + shootCooldown;
             ShootAtPlayer();
         }
     }
 
     private void ShootAtPlayer()
     {
-        if (projectilePrefab != null && shootPoint != null && isNotHidden)
+        if (projectilePrefab != null && shootPoint != null && !isNotHidden)
         {
             GameObject proj = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
             Projectile projectileScript = proj.GetComponent<Projectile>();
@@ -90,7 +91,10 @@ public class RangedEnemy : EnemyBase
             //Spawn particle at shootpoint.position
             //play SFXs
             Rigidbody rb = proj.GetComponent<Rigidbody>();
-            rb.linearVelocity = (player.position - shootPoint.position).normalized * projectileSpeed;
+
+            Vector3 target = player.position + Vector3.up * 1.0f;
+
+            rb.linearVelocity = (target - shootPoint.position).normalized * projectileSpeed;
 
             Destroy(proj, 5f);
         }
@@ -98,23 +102,23 @@ public class RangedEnemy : EnemyBase
     void BehindObject()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, (player.position - transform.position), out hit, Mathf.Infinity))//if raycast from enemy to player 
+
+        Vector3 dir = (player.position - shootPoint.position).normalized;
+
+        if (Physics.Raycast(shootPoint.position, dir, out hit, 100f))
         {
-            if (hit.transform ==player) //if hit true
+            if (hit.transform == player)
+            {
+                isNotHidden = false;
+                Debug.Log("Player not hidden");
+            }
+            else
             {
                 isNotHidden = true;
-                //Debug.Log("Player not hidden");
+                Debug.Log("Player is hidden");
             }
-            else // if behind object
-            {
-                //Debug.Log("Player is Hidden");
-            }
-        }
-        else
-        {
-            //Debug.Log("Hit nothing, can't find player");
         }
     }
-   
+
 }
 
