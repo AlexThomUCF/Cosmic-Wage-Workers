@@ -10802,6 +10802,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7dac3507e281ce84799f54b7ecef6c9a, type: 3}
     - target: {fileID: 5800099474814072309, guid: 7c70b0f3e6f3fa640ad649ba503f3cec, type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7dac3507e281ce84799f54b7ecef6c9a, type: 3}
+    - target: {fileID: 5800099474814072309, guid: 7c70b0f3e6f3fa640ad649ba503f3cec, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
       value: 
       objectReference: {fileID: 21300000, guid: 7dac3507e281ce84799f54b7ecef6c9a, type: 3}
@@ -16658,6 +16662,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7dac3507e281ce84799f54b7ecef6c9a, type: 3}
     - target: {fileID: 5800099474814072309, guid: 7c70b0f3e6f3fa640ad649ba503f3cec, type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7dac3507e281ce84799f54b7ecef6c9a, type: 3}
+    - target: {fileID: 5800099474814072309, guid: 7c70b0f3e6f3fa640ad649ba503f3cec, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
       value: 
       objectReference: {fileID: 21300000, guid: 7dac3507e281ce84799f54b7ecef6c9a, type: 3}
@@ -17640,6 +17648,7 @@ GameObject:
   - component: {fileID: 1872505720}
   - component: {fileID: 1872505722}
   - component: {fileID: 1872505723}
+  - component: {fileID: 1872505724}
   m_Layer: 0
   m_Name: TitleScreen
   m_TagString: Untagged
@@ -17719,6 +17728,19 @@ MonoBehaviour:
   m_DefaultActionMap: Menus
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 151160173}
+--- !u!114 &1872505724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872505719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c75715b397c31f4da8c423f600ce7a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicInputScheme
+  playerInput: {fileID: 1872505723}
 --- !u!1001 &1884992876
 PrefabInstance:
   m_ObjectHideFlags: 0
