@@ -2,42 +2,32 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class TtleScreen : MonoBehaviour
+public class TitleScreen : MonoBehaviour
 {
-
     public GameObject titleScreenCamera;
-
     private float settingsUpDelayed = 1;
-
     private float settingsDownDelayed = 1;
-
     private float gameStaredDelayed = 2;
-
     public bool settingsOn;
-
     public bool settingsOff;
-
     public Animator cameraAnimation;
 
-
     public bool gameHasStarted;
-
     private AudioManager audioManager;
-
     public GameObject titleScreen;
-
     public GameObject loadGameMenu;
-
     public GameObject settingsScreen;
-
     public GameObject audioSettings;
-
     public GameObject displaySettings;
-
     public GameObject controlSettings;
-
     public GameObject backButton;
+
+    [Header("First Selected Options")]
+    [SerializeField] private GameObject _mainMenuFirst;
+    [SerializeField] private GameObject _settingsMenuFirst;
+    [SerializeField] private GameObject _playMenuFirst;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,6 +54,7 @@ public class TtleScreen : MonoBehaviour
                 settingsOn = false;
             }
 
+            EventSystem.current.SetSelectedGameObject(_settingsMenuFirst);
         }
 
          //To shut off settings
@@ -80,6 +71,8 @@ public class TtleScreen : MonoBehaviour
                 settingsOff = false;
 
             }
+
+            EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
         }
         //For starting game and making sure animation plays
         if (gameHasStarted)
@@ -109,6 +102,7 @@ public class TtleScreen : MonoBehaviour
         // Show Continue / New Game menu
         loadGameMenu.SetActive(true);
 
+        EventSystem.current.SetSelectedGameObject(_playMenuFirst);
     }
 
     //Goes into settings
