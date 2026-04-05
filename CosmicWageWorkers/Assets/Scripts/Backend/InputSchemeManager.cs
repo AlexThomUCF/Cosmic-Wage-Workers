@@ -1,42 +1,57 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 
 public class DynamicInputScheme : MonoBehaviour
 {
-    public PlayerInput playerInput;                  // Your PlayerInput component
-    //public InputSystemUIInputModule uiInputModule;  // Your UI Input Module
+    public PlayerInput playerInput;  // Your PlayerInput component
 
     private bool isGamepadActive;
 
     void Start()
     {
+        SwitchToScheme("Keyboard");
+        isGamepadActive = false;
         UpdateScheme(); // Initial check
 
         // Subscribe to device connect/disconnect
         InputSystem.onDeviceChange += OnDeviceChange;
     }
 
+    void Update()
+    {
+        UpdateScheme(); // Continuously check input each frame
+    }
+
     void UpdateScheme()
     {
-        // If any gamepad is connected, switch to Gamepad, else Keyboard&Mouse
-        bool gamepadConnected = Gamepad.current != null;
-
-        if (gamepadConnected && !isGamepadActive)
+        // PRIORITY: If keyboard is used ? switch to keyboard
+        if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            SwitchToScheme("Gamepad");
-            isGamepadActive = true;
+            if (isGamepadActive)
+            {
+                SwitchToScheme("Keyboard");
+                isGamepadActive = false;
+            }
+            return;
         }
-        else if (!gamepadConnected && isGamepadActive)
+
+        // Only switch to gamepad if a button/stick was actually used
+        if (Gamepad.current != null)
         {
-            SwitchToScheme("Keyboard");
-            isGamepadActive = false;
+            bool gamepadUsed =
+                Gamepad.current.buttonSouth.wasPressedThisFrame ||
+                Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.01f;
+
+            if (gamepadUsed && !isGamepadActive)
+            {
+                SwitchToScheme("Gamepad");
+                isGamepadActive = true;
+            }
         }
     }
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
-        // Only respond to gamepads being added or removed
         if (device is Gamepad)
         {
             if (change == InputDeviceChange.Added || change == InputDeviceChange.Removed)
@@ -49,12 +64,15 @@ public class DynamicInputScheme : MonoBehaviour
     private void SwitchToScheme(string scheme)
     {
         if (playerInput != null)
-            playerInput.SwitchCurrentControlScheme(scheme, Keyboard.current, Mouse.current, Gamepad.current);
+        {
+            // Only pass devices relevant to the scheme
+            if (scheme == "Keyboard")
+                playerInput.SwitchCurrentControlScheme("Keyboard", Keyboard.current, Mouse.current);
+            else if (scheme == "Gamepad")
+                playerInput.SwitchCurrentControlScheme("Gamepad", Gamepad.current);
 
-        /*if (uiInputModule != null)
-            uiInputModule.defaultActionAsset.Enable(); // ensure UI actions are active*/
-
-        Debug.Log("Switched to: " + scheme);
+            Debug.Log("Switched to: " + scheme);
+        }
     }
 
     private void OnDestroy()
