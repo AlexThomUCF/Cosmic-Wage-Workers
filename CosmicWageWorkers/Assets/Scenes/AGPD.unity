@@ -8647,6 +8647,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025835866}
   m_CullTransparentMesh: 1
+--- !u!1 &1030695782 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3039323078644446394, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
+  m_PrefabInstance: {fileID: 1158778479}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1030695786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030695782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fcbb7265b1e4a4c886ec500a3bf3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkipCutscene
+  director: {fileID: 554482789}
 --- !u!1001 &1070165008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9722,7 +9740,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3039323078644446394, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1030695786}
   m_SourcePrefab: {fileID: 100100000, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
 --- !u!1 &1209270135
 GameObject:
