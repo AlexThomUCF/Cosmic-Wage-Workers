@@ -28,10 +28,23 @@ public class MultiCameraCutscene : MonoBehaviour
 
     public AlarmSequenceManager sequenceManager;
 
+    // NEW: Cutscene control
+    private Coroutine cutsceneCoroutine;
+    private bool isCutscenePlaying = false;
+
     void Start()
     {
-        StartCoroutine(CutsceneRoutine());
-        
+        cutsceneCoroutine = StartCoroutine(CutsceneRoutine());
+        isCutscenePlaying = true;
+    }
+
+    void Update()
+    {
+        // Press Space to skip (you can change the key)
+        if (isCutscenePlaying && Input.GetKeyDown(KeyCode.T))
+        {
+            SkipCutscene();
+        }
     }
 
     IEnumerator CutsceneRoutine()
@@ -44,6 +57,7 @@ public class MultiCameraCutscene : MonoBehaviour
         if (sequenceManager) sequenceManager.enabled = false;
         if (shootingScript) shootingScript.enabled = false;
         if (hudCanvas) hudCanvas.SetActive(false);
+
         foreach (Camera cam in cutsceneCameras)
             cam.enabled = false;
 
@@ -75,14 +89,43 @@ public class MultiCameraCutscene : MonoBehaviour
             }
         }
 
-        // Restore gameplay
-        cutsceneCameras[currentCameraIndex].enabled = false;
+        // Ensure all alarms are reset (safety)
+        foreach (AlarmNode alarm in alarms)
+        {
+            alarm.SetIdle();
+        }
 
+        EndCutscene();
+    }
+
+    void SkipCutscene()
+    {
+        if (cutsceneCoroutine != null)
+            StopCoroutine(cutsceneCoroutine);
+
+        // Reset all alarms immediately
+        foreach (AlarmNode alarm in alarms)
+        {
+            alarm.SetIdle();
+        }
+
+        EndCutscene();
+    }
+
+    void EndCutscene()
+    {
+        // Turn off all cutscene cameras
+        foreach (Camera cam in cutsceneCameras)
+            cam.enabled = false;
+
+        // Restore gameplay
         if (playerCamera) playerCamera.enabled = true;
         if (playerController) playerController.enabled = true;
         if (shootingScript) shootingScript.enabled = true;
         if (propManager) propManager.StartSpawning();
         if (sequenceManager) sequenceManager.enabled = true;
         if (hudCanvas) hudCanvas.SetActive(true);
+
+        isCutscenePlaying = false;
     }
 }
