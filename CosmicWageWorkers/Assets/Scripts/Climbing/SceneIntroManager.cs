@@ -10,17 +10,33 @@ public class SceneIntroManager : MonoBehaviour
     public float timePerCamera = 3f;
 
     [Header("Gameplay To Disable")]
-    public MonoBehaviour playerController;   // your controller
-    public MonoBehaviour gameManager;        // your Manager
-    public GameObject gameplayHUD;           // UI canvas
+    public MonoBehaviour playerController;
+    public MonoBehaviour gameManager;
+    public GameObject gameplayHUD;
 
     [Header("Start Settings")]
     public bool playOnStart = true;
 
+    // NEW
+    private Coroutine introCoroutine;
+    private bool isIntroPlaying = false;
+
     void Start()
     {
         if (playOnStart)
-            StartCoroutine(IntroSequence());
+        {
+            introCoroutine = StartCoroutine(IntroSequence());
+            isIntroPlaying = true;
+        }
+    }
+
+    void Update()
+    {
+        // Press Space to skip
+        if (isIntroPlaying && Input.GetKeyDown(KeyCode.T))
+        {
+            SkipIntro();
+        }
     }
 
     IEnumerator IntroSequence()
@@ -50,6 +66,26 @@ public class SceneIntroManager : MonoBehaviour
             cam.enabled = false;
         }
 
+        EndIntro();
+    }
+
+    void SkipIntro()
+    {
+        if (introCoroutine != null)
+            StopCoroutine(introCoroutine);
+
+        EndIntro();
+    }
+
+    void EndIntro()
+    {
+        // Turn off all intro cameras
+        foreach (Camera cam in introCameras)
+        {
+            if (cam != null)
+                cam.enabled = false;
+        }
+
         // Restore player camera
         if (playerCamera != null)
             playerCamera.enabled = true;
@@ -58,5 +94,7 @@ public class SceneIntroManager : MonoBehaviour
         if (playerController != null) playerController.enabled = true;
         if (gameManager != null) gameManager.enabled = true;
         if (gameplayHUD != null) gameplayHUD.SetActive(true);
+
+        isIntroPlaying = false;
     }
 }
