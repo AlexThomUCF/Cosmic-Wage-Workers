@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4099bd03c129bf14ab34b6e009ffe1e0, type: 3}
-  m_Name: SlimeGuy
+  m_Name: FinalSlime
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Mippo
   miniGameName: 
   npcProtrait: {fileID: 21300000, guid: 81c905c9652ee3e40b6d962bc23d8c69, type: 3}
   dialogueLines:
-  - 'Hey do you know what aisle I can find the Jello '
-  - Sugar free...
+  - Hey, I just wanted to let you know, I think I saw someone steal something.
+  - It was me...
+  - ok
   loadingScreen: {fileID: 21300000, guid: 929744127f7ac2140aea06b3a49b47af, type: 3}
   autoProgressLines: 0100
   endDialogueLines: 0001
@@ -26,4 +27,9 @@ MonoBehaviour:
   voiceSound: {fileID: 8300000, guid: 73da46677eb073146a64f1caa6784028, type: 3}
   voicePitch: 1
   onClicks: []
-  choices: []
+  choices:
+  - dialogueIndex: 0
+    choices:
+    - Who was it?
+    - Uh, one moment please
+    nextDialogueIndexs: 

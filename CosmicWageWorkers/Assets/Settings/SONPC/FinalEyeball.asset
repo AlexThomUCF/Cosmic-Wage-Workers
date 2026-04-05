@@ -10,25 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4099bd03c129bf14ab34b6e009ffe1e0, type: 3}
-  m_Name: FinalKaren
+  m_Name: FinalEyeball
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Angry Mom
-  miniGameName: racingscene
-  npcProtrait: {fileID: 21300000, guid: 9e284566e46f3b241a1b92a638135ea5, type: 3}
+  npcName: EyeBall
+  miniGameName: backroomhorror
+  npcProtrait: {fileID: 21300000, guid: 6dfcf908e6c879c46a1f27c3cd11647a, type: 3}
   dialogueLines:
-  - DO YOU KNOW WHO WE ARE?! DO YOU HAVE ANY CONCEPT?! MY BABY IS THE BEST STAR-DAMN
-    RACER THIS SIDE OF THE UNIVERSE AND WE HAVE WAITED TOO. DAMN. LONG!
-  - My child requires their daily cart race NOW!
-  - Now!!!
-  - FINALLY, took you store workers long enough
-  - HEY! WHERE ARE YOU GOING?!
-  loadingScreen: {fileID: 21300000, guid: 929744127f7ac2140aea06b3a49b47af, type: 3}
-  autoProgressLines: 0101010000
-  endDialogueLines: 0000000001
+  - '*The Eyeball looks expectingly at you, waiting for you to do something for it*'
+  - '*They stare blankly at you as if they don''t understand what you are doing*'
+  - '*They Eyeball seems to blush or it''s eye is irritated now. It''s hard to tell*'
+  - EYEDROPS
+  - '*The eyeball seemingly gives you no response*'
+  loadingScreen: {fileID: 21300000, guid: 04c10aeacb77ca144a1d852145b443fd, type: 3}
+  autoProgressLines: 0101000101
+  endDialogueLines: 0000000101
   autoProgressDelay: 1.5
-  typingSpeed: 0.04
-  voiceSound: {fileID: 8300000, guid: e6d5fe5d87dfa4c4ba0131dc477062bf, type: 3}
-  voicePitch: 0.91
+  typingSpeed: 0
+  voiceSound: {fileID: 0}
+  voicePitch: 1
   onClicks:
   - m_PersistentCalls:
       m_Calls:
@@ -41,7 +40,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: racingscene
+          m_StringArgument: backroomhorror
           m_BoolArgument: 0
         m_CallState: 2
   - m_PersistentCalls:
@@ -61,11 +60,8 @@ MonoBehaviour:
   choices:
   - dialogueIndex: 2
     choices:
-    - Uh sure
-    - Umm, just one moment
-    nextDialogueIndexs: 0300000004000000
-  - dialogueIndex: 3
-    choices:
-    - Race
-    - Umm, just one moment
+    - Hi how are you?
+    - Smooch
+    - '*Open your Mind*'
+    - OK... (Take a couple steps back)
     nextDialogueIndexs: 0300000004000000
