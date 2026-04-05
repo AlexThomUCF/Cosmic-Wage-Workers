@@ -35,6 +35,7 @@ public class PauseMenu : MonoBehaviour
         {
             if (gameIsPaused) StartUnpause();
             else StartPause();
+            Debug.Log("Paused");
         }
     }
 
