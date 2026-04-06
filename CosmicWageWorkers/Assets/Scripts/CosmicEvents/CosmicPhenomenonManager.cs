@@ -28,6 +28,8 @@ public class CosmicPhenomenonManager : MonoBehaviour
     public Eclipse eclipse;
     public PrimordialSoup primordialSoup;
 
+    [HideInInspector] public bool isPaused = false;
+
     private void Start()
     {
         StartCoroutine(EventLoop());
@@ -37,14 +39,28 @@ public class CosmicPhenomenonManager : MonoBehaviour
     {
         while (true)
         {
-            // Wait until dialogue is NOT active
+            while (isPaused)
+                yield return null;
+
             yield return new WaitUntil(() =>
                 DialogueController.Instance == null ||
                 !DialogueController.Instance.dialoguePanel.activeSelf
             );
 
             float waitTime = Random.Range(minTimeBetweenEvents, maxTimeBetweenEvents);
-            yield return new WaitForSeconds(waitTime);
+            float timer = 0f;
+
+            while (timer < waitTime)
+            {
+                if (isPaused)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
 
             StartCoroutine(HandleEventWithDialogue());
         }
@@ -55,45 +71,30 @@ public class CosmicPhenomenonManager : MonoBehaviour
         int eventIndex = Random.Range(0, 5);
         string chosenLine = GetRandomLine(eventIndex);
 
-        // =========================
-        // SOLAR FLARE (SPECIAL CASE)
-        // =========================
         if (eventIndex == 0)
         {
-            // Trigger event FIRST
             TriggerEvent(eventIndex);
-
-            // Wait before dialogue
             yield return new WaitForSeconds(solarFlareDialogueDelay);
 
-            // Show dialogue AFTER
             if (DialogueController.Instance != null)
             {
                 DialogueController.Instance.ShowDialogue("Intercom", chosenLine);
-
                 yield return new WaitUntil(() => DialogueController.Instance.IsFinishedTyping());
                 yield return new WaitForSeconds(postDialogueDelay);
-
                 DialogueController.Instance.HideDialogue();
             }
 
             yield break;
         }
 
-        // =========================
-        // NORMAL EVENTS
-        // =========================
         if (DialogueController.Instance != null)
         {
             DialogueController.Instance.ShowDialogue("Intercom", chosenLine);
-
             yield return new WaitUntil(() => DialogueController.Instance.IsFinishedTyping());
             yield return new WaitForSeconds(postDialogueDelay);
-
             DialogueController.Instance.HideDialogue();
         }
 
-        // Trigger AFTER dialogue
         TriggerEvent(eventIndex);
     }
 
@@ -120,34 +121,15 @@ public class CosmicPhenomenonManager : MonoBehaviour
     {
         switch (eventIndex)
         {
-            case 0:
-                if (solarFlare != null) solarFlare.TriggerFlare();
-                break;
-
-            case 1:
-                if (antiGravity != null) antiGravity.TriggerAntiGravity();
-                break;
-
-            case 2:
-                if (blackHoles != null) blackHoles.TriggerBlackHoles();
-                break;
-
-            case 3:
-                if (eclipse != null) eclipse.TriggerEclipse();
-                break;
-
+            case 0: if (solarFlare != null) solarFlare.TriggerFlare(); break;
+            case 1: if (antiGravity != null) antiGravity.TriggerAntiGravity(); break;
+            case 2: if (blackHoles != null) blackHoles.TriggerBlackHoles(); break;
+            case 3: if (eclipse != null) eclipse.TriggerEclipse(); break;
             case 4:
                 if (primordialSoup != null && primordialSoup.soupPrefab != null)
                 {
-                    Transform spawnPoint = primordialSoup.spawnPoints[
-                        Random.Range(0, primordialSoup.spawnPoints.Length)
-                    ];
-
-                    Instantiate(
-                        primordialSoup.soupPrefab,
-                        spawnPoint.position,
-                        Quaternion.identity
-                    );
+                    Transform spawnPoint = primordialSoup.spawnPoints[Random.Range(0, primordialSoup.spawnPoints.Length)];
+                    Instantiate(primordialSoup.soupPrefab, spawnPoint.position, Quaternion.identity);
                 }
                 break;
         }
