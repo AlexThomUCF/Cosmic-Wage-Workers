@@ -24,7 +24,6 @@ public class CustomerManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource intercomAudio;
     public AudioClip[] aisleAnnouncementClips;
-
     public AudioSource Megaphone;
 
     [Header("Player References")]
@@ -37,6 +36,7 @@ public class CustomerManager : MonoBehaviour
 
     private bool interactionActive = false;
     private static HashSet<string> completedInteractions = new();
+    private CosmicPhenomenonManager cosmicManager;
 
     void Start()
     {
@@ -45,6 +45,8 @@ public class CustomerManager : MonoBehaviour
         availableInteractions = new List<CustomerInteraction>(
             allInteractions.FindAll(i => !completedInteractions.Contains(i.interactionID))
         );
+
+        cosmicManager = FindAnyObjectByType<CosmicPhenomenonManager>();
 
         StartCoroutine(RandomCustomerRoutine());
     }
@@ -71,30 +73,27 @@ public class CustomerManager : MonoBehaviour
     {
         interactionActive = true;
 
-        // DROP BOX (if held)
         if (playerBoxPickup != null)
             playerBoxPickup.ForceDropBox();
 
-        // DROP MOP (if held)
         if (playerMopPickup != null)
             playerMopPickup.ForceDropMop();
 
-        // Switch to intercom cam
+        // Switch to intercom cam and pause phenomena
         mainCam.Priority = 0;
         intercomCam.Priority = 10;
+        if (cosmicManager != null)
+            cosmicManager.isPaused = true;
 
         yield return new WaitForSeconds(1f);
 
         Megaphone.Play();
 
-
         yield return new WaitForSeconds(1.5f);
 
-        // Pick random interaction
         int index = Random.Range(0, availableInteractions.Count);
         CustomerInteraction chosen = availableInteractions[index];
 
-        // Spawn location
         int aisleIndex = Random.Range(0, spawnPoints.Count);
         Transform spawn = spawnPoints[aisleIndex];
 
@@ -108,8 +107,14 @@ public class CustomerManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         dialogueText.text = "";
+
+        // Switch back to main cam and resume phenomena
         intercomCam.Priority = 0;
         mainCam.Priority = 10;
+        if (cosmicManager != null)
+            cosmicManager.isPaused = false;
+
+        interactionActive = false;
     }
 
     public static void MarkInteractionComplete(string id)
