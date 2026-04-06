@@ -9475,6 +9475,79 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389864256}
   m_Mesh: {fileID: -5710842877281137214, guid: 97af0eda330670348b9b92eef5cf98bb, type: 3}
+--- !u!1001 &390191305
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 67.46025
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 67.46025
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 67.46025
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -113.534
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.874
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 407.328
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.73254496
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.68071866
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 85.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
+      propertyPath: m_Name
+      value: Cosmic_Achievment_NPC_Zbrush_Fbx
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ffca7e2862e012846a039e15904f60e5, type: 3}
 --- !u!1 &394406021
 GameObject:
   m_ObjectHideFlags: 0
@@ -45887,7 +45960,7 @@ Transform:
   m_GameObject: {fileID: 1812479846}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.011287466, y: -0.0003700368, z: -0.001702364}
+  m_LocalPosition: {x: -0.0113, y: -0.0003, z: -0.0017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54255,6 +54328,7 @@ SceneRoots:
   - {fileID: 1645836675}
   - {fileID: 1697992430}
   - {fileID: 1386199195}
+  - {fileID: 390191305}
   - {fileID: 1755960844}
   - {fileID: 262811939}
   - {fileID: 1009712606}
