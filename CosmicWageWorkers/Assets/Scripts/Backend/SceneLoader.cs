@@ -12,6 +12,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] public Image targetImage;
 
     public TextMeshProUGUI skipText;
+    public Image instructionsImage;
 
     NPCDialogue dialogueData;
     public static bool isLoading = false;
@@ -31,6 +32,7 @@ public class SceneLoader : MonoBehaviour
     public void Awake()
     {
         transitonObj = GameObject.Find("Scene Tansition");
+        instructionsImage.gameObject.SetActive(false);
 
         if (transitonObj != null)
         {
@@ -214,6 +216,7 @@ public class SceneLoader : MonoBehaviour
             Color color = skipText.color;
             color.a = Mathf.Lerp(0.3f, 1f, alpha);
             skipText.color = color;
+            instructionsImage.gameObject.SetActive(true);
 
             yield return null;
         }

@@ -53,7 +53,7 @@ public class NPC : MonoBehaviour, IInteraction
         else StartDialogue();
 
         dialogueUI.SetCloseButton(this.EndDialogue);
-        loader.targetImage.sprite = dialogueData.loadingScreen;
+        loader.instructionsImage.sprite = dialogueData.loadingScreen;
     }
 
     private void OnEnable()
