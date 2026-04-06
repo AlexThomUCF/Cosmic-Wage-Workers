@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,65 +16,43 @@ public class NPC : MonoBehaviour, IInteraction
     private bool isTyping, isDialogueActive;
     public static bool isInDialogue = false;
 
-    
     public CinemachineCamera normalCam;
     public CinemachineCamera dialogueCam;
-
     private Vector3 originalCameraPosition;
     public Transform dialogueCameraPos;
+
+    public CosmicPhenomenonManager cosmicManager;
 
     public void Start()
     {
         dialogueUI = DialogueController.Instance;
+        cosmicManager = FindAnyObjectByType<CosmicPhenomenonManager>();
 
-        GameObject camObj = GameObject.FindWithTag("dialogueCam"); // make sure the tag exists
-        if (camObj != null)
-        {
-            dialogueCam = camObj.GetComponent<CinemachineCamera>();
-        }
-        else
-        {
-            Debug.LogError("DialogueCam not found in scene! Check tag.");
-        }
+        GameObject camObj = GameObject.FindWithTag("dialogueCam");
+        if (camObj != null) dialogueCam = camObj.GetComponent<CinemachineCamera>();
 
         GameObject normalObj = GameObject.FindWithTag("NormalCam");
-        if (normalObj != null)
-        {
-            normalCam = normalObj.GetComponent<CinemachineCamera>();
-        }
-        else
-        {
-            Debug.LogError("Normal not found in scene! Check tag.");
-        }
+        if (normalObj != null) normalCam = normalObj.GetComponent<CinemachineCamera>();
 
         loader = FindAnyObjectByType<SceneLoader>();
-
-
-
     }
+
     public void Interact()
     {
-        if(dialogueData == null)
-        {
-            return;
-        }
+        if (dialogueData == null) return;
 
         onInteract?.Invoke();
         SoundEffectManager.Play("Interact");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (isDialogueActive)
-        {
-            NextLine();
-        }
-        else
-        {
-            StartDialogue();
-        }
+        if (cosmicManager != null)
+            cosmicManager.isPaused = true;
+
+        if (isDialogueActive) NextLine();
+        else StartDialogue();
 
         dialogueUI.SetCloseButton(this.EndDialogue);
-
         loader.targetImage.sprite = dialogueData.loadingScreen;
     }
 
@@ -87,80 +64,59 @@ public class NPC : MonoBehaviour, IInteraction
     private IEnumerator RegisterWhenReady()
     {
         AssignExit assignExit = null;
-
         while (assignExit == null)
         {
             assignExit = FindAnyObjectByType<AssignExit>();
-            yield return null; // wait one frame
+            yield return null;
         }
-
         assignExit.RegisterNPC(this);
     }
 
     void StartDialogue()
-    { 
-      isDialogueActive = true;
-      isInDialogue = true;
-      dialogueIndex = 0;
-
+    {
+        isDialogueActive = true;
+        isInDialogue = true;
+        dialogueIndex = 0;
 
         dialogueUI.SetNPCInfo(dialogueData.npcName, dialogueData.npcProtrait);
         dialogueUI.ShowDialogueUI(true);
-      
-        //Pauce controller? if you want game to pause when interacting with dialogue, PauseController.SetPause(true);
-
-        DisplayCurrentLine();
 
         dialogueCam.transform.position = dialogueCameraPos.position;
         dialogueCam.transform.rotation = dialogueCameraPos.rotation;
 
         dialogueCam.Priority = 20;
         normalCam.Priority = 10;
-
-        
-        // mainCamera.transform.position = dialogueCameraPos.position; //Puts dialogue cam infront of NPC
-
-
     }
+
     void NextLine()
     {
-        if(isTyping)
+        if (isTyping)
         {
             StopAllCoroutines();
             dialogueUI.SetDialogueText(dialogueData.dialogueLines[dialogueIndex]);
-
             isTyping = false;
         }
 
-        //Clear choices
         dialogueUI.ClearChoices();
 
-        //Check endDialogueLines
-        if(dialogueData.endDialogueLines.Length > dialogueIndex && dialogueData.endDialogueLines[dialogueIndex])
+        if (dialogueData.endDialogueLines.Length > dialogueIndex && dialogueData.endDialogueLines[dialogueIndex])
         {
             EndDialogue();
             return;
         }
 
-        //Check if choices & display 
-        foreach(DialogueChoice dialogueChoice in dialogueData.choices)
+        foreach (DialogueChoice dialogueChoice in dialogueData.choices)
         {
-            if(dialogueChoice.dialogueIndex == dialogueIndex)
+            if (dialogueChoice.dialogueIndex == dialogueIndex)
             {
                 DisplayChoices(dialogueChoice);
                 return;
             }
         }
 
-        if(++dialogueIndex < dialogueData.dialogueLines.Length)
-        {
+        if (++dialogueIndex < dialogueData.dialogueLines.Length)
             DisplayCurrentLine();
-        }
-        else
-        {
-            EndDialogue();
-        }
-
+        else EndDialogue();
     }
 
     IEnumerator TypeLine()
@@ -168,20 +124,19 @@ public class NPC : MonoBehaviour, IInteraction
         isTyping = true;
         dialogueUI.SetDialogueText("");
 
-        foreach (char letter in dialogueData.dialogueLines[dialogueIndex]) // go through each letter in dialogueLine and add it to dialoguetext
+        foreach (char letter in dialogueData.dialogueLines[dialogueIndex])
         {
             dialogueUI.SetDialogueText(dialogueUI.dialogueText.text += letter);
 
             if (!SceneLoader.isLoading)
-            {
                 SoundEffectManager.PlayVoice(dialogueData.voiceSound, dialogueData.voicePitch);
-            }
+
             yield return new WaitForSeconds(dialogueData.typingSpeed);
         }
 
         isTyping = false;
 
-        if(dialogueData.autoProgressLines.Length > dialogueIndex && dialogueData.autoProgressLines[dialogueIndex])
+        if (dialogueData.autoProgressLines.Length > dialogueIndex && dialogueData.autoProgressLines[dialogueIndex])
         {
             yield return new WaitForSeconds(dialogueData.autoProgressDelay);
             NextLine();
@@ -194,11 +149,9 @@ public class NPC : MonoBehaviour, IInteraction
         {
             string choiceText = choice.choices[i];
             int nextIndex = choice.nextDialogueIndexs[i];
-            int capturedIndex = i;
 
             UnityAction action = () =>
             {
-                // Find a matching ChoiceEvent in the NPC
                 foreach (var ce in choiceEvents)
                 {
                     if (ce.choiceText.Equals(choiceText, System.StringComparison.OrdinalIgnoreCase))
@@ -213,7 +166,6 @@ public class NPC : MonoBehaviour, IInteraction
     }
 
     void ChooseOption(int nextIndex)
-
     {
         dialogueIndex = nextIndex;
         dialogueUI.ClearChoices();
@@ -225,7 +177,7 @@ public class NPC : MonoBehaviour, IInteraction
         StopAllCoroutines();
         StartCoroutine(TypeLine());
     }
-    
+
     public void EndDialogue()
     {
         StopAllCoroutines();
@@ -233,14 +185,14 @@ public class NPC : MonoBehaviour, IInteraction
         isInDialogue = false;
         dialogueUI.SetDialogueText("");
         dialogueUI.ShowDialogueUI(false);
-        Cursor.lockState = CursorLockMode.Locked; // Locks cursor to center
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        //mainCamera.transform.position = originalCameraPosition; // Moves camera back into regular position
         dialogueCam.Priority = 0;
         normalCam.Priority = 20;
 
-        //pauseccontroller un pause game here
+        if (cosmicManager != null)
+            cosmicManager.isPaused = false;
     }
 
     [System.Serializable]

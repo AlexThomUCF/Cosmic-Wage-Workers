@@ -8,12 +8,27 @@ public class CosmicPhenomenonManager : MonoBehaviour
     public float minTimeBetweenEvents = 30f;
     public float maxTimeBetweenEvents = 60f;
 
+    [Header("Dialogue Settings")]
+    public float postDialogueDelay = 2f;
+
+    [Header("Solar Flare Settings")]
+    public float solarFlareDialogueDelay = 3f;
+
+    [Header("Dialogue Lines")]
+    [TextArea] public List<string> solarFlareLines;
+    [TextArea] public List<string> antiGravityLines;
+    [TextArea] public List<string> blackHoleLines;
+    [TextArea] public List<string> eclipseLines;
+    [TextArea] public List<string> primordialSoupLines;
+
     [Header("References")]
     public SolarFlare solarFlare;
     public AntiGravity antiGravity;
     public BlackHoles blackHoles;
     public Eclipse eclipse;
     public PrimordialSoup primordialSoup;
+
+    [HideInInspector] public bool isPaused = false;
 
     private void Start()
     {
@@ -24,7 +39,9 @@ public class CosmicPhenomenonManager : MonoBehaviour
     {
         while (true)
         {
-            // Wait until dialogue is NOT active
+            while (isPaused)
+                yield return null;
+
             yield return new WaitUntil(() =>
                 DialogueController.Instance == null ||
                 !DialogueController.Instance.dialoguePanel.activeSelf
@@ -33,50 +50,81 @@ public class CosmicPhenomenonManager : MonoBehaviour
             float waitTime = Random.Range(minTimeBetweenEvents, maxTimeBetweenEvents);
             float timer = 0f;
 
-            // Countdown that pauses if dialogue opens
             while (timer < waitTime)
             {
-                if (DialogueController.Instance != null &&
-                    DialogueController.Instance.dialoguePanel.activeSelf)
+                if (isPaused)
                 {
-                    // Pause until dialogue closes
-                    yield return new WaitUntil(() =>
-                        !DialogueController.Instance.dialoguePanel.activeSelf
-                    );
+                    yield return null;
+                    continue;
                 }
 
                 timer += Time.deltaTime;
                 yield return null;
             }
 
-            // Final safety check before triggering
-            if (DialogueController.Instance == null ||
-                !DialogueController.Instance.dialoguePanel.activeSelf)
-            {
-                TriggerRandomEvent();
-            }
+            StartCoroutine(HandleEventWithDialogue());
         }
     }
 
-
-    private void TriggerRandomEvent()
+    private IEnumerator HandleEventWithDialogue()
     {
-        int eventIndex = Random.Range(0, 5); // 0 = SolarFlare, 1 = AntiGravity, 2 = BlackHoles, 3 = Eclipse, 4 = PrimordialSoup
+        int eventIndex = Random.Range(0, 5);
+        string chosenLine = GetRandomLine(eventIndex);
+
+        if (eventIndex == 0)
+        {
+            TriggerEvent(eventIndex);
+            yield return new WaitForSeconds(solarFlareDialogueDelay);
+
+            if (DialogueController.Instance != null)
+            {
+                DialogueController.Instance.ShowDialogue("Intercom", chosenLine);
+                yield return new WaitUntil(() => DialogueController.Instance.IsFinishedTyping());
+                yield return new WaitForSeconds(postDialogueDelay);
+                DialogueController.Instance.HideDialogue();
+            }
+
+            yield break;
+        }
+
+        if (DialogueController.Instance != null)
+        {
+            DialogueController.Instance.ShowDialogue("Intercom", chosenLine);
+            yield return new WaitUntil(() => DialogueController.Instance.IsFinishedTyping());
+            yield return new WaitForSeconds(postDialogueDelay);
+            DialogueController.Instance.HideDialogue();
+        }
+
+        TriggerEvent(eventIndex);
+    }
+
+    private string GetRandomLine(int eventIndex)
+    {
+        List<string> lines = null;
 
         switch (eventIndex)
         {
-            case 0:
-                if (solarFlare != null) solarFlare.TriggerFlare();
-                break;
-            case 1:
-                if (antiGravity != null) antiGravity.TriggerAntiGravity();
-                break;
-            case 2:
-                if (blackHoles != null) blackHoles.TriggerBlackHoles();
-                break;
-            case 3:
-                if (eclipse != null) eclipse.TriggerEclipse();
-                break;
+            case 0: lines = solarFlareLines; break;
+            case 1: lines = antiGravityLines; break;
+            case 2: lines = blackHoleLines; break;
+            case 3: lines = eclipseLines; break;
+            case 4: lines = primordialSoupLines; break;
+        }
+
+        if (lines != null && lines.Count > 0)
+            return lines[Random.Range(0, lines.Count)];
+
+        return "...";
+    }
+
+    private void TriggerEvent(int eventIndex)
+    {
+        switch (eventIndex)
+        {
+            case 0: if (solarFlare != null) solarFlare.TriggerFlare(); break;
+            case 1: if (antiGravity != null) antiGravity.TriggerAntiGravity(); break;
+            case 2: if (blackHoles != null) blackHoles.TriggerBlackHoles(); break;
+            case 3: if (eclipse != null) eclipse.TriggerEclipse(); break;
             case 4:
                 if (primordialSoup != null && primordialSoup.soupPrefab != null)
                 {

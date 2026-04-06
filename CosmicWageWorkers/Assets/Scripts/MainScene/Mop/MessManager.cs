@@ -9,7 +9,7 @@ public class MessManager : MonoBehaviour
     public float respawnDelay = 3f;
 
     [HideInInspector] public List<GameObject> activeMesses = new List<GameObject>();
-    private List<Transform> spawnPoints = new List<Transform>();
+    public List<Transform> spawnPoints = new List<Transform>();
     private HashSet<Transform> occupiedPoints = new HashSet<Transform>();
 
     public event System.Action OnMessCountChanged;
