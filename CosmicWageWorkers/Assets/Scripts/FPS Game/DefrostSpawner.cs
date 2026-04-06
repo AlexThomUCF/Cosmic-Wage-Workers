@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DefrostSpawner : MonoBehaviour
 {
@@ -7,6 +8,15 @@ public class DefrostSpawner : MonoBehaviour
     public float spawnDelay = 5f;
 
     private float timer;
+    private Dictionary<Transform, GameObject> occupiedSpawns = new Dictionary<Transform, GameObject>();
+
+    void Start()
+    {
+        foreach (Transform point in spawnPoints)
+        {
+            occupiedSpawns.Add(point, null);
+        }
+    }
 
     void Update()
     {
@@ -19,18 +29,29 @@ public class DefrostSpawner : MonoBehaviour
         }
     }
 
-    //If defrostObj spawned in spot. Don't spawn new object
-
     void SpawnDefrost()
     {
-        int spawnCount = Random.Range(1, 5);
+        List<Transform> availablePoints = new List<Transform>();
 
-        for (int i = 0; i < spawnCount; i++)
+        foreach (Transform point in spawnPoints)
         {
-            int randomIndex = Random.Range(0, spawnPoints.Length);
-            Transform spawnPoint = spawnPoints[randomIndex];
-
-            Instantiate(defrostObj, spawnPoint.position + Vector3.up * 1f, spawnPoint.rotation);
+            if (occupiedSpawns[point] == null)
+            {
+                availablePoints.Add(point);
+            }
         }
+
+        if (availablePoints.Count == 0)
+            return;
+
+        Transform chosenPoint = availablePoints[Random.Range(0, availablePoints.Count)];
+
+        GameObject spawned = Instantiate(
+            defrostObj,
+            chosenPoint.position + Vector3.up * 1f,
+            chosenPoint.rotation
+        );
+
+        occupiedSpawns[chosenPoint] = spawned;
     }
 }
