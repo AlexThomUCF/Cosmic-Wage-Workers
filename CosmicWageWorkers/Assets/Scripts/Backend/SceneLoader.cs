@@ -38,6 +38,10 @@ public class SceneLoader : MonoBehaviour
             canvas = transitonObj.GetComponentInChildren<Canvas>();
         }
 
+        // Ensure target image starts hidden
+        if (targetImage != null)
+            targetImage.gameObject.SetActive(false);
+
         StartCoroutine(WaitForSkipText());
     }
 
@@ -106,14 +110,30 @@ public class SceneLoader : MonoBehaviour
     {
         isLoading = true;
 
+        // ?? Start transition animation
         if (transitonAnim != null)
             transitonAnim.SetTrigger("End");
+
+        // ?? SHOW target image (force it on top using its own canvas)
+        if (targetImage != null)
+        {
+            Canvas targetCanvas = targetImage.GetComponentInParent<Canvas>();
+
+            if (targetCanvas != null)
+            {
+                targetCanvas.overrideSorting = true;
+                targetCanvas.sortingOrder = 10; // higher than everything else
+            }
+
+            targetImage.gameObject.SetActive(true);
+        }
 
         ExitDialogue();
 
         if (canvas != null)
             canvas.sortingOrder = 2;
 
+        // ?? Reset skip text
         if (skipText != null)
         {
             skipText.gameObject.SetActive(false);
@@ -166,10 +186,19 @@ public class SceneLoader : MonoBehaviour
             skipText.gameObject.SetActive(false);
         }
 
+        // ?? Load scene
         SceneManager.LoadScene(sceneName);
 
+        // ?? End transition animation
         if (transitonAnim != null)
             transitonAnim.SetTrigger("Start");
+
+        // ?? Optional: wait for fade-out animation
+        yield return new WaitForSeconds(0.5f);
+
+        // ?? HIDE target image
+        if (targetImage != null)
+            targetImage.gameObject.SetActive(false);
 
         if (canvas != null)
             canvas.sortingOrder = -1;
