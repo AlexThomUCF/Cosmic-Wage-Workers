@@ -2,32 +2,83 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using System.Collections;
 
 public class DialogueController : MonoBehaviour
 {
-    public static DialogueController Instance { get; private set; }//Singleton instance
+    public static DialogueController Instance { get; private set; }
+
     public GameObject dialoguePanel;
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
-    public Transform[] choicePanels; // Assign in Inspector
+
+    public Transform[] choicePanels;
     public GameObject choiceButtonPrefab;
     public Button closeButton;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [Header("Typing Settings")]
+    public float typingSpeed = 0.03f;
+
+    private Coroutine typingCoroutine;
+    private bool isTyping = false;
+
     void Awake()
     {
-       if(Instance == null)
-        {
+        if (Instance == null)
             Instance = this;
-        }
-       else
-        {
+        else
             Destroy(gameObject);
-        }
+
+        dialoguePanel.SetActive(false);
     }
 
-   public void ShowDialogueUI (bool show)
+    // =============================
+    // MAIN FUNCTION USED BY EVENTS
+    // =============================
+    public void ShowDialogue(string speaker, string text)
     {
-        dialoguePanel.SetActive(show);//Toggle UI visability
+        ShowDialogueUI(true);
+        nameText.text = speaker;
+
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        typingCoroutine = StartCoroutine(TypeText(text));
+    }
+
+    public void HideDialogue()
+    {
+        ShowDialogueUI(false);
+    }
+
+    public bool IsFinishedTyping()
+    {
+        return !isTyping;
+    }
+
+    // =============================
+    // TYPEWRITER EFFECT
+    // =============================
+    private IEnumerator TypeText(string text)
+    {
+        isTyping = true;
+        dialogueText.text = "";
+
+        foreach (char letter in text)
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+    }
+
+    // =============================
+    // YOUR ORIGINAL SYSTEM
+    // =============================
+    public void ShowDialogueUI(bool show)
+    {
+        dialoguePanel.SetActive(show);
     }
 
     public void SetNPCInfo(string npcName, Sprite portrait)
@@ -58,7 +109,7 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public void CreateChoiceButton(string choiceText, UnityEngine.Events.UnityAction onClick, int panelIndex)
+    public void CreateChoiceButton(string choiceText, UnityAction onClick, int panelIndex)
     {
         if (panelIndex < 0 || panelIndex >= choicePanels.Length)
         {
@@ -66,15 +117,12 @@ public class DialogueController : MonoBehaviour
             return;
         }
 
-        // Clear previous button in that panel (optional safety)
         foreach (Transform child in choicePanels[panelIndex])
             Destroy(child.gameObject);
 
-        // Spawn button inside predefined panel
         GameObject choiceButton = Instantiate(choiceButtonPrefab, choicePanels[panelIndex]);
 
         choiceButton.GetComponentInChildren<TMP_Text>().text = choiceText;
         choiceButton.GetComponent<Button>().onClick.AddListener(onClick);
     }
-
 }

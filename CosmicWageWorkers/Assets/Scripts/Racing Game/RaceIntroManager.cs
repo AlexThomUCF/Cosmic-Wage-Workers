@@ -7,6 +7,7 @@ public class RaceIntroManager : MonoBehaviour
 {
     [Header("Cameras")]
     public Camera playerCamera;
+    public Camera gameplayStartCamera;
     public List<Camera> introCameras = new List<Camera>();
     public float timePerCamera = 3f;
 
@@ -31,11 +32,25 @@ public class RaceIntroManager : MonoBehaviour
     public GameObject gameplayHUD;
 
     private Rigidbody[] aiBodies;
+    private Coroutine introCoroutine;
+    private bool isIntroPlaying = false;
+    private bool isSkipping = false;
 
     void Start()
     {
         if (playOnStart)
-            StartCoroutine(IntroSequence());
+        {
+            introCoroutine = StartCoroutine(IntroSequence());
+            isIntroPlaying = true;
+        }
+    }
+
+    void Update()
+    {
+        if (isIntroPlaying && !isSkipping && Input.GetKeyDown(KeyCode.T))
+        {
+            StartCoroutine(SkipToGameplayCountdown());
+        }
     }
 
     IEnumerator IntroSequence()
@@ -48,7 +63,7 @@ public class RaceIntroManager : MonoBehaviour
         if (countdownCanvas != null)
             countdownCanvas.SetActive(false);
 
-        // Freeze AI cars
+        // Freeze AI
         aiBodies = new Rigidbody[aiCars.Length];
         for (int i = 0; i < aiCars.Length; i++)
         {
@@ -67,14 +82,7 @@ public class RaceIntroManager : MonoBehaviour
         }
 
         // Camera setup
-        if (playerCamera != null)
-            playerCamera.enabled = false;
-
-        foreach (Camera cam in introCameras)
-        {
-            if (cam != null)
-                cam.enabled = false;
-        }
+        DisableAllCameras();
 
         // Play intro cameras
         for (int i = 0; i < introCameras.Count; i++)
@@ -84,7 +92,6 @@ public class RaceIntroManager : MonoBehaviour
 
             cam.enabled = true;
 
-            // If this is the LAST camera → run countdown
             if (i == introCameras.Count - 1)
             {
                 yield return StartCoroutine(CountdownRoutine());
@@ -97,9 +104,79 @@ public class RaceIntroManager : MonoBehaviour
             cam.enabled = false;
         }
 
-        // Restore player camera
+        EndIntroNormally();
+    }
+
+    IEnumerator SkipToGameplayCountdown()
+    {
+        isSkipping = true;
+
+        if (introCoroutine != null)
+            StopCoroutine(introCoroutine);
+
+        // Stop any currently playing countdown sounds just in case
+        if (countdownsfx != null) countdownsfx.Stop();
+        if (goSFX != null) goSFX.Stop();
+
+        // Disable every other camera
+        DisableAllCameras();
+
+        // Enable gameplay start camera for the countdown
+        if (gameplayStartCamera != null)
+            gameplayStartCamera.enabled = true;
+
+        // Play 3, 2, 1, GO
+        yield return StartCoroutine(CountdownRoutine());
+
+        // Disable gameplay start camera when countdown ends
+        if (gameplayStartCamera != null)
+            gameplayStartCamera.enabled = false;
+
+        EndIntroAfterSkip();
+    }
+
+    void DisableAllCameras()
+    {
+        if (playerCamera != null)
+            playerCamera.enabled = false;
+
+        if (gameplayStartCamera != null)
+            gameplayStartCamera.enabled = false;
+
+        foreach (Camera cam in introCameras)
+        {
+            if (cam != null)
+                cam.enabled = false;
+        }
+    }
+
+    void EndIntroNormally()
+    {
+        DisableAllCameras();
+
+        // Normal path: return to player camera
         if (playerCamera != null)
             playerCamera.enabled = true;
+
+        FinishIntro();
+    }
+
+    void EndIntroAfterSkip()
+    {
+        DisableAllCameras();
+
+        // Skip path: leave gameplayStartCamera off after countdown
+        // Turn player camera back on for gameplay
+        if (playerCamera != null)
+            playerCamera.enabled = true;
+
+        FinishIntro();
+    }
+
+    void FinishIntro()
+    {
+        if (countdownCanvas != null)
+            countdownCanvas.SetActive(false);
 
         // Unfreeze AI
         for (int i = 0; i < aiCars.Length; i++)
@@ -107,38 +184,41 @@ public class RaceIntroManager : MonoBehaviour
             if (aiCars[i] != null)
                 aiCars[i].enabled = true;
 
-            if (aiBodies[i] != null)
+            if (aiBodies != null && i < aiBodies.Length && aiBodies[i] != null)
                 aiBodies[i].isKinematic = false;
         }
 
-        // Resume gameplay AFTER countdown
+        // Resume gameplay
         if (playerController != null) playerController.enabled = true;
         if (raceManager != null) raceManager.enabled = true;
         if (gameplayHUD != null) gameplayHUD.SetActive(true);
+
+        isIntroPlaying = false;
+        isSkipping = false;
     }
 
-        IEnumerator CountdownRoutine()
+    IEnumerator CountdownRoutine()
     {
         if (countdownCanvas != null)
             countdownCanvas.SetActive(true);
 
-        countdownText.transform.localScale = Vector3.one;
+        if (countdownText != null)
+            countdownText.transform.localScale = Vector3.one;
 
-        countdownText.text = "3";
-        countdownsfx.Play();
+        if (countdownText != null) countdownText.text = "3";
+        if (countdownsfx != null) countdownsfx.Play();
         yield return new WaitForSeconds(1f);
 
-        countdownText.text = "2";
-        countdownsfx.Play();
+        if (countdownText != null) countdownText.text = "2";
+        if (countdownsfx != null) countdownsfx.Play();
         yield return new WaitForSeconds(1f);
 
-        countdownText.text = "1";
-        countdownsfx.Play();
+        if (countdownText != null) countdownText.text = "1";
+        if (countdownsfx != null) countdownsfx.Play();
         yield return new WaitForSeconds(1f);
 
-        // GO POP EFFECT
-        countdownText.text = "GO!";
-        goSFX.Play();
+        if (countdownText != null) countdownText.text = "GO!";
+        if (goSFX != null) goSFX.Play();
         yield return StartCoroutine(GoPopEffect());
 
         yield return new WaitForSeconds(0.6f);
@@ -147,8 +227,10 @@ public class RaceIntroManager : MonoBehaviour
             countdownCanvas.SetActive(false);
     }
 
-        IEnumerator GoPopEffect()
+    IEnumerator GoPopEffect()
     {
+        if (countdownText == null) yield break;
+
         float duration = 0.25f;
         float timer = 0f;
 
@@ -161,7 +243,6 @@ public class RaceIntroManager : MonoBehaviour
         {
             timer += Time.deltaTime;
             float t = timer / duration;
-
             countdownText.transform.localScale = Vector3.Lerp(startScale, endScale, t);
             yield return null;
         }
