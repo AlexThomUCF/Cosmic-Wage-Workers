@@ -10,21 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4099bd03c129bf14ab34b6e009ffe1e0, type: 3}
-  m_Name: FinalGrandma
+  m_Name: FinalKaren
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Grandma
-  miniGameName: JackFPS
-  npcProtrait: {fileID: 21300000, guid: 81c905c9652ee3e40b6d962bc23d8c69, type: 3}
+  npcName: Angry Mom
+  miniGameName: racingscene
+  npcProtrait: {fileID: 21300000, guid: 9e284566e46f3b241a1b92a638135ea5, type: 3}
   dialogueLines:
-  - Oh hi there you little whipper snapper. Would you be able to help me out with
-    something?
-  - A revolution is coming. The groceries seek their freedom. Take this and stop
-    them.
-  - "Sure. I\u2019ll be waiting right here. Just don\u2019t keep an old lady waiting
-    too long now"
-  loadingScreen: {fileID: 21300000, guid: 103950c41f5a71a438de293368537e80, type: 3}
-  autoProgressLines: 010001
-  endDialogueLines: 000001
+  - DO YOU KNOW WHO WE ARE?!
+  - 'DO YOU HAVE ANY CONCEPT?! '
+  - MY BABY IS THE BEST STAR-DAMN RACER THIS SIDE OF THE UNIVERSE AND WE HAVE WAITED
+    TOO. DAMN. LONG!
+  - My child requires their daily cart race NOW!
+  - Now!!!
+  - FINALLY, took you store workers long enough
+  - HEY! WHERE ARE YOU GOING?!
+  loadingScreen: {fileID: 21300000, guid: 929744127f7ac2140aea06b3a49b47af, type: 3}
+  autoProgressLines: 01010101000000
+  endDialogueLines: 00000000010101
   autoProgressDelay: 1.5
   typingSpeed: 0.04
   voiceSound: {fileID: 8300000, guid: e6d5fe5d87dfa4c4ba0131dc477062bf, type: 3}
@@ -41,31 +43,31 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: JackFPS
+          m_StringArgument: racingscene
           m_BoolArgument: 0
         m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_TargetAssemblyTypeName: 
         m_MethodName: 
-        m_Mode: 5
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ShelvesScene
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   choices:
-  - dialogueIndex: 0
+  - dialogueIndex: 2
     choices:
-    - Oh sure! How can I help you today?
-    - Sure, just give me one moment
-    nextDialogueIndexs: 0100000002000000
-  - dialogueIndex: 1
+    - Uh sure
+    - Umm, just one moment
+    nextDialogueIndexs: 0300000004000000
+  - dialogueIndex: 3
     choices:
-    - I'll do my best
-    - I don't know about this!
-    nextDialogueIndexs: 0200000002000000
+    - Race
+    - Umm, just one moment
+    nextDialogueIndexs: 0300000004000000
