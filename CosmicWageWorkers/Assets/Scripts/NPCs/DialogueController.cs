@@ -3,15 +3,18 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class DialogueController : MonoBehaviour
 {
     public static DialogueController Instance { get; private set; }
 
+    [Header("UI References")]
     public GameObject dialoguePanel;
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
 
+    [Header("Choices")]
     public Transform[] choicePanels;
     public GameObject choiceButtonPrefab;
     public Button closeButton;
@@ -21,6 +24,7 @@ public class DialogueController : MonoBehaviour
 
     private Coroutine typingCoroutine;
     private bool isTyping = false;
+    private bool hasSelectedFirstChoice = false;
 
     void Awake()
     {
@@ -32,13 +36,14 @@ public class DialogueController : MonoBehaviour
         dialoguePanel.SetActive(false);
     }
 
-    // =============================
-    // MAIN FUNCTION USED BY EVENTS
-    // =============================
+
+    // MAIN FUNCTION FOR EVENTS
     public void ShowDialogue(string speaker, string text)
     {
         ShowDialogueUI(true);
         nameText.text = speaker;
+
+        hasSelectedFirstChoice = false; // reset for new dialogue
 
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
@@ -56,9 +61,8 @@ public class DialogueController : MonoBehaviour
         return !isTyping;
     }
 
-    // =============================
+
     // TYPEWRITER EFFECT
-    // =============================
     private IEnumerator TypeText(string text)
     {
         isTyping = true;
@@ -71,11 +75,25 @@ public class DialogueController : MonoBehaviour
         }
 
         isTyping = false;
+
+        // Optional: make sure controller selection is still valid after typing
+        if (!hasSelectedFirstChoice && choicePanels.Length > 0)
+        {
+            foreach (Transform panel in choicePanels)
+            {
+                if (panel.childCount > 0)
+                {
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(panel.GetChild(0).gameObject);
+                    hasSelectedFirstChoice = true;
+                    break;
+                }
+            }
+        }
     }
 
-    // =============================
-    // YOUR ORIGINAL SYSTEM
-    // =============================
+
+    // UI CONTROL
     public void ShowDialogueUI(bool show)
     {
         dialoguePanel.SetActive(show);
@@ -98,6 +116,7 @@ public class DialogueController : MonoBehaviour
         closeButton.onClick.AddListener(onClickAction);
     }
 
+    // CHOICES
     public void ClearChoices()
     {
         foreach (Transform panel in choicePanels)
@@ -117,12 +136,16 @@ public class DialogueController : MonoBehaviour
             return;
         }
 
+        // Remove old buttons in this panel
         foreach (Transform child in choicePanels[panelIndex])
             Destroy(child.gameObject);
 
+        // Spawn new button
         GameObject choiceButton = Instantiate(choiceButtonPrefab, choicePanels[panelIndex]);
-
         choiceButton.GetComponentInChildren<TMP_Text>().text = choiceText;
         choiceButton.GetComponent<Button>().onClick.AddListener(onClick);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(choiceButton);
     }
 }
