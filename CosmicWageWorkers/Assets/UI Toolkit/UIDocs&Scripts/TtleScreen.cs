@@ -34,7 +34,7 @@ public class TitleScreen : MonoBehaviour
     {
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         audioManager.PlayVoice(audioManager.helloThere);
- 
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
     // Update is called once per frame

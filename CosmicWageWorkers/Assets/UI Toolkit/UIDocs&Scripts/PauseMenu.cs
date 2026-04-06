@@ -13,7 +13,10 @@ public class PauseMenu : MonoBehaviour
 
     [Header("Other")]
     public GameObject generalHUD;           // HUD
-    public GameObject ResumeButton;         // Default button for controller/keyboard
+
+    [Header("First Selected Options")]
+    [SerializeField] private GameObject _pauseMenuFirst;
+    [SerializeField] private GameObject _settingsMenuFirst;
 
     private bool gameIsPaused = false;
     private bool isTransitioning = false;
@@ -66,7 +69,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
 
         pauseAni.SetTrigger("PauseOn");
-        EventSystem.current.SetSelectedGameObject(ResumeButton);
+        EventSystem.current.SetSelectedGameObject(_pauseMenuFirst);
     }
 
     // Start unpausing
@@ -122,7 +125,7 @@ public class PauseMenu : MonoBehaviour
         optionsPanel.interactable = true;
         optionsPanel.blocksRaycasts = true;
 
-        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(_settingsMenuFirst);
     }
 
     // Close options panel
@@ -136,7 +139,7 @@ public class PauseMenu : MonoBehaviour
         pauseButtons.interactable = true;
         pauseButtons.blocksRaycasts = true;
 
-        EventSystem.current.SetSelectedGameObject(ResumeButton);
+        EventSystem.current.SetSelectedGameObject(_pauseMenuFirst);
     }
 
     // Main menu button
