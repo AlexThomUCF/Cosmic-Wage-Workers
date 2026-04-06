@@ -3,14 +3,40 @@ using UnityEngine;
 public class RandomPlatform : MonoBehaviour
 {
     [SerializeField] private RandomPlatformGroup platformGroup;
+    [SerializeField] private float shakeIntensity = 0.02f;
+    [SerializeField] private float shakeSpeed = 8f;
+    
     private bool isSafe;
     private Collider platformCollider;
     private Renderer platformRenderer;
+    private Vector3 startPosition;
 
     private void Start()
     {
         platformCollider = GetComponent<Collider>();
         platformRenderer = GetComponent<Renderer>();
+        startPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        if (!isSafe)
+        {
+            ApplySubtleShake();
+        }
+        else
+        {
+            // Keep safe platform at original position
+            transform.position = startPosition;
+        }
+    }
+
+    private void ApplySubtleShake()
+    {
+        float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeIntensity;
+        float shakeZ = Mathf.Cos(Time.time * shakeSpeed * 0.7f) * shakeIntensity;
+        
+        transform.position = startPosition + new Vector3(shakeX, 0, shakeZ);
     }
 
     public void SetSafe(bool safe)

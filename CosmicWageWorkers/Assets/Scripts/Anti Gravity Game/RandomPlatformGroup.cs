@@ -22,7 +22,7 @@ public class RandomPlatformGroup : MonoBehaviour
         // Pick a random safe platform (0, 1, or 2)
         int safePlatformIndex = Random.Range(0, platforms.Length);
 
-        // Set all platforms
+        // Set all platforms - 1 safe, 2 unsafe
         for (int i = 0; i < platforms.Length; i++)
         {
             platforms[i].SetSafe(i == safePlatformIndex);
