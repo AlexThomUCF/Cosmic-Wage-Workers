@@ -205,8 +205,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1.3866994, z: 1}
+  m_Center: {x: 0, y: 0.19334972, z: 0}
 --- !u!114 &8387123972365131708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,9 +268,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8835418fcb9a02846a5edbd4441db93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  health: 25
+  health: 1
   dmgMaterial: {fileID: 2100000, guid: 8decfcdf8b5f694428f1c57406d19d0d, type: 2}
   currentMaterial: {fileID: 0}
+  rangedCollider: {fileID: 0}
 --- !u!1001 &312207536542948306
 PrefabInstance:
   m_ObjectHideFlags: 0
