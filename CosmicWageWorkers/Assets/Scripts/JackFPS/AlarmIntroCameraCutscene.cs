@@ -22,6 +22,7 @@ public class MultiCameraCutscene : MonoBehaviour
 
     [Header("Player Camera")]
     public Camera playerCamera;
+    public PlayerMovement player;
 
     [Header("UI")]
     public GameObject hudCanvas;
@@ -44,14 +45,18 @@ public class MultiCameraCutscene : MonoBehaviour
         if (isCutscenePlaying && Input.GetKeyDown(KeyCode.T))
         {
             SkipCutscene();
+
+
         }
     }
 
     IEnumerator CutsceneRoutine()
     {
+
+        if (player) player.enabled = false;
         yield return new WaitForSeconds(delayBeforeStart);
 
-        if (playerController) playerController.enabled = false;
+        
         if (propManager) propManager.spawningEnabled = false;
         if (playerCamera) playerCamera.enabled = false;
         if (sequenceManager) sequenceManager.enabled = false;
@@ -120,7 +125,8 @@ public class MultiCameraCutscene : MonoBehaviour
 
         // Restore gameplay
         if (playerCamera) playerCamera.enabled = true;
-        if (playerController) playerController.enabled = true;
+        //if (playerController) playerController.enabled = true;
+        if (player) player.enabled = true;
         if (shootingScript) shootingScript.enabled = true;
         if (propManager) propManager.StartSpawning();
         if (sequenceManager) sequenceManager.enabled = true;
