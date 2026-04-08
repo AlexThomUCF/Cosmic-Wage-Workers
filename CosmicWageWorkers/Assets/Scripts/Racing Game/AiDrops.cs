@@ -4,22 +4,17 @@ public class AiDrops : MonoBehaviour
 {
     public float slowSpeed; // how slow the vehicle will slow down
 
-    public CarControl car;
-    public CarControl currentCar;
+    public KartControllerArcade car;
+    public KartControllerArcade currentCar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter(Collider other)
     {
-        car = other.GetComponent<CarControl>();
-        currentCar = other.GetComponent<CarControl>();
+        KartControllerArcade kart = other.GetComponent<KartControllerArcade>();
 
-        if (car)
+        if (kart != null)
         {
-            car.currentSpeed = slowSpeed;
-        }
-        else if (currentCar)
-        {
-            Vector3 dir = currentCar.rb.linearVelocity.normalized;
-            currentCar.rb.linearVelocity = dir * slowSpeed;
+            kart.ApplySlow(slowSpeed, 2f); // 2 seconds slowdown
+            Debug.Log("Slowed kart!");
         }
     }
 }
