@@ -114,7 +114,7 @@ public class CustomerManager : MonoBehaviour
         if (cosmicManager != null)
             cosmicManager.isPaused = false;
 
-        interactionActive = false;
+        //interactionActive = false;
     }
 
     public static void MarkInteractionComplete(string id)
