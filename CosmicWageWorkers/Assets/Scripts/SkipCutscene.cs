@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.InputSystem;
 
 public class SkipCutscene : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class SkipCutscene : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T) && director.state == PlayState.Playing)
+        if (Keyboard.current.tKey.wasPressedThisFrame && director.state == PlayState.Playing)
         {
             director.Stop();
         }
