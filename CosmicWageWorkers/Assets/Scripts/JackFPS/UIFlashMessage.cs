@@ -12,7 +12,9 @@ public class UIFlashMessage : MonoBehaviour
     void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
-        gameObject.SetActive(false);
+
+        // Keep object ACTIVE, just hide text
+        text.enabled = false;
     }
 
     public void FlashMessage()
@@ -23,8 +25,6 @@ public class UIFlashMessage : MonoBehaviour
 
     IEnumerator FlashRoutine()
     {
-        gameObject.SetActive(true);
-
         for (int i = 0; i < flashCount; i++)
         {
             text.enabled = true;
@@ -34,9 +34,10 @@ public class UIFlashMessage : MonoBehaviour
             yield return new WaitForSeconds(flashSpeed);
         }
 
+        // Stay visible briefly at end
         text.enabled = true;
         yield return new WaitForSeconds(1f);
 
-        gameObject.SetActive(false);
+        text.enabled = false;
     }
 }
