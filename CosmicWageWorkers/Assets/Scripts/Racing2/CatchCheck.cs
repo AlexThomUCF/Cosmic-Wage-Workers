@@ -46,11 +46,13 @@ public class CatchCheck : MonoBehaviour
 
         // Mini catch
         minisCaught++;
-
         gameObject.SetActive(false);
 
         if (minisCaught >= totalMinisSpawned)
         {
+            if (MiniGameTimer.Instance != null)
+                MiniGameTimer.Instance.StopTimer();
+
             FindObjectOfType<endscene>().PlayAnim();
 
             if (!string.IsNullOrEmpty(interactionID))
@@ -106,7 +108,6 @@ public class CatchCheck : MonoBehaviour
             GameObject mini = Instantiate(miniPrefab, spawnPos, transform.rotation);
             mini.transform.localScale = transform.localScale * 0.5f;
 
-            // CatchCheck refs
             CatchCheck miniCatch = mini.GetComponent<CatchCheck>();
             if (miniCatch != null)
             {
@@ -118,18 +119,16 @@ public class CatchCheck : MonoBehaviour
                 miniCatch.splitRadius = splitRadius;
             }
 
-            // TeenAI refs
             TeenAI miniAI = mini.GetComponent<TeenAI>();
             if (miniAI != null)
             {
                 miniAI.player = parentAI.player;
                 miniAI.waypoints = new List<Transform>(parentAI.waypoints);
-                miniAI.runWhenDistanceLessThan = 999f; // always flee
+                miniAI.runWhenDistanceLessThan = 999f;
                 miniAI.repathInterval = parentAI.repathInterval;
                 miniAI.minWaypointDistanceFromPlayer = parentAI.minWaypointDistanceFromPlayer;
             }
 
-            // NavMeshAgent safety
             NavMeshAgent agent = mini.GetComponent<NavMeshAgent>();
             if (agent != null)
             {

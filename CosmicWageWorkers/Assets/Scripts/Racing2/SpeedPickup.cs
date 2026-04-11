@@ -1,41 +1,59 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpeedPickup : MonoBehaviour
 {
-    PlayerMovement player;
+    public PlayerMovement player;
 
-    [SerializeField] private float speedMultiplier = 2f;
+    [SerializeField] private float boostedSpeed = 20f;
     [SerializeField] private float duration = 5f;
+
+    private Collider pickupCollider;
+    private Renderer pickupRenderer;
+    private bool collected;
+
+    // Stores each player's true original speed
+    private static Dictionary<PlayerMovement, float> originalSpeeds = new Dictionary<PlayerMovement, float>();
 
     private void Awake()
     {
         player = FindAnyObjectByType<PlayerMovement>();
+        pickupCollider = GetComponent<Collider>();
+        pickupRenderer = GetComponent<Renderer>();
+
+        if (player != null && !originalSpeeds.ContainsKey(player))
+        {
+            originalSpeeds[player] = player.moveSpeed;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            StartCoroutine(SpeedBoost());
-        }
+        if (collected) return;
+
+        if (!other.CompareTag("Player")) return;
+
+        collected = true;
+        StartCoroutine(SpeedBoost());
     }
 
     private IEnumerator SpeedBoost()
     {
-        // Hide the object
-        gameObject.SetActive(false);
+        if (player == null) yield break;
 
-        // Apply speed boost
-        player.SetSpeedMultiplier(speedMultiplier);
+        if (pickupCollider != null) pickupCollider.enabled = false;
+        if (pickupRenderer != null) pickupRenderer.enabled = false;
 
-        // Wait
+        player.moveSpeed = boostedSpeed;
+
         yield return new WaitForSeconds(duration);
 
-        // Reset speed
-        player.SetSpeedMultiplier(1f);
+        if (originalSpeeds.ContainsKey(player))
+        {
+            player.moveSpeed = originalSpeeds[player];
+        }
 
-        // Destroy after effect ends
         Destroy(gameObject);
     }
 }

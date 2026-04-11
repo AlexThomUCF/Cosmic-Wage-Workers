@@ -135,8 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d191f772cacca4c8376c4a1b777b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpeedPickup
-  speedMultiplier: 100
-  boostDuration: 5
+  player: {fileID: 0}
+  boostedSpeed: 12.5
+  duration: 3
 --- !u!4 &4238477154256098387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7d92bea1cbc7897418ba84ad6696b72f, type: 3}
