@@ -21,13 +21,6 @@ public class AiDrops : MonoBehaviour
         {
             kart.ApplySlow(slowSpeed, 2f);
 
-            if (hitImage == null)
-            {
-                GameObject obj = GameObject.Find("HitImage");
-                if (obj != null)
-                    hitImage = obj.GetComponent<Image>();
-            }
-
             if (hitImage != null)
             {
                 StartCoroutine(ShowHitImage());
@@ -39,7 +32,15 @@ public class AiDrops : MonoBehaviour
     private void Awake()
     {
         GameObject obj = GameObject.Find("poo");
-        hitImage = obj.GetComponent<Image>();
+
+        if (obj != null)
+        {
+            hitImage = obj.GetComponent<Image>();
+        }
+        else
+        {
+            Debug.LogWarning("Hit image object 'poo' not found!");
+        }
     }
     IEnumerator ShowHitImage()
     {
