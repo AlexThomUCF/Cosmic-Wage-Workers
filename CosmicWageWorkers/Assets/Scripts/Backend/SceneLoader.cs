@@ -9,7 +9,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private Animator transitonAnim;
     [SerializeField] private GameObject transitonObj;
     [SerializeField] public Canvas canvas;
-    [SerializeField] public Image targetImage;
+    
 
     public TextMeshProUGUI skipText;
 
@@ -38,9 +38,6 @@ public class SceneLoader : MonoBehaviour
             canvas = transitonObj.GetComponentInChildren<Canvas>();
         }
 
-        // Ensure target image starts hidden
-        if (targetImage != null)
-            targetImage.gameObject.SetActive(false);
 
         StartCoroutine(WaitForSkipText());
     }
@@ -108,30 +105,29 @@ public class SceneLoader : MonoBehaviour
 
     public IEnumerator LoadLevel(string sceneName)
     {
+        Debug.Log("LoadLevel started");
+
+        
         isLoading = true;
+
+        if (LoadingImageController.Instance != null)
+        {
+            LoadingImageController.Instance.ShowImage();
+        }
 
         // ?? Start transition animation
         if (transitonAnim != null)
             transitonAnim.SetTrigger("End");
 
         // ?? SHOW target image (force it on top using its own canvas)
-        if (targetImage != null)
-        {
-            Canvas targetCanvas = targetImage.GetComponentInParent<Canvas>();
-
-            if (targetCanvas != null)
-            {
-                targetCanvas.overrideSorting = true;
-                targetCanvas.sortingOrder = 10; // higher than everything else
-            }
-
-            targetImage.gameObject.SetActive(true);
-        }
+        
 
         ExitDialogue();
 
         if (canvas != null)
             canvas.sortingOrder = 2;
+
+       
 
         // ?? Reset skip text
         if (skipText != null)
@@ -193,17 +189,19 @@ public class SceneLoader : MonoBehaviour
         if (transitonAnim != null)
             transitonAnim.SetTrigger("Start");
 
+
         // ?? Optional: wait for fade-out animation
         yield return new WaitForSeconds(0.5f);
-
-        // ?? HIDE target image
-        if (targetImage != null)
-            targetImage.gameObject.SetActive(false);
 
         if (canvas != null)
             canvas.sortingOrder = -1;
 
         isLoading = false;
+
+        if (LoadingImageController.Instance != null)
+        {
+            LoadingImageController.Instance.HideImage();
+        }
     }
 
     private IEnumerator FlashSkipText()
@@ -214,6 +212,7 @@ public class SceneLoader : MonoBehaviour
             Color color = skipText.color;
             color.a = Mathf.Lerp(0.3f, 1f, alpha);
             skipText.color = color;
+            
 
             yield return null;
         }

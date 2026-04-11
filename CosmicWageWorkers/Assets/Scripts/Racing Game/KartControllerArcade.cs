@@ -45,6 +45,10 @@ public class KartControllerArcade : MonoBehaviour
     public InputActionReference reverseAction;    // Button
     public InputActionReference driftAction;      // Button
 
+    [Header("External Effects")]
+    public float externalSpeedMultiplier = 1f;
+    private float slowTimer = 0f;
+
     private Rigidbody rb;
 
     [HideInInspector] public float steerInput;
@@ -78,6 +82,15 @@ public class KartControllerArcade : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Handle slow timer
+        if (slowTimer > 0f)
+        {
+            slowTimer -= Time.fixedDeltaTime;
+            if (slowTimer <= 0f)
+            {
+                externalSpeedMultiplier = 1f;
+            }
+        }
         UpdateGrounded();
 
         // Apply downforce / ground stick
@@ -107,7 +120,7 @@ public class KartControllerArcade : MonoBehaviour
 
         // Throttle / brake
         float accelNow = acceleration;
-        float maxSpeedNow = maxSpeed;
+        float maxSpeedNow = maxSpeed * externalSpeedMultiplier;
         if (boosting)
         {
             accelNow *= boostAccelMultiplier;
@@ -191,5 +204,12 @@ public class KartControllerArcade : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         if (groundCheck != null) Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    public void ApplySlow(float targetSpeed, float duration)
+    {
+        externalSpeedMultiplier = Mathf.Clamp01(targetSpeed / maxSpeed);
+        slowTimer = duration;
+        rb.linearVelocity *= 0.05f;
     }
 }

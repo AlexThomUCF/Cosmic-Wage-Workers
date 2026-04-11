@@ -79,7 +79,15 @@ public class EnemyBase : MonoBehaviour
 
 
         // Destroy this enemy object
-        Destroy(gameObject, 3f);
+        if(rangedEnemy  != null)
+        {
+            Destroy(gameObject, 3f);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     IEnumerator DamageFlash()

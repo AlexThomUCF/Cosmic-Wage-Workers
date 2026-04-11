@@ -178,9 +178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8835418fcb9a02846a5edbd4441db93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  health: 25
+  health: 1
   dmgMaterial: {fileID: 2100000, guid: 8decfcdf8b5f694428f1c57406d19d0d, type: 2}
   currentMaterial: {fileID: 0}
+  rangedCollider: {fileID: 0}
 --- !u!1 &5146931246323445396
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +221,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5146931246323445396}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

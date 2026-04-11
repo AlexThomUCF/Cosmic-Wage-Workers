@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Projectile : MonoBehaviour
 {
@@ -11,10 +12,13 @@ public class Projectile : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip hitSound;
 
+    Scene currentScene;
 
 
     void Start()
     {
+        currentScene = SceneManager.GetActiveScene();
+
         Destroy(gameObject, lifetime);
     }
 
@@ -45,12 +49,21 @@ public class Projectile : MonoBehaviour
             EnemyBase enemy = collision.collider.GetComponent<EnemyBase>();
             if (player != null)
             {
+                
                 player.FreezeHit();
                 AudioSource.PlayClipAtPoint(hitSound, transform.position);
-                SoundEffectManager.Play("Freeze");
+                if (currentScene.name == "FPSMainScene")
+                {
+                    SoundEffectManager.Play("Freeze");
+                }
+                
                 Destroy(gameObject);
 
-                slimehitEffect.Instance.PlayEffect();
+                if(currentScene.name == "Racing 2")
+                {
+                    slimehitEffect.Instance.PlayEffect();
+                }
+                
             }
         }
 

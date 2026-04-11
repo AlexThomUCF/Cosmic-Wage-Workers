@@ -34,7 +34,10 @@ public class NPC : MonoBehaviour, IInteraction
         GameObject normalObj = GameObject.FindWithTag("NormalCam");
         if (normalObj != null) normalCam = normalObj.GetComponent<CinemachineCamera>();
 
-        loader = FindAnyObjectByType<SceneLoader>();
+        GameObject loaderObj = GameObject.Find("SceneManager");
+        if (loaderObj != null)
+            loader = loaderObj.GetComponent<SceneLoader>();
+        //loader = FindAnyObjectByType<SceneLoader>();
     }
 
     public void Interact()
@@ -53,7 +56,10 @@ public class NPC : MonoBehaviour, IInteraction
         else StartDialogue();
 
         dialogueUI.SetCloseButton(this.EndDialogue);
-        loader.targetImage.sprite = dialogueData.loadingScreen;
+        if (LoadingImageController.Instance != null)
+        {
+            LoadingImageController.Instance.SetSprite(dialogueData.loadingScreen);
+        }
     }
 
     private void OnEnable()
