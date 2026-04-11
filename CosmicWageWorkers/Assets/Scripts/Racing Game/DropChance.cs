@@ -43,7 +43,7 @@ public class DropChance : MonoBehaviour
                 Vector3 offset = new Vector3(0f, -0.3f, -2f);
                 GameObject clone = Instantiate(droppingItem, dropPosition.position, transform.rotation);
                 dropSound.Play();
-                Destroy(clone, 3f);
+                Destroy(clone, 100f);
                 Debug.Log($"Dropped item after {waitTime:F1}s!");
             }
             else

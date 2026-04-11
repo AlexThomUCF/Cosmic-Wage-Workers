@@ -1,25 +1,51 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class AiDrops : MonoBehaviour
 {
     public float slowSpeed; // how slow the vehicle will slow down
 
-    public CarControl car;
-    public CarControl currentCar;
+    [Header("UI Feedback")]
+    public Image hitImage;
+    public float imageDuration = 1f;
+
+    public KartControllerArcade car;
+    public KartControllerArcade currentCar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter(Collider other)
     {
-        car = other.GetComponent<CarControl>();
-        currentCar = other.GetComponent<CarControl>();
+        KartControllerArcade kart = other.GetComponentInParent<KartControllerArcade>();
 
-        if (car)
+        if (kart != null)
         {
-            car.currentSpeed = slowSpeed;
+            kart.ApplySlow(slowSpeed, 2f);
+
+            if (hitImage == null)
+            {
+                GameObject obj = GameObject.Find("HitImage");
+                if (obj != null)
+                    hitImage = obj.GetComponent<Image>();
+            }
+
+            if (hitImage != null)
+            {
+                StartCoroutine(ShowHitImage());
+            }
+
+            //stroy(gameObject);
         }
-        else if (currentCar)
-        {
-            Vector3 dir = currentCar.rb.linearVelocity.normalized;
-            currentCar.rb.linearVelocity = dir * slowSpeed;
-        }
+    }
+    private void Awake()
+    {
+        GameObject obj = GameObject.Find("poo");
+        hitImage = obj.GetComponent<Image>();
+    }
+    IEnumerator ShowHitImage()
+    {
+        
+        hitImage.enabled = true;
+        yield return new WaitForSeconds(imageDuration);
+        hitImage.enabled = false;
     }
 }
