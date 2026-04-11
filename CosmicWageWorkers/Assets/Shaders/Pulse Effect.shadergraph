@@ -389,6 +389,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "06c273f632174149bc07ca6cd9eaa7f1"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "64d88a33a0ff4abd9145d144dd4a1575"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "09fbf8e2282e405e93867b55579a0176"
                 },
                 "m_SlotId": 2
@@ -1625,7 +1639,7 @@
     },
     "m_PreviewData": {
         "serializedMesh": {
-            "m_SerializedMesh": "{\"mesh\":{\"fileID\":10200,\"guid\":\"0000000000000000e000000000000000\",\"type\":0}}",
+            "m_SerializedMesh": "{\"mesh\":{\"fileID\":10202,\"guid\":\"0000000000000000e000000000000000\",\"type\":0}}",
             "m_Guid": ""
         },
         "preventRotation": false
@@ -2986,8 +3000,8 @@
     "m_ObjectId": "240ec23f9ee240aa956b64cb34154278",
     "m_Title": "Pulse",
     "m_Position": {
-        "x": -1927.9998779296875,
-        "y": -187.99998474121095
+        "x": -1928.0,
+        "y": -188.0
     }
 }
 
@@ -6604,7 +6618,7 @@
     "m_Title": "Edge Detection",
     "m_Position": {
         "x": -2168.800048828125,
-        "y": 981.5999145507813
+        "y": 981.599853515625
     }
 }
 
@@ -7906,8 +7920,8 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "r": 0.15218929946422578,
-        "g": 0.849056601524353,
+        "r": 0.6087570786476135,
+        "g": 3.396225690841675,
         "b": 0.0,
         "a": 1.0
     },
@@ -11063,8 +11077,8 @@
     "m_ObjectId": "dba6fcde640a496b8e54d0fb4d6db8de",
     "m_Title": "Fresnels",
     "m_Position": {
-        "x": -1389.599853515625,
-        "y": 449.6000061035156
+        "x": -1389.5999755859375,
+        "y": 449.60003662109377
     }
 }
 
@@ -11538,7 +11552,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "e72f527da5854f4c9ed9c90aa455e4dd",
     "m_Id": 0,
-    "m_DisplayName": "Float",
+    "m_DisplayName": "Intensity",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -11916,7 +11930,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
     "m_ObjectId": "f34e244f1afb4ce98f809a7f4d2cdab8",
     "m_Id": 0,
-    "m_DisplayName": "Vector3",
+    "m_DisplayName": "Fresnel Size",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
