@@ -106,6 +106,7 @@ public class BathroomsUnhide : MonoBehaviour
     void Start()
     {
         cineMachineActivated = true;
+        
     }
 
     // Update is called once per frame
@@ -120,6 +121,7 @@ public class BathroomsUnhide : MonoBehaviour
                 cineMachineActivated = false;
                 jumpScareBlackScreen.SetActive(true);
                 bathroomSFX.distortedStoreMusic.Play();
+                player.SetActive(true);
                 cinemachineDelay = 3.5f;
                 cineMachineDeactivated = true;
             }
