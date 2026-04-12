@@ -21,7 +21,7 @@ public class OpenDoor : MonoBehaviour
 
     private void OnCollisonEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             promptUI.SetActive(true);
         }

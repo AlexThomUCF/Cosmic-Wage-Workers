@@ -20,6 +20,8 @@ public class BathroomSFX : MonoBehaviour
     [Header("*** Audio Background ***")]
     public AudioSource backgroundNoise;
     public AudioSource distortedStoreMusic;
+    public AudioSource lightNoise;
+    public AudioSource jumpScare;
     public AudioSource heartBeat;
     public AudioSource bugNoises;
     public AudioSource crawlNoise;
