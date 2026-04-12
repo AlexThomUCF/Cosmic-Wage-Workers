@@ -10,15 +10,23 @@ public class RandomPlatform : MonoBehaviour
     private Collider platformCollider;
     private Renderer platformRenderer;
     private Vector3 startPosition;
+    private Rigidbody platformRb;
 
     private void Start()
     {
         platformCollider = GetComponent<Collider>();
         platformRenderer = GetComponent<Renderer>();
+        platformRb = GetComponent<Rigidbody>();
         startPosition = transform.position;
+        
+        // Enable interpolation for smooth movement
+        if (platformRb != null)
+        {
+            platformRb.interpolation = RigidbodyInterpolation.Interpolate;
+        }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!isSafe)
         {
