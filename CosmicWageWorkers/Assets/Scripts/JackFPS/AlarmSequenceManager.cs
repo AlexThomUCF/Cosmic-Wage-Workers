@@ -42,6 +42,9 @@ public class AlarmSequenceManager : MonoBehaviour
     public UIFlashMessage clearGroceriesMessage;
     public AlarmUIManager uiManager;
 
+    [Header("Customer Interaction ID")]
+    public string interactionID;
+
     private int consecutiveFailures = 0;
 
     private List<int> currentSequence = new List<int>();
@@ -273,6 +276,13 @@ public class AlarmSequenceManager : MonoBehaviour
 
     void LoadNextScene()
     {
+        if (!string.IsNullOrEmpty(interactionID))
+        {
+            CustomerManager.MarkInteractionComplete(interactionID);
+        }
+
+        FinalMiniGame.miniGameCount++;
+
         if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
             SceneManager.LoadScene(sceneToLoadAfterGame);
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bathroom
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
   npcName: Orbit
-  miniGameName: AGRework
+  miniGameName: BathroomTest
   npcProtrait: {fileID: 21300000, guid: a02832c48e289df40bb1b969bd532686, type: 3}
   dialogueLines:
   - Hey there bucko! I got to ask you for a quick favor!
@@ -23,8 +23,8 @@ MonoBehaviour:
   - Thank you it's just right in here
   - Ok Kiddo. Just don't hold off on it too long.
   loadingScreen: {fileID: 21300000, guid: 04c10aeacb77ca144a1d852145b443fd, type: 3}
-  autoProgressLines: 01000101
-  endDialogueLines: 00000101
+  autoProgressLines: 0100010101
+  endDialogueLines: 0000000101
   autoProgressDelay: 1.5
   typingSpeed: 0
   voiceSound: {fileID: 0}
@@ -32,7 +32,7 @@ MonoBehaviour:
   onClicks:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 11500000, guid: 09bdfc5b7e362954c9396884ee8282cf, type: 3}
         m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 0
@@ -59,8 +59,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   choices:
-  - dialogueIndex: 1
+  - dialogueIndex: 2
     choices:
     - Sure Mr. Orbit!
     - 'One moment Mr. Orbit '
-    nextDialogueIndexs: 0200000003000000
+    nextDialogueIndexs: 0300000004000000

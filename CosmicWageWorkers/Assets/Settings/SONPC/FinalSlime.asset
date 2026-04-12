@@ -21,7 +21,7 @@ MonoBehaviour:
   - ok
   loadingScreen: {fileID: 21300000, guid: 929744127f7ac2140aea06b3a49b47af, type: 3}
   autoProgressLines: 010000
-  endDialogueLines: 000101
+  endDialogueLines: 000001
   autoProgressDelay: 1.5
   typingSpeed: 0.1
   voiceSound: {fileID: 8300000, guid: 73da46677eb073146a64f1caa6784028, type: 3}
@@ -32,4 +32,9 @@ MonoBehaviour:
     choices:
     - Who was it?
     - Uh, one moment please
+    nextDialogueIndexs: 0100000002000000
+  - dialogueIndex: 1
+    choices:
+    - Chase!
+    - That's Ok
     nextDialogueIndexs: 0200000002000000
