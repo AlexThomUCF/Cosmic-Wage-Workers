@@ -17,7 +17,7 @@ public class FartBoost : MonoBehaviour
 
     [Header("Audio & Effects")]
     [SerializeField] private ParticleSystem boostParticles;
-    [SerializeField] private AudioClip boostSound;
+    [SerializeField] private AudioClip[] boostSounds = new AudioClip[4];
     [SerializeField] private AudioSource sfxAudioSource;
 
     private Collider boostCollider;
@@ -91,9 +91,21 @@ public class FartBoost : MonoBehaviour
             boostParticles.Play();
         }
 
-        if (boostSound != null && sfxAudioSource != null)
+        PlayRandomBoostSound();
+    }
+
+    private void PlayRandomBoostSound()
+    {
+        if (sfxAudioSource == null || boostSounds.Length == 0)
+            return;
+
+        // Find a non-null sound clip
+        AudioClip[] validSounds = System.Array.FindAll(boostSounds, clip => clip != null);
+        
+        if (validSounds.Length > 0)
         {
-            sfxAudioSource.PlayOneShot(boostSound);
+            AudioClip randomSound = validSounds[Random.Range(0, validSounds.Length)];
+            sfxAudioSource.PlayOneShot(randomSound);
         }
     }
 

@@ -92,6 +92,8 @@ public class NPC : MonoBehaviour, IInteraction
 
         dialogueCam.Priority = 20;
         normalCam.Priority = 10;
+
+        DisplayCurrentLine(); // show first line right away
     }
 
     void NextLine()
