@@ -20,6 +20,8 @@ public class BathroomSFX : MonoBehaviour
     [Header("*** Audio Background ***")]
     public AudioSource backgroundNoise;
     public AudioSource distortedStoreMusic;
+    public AudioSource lightNoise;
+    public AudioSource jumpScare;
     public AudioSource heartBeat;
     public AudioSource bugNoises;
     public AudioSource crawlNoise;
@@ -30,7 +32,7 @@ public class BathroomSFX : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        distortedStoreMusic.Play();
+        
     }
 
     // Update is called once per frame
