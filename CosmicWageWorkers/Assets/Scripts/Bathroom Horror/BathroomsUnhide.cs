@@ -5,6 +5,8 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class BathroomsUnhide : MonoBehaviour
 {
     public GameObject player;
+    public GameObject cineMachine;
+
 
 
     
@@ -57,6 +59,7 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject blackScreen;
     public GameObject jumpScareBlackScreen;
     public GameObject promptUpUI;
+   
 
 
 
@@ -78,6 +81,8 @@ public class BathroomsUnhide : MonoBehaviour
     private bool wave2started = false;
     private bool restartingLevel = false;
     private bool lightsOn = true;
+    private bool cineMachineActivated = false;
+    private bool cineMachineDeactivated = false;
 
     public float doorTimer;
     public float roachTimer;
@@ -88,18 +93,45 @@ public class BathroomsUnhide : MonoBehaviour
     
 
     public float doorCloseDelay;
+    public float cinemachineDelay = 3.5f;
+    public float blackScreenDelay = 2f; 
     public Roach roachScript;
 
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        bsAnimator.SetTrigger("BSFade");
+        cineMachineActivated = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (cineMachineActivated)
+        {
+            cinemachineDelay -= Time.deltaTime;
+            if (cinemachineDelay <= 0)
+            {
+                cineMachine.SetActive(false);
+                cineMachineActivated = false;
+                jumpScareBlackScreen.SetActive(true);
+                bathroomSFX.distortedStoreMusic.Play();
+                cinemachineDelay = 3.5f;
+                cineMachineDeactivated = true;
+            }
+        }
+        if (cineMachineDeactivated)
+        {
+            blackScreenDelay -= Time.deltaTime;
+            if (blackScreenDelay <= 0)
+            {
+                jumpScareBlackScreen.SetActive(false);
+                cineMachineDeactivated = false;
+                blackScreenDelay = 2f;
+                bsAnimator.SetTrigger("BSFade");
+            }
+        }
+
         if (player.transform.position.z > 341 && firstSectionOpened)
         {
             FirstSection();
