@@ -59,6 +59,7 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject blackScreen;
     public GameObject jumpScareBlackScreen;
     public GameObject promptUpUI;
+    public GameObject speechBubble;
    
 
 
@@ -215,6 +216,11 @@ public class BathroomsUnhide : MonoBehaviour
         if (doorOpened)
         {
             doorTimer -= Time.deltaTime;
+            if (doorTimer <= 1.5f)
+            {
+                speechBubble.SetActive(true);
+                bathroomSFX.bathSource.PlayOneShot(bathroomSFX.getOut);
+            }
             if (doorTimer <= 0)
             {
                 CloseEventDoor();
@@ -245,7 +251,6 @@ public class BathroomsUnhide : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         bathroomSFX.StopAllMusic();
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorOpen);
-        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.hey);
         
         roachScript.StopRoachSpawning();
         RoachesDisappear();
@@ -257,7 +262,6 @@ public class BathroomsUnhide : MonoBehaviour
 
     public void CloseEventDoor()
     {
-        bathroomSFX.bathSource.PlayOneShot(bathroomSFX.getOut);
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.doorClose);
         doorAnimator.SetTrigger("DoorClosed");
         blockOut.SetActive(false);      
@@ -282,6 +286,7 @@ public class BathroomsUnhide : MonoBehaviour
         horrorGameStarted = false;
         lastSoup.SetActive(true);
         lastMop.SetActive(true);
+        speechBubble.SetActive(false);
 
     }
 
