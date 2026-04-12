@@ -81,7 +81,7 @@ public class HorrorAI : MonoBehaviour
 
                 StartCoroutine(WaitForSwap());
                 Debug.Log("IN MAD STATE");
-                monsterAgent.speed = 20f;
+                monsterAgent.speed = 10f;
                 monsterAgent.SetDestination(playerTransform.position);
                 Destroy(flashLight.fLight);
                 //Destroy flashlight
