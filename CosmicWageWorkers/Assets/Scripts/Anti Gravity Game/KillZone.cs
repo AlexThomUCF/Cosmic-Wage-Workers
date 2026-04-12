@@ -3,25 +3,21 @@ using UnityEngine;
 public class KillZone : MonoBehaviour
 {
     private CheckpointSystem checkpointSystem;
-    private RandomPlatformGroup[] platformGroups;
 
     private void Start()
     {
         checkpointSystem = FindObjectOfType<CheckpointSystem>();
-        platformGroups = FindObjectsOfType<RandomPlatformGroup>();
+        Debug.Log($"KillZone found CheckpointSystem: {checkpointSystem != null}");
     }
 
     private void OnTriggerEnter(Collider collision)
     {
+        Debug.Log($"KillZone triggered by: {collision.gameObject.name}");
+        
         if (collision.CompareTag("Player"))
         {
+            Debug.Log("Player hit killzone - respawning at last checkpoint");
             checkpointSystem.RespawnAtLastCheckpoint();
-            
-            // Randomize all platform groups when player dies
-            foreach (RandomPlatformGroup group in platformGroups)
-            {
-                group.RandomizeSelection();
-            }
         }
     }
 }
