@@ -23,7 +23,7 @@ MonoBehaviour:
   - '*The eyeball seemingly gives you no response*'
   loadingScreen: {fileID: 21300000, guid: 04c10aeacb77ca144a1d852145b443fd, type: 3}
   autoProgressLines: 0101000101
-  endDialogueLines: 0000000101
+  endDialogueLines: 0000000001
   autoProgressDelay: 1.5
   typingSpeed: 0
   voiceSound: {fileID: 0}
@@ -62,6 +62,9 @@ MonoBehaviour:
     choices:
     - Hi how are you?
     - Smooch
+    nextDialogueIndexs: 0300000004000000
+  - dialogueIndex: 3
+    choices:
     - '*Open your Mind*'
     - OK... (Take a couple steps back)
     nextDialogueIndexs: 0300000004000000
