@@ -6543,7 +6543,7 @@ PrefabInstance:
     - target: {fileID: 4566036545468294692, guid: a45e5f010be23684f87404eefe0aae28, type: 3}
       propertyPath: background
       value: 
-      objectReference: {fileID: 8300000, guid: 884c7ea06b3baab47a67dd8f3b2482ba, type: 3}
+      objectReference: {fileID: 8300000, guid: c73f0bc51e437bd4e87ddfb7470ebd40, type: 3}
     - target: {fileID: 4566036545468294692, guid: a45e5f010be23684f87404eefe0aae28, type: 3}
       propertyPath: musicSlider
       value: 
@@ -13550,6 +13550,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: speaker
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b41501e777472e947a7c1fcddfd45d72, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20141,6 +20145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1182772886}
   - component: {fileID: 1182772887}
+  - component: {fileID: 1182772888}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -20176,6 +20181,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamicInputScheme
   playerInput: {fileID: 2075761102}
+--- !u!114 &1182772888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182772885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fcbb7265b1e4a4c886ec500a3bf3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkipCutscene
+  director: {fileID: 1006529451}
 --- !u!82 &1183685496 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6822480777504000716, guid: a45e5f010be23684f87404eefe0aae28, type: 3}
