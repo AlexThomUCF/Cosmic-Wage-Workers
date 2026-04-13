@@ -27676,6 +27676,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5acd094cbee1fa40a19eff12574fd8e, type: 3}
   m_PrefabInstance: {fileID: 293214556}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1144030841 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1924081461759877766, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
+  m_PrefabInstance: {fileID: 1151260363}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1144030842 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4003765669191007729, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
+  m_PrefabInstance: {fileID: 1151260363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1146244348
 Mesh:
   m_ObjectHideFlags: 0
@@ -28635,6 +28645,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4303020930924545712, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1426966644}
+    - target: {fileID: 4303020930924545712, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenControls
+      objectReference: {fileID: 0}
     - target: {fileID: 4316593214504784499, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
       propertyPath: m_Name
       value: Voices
@@ -28974,6 +28992,14 @@ PrefabInstance:
     - target: {fileID: 6687110135029341854, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836470848412286073, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1426966644}
+    - target: {fileID: 6836470848412286073, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseControls
       objectReference: {fileID: 0}
     - target: {fileID: 6856170252200034682, guid: c770ad72d76aa0c4a95610d7726607fb, type: 3}
       propertyPath: m_Color.a
@@ -36837,6 +36863,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1151260368}
     - target: {fileID: 2316752950948173517, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
+      propertyPath: controlsPanel
+      value: 
+      objectReference: {fileID: 1144030842}
+    - target: {fileID: 2316752950948173517, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: _pauseMenuFirst
       value: 
       objectReference: {fileID: 1151260366}
@@ -36844,6 +36874,10 @@ PrefabInstance:
       propertyPath: pauseCanvasGroup
       value: 
       objectReference: {fileID: 1151260369}
+    - target: {fileID: 2316752950948173517, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
+      propertyPath: _controlsMenuFirst
+      value: 
+      objectReference: {fileID: 1144030841}
     - target: {fileID: 2316752950948173517, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: _settingsMenuFirst
       value: 
