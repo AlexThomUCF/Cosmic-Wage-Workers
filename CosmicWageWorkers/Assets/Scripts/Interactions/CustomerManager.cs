@@ -9,7 +9,7 @@ public class CustomerManager : MonoBehaviour
 {
     [Header("Interactions")]
     public List<CustomerInteraction> allInteractions;
-    private List<CustomerInteraction> availableInteractions = new();
+    [SerializeField] private List<CustomerInteraction> availableInteractions = new();
 
     [Header("Spawn Settings")]
     public List<Transform> spawnPoints;

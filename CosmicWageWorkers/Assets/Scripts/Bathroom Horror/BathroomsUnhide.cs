@@ -400,6 +400,7 @@ public class BathroomsUnhide : MonoBehaviour
             {
                 CustomerManager.MarkInteractionComplete(interactionID);
             }
+            SaveSystem.SaveGame();
             FinalMiniGame.miniGameCount++;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         }

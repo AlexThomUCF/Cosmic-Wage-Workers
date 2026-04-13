@@ -38,6 +38,8 @@ public class RaceIntroManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f; // ?? critical fix
+
         if (playOnStart)
         {
             introCoroutine = StartCoroutine(IntroSequence());

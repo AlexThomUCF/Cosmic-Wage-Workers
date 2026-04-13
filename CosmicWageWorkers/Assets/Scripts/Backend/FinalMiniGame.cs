@@ -33,6 +33,7 @@ public class FinalMiniGame : MonoBehaviour
             invasionStarted = true;
             StartCoroutine(InvasionComing());
         }
+        Debug.Log("Minigame count = " + miniGameCount);
     }
 
     IEnumerator InvasionComing()

@@ -31,8 +31,9 @@ public class GravityManager : MonoBehaviour
                     CustomerManager.MarkInteractionComplete(interactionID);
                 }
 
-                FinalMiniGame.miniGameCount++;
                 SaveSystem.SaveGame();
+                FinalMiniGame.miniGameCount++;
+                
 
                 Physics.gravity = GravityStore.MainSceneGravity;
 

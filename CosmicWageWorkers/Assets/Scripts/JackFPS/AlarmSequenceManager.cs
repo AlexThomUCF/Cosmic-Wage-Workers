@@ -205,6 +205,14 @@ public class AlarmSequenceManager : MonoBehaviour
 
             Debug.Log("Final sequence completed. Stopping prop spawns.");
 
+            if (!string.IsNullOrEmpty(interactionID))
+            {
+                CustomerManager.MarkInteractionComplete(interactionID);
+            }
+            FinalMiniGame.miniGameCount++;
+            SaveSystem.SaveGame();
+
+
             if (propManager != null)
                 propManager.spawningEnabled = false;
 
@@ -271,11 +279,7 @@ public class AlarmSequenceManager : MonoBehaviour
 
         yield return new WaitForSeconds(endDelay);
 
-        if (!string.IsNullOrEmpty(interactionID))
-        {
-            CustomerManager.MarkInteractionComplete(interactionID);
-        }
-
+       
         LoadNextScene();
     }
 
@@ -283,7 +287,7 @@ public class AlarmSequenceManager : MonoBehaviour
     {
         
 
-        FinalMiniGame.miniGameCount++;
+        //FinalMiniGame.miniGameCount++; Old spot 
 
         if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
             SceneManager.LoadScene(sceneToLoadAfterGame);
