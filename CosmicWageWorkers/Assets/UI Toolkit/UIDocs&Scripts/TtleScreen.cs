@@ -24,6 +24,8 @@ public class TitleScreen : MonoBehaviour
     public GameObject audioSettings;
     public GameObject displaySettings;
     public GameObject controlSettings;
+    public GameObject keyboardControlsPanel;
+    public GameObject gamepadControlsPanel;
     public GameObject backButton;
 
     [Header("First Selected Options")]
@@ -137,8 +139,10 @@ public class TitleScreen : MonoBehaviour
         audioManager.PlaySFX(audioManager.buttonPress);
 
         audioSettings.SetActive(false);
-        controlSettings.SetActive(false);
         displaySettings.SetActive(false);
+        controlSettings.SetActive(false);
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(false);
 
         settingsOff = true;
         cameraAnimation.SetTrigger("SettingsDown");
@@ -150,8 +154,10 @@ public class TitleScreen : MonoBehaviour
         audioManager.PlayVoice(audioManager.helloThere);
 
         audioSettings.SetActive(true);
-        controlSettings.SetActive(false);
         displaySettings.SetActive(false);
+        controlSettings.SetActive(false);
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(false);
     }
 
     public void OpenDisplay()
@@ -160,8 +166,10 @@ public class TitleScreen : MonoBehaviour
         audioManager.PlayVoice(audioManager.helloThere);
 
         audioSettings.SetActive(false);
-        controlSettings.SetActive(false);
         displaySettings.SetActive(true);
+        controlSettings.SetActive(false);
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(false);
     }
 
     public void OpenControls()
@@ -170,8 +178,32 @@ public class TitleScreen : MonoBehaviour
         audioManager.PlayVoice(audioManager.helloThere);
 
         audioSettings.SetActive(false);
-        controlSettings.SetActive(true);
         displaySettings.SetActive(false);
+        controlSettings.SetActive(true);
+    }
+
+    public void OpenKeyboardControls()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(false);
+
+        keyboardControlsPanel.SetActive(true);
+        gamepadControlsPanel.SetActive(false);
+    }
+
+    public void OpenGamepadControls()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(false);
+
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(true);
     }
 
     public void OpenCreditsClick()
@@ -198,6 +230,16 @@ public class TitleScreen : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
 
         cameraAnimation.SetTrigger("CreditsClose");
+    }
+
+    public void CloseCreditsNoAnimation()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+
+        creditsScreen.SetActive(false);
+        titleScreen.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
     public void QuitGameClick()
