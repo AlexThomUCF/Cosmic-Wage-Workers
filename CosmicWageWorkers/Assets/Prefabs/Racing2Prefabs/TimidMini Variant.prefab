@@ -90,6 +90,10 @@ PrefabInstance:
       propertyPath: hitSound
       value: 
       objectReference: {fileID: 8300000, guid: b2ac40bdc67e15042a921e60ad202f58, type: 3}
+    - target: {fileID: 1671980655065384009, guid: 6bfe79d316bacf34181b6b4d0e033001, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2115307455312683223, guid: 6bfe79d316bacf34181b6b4d0e033001, type: 3}
       propertyPath: m_Name
       value: TimidMini Variant
@@ -238,6 +242,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8754403632933992192, guid: 6bfe79d316bacf34181b6b4d0e033001, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1047373737666064763, guid: 6bfe79d316bacf34181b6b4d0e033001, type: 3}
     m_RemovedGameObjects:
@@ -280,7 +288,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3b0925db8002cb64287c0af96b672d4e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 0.63
   Loop: 0
   Mute: 0
@@ -377,7 +385,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2db429d17fa914c40b4d88b22da577e2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
