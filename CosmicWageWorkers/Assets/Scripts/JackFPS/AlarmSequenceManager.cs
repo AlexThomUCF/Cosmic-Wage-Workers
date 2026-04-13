@@ -271,15 +271,17 @@ public class AlarmSequenceManager : MonoBehaviour
 
         yield return new WaitForSeconds(endDelay);
 
+        if (!string.IsNullOrEmpty(interactionID))
+        {
+            CustomerManager.MarkInteractionComplete(interactionID);
+        }
+
         LoadNextScene();
     }
 
     void LoadNextScene()
     {
-        if (!string.IsNullOrEmpty(interactionID))
-        {
-            CustomerManager.MarkInteractionComplete(interactionID);
-        }
+        
 
         FinalMiniGame.miniGameCount++;
 

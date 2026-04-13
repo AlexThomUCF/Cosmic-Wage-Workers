@@ -33,8 +33,12 @@ public class GravityManager : MonoBehaviour
 
                 FinalMiniGame.miniGameCount++;
                 SaveSystem.SaveGame();
+
+                Physics.gravity = GravityStore.MainSceneGravity;
+
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
                 Debug.Log("Loading Next Level");
+
                 sceneLoader = 3f;
                 gravityOn = false;
             }
