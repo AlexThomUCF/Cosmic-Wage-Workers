@@ -19,17 +19,21 @@ public class TitleScreen : MonoBehaviour
     public GameObject titleScreen;
     public GameObject loadGameMenu;
     public GameObject settingsScreen;
+    public GameObject creditsScreen;
+
     public GameObject audioSettings;
     public GameObject displaySettings;
     public GameObject controlSettings;
+    public GameObject keyboardControlsPanel;
+    public GameObject gamepadControlsPanel;
     public GameObject backButton;
 
     [Header("First Selected Options")]
     [SerializeField] private GameObject _mainMenuFirst;
     [SerializeField] private GameObject _settingsMenuFirst;
     [SerializeField] private GameObject _playMenuFirst;
+    [SerializeField] private GameObject _creditsMenuFirst;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -37,18 +41,15 @@ public class TitleScreen : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //To bring up settings
-         if (settingsOn)
+        if (settingsOn)
         {
             titleScreen.SetActive(false);
 
             settingsUpDelayed -= Time.deltaTime;
             if (settingsUpDelayed < 0)
             {
-
                 settingsScreen.SetActive(true);
                 settingsUpDelayed = 1;
                 settingsOn = false;
@@ -57,7 +58,6 @@ public class TitleScreen : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(_settingsMenuFirst);
         }
 
-         //To shut off settings
         if (settingsOff)
         {
             settingsScreen.SetActive(false);
@@ -65,20 +65,18 @@ public class TitleScreen : MonoBehaviour
             settingsDownDelayed -= Time.deltaTime;
             if (settingsDownDelayed < 0)
             {
-
                 titleScreen.SetActive(true);
                 settingsDownDelayed = 1;
                 settingsOff = false;
-
             }
 
             EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
         }
-        //For starting game and making sure animation plays
+
         if (gameHasStarted)
         {
-
             titleScreen.SetActive(false);
+
             gameStaredDelayed -= Time.deltaTime;
             if (gameStaredDelayed < 0)
             {
@@ -87,7 +85,6 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
-    //Starts Game
     public void PlayGameClick()
     {
         Debug.Log("Open Load Menu");
@@ -96,94 +93,10 @@ public class TitleScreen : MonoBehaviour
         audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
 
-        // Hide main title buttons
         titleScreen.SetActive(false);
-
-        // Show Continue / New Game menu
         loadGameMenu.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(_playMenuFirst);
-    }
-
-    //Goes into settings
-    public void ToggleSettingsClick()
-    {
-        Debug.Log("SettingsAreOpened");
-        settingsOn = true;
-        cameraAnimation.SetTrigger("SettingsUp");
-
-        audioManager.PlayVoice(audioManager.helloThere);
-        audioManager.PlaySFX(audioManager.buttonPress);
-
-    }
-
-    //Quit button
-    public void QuitGameClick()
-    {
-        Debug.Log("GameHasStopped");
-        Application.Quit();
-    }
-
-    //Return to title if in settings
-    public void BackToMainClick()
-    {
-        Debug.Log("SettingsAreClosed");
-
-        audioManager.PlayVoice(audioManager.helloThere);
-        audioManager.PlaySFX(audioManager.buttonPress);
-
-
-        audioSettings.SetActive(false);
-
-        controlSettings.SetActive(false);
-
-        displaySettings.SetActive(false);
-
-        settingsOff = true;
-        cameraAnimation.SetTrigger("SettingsDown");
-    }
-
-    //Opens Audio Section
-    public void OpenAudio()
-    {
-        audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
-
-        audioSettings.SetActive(true);
-
-        controlSettings.SetActive(false);
-
-        displaySettings.SetActive(false);
-
-
-    }
-
-    //Opens display settings
-    public void OpenDisplay()
-    {
-        audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
-
-        audioSettings.SetActive(false);
-
-        controlSettings.SetActive(false);
-
-        displaySettings.SetActive(true);
-
-
-    }
-
-    //Opens Controls
-    public void OpenControls()
-    {
-        audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
-
-        audioSettings.SetActive(false);
-        controlSettings.SetActive(true);
-        displaySettings.SetActive(false);
-
-
     }
 
     public void ContinueGameClick()
@@ -201,17 +114,136 @@ public class TitleScreen : MonoBehaviour
     public void NewGameClick()
     {
         SaveSystem.DeleteSave();
-
         PlayerPrefs.DeleteAll();
 
         FinalMiniGame.miniGameCount = 0;
-        CustomerManager.SetCompletedInteractions(new System.Collections.Generic.List<string>());
+        CustomerManager.SetCompletedInteractions(new List<string>());
 
         loadGameMenu.SetActive(false);
         gameHasStarted = true;
         cameraAnimation.SetTrigger("GameStarted");
     }
 
+    public void ToggleSettingsClick()
+    {
+        settingsOn = true;
+        cameraAnimation.SetTrigger("SettingsUp");
 
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
+    }
 
+    public void BackToMainClick()
+    {
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(false);
+        controlSettings.SetActive(false);
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(false);
+
+        settingsOff = true;
+        cameraAnimation.SetTrigger("SettingsDown");
+    }
+
+    public void OpenAudio()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(true);
+        displaySettings.SetActive(false);
+        controlSettings.SetActive(false);
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(false);
+    }
+
+    public void OpenDisplay()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(true);
+        controlSettings.SetActive(false);
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(false);
+    }
+
+    public void OpenControls()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(false);
+        controlSettings.SetActive(true);
+    }
+
+    public void OpenKeyboardControls()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(false);
+
+        keyboardControlsPanel.SetActive(true);
+        gamepadControlsPanel.SetActive(false);
+    }
+
+    public void OpenGamepadControls()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+        audioManager.PlayVoice(audioManager.helloThere);
+
+        audioSettings.SetActive(false);
+        displaySettings.SetActive(false);
+
+        keyboardControlsPanel.SetActive(false);
+        gamepadControlsPanel.SetActive(true);
+    }
+
+    public void OpenCreditsClick()
+    {
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
+
+        titleScreen.SetActive(false);
+        creditsScreen.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_creditsMenuFirst);
+
+        cameraAnimation.SetTrigger("CreditsOpen");
+    }
+
+    public void BackFromCreditsClick()
+    {
+        audioManager.PlayVoice(audioManager.helloThere);
+        audioManager.PlaySFX(audioManager.buttonPress);
+
+        creditsScreen.SetActive(false);
+        titleScreen.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
+
+        cameraAnimation.SetTrigger("CreditsClose");
+    }
+
+    public void CloseCreditsNoAnimation()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+
+        creditsScreen.SetActive(false);
+        titleScreen.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
+    }
+
+    public void QuitGameClick()
+    {
+        Application.Quit();
+    }
 }
