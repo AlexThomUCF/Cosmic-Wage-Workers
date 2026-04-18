@@ -37,11 +37,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalFromTexture_9c265633f0374a72bddeea6196654572_Texture_0_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_808786fb53534af2bbfd869acab49ccc_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e2936d3dcb8a4404c9ec0414631576fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a521471665544f9a9d29482575897de6_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: e2936d3dcb8a4404c9ec0414631576fa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -63,27 +71,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.8
-    - _Density: 10
-    - _Inner_Speed: 40
+    - _Alpha: 0.64
+    - _Density: 4
+    - _Inner_Speed: 20
     - _Inner_Spread: 20
-    - _Intensity: 40
+    - _Inner_Spread_2: 1.5
+    - _Intensity: 24
     - _MainTex: 0
     - _Movement: 0.08
     - _Outer_Spread: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.22
+    - _Smoothness: 0.4
     - _Strength: 0.08
     m_Colors:
-    - _Base_Color: {r: 0.46980572, g: 0.8792453, b: 0.23723029, a: 1}
+    - _Base_Color: {r: 0.32941177, g: 0.81960785, b: 0.30588236, a: 1}
     - _Color: {r: 1.18683, g: 2.614961, b: 0.2910992, a: 0.93333334}
     - _Fade_Color: {r: 0.2814091, g: 0.909434, b: 0.2316482, a: 0}
     - _In_Intensity: {r: 0, g: 0, b: 0, a: 0}
-    - _Inner_Color: {r: 0.47058827, g: 0.87843144, b: 0.23529413, a: 1}
+    - _Inner_Color: {r: 0.78431374, g: 1, b: 0, a: 1}
     - _Normal_Speed: {r: 0, g: 0.04, b: 0, a: 0}
     - _Out_Intensity: {r: 0, g: 0, b: 0, a: 0}
-    - _Outer_Color: {r: 0.78431374, g: 1, b: 0, a: 0.72156864}
+    - _Outer_Color: {r: 1.2983701, g: 1.7433963, b: 0.25986454, a: 1}
     - _Outer_Spread_In: {r: 0, g: 1, b: 0, a: 0}
     - _Speed: {r: 0, g: 0.04, b: 0, a: 0}
     - _Texture_Speed: {r: 0, g: 0.1, b: 0, a: 0}
