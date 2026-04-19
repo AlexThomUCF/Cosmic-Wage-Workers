@@ -9,8 +9,6 @@ public class CanSpawner : MonoBehaviour
     [SerializeField] private Transform[] endPoints = new Transform[3];
     [SerializeField] private float spawnInterval = 1f;
     [SerializeField] private float spawnIntervalVariance = 0.3f;
-    [SerializeField] private float spawnHeightOffset = 5f;
-    [SerializeField] private float dropSpeed = 15f;
 
     private float spawnTimer;
 
@@ -44,17 +42,12 @@ public class CanSpawner : MonoBehaviour
             return;
         }
 
-        // Spawn above the spawn point
-        Vector3 spawnPosition = spawnPoint.position + Vector3.up * spawnHeightOffset;
-        GameObject newCan = Instantiate(canPrefab, spawnPosition, Quaternion.identity);
-        
+        GameObject newCan = Instantiate(canPrefab, spawnPoint.position, Quaternion.identity);
         RollingCan rollingCan = newCan.GetComponent<RollingCan>();
         
         if (rollingCan != null)
         {
             rollingCan.SetPath(startPoint, endPoint);
-            rollingCan.SetSpawnPoint(spawnPoint.position);
-            rollingCan.SetDropSpeed(dropSpeed);
             rollingCan.Initialize();
         }
     }

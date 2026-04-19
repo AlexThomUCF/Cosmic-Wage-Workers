@@ -11,15 +11,13 @@ public class RollingCan : MonoBehaviour
     private float distanceTraveled;
     private float totalRampDistance;
     private bool isMoving;
-    private bool isFalling = true;
     private Vector3 spawnPosition;
-    private Vector3 targetSpawnPoint;
-    private float dropSpeed = 15f;
 
     private void Start()
     {
+        // Store spawn position so we don't move on first frame
         spawnPosition = transform.position;
-
+        
         // Set rotation to 90 degrees on Y axis
         transform.rotation = Quaternion.Euler(0f, 90f, 0f);
     }
@@ -29,16 +27,6 @@ public class RollingCan : MonoBehaviour
         startPoint = start;
         endPoint = end;
         CalculateDistance();
-    }
-
-    public void SetSpawnPoint(Vector3 spawnPoint)
-    {
-        targetSpawnPoint = spawnPoint;
-    }
-
-    public void SetDropSpeed(float speed)
-    {
-        dropSpeed = speed;
     }
 
     private void CalculateDistance()
@@ -57,36 +45,24 @@ public class RollingCan : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isFalling)
+        if (!isMoving || startPoint == null || endPoint == null || totalRampDistance <= 0)
+            return;
+
+        // Move along the ramp
+        distanceTraveled += rollSpeed * Time.fixedDeltaTime;
+
+        // Check if reached the end
+        if (distanceTraveled >= totalRampDistance)
         {
-            // Drop down quickly
-            transform.position -= Vector3.up * dropSpeed * Time.fixedDeltaTime;
-
-            // Check if can has reached spawn point
-            if (transform.position.y <= targetSpawnPoint.y)
-            {
-                transform.position = targetSpawnPoint;
-                isFalling = false;
-            }
+            isMoving = false;
+            return;
         }
-        else if (isMoving && startPoint != null && endPoint != null && totalRampDistance > 0)
-        {
-            // Move along the ramp
-            distanceTraveled += rollSpeed * Time.fixedDeltaTime;
 
-            // Check if reached the end
-            if (distanceTraveled >= totalRampDistance)
-            {
-                isMoving = false;
-                return;
-            }
+        // Find position along ramp path (from startPoint to endPoint)
+        float t = distanceTraveled / totalRampDistance;
+        transform.position = Vector3.Lerp(startPoint.position, endPoint.position, t);
 
-            // Find position along ramp path
-            float t = distanceTraveled / totalRampDistance;
-            transform.position = Vector3.Lerp(startPoint.position, endPoint.position, t);
-
-            // Rotate the can as it rolls
-            transform.Rotate(0f, 0f, rotationSpeed * Time.fixedDeltaTime, Space.Self);
-        }
+        // Rotate the can as it rolls (spin around Z axis to simulate rolling down)
+        transform.Rotate(0f, 0f, rotationSpeed * Time.fixedDeltaTime, Space.Self);
     }
 }
