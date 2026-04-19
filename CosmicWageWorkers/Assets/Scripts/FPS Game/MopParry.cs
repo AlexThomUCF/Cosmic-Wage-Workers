@@ -14,7 +14,9 @@ public class MopParry : MonoBehaviour
     public BoxCollider parryBox;
     private PlayerControls inputActions;
     private Animator animator; //Might not need if using sprites and not 3d models. maybe need just to move broom to right
-    public ParryLogic parryLogic;  
+    public ParryLogic parryLogic;
+    public Image parryUIBox;
+    public Image backgroundUIBox;
 
 
 
@@ -23,6 +25,8 @@ public class MopParry : MonoBehaviour
         inputActions = new PlayerControls();
         animator = GetComponent<Animator>();
         parryBox.enabled = false;
+
+        //backgroundUIBox.color = new Color(0, 1, 0, 0.5f);
     }
 
     void OnEnable()
@@ -49,6 +53,10 @@ public class MopParry : MonoBehaviour
 
         canParry = false;
         isParrying = true;   // ? start parry state
+
+        parryUIBox.fillAmount = 1f;
+        parryUIBox.color = new Color(0, 0, 0, 0.5f);
+
         parryBox.enabled = true;
 
         StartCoroutine(ParryRoutine());
@@ -76,8 +84,21 @@ public class MopParry : MonoBehaviour
         // Reset UI + counter
         parryLogic.ResetParryState();
 
-        // Cooldown
-        yield return new WaitForSeconds(parryCooldown);
+        // --- COOLDOWN WITH UI ---
+        float cooldownTimer = 0f;
+
+        while (cooldownTimer < parryCooldown)
+        {
+            cooldownTimer += Time.deltaTime;
+
+            parryUIBox.fillAmount = 1f - (cooldownTimer / parryCooldown);
+
+            yield return null;
+        }
+
+        
+        parryUIBox.fillAmount = 0f;
+        parryUIBox.color = Color.green;
 
         canParry = true;
     }

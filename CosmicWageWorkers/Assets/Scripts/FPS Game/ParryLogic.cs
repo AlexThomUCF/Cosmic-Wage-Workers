@@ -97,6 +97,7 @@ public class ParryLogic : MonoBehaviour
                 // Move mop to current parry position
                 mop.transform.position = mopPositions[bulletCounter].position;
                 mop.transform.rotation = mopPositions[bulletCounter].rotation;
+                SoundEffectManager.Play("MopReflect");
 
                 // Handle bullet reflection
                 Rigidbody rb = other.GetComponent<Rigidbody>();
