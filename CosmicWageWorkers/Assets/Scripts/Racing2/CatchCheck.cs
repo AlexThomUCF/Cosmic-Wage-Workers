@@ -20,6 +20,9 @@ public class CatchCheck : MonoBehaviour
     private static int minisCaught = 0;
     private static int totalMinisSpawned = 0;
 
+    [Header("NavMesh Settings")]
+    public string groundAreaName = "Walkable"; // or "Ground" if you made one
+
     private void OnTriggerEnter(Collider other)
     {
         if (triggered) return;
@@ -107,9 +110,11 @@ public class CatchCheck : MonoBehaviour
             Vector3 desiredPos = transform.position + dir * splitRadius;
             Vector3 spawnPos = desiredPos;
 
+            int areaMask = 1 << NavMesh.GetAreaFromName(groundAreaName);
+
             // Snap to NavMesh
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(desiredPos, out hit, 3f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(desiredPos, out hit, 3f, areaMask))
             {
                 spawnPos = hit.position;
             }

@@ -21,10 +21,10 @@ public class endscene : MonoBehaviour
 
     public void ShowWinUI()
     {
-        winui.SetActive(true);
+        //winui.SetActive(true);
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
     }
 
     public void BackToMain()
