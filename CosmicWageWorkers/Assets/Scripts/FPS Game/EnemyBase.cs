@@ -43,7 +43,10 @@ public class EnemyBase : MonoBehaviour
         health -= amount;
         StartCoroutine(DamageFlash());
 
-
+        if(rangedEnemy != null )
+        {
+            animator.SetTrigger("Hit");
+        }
 
         if (health <= 0f)
         {
