@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,87 +5,147 @@ public class TeenAI : MonoBehaviour
 {
     [Header("References")]
     public Transform player;
-    public List<Transform> waypoints = new List<Transform>();
 
     [Header("Flee Settings")]
     public float runWhenDistanceLessThan = 25f;
-    public float repathInterval = 0.5f;
-    public float minWaypointDistanceFromPlayer = 8f;
+    public float fleeDistance = 12f;
+    public float repathInterval = 0.2f;
+    public float rotateSpeed = 12f;
+    public float destinationReachThreshold = 1.0f;
+
+    [Header("Movement Options")]
+    public bool alwaysFlee = false;
+    public bool faceMovementDirection = true;
 
     private NavMeshAgent agent;
-    private float timer;
-    private Transform currentTarget;
+    private float repathTimer;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.autoBraking = false;
+            agent.stoppingDistance = 0f;
+        }
     }
 
     void Update()
     {
-        if (player == null || waypoints == null || waypoints.Count == 0) return;
+        if (player == null) return;
         if (agent == null || !agent.isOnNavMesh) return;
 
-        float distToPlayer = Vector3.Distance(transform.position, player.position);
+        bool shouldFlee = alwaysFlee ||
+                          Vector3.Distance(transform.position, player.position) <= runWhenDistanceLessThan;
 
-        if (distToPlayer > runWhenDistanceLessThan) return;
-
-        timer -= Time.deltaTime;
-
-        if (currentTarget != null && Vector3.Distance(transform.position, currentTarget.position) > 1.2f)
+        if (!shouldFlee)
         {
-            if (timer > 0f) return;
+            return;
         }
 
-        if (timer > 0f) return;
-        timer = repathInterval;
+        repathTimer -= Time.deltaTime;
 
-        currentTarget = PickBestWaypoint();
+        bool needsNewPath =
+            !agent.hasPath ||
+            agent.pathPending == false && agent.remainingDistance <= destinationReachThreshold ||
+            agent.pathStatus != NavMeshPathStatus.PathComplete ||
+            repathTimer <= 0f;
 
-        if (currentTarget != null)
-            agent.SetDestination(currentTarget.position);
+        if (needsNewPath)
+        {
+            repathTimer = repathInterval;
+            SetBestFleeDestination();
+        }
+
+        UpdateFacing();
     }
 
-    Transform PickBestWaypoint()
+    void SetBestFleeDestination()
     {
-        Transform best = null;
-        float bestDist = -1f;
+        Vector3 away = transform.position - player.position;
+        away.y = 0f;
 
-        Vector3 awayDir = (transform.position - player.position).normalized;
-        float minDist = minWaypointDistanceFromPlayer;
+        if (away.sqrMagnitude < 0.001f)
+            away = transform.forward;
+        else
+            away.Normalize();
 
-        foreach (Transform wp in waypoints)
+        Vector3 right = Vector3.Cross(Vector3.up, away).normalized;
+
+        Vector3[] candidateDirs =
         {
-            if (wp == null) continue;
+            away,
+            (away + right * 0.5f).normalized,
+            (away - right * 0.5f).normalized,
+            (away + right).normalized,
+            (away - right).normalized
+        };
 
-            Vector3 toWpDir = (wp.position - transform.position).normalized;
-            if (Vector3.Dot(awayDir, toWpDir) <= 0f) continue;
+        Vector3 bestPoint = transform.position;
+        float bestScore = float.NegativeInfinity;
+        bool found = false;
 
-            float distToPlayer = Vector3.Distance(wp.position, player.position);
-            if (distToPlayer < minDist) continue;
+        for (int i = 0; i < candidateDirs.Length; i++)
+        {
+            Vector3 candidate = transform.position + candidateDirs[i] * fleeDistance;
 
-            if (distToPlayer > bestDist)
+            NavMeshHit hit;
+            if (!NavMesh.SamplePosition(candidate, out hit, 3f, NavMesh.AllAreas))
+                continue;
+
+            NavMeshPath path = new NavMeshPath();
+            if (!agent.CalculatePath(hit.position, path))
+                continue;
+
+            if (path.status != NavMeshPathStatus.PathComplete)
+                continue;
+
+            float distFromPlayer = Vector3.Distance(hit.position, player.position);
+            float distFromSelf = Vector3.Distance(hit.position, transform.position);
+
+            // prefer points farther from player, but still actually move somewhere
+            float score = distFromPlayer + distFromSelf * 0.25f;
+
+            if (score > bestScore)
             {
-                bestDist = distToPlayer;
-                best = wp;
+                bestScore = score;
+                bestPoint = hit.position;
+                found = true;
             }
         }
 
-        if (best == null)
+        if (found)
         {
-            foreach (Transform wp in waypoints)
-            {
-                if (wp == null) continue;
+            agent.isStopped = false;
+            agent.SetDestination(bestPoint);
+        }
+    }
 
-                float distToPlayer = Vector3.Distance(wp.position, player.position);
-                if (distToPlayer > bestDist)
-                {
-                    bestDist = distToPlayer;
-                    best = wp;
-                }
-            }
+    void UpdateFacing()
+    {
+        Vector3 lookDir = Vector3.zero;
+
+        if (faceMovementDirection)
+        {
+            lookDir = agent.desiredVelocity;
+            lookDir.y = 0f;
         }
 
-        return best;
+        if (lookDir.sqrMagnitude < 0.01f)
+        {
+            lookDir = transform.position - player.position;
+            lookDir.y = 0f;
+        }
+
+        if (lookDir.sqrMagnitude < 0.001f) return;
+
+        Quaternion targetRot = Quaternion.LookRotation(lookDir.normalized);
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRot,
+            rotateSpeed * Time.deltaTime
+        );
     }
 }
