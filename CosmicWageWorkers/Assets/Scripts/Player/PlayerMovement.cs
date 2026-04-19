@@ -153,6 +153,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnRole(InputValue value)
     {
+        Debug.Log("Roll pressed");
         if (value.isPressed && isGrounded && isRole)
         {
             // Check if player is actually moving

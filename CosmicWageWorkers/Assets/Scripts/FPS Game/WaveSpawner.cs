@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +30,9 @@ public class WaveSpawner : MonoBehaviour
 
     [Header("Lose Settings")]
     public string loseSceneName = "GameOver";
+
+    [Header("UI")]
+    public TextMeshProUGUI waveText;
 
     [Header("Customer Interaction ID")]
     public string interactionID;
@@ -76,6 +80,8 @@ public class WaveSpawner : MonoBehaviour
         );
 
         Debug.Log("Wave " + currentWave + " spawning " + enemiesThisWave + " enemies");
+
+        waveText.text = "Wave " + currentWave + " / " + totalWaves;
 
         for (int i = 0; i < enemiesThisWave; i++)
         {
