@@ -2,7 +2,7 @@
 - Project name: CosmicWageWorkers
 - Unity version: Unity 6000.2.7f2
 - Active game object:
-  - Name: FPSPlayer
-  - Tag: Player
-  - Layer: Default
+  - Name: Entrance
+  - Tag: Untagged
+  - Layer: Walls
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
