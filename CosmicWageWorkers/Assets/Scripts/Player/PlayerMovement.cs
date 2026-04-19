@@ -175,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
             targetRoll = -side * maxRollAngle;
 
             dashTargetVelocity = dashDir * dashSpeed;
+            SoundEffectManager.Play("DashSound");
 
             isDashing = true;
             dashTimer = dashDuration;
