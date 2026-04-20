@@ -3,12 +3,14 @@ using UnityEngine;
 public class MopRespawn : MonoBehaviour
 {
     public Vector3 startingPosition;
+    private RespawnObjects respawnScript;
     private Collider mopCollider;
     public float boundary;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mopCollider = GetComponent<Collider>();
+        respawnScript = GameObject.Find("RespawnManager").GetComponent<RespawnObjects>();
     }
 
     // Update is called once per frame 
@@ -16,8 +18,8 @@ public class MopRespawn : MonoBehaviour
     {
         if (transform.position.y < boundary)
         {
-            mopCollider.enabled = false;
-            transform.position = startingPosition;
+            respawnScript.objectActive = false;
+            Destroy(gameObject);
         }
 
     }
