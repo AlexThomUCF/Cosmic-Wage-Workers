@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CollectibleManager : MonoBehaviour
@@ -19,6 +19,7 @@ public class CollectibleManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // CALLED BY GAME
     public void Collect(string id)
     {
         collectedIDs.Add(id);
@@ -29,8 +30,18 @@ public class CollectibleManager : MonoBehaviour
         return collectedIDs.Contains(id);
     }
 
-    public int GetCollectedCount()
+    // for saving
+    public List<string> GetAllCollectedIDs()
     {
-        return collectedIDs.Count;
+        return new List<string>(collectedIDs);
+    }
+
+    // for loading
+    public void SetCollectedIDs(List<string> ids)
+    {
+        collectedIDs = new HashSet<string>(ids);
+
+        // refresh shelf after load
+        FindFirstObjectByType<CollectableShelf>()?.RefreshShelf();
     }
 }

@@ -1,26 +1,39 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CollectibleShelf : MonoBehaviour
+public class CollectableShelf : MonoBehaviour
 {
-    [Header("Shelf Display Objects (9 total)")]
-    public GameObject[] shelfItems;
-
-    [Header("Matching IDs (same order as shelfItems)")]
+    public GameObject[] shelfObjects;
     public string[] collectibleIDs;
 
-    private void Start()
-    {
-        UpdateShelf();
-    }
+    public float updateRate = 0.2f;
+    private float timer;
 
-    public void UpdateShelf()
+    private void Update()
     {
+        timer += Time.deltaTime;
+
+        if (timer < updateRate) return;
+        timer = 0f;
+
         if (CollectibleManager.Instance == null) return;
 
-        for (int i = 0; i < shelfItems.Length; i++)
+        for (int i = 0; i < collectibleIDs.Length; i++)
         {
             bool collected = CollectibleManager.Instance.IsCollected(collectibleIDs[i]);
-            shelfItems[i].SetActive(collected);
+
+            if (shelfObjects[i].activeSelf != collected)
+            {
+                shelfObjects[i].SetActive(collected);
+            }
+        }
+    }
+
+    public void RefreshShelf()
+    {
+        for (int i = 0; i < collectibleIDs.Length; i++)
+        {
+            bool collected = CollectibleManager.Instance.IsCollected(collectibleIDs[i]);
+            shelfObjects[i].SetActive(collected);
         }
     }
 }
