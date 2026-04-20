@@ -13,6 +13,9 @@ public static class SaveSystem
         data.completedInteractionIDs = new List<string>(CustomerManager.GetCompletedInteractions());
         data.miniGameCount = FinalMiniGame.miniGameCount;
 
+        // NEW: collectables
+        data.collectedCollectibleIDs = CollectibleManager.Instance.GetAllCollectedIDs();
+
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(path, json);
 
@@ -32,6 +35,9 @@ public static class SaveSystem
 
         CustomerManager.SetCompletedInteractions(data.completedInteractionIDs);
         FinalMiniGame.miniGameCount = data.miniGameCount;
+
+        // NEW: load collectibles
+        CollectibleManager.Instance.SetCollectedIDs(data.collectedCollectibleIDs);
 
         Debug.Log("Game Loaded.");
     }
