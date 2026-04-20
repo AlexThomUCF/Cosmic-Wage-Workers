@@ -15,8 +15,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float dashSpeed = 12f;
     [SerializeField] public float dashSmoothness = 10f;
     [SerializeField] public float dashDuration = 0.2f;
+    [SerializeField] public float dashCooldown = 1f;   
 
     private float dashTimer;
+    private float dashCooldownTimer;                   
+    private bool canDash = true;
 
 
 
@@ -53,6 +56,16 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         CheckGrounded();
+
+        if (!canDash)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+            if (dashCooldownTimer <= 0f)
+            {
+                dashCooldownTimer = 0f;
+                canDash = true;
+            }
+        }
 
         if (cameraRoot == null) return;
 
@@ -154,7 +167,8 @@ public class PlayerMovement : MonoBehaviour
     public void OnRole(InputValue value)
     {
         Debug.Log("Roll pressed");
-        if (value.isPressed && isGrounded && isRole)
+        if (!value.isPressed || !isGrounded || !isRole || !canDash || isDashing)
+            return;
         {
             // Check if player is actually moving
             Vector3 horizontalVelocity = new Vector3(
@@ -179,6 +193,9 @@ public class PlayerMovement : MonoBehaviour
 
             isDashing = true;
             dashTimer = dashDuration;
+
+            canDash = false;                    
+            dashCooldownTimer = dashCooldown;   
         }
     }
 
