@@ -20,6 +20,9 @@ public class CatchCheck : MonoBehaviour
     private static int minisCaught = 0;
     private static int totalMinisSpawned = 0;
 
+    [Header("NavMesh Settings")]
+    public string groundAreaName = "Walkable"; // or "Ground" if you made one
+
     private void OnTriggerEnter(Collider other)
     {
         if (triggered) return;
@@ -79,28 +82,39 @@ public class CatchCheck : MonoBehaviour
         TeenAI parentAI = GetComponent<TeenAI>();
         if (parentAI == null)
         {
-            Debug.LogWarning("Parent TeenAI missing on original enemy!");
+            Debug.LogWarning("Parent TeenAI missing!");
             return;
         }
 
         minisCaught = 0;
         totalMinisSpawned = splitCount;
 
-        Vector3[] directions =
-        {
-            Vector3.forward,
-            Vector3.back,
-            Vector3.left,
-            Vector3.right
-        };
-
         for (int i = 0; i < splitCount; i++)
         {
-            Vector3 desiredPos = transform.position + directions[i % directions.Length] * splitRadius;
+            // Get a spread direction (first 4 are clean, rest random)
+            Vector3 dir;
+            if (i == 0) dir = Vector3.forward;
+            else if (i == 1) dir = Vector3.back;
+            else if (i == 2) dir = Vector3.left;
+            else if (i == 3) dir = Vector3.right;
+            else
+            {
+                dir = Random.insideUnitSphere;
+                dir.y = 0f;
+                dir.Normalize();
+
+                if (dir.sqrMagnitude < 0.01f)
+                    dir = Vector3.forward;
+            }
+
+            Vector3 desiredPos = transform.position + dir * splitRadius;
             Vector3 spawnPos = desiredPos;
 
+            int areaMask = 1 << NavMesh.GetAreaFromName(groundAreaName);
+
+            // Snap to NavMesh
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(desiredPos, out hit, 3f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(desiredPos, out hit, 3f, areaMask))
             {
                 spawnPos = hit.position;
             }
@@ -108,6 +122,7 @@ public class CatchCheck : MonoBehaviour
             GameObject mini = Instantiate(miniPrefab, spawnPos, transform.rotation);
             mini.transform.localScale = transform.localScale * 0.5f;
 
+            // Setup CatchCheck on mini
             CatchCheck miniCatch = mini.GetComponent<CatchCheck>();
             if (miniCatch != null)
             {
@@ -119,16 +134,18 @@ public class CatchCheck : MonoBehaviour
                 miniCatch.splitRadius = splitRadius;
             }
 
+            // Setup TeenAI on mini
             TeenAI miniAI = mini.GetComponent<TeenAI>();
             if (miniAI != null)
             {
                 miniAI.player = parentAI.player;
-                miniAI.waypoints = new List<Transform>(parentAI.waypoints);
-                miniAI.runWhenDistanceLessThan = 999f;
+                miniAI.runWhenDistanceLessThan = 999f; // always flee
+                miniAI.fleeDistance = parentAI.fleeDistance;
                 miniAI.repathInterval = parentAI.repathInterval;
-                miniAI.minWaypointDistanceFromPlayer = parentAI.minWaypointDistanceFromPlayer;
+                miniAI.rotateSpeed = parentAI.rotateSpeed;
             }
 
+            // Ensure NavMeshAgent starts properly
             NavMeshAgent agent = mini.GetComponent<NavMeshAgent>();
             if (agent != null)
             {

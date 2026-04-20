@@ -17,6 +17,7 @@ public class RaceIntroManager : MonoBehaviour
 
     [Header("AI Cars")]
     public AiCarController[] aiCars;
+    private Animator[] aiAnimators;
 
     [Header("Start Settings")]
     public bool playOnStart = true;
@@ -67,6 +68,7 @@ public class RaceIntroManager : MonoBehaviour
 
         // Freeze AI
         aiBodies = new Rigidbody[aiCars.Length];
+        aiAnimators = new Animator[aiCars.Length];
         for (int i = 0; i < aiCars.Length; i++)
         {
             if (aiCars[i] == null) continue;
@@ -81,6 +83,12 @@ public class RaceIntroManager : MonoBehaviour
                 rb.angularVelocity = Vector3.zero;
                 rb.isKinematic = true;
             }
+            Animator anim = aiCars[i].GetComponentInChildren<Animator>();
+            if (anim != null)
+            {
+                aiAnimators[i] = anim;
+                anim.enabled = false; // HARD STOP animation
+            }    
         }
 
         // Camera setup
@@ -188,6 +196,9 @@ public class RaceIntroManager : MonoBehaviour
 
             if (aiBodies != null && i < aiBodies.Length && aiBodies[i] != null)
                 aiBodies[i].isKinematic = false;
+
+            if (aiAnimators != null && i < aiAnimators.Length && aiAnimators[i] != null)
+            aiAnimators[i].enabled = true;
         }
 
         // Resume gameplay

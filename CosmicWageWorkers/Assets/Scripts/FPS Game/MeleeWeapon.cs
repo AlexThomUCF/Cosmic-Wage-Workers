@@ -51,7 +51,7 @@ public class MeleeWeapon : MonoBehaviour
     public void Attack()
     {
         animator.SetBool("Swing", true);
-        SoundEffectManager.Play("Swing");
+        //SoundEffectManager.Play("Swing"); need to call it only when animation is done playing
         rayCastRange = 2f;
         StartCoroutine(ResetAttack());
     }

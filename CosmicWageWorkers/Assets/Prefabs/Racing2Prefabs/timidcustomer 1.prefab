@@ -112,24 +112,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolAndFlee
   player: {fileID: 0}
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   runWhenDistanceLessThan: 15
+  fleeDistance: 12
   repathInterval: 0.5
-  minWaypointDistanceFromPlayer: 8
+  rotateSpeed: 12
+  destinationReachThreshold: 1
+  alwaysFlee: 0
+  faceMovementDirection: 1
 --- !u!195 &5129193118465734103
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -148,7 +137,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.4
+  m_Height: 0.03
   m_BaseOffset: 0.018
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -193,8 +182,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.035651937, y: 0.03021347, z: 0.04110783}
-  m_Center: {x: -0.0011149151, y: -0.0033097896, z: -0.0006796305}
+  m_Size: {x: 0.02, y: 0.03021347, z: 0.02}
+  m_Center: {x: -0.0007514887, y: -0.0033097896, z: 0.001029007}
 --- !u!114 &5837902296485220391
 MonoBehaviour:
   m_ObjectHideFlags: 0
