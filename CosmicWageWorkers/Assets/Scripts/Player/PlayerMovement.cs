@@ -153,6 +153,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnRole(InputValue value)
     {
+        Debug.Log("Roll pressed");
         if (value.isPressed && isGrounded && isRole)
         {
             // Check if player is actually moving
@@ -174,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
             targetRoll = -side * maxRollAngle;
 
             dashTargetVelocity = dashDir * dashSpeed;
+            SoundEffectManager.Play("DashSound");
 
             isDashing = true;
             dashTimer = dashDuration;

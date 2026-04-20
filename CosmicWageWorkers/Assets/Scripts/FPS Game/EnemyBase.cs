@@ -43,7 +43,12 @@ public class EnemyBase : MonoBehaviour
         health -= amount;
         StartCoroutine(DamageFlash());
 
-
+        if(rangedEnemy != null && health > 0f)
+        {
+            SoundEffectManager.Play("HumanHit");
+            animator.SetTrigger("Hit");
+            
+        }
 
         if (health <= 0f)
         {
@@ -51,6 +56,7 @@ public class EnemyBase : MonoBehaviour
             if(animator != null && rangedEnemy != null)
             {
                 animator.SetTrigger("Dead");
+                SoundEffectManager.Play("DeathSound");
                 rangedEnemy.agent.isStopped = true;
                 rangedCollider.enabled = false;
                 rangedEnemy.enabled = false; //Turns off movement script
