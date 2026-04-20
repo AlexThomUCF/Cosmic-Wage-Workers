@@ -21,21 +21,23 @@ public class EnemyBase : MonoBehaviour
     protected WaveSpawner spawner;
     Renderer[] renderers;
 
-    public void Awake()
+    private Material[][] originalMaterialsPerRenderer;
+
+    void Awake()
     {
-        enemyRenderer = GetComponent<Renderer>();
-
-        currentMaterial = GetComponent<Material>();
-
-        currentMaterial = enemyRenderer.material;
-
-        //New stuff
-        
         renderers = GetComponentsInChildren<Renderer>();
 
-        animator = GetComponent<Animator>();
+        originalMaterialsPerRenderer = new Material[renderers.Length][];
 
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originalMaterialsPerRenderer[i] = renderers[i].materials;
+        }
+
+        animator = GetComponent<Animator>();
         rangedEnemy = GetComponent<RangedEnemy>();
+
+
     }
     // Called when the enemy takes damage
     public virtual void TakeDamage(float amount)
@@ -98,31 +100,21 @@ public class EnemyBase : MonoBehaviour
 
     IEnumerator DamageFlash()
     {
-        float duration = 0.2f;
-        float time = 0;
-
-        while (time < duration)
+        for (int i = 0; i < renderers.Length; i++)
         {
-            float t = 1 - (time / duration);
-
-            foreach (Renderer r in renderers)
+            Material[] dmgMats = new Material[renderers[i].materials.Length];
+            for (int j = 0; j < dmgMats.Length; j++)
             {
-                foreach (Material m in r.materials)
-                {
-                    m.SetFloat("_FlashAmount", t);
-                }
+                dmgMats[j] = dmgMaterial;
             }
-
-            time += Time.deltaTime;
-            yield return null;
+            renderers[i].materials = dmgMats;
         }
 
-        foreach (Renderer r in renderers)
+        yield return new WaitForSeconds(0.2f);
+
+        for (int i = 0; i < renderers.Length; i++)
         {
-            foreach (Material m in r.materials)
-            {
-                m.SetFloat("_FlashAmount", 0f);
-            }
+            renderers[i].materials = originalMaterialsPerRenderer[i];
         }
     }
 }
