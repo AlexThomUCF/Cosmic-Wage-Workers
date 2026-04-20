@@ -98,7 +98,7 @@ public class BathroomsUnhide : MonoBehaviour
 
     public float doorCloseDelay;
     public float cinemachineDelay = 3.5f;
-    public float blackScreenDelay = 2f; 
+    public float blackScreenDelay = 1.65f; 
     public Roach roachScript;
 
    
@@ -133,7 +133,7 @@ public class BathroomsUnhide : MonoBehaviour
             {
                 jumpScareBlackScreen.SetActive(false);
                 cineMachineDeactivated = false;
-                blackScreenDelay = 2f;
+                blackScreenDelay = 1.65f;
                 bsAnimator.SetTrigger("BSFade");
             }
         }
