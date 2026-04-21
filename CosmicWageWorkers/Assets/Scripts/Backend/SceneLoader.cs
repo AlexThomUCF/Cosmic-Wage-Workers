@@ -9,7 +9,9 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private Animator transitonAnim;
     [SerializeField] private GameObject transitonObj;
     [SerializeField] public Canvas canvas;
-    
+    [SerializeField] private Sprite mainSceneControl;
+
+
 
     public TextMeshProUGUI skipText;
 
@@ -115,12 +117,22 @@ public class SceneLoader : MonoBehaviour
             LoadingImageController.Instance.ShowImage();
         }
 
-        // ?? Start transition animation
+
+
+        //Start transition animation
         if (transitonAnim != null)
             transitonAnim.SetTrigger("End");
 
-        // ?? SHOW target image (force it on top using its own canvas)
-        
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            Debug.Log("Setting sprite");
+            LoadingImageController.Instance.SetSprite(mainSceneControl);
+        }
+
+
+
+
+
 
         ExitDialogue();
 
@@ -129,7 +141,7 @@ public class SceneLoader : MonoBehaviour
 
        
 
-        // ?? Reset skip text
+        // Reset skip text
         if (skipText != null)
         {
             skipText.gameObject.SetActive(false);

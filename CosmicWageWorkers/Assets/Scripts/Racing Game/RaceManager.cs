@@ -323,6 +323,7 @@ public class RaceManager : MonoBehaviour
         string mainSceneName = "MainScene";
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        //Change Instruction to main menu controls
         loader.LoadSceneByName(mainSceneName);
     }
     public void ExitToMainScene()
