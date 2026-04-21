@@ -7,7 +7,7 @@ public class RespawnObjects : MonoBehaviour
     public float xPosition;
     public float yPosition;
     public float zPosition;
-    private float respawnTimer = 5f;
+    private float respawnTimer = 2f;
     private float spawnInterval = 5f; // Time in seconds between spawns
     private float spawnDelay = 0f; // Time until the next spawn
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,7 +25,7 @@ public class RespawnObjects : MonoBehaviour
             if (respawnTimer <= 0f)
             {
                 gravityObject.SetActive(true);
-                respawnTimer = 5f;
+                respawnTimer = 2f;
                 Respawning();
                 objectActive = true;
             

@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 8667861954983396781}
   - component: {fileID: 5310101229815149174}
   - component: {fileID: 2263714264759893900}
-  - component: {fileID: 912784455348495297}
-  - component: {fileID: 868416882539635103}
-  - component: {fileID: 7075056009137788891}
   m_Layer: 6
   m_Name: Eyedrops (1)
   m_TagString: Untagged
@@ -92,70 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &912784455348495297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4412409538789037155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89af904f79a63204ebdce797239d9af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RealItem
-  isMcguffin: 1
-  horror: {fileID: 0}
---- !u!114 &868416882539635103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4412409538789037155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98c1b27a48b57c944be5fa435ef2875c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 912784455348495297}
-        m_TargetAssemblyTypeName: RealItem, Assembly-CSharp
-        m_MethodName: Interact
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!136 &7075056009137788891
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4412409538789037155}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.023963315
-  m_Height: 0.04792664
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.000000020445457, z: 0.0041248784}
 --- !u!1001 &246533294626275370
 PrefabInstance:
   m_ObjectHideFlags: 0

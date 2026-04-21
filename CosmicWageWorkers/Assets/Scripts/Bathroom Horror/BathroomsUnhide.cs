@@ -5,6 +5,8 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class BathroomsUnhide : MonoBehaviour
 {
     public GameObject player;
+    public GameObject mainCamera;
+    public GameObject firstPersonCamera;
     public GameObject cineMachine;
 
 
@@ -98,7 +100,7 @@ public class BathroomsUnhide : MonoBehaviour
 
     public float doorCloseDelay;
     public float cinemachineDelay = 3.5f;
-    public float blackScreenDelay = 2f; 
+    public float blackScreenDelay = 1.65f; 
     public Roach roachScript;
 
    
@@ -133,7 +135,7 @@ public class BathroomsUnhide : MonoBehaviour
             {
                 jumpScareBlackScreen.SetActive(false);
                 cineMachineDeactivated = false;
-                blackScreenDelay = 2f;
+                blackScreenDelay = 1.65f;
                 bsAnimator.SetTrigger("BSFade");
             }
         }
@@ -207,7 +209,6 @@ public class BathroomsUnhide : MonoBehaviour
             {
                 jumpScareBlackScreen.SetActive(false);
                 JumpScare();
-                player.SetActive(false);
                 roachTimer -= Time.deltaTime;
             }
              if (roachTimer <= 0)
@@ -417,6 +418,8 @@ public class BathroomsUnhide : MonoBehaviour
         restartingLevel = true;
         roach.SetActive(false);
         roachJS.SetActive(true);
+        mainCamera.SetActive(false);
+        firstPersonCamera.SetActive(false);
         roachJS.transform.position = player.transform.position;
         roachJS.transform.rotation = player.transform.rotation;
         roach2.SetActive(false);
