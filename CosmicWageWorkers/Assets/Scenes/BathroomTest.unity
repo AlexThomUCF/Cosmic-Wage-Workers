@@ -25996,6 +25996,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1006452264}
   - component: {fileID: 1006452265}
+  - component: {fileID: 1006452266}
   m_Layer: 0
   m_Name: Gamemanager
   m_TagString: Untagged
@@ -26031,6 +26032,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamicInputScheme
   playerInput: {fileID: 1009712607}
+--- !u!114 &1006452266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006452263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440af1ff8fd244e48ad3f46e3af3b787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimeUnFreeze
 --- !u!4 &1007025208 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5acd094cbee1fa40a19eff12574fd8e, type: 3}
