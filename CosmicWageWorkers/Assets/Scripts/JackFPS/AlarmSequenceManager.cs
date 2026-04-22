@@ -29,6 +29,7 @@ public class AlarmSequenceManager : MonoBehaviour
     [SerializeField] private PropManager propManager;
 
     [Header("End Minigame")]
+    [SerializeField] private SceneLoader loader;
     public string sceneToLoadAfterGame;
     public float endDelay = 1.5f;
 
@@ -62,6 +63,8 @@ public class AlarmSequenceManager : MonoBehaviour
             Destroy(gameObject);
 
         currentSequenceLength = startSequenceLength;
+
+        loader = FindAnyObjectByType<SceneLoader>();
     }
 
     void Start()
@@ -289,8 +292,9 @@ public class AlarmSequenceManager : MonoBehaviour
 
         //FinalMiniGame.miniGameCount++; Old spot 
 
-        if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
-            SceneManager.LoadScene(sceneToLoadAfterGame);
+        //if (!string.IsNullOrEmpty(sceneToLoadAfterGame))
+            //SceneManager.LoadScene(sceneToLoadAfterGame);
+            loader.LoadSceneByName(sceneToLoadAfterGame);
     }
 
     public float GetTimerPercent()

@@ -8,6 +8,7 @@ public class BathroomsUnhide : MonoBehaviour
     public GameObject mainCamera;
     public GameObject firstPersonCamera;
     public GameObject cineMachine;
+    [SerializeField] private SceneLoader loader;
 
 
 
@@ -103,7 +104,10 @@ public class BathroomsUnhide : MonoBehaviour
     public float blackScreenDelay = 1.65f; 
     public Roach roachScript;
 
-   
+    public void Awake()
+    {
+        loader = FindAnyObjectByType<SceneLoader>();
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -403,7 +407,9 @@ public class BathroomsUnhide : MonoBehaviour
             }
             SaveSystem.SaveGame();
             FinalMiniGame.miniGameCount++;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+            //UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene"); //Change  here
+            string mainSceneName = "MainScene";
+            loader.LoadSceneByName(mainSceneName);
         }
         else
         {

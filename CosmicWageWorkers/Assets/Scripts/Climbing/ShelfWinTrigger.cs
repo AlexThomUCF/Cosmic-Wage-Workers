@@ -9,6 +9,7 @@ public class ShelfWinTrigger : MonoBehaviour
     public string interactionID;
 
     [Header("References")]
+    [SerializeField] SceneLoader loader;
     public GameObject grabItem;
     public CanvasGroup promptUI;
     public CanvasGroup fadeCanvas;
@@ -30,6 +31,10 @@ public class ShelfWinTrigger : MonoBehaviour
     private bool hasGrabbed;
     private BoxCollider box;
 
+    public void Awake()
+    {
+        loader = FindAnyObjectByType<SceneLoader>();
+    }
     void Start()
     {
         box = GetComponent<BoxCollider>();
@@ -114,14 +119,14 @@ public class ShelfWinTrigger : MonoBehaviour
         promptUI.alpha = 0f;
         grabItem.SetActive(false);
 
-        // Fade out screen
-        float elapsed = 0f;
+        // Fade out screen Disable for loading screen
+       /* float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
             fadeCanvas.alpha = elapsed / fadeDuration;
             yield return null;
-        }
+        }*/
 
         // Mark interaction complete
         if (!string.IsNullOrEmpty(interactionID))
@@ -130,7 +135,11 @@ public class ShelfWinTrigger : MonoBehaviour
         FinalMiniGame.miniGameCount++;
         SaveSystem.SaveGame();
 
-        fadeCanvas.alpha = 1f;
-        SceneManager.LoadScene(nextSceneName);
+        //fadeCanvas.alpha = 1f;
+        // SceneManager.LoadScene(nextSceneName);
+        //fadeCanvas.gameObject.SetActive(false);
+        Debug.Log("I'm here");
+        loader.LoadSceneByName(nextSceneName);
+       
     }
 }
