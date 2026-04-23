@@ -186,8 +186,8 @@ public class Climbing : MonoBehaviour
 
     void TryMove(int colDelta, int rowDelta)
     {
-        // Block input if already moving OR falling
-        if (isMoving || isFalling)
+        // Block input if moving, falling, OR looking up
+        if (isMoving || isFalling || isLookingUp)
             return;
 
         // Cooldown check
@@ -206,7 +206,7 @@ public class Climbing : MonoBehaviour
         currentColumn = newCol;
         currentRow = newRow;
 
-        lastClimbTime = Time.time; // Start cooldown immediately
+        lastClimbTime = Time.time;
 
         Vector3 holdPos = GetHoldPosition(currentColumn, currentRow);
 
