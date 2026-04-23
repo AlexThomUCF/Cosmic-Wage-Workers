@@ -46,6 +46,10 @@ public class Climbing : MonoBehaviour
     public HandStamina handStamina;
     public float obstaclePenalty = 10f;
 
+    [Header("Climb Cooldown")]
+    public float climbCooldown = 0.5f;
+    private float lastClimbTime = -999f;
+
     [Header("Lose/Fall")]
     public bool isFalling = false;
     public float fallSpeed = 10f;
@@ -182,6 +186,14 @@ public class Climbing : MonoBehaviour
 
     void TryMove(int colDelta, int rowDelta)
     {
+        // Block input if already moving OR falling
+        if (isMoving || isFalling)
+            return;
+
+        // Cooldown check
+        if (Time.time < lastClimbTime + climbCooldown)
+            return;
+
         int newCol = currentColumn + colDelta;
         int newRow = currentRow + rowDelta;
 
@@ -193,6 +205,8 @@ public class Climbing : MonoBehaviour
 
         currentColumn = newCol;
         currentRow = newRow;
+
+        lastClimbTime = Time.time; // Start cooldown immediately
 
         Vector3 holdPos = GetHoldPosition(currentColumn, currentRow);
 
