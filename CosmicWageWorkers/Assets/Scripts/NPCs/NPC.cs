@@ -203,6 +203,11 @@ public class NPC : MonoBehaviour, IInteraction
             cosmicManager.isPaused = false;
     }
 
+    public void StartDialogueExternally()
+    {
+        Interact();
+    }
+
     [System.Serializable]
     public class ChoiceEvent
     {
