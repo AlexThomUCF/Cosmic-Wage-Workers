@@ -242,6 +242,16 @@ public class TitleScreen : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
+    public void ExitLoadScreen()
+    {
+        audioManager.PlaySFX(audioManager.buttonPress);
+
+        loadGameMenu.SetActive(false);
+        titleScreen.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
+    }
+
     public void QuitGameClick()
     {
         Application.Quit();
