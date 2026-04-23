@@ -206,7 +206,7 @@ public class NPC : MonoBehaviour, IInteraction
     public void StartDialogueExternally()
     {
         Interact();
-    }
+    }   
 
     [System.Serializable]
     public class ChoiceEvent
