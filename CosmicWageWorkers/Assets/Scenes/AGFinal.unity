@@ -10395,7 +10395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &521014507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17847,6 +17847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkipCutscene
   director: {fileID: 0}
+  border: {fileID: 0}
 --- !u!4 &1035890140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef4f358117bf4154a9909baf6c961878, type: 3}
@@ -20556,6 +20557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkipCutscene
   director: {fileID: 1006529451}
+  border: {fileID: 0}
 --- !u!82 &1183685496 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6822480777504000716, guid: a45e5f010be23684f87404eefe0aae28, type: 3}
