@@ -17829,25 +17829,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 855816cf62e949145b0c3d4b51386f26, type: 3}
   m_PrefabInstance: {fileID: 1141581200}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1030695782 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3039323078644446394, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
-  m_PrefabInstance: {fileID: 1158778479}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1030695786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030695782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77fcbb7265b1e4a4c886ec500a3bf3c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkipCutscene
-  director: {fileID: 0}
-  border: {fileID: 0}
 --- !u!4 &1035890140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef4f358117bf4154a9909baf6c961878, type: 3}
@@ -20408,17 +20389,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3039323078644446394, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1030695786}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
 --- !u!114 &1158778480 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1343749941388777977, guid: df15fddcf548ec546aa1edbe59fe1b8f, type: 3}
   m_PrefabInstance: {fileID: 1158778479}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030695782}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8434a3f4bfda5b14c97fb4234c84c7eb, type: 3}
@@ -20557,7 +20535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkipCutscene
   director: {fileID: 1006529451}
-  border: {fileID: 0}
+  border: {fileID: 521014506}
 --- !u!82 &1183685496 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6822480777504000716, guid: a45e5f010be23684f87404eefe0aae28, type: 3}
