@@ -33,6 +33,8 @@ public class RaceManager : MonoBehaviour
     [Header("UI settings")]
     public GameObject winCinematic;
     public GameObject loseCinematic;
+    public GameObject winCamera;
+    public GameObject loseCamera;
     //public GameObject winScreen;
     //public GameObject loseScreen;
 
@@ -73,6 +75,7 @@ public class RaceManager : MonoBehaviour
         Cursor.visible = false;
 
         winCinematic.SetActive(false);
+        loseCinematic.SetActive(false);
     }
 
     private void Update()
@@ -253,8 +256,8 @@ public class RaceManager : MonoBehaviour
                 Babylaugh.Play();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-
-                LoseCon();
+                StartCoroutine(LoseCine(loseCinematic));
+               
             }
         
     }
@@ -362,9 +365,19 @@ public class RaceManager : MonoBehaviour
     public IEnumerator WinCine(GameObject cine)
     {
         cart.SetActive(false);
+        loseCamera.SetActive(false);
         cine.SetActive(true);
         yield return new WaitForSeconds(8f);
         WinCon();
+    }
+
+    public IEnumerator LoseCine(GameObject cine)
+    {
+        cart.SetActive(false);
+        winCamera.SetActive(false);
+        cine.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        LoseCon();
     }
 
     #region Utility
