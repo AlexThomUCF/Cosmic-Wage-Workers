@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // <-- needed for InputActionReference
+using UnityEngine.InputSystem;
 using System.Collections;
 
 public class ShelfWinTrigger : MonoBehaviour
@@ -22,19 +22,20 @@ public class ShelfWinTrigger : MonoBehaviour
     public string nextSceneName = "MainScene";
 
     [Header("Sound")]
-    public AudioClip pickupClip; // drag your audio file here
+    public AudioClip pickupClip;
 
     [Header("Input")]
-    public InputActionReference GrabItemAction; // <-- Input System action
+    public InputActionReference GrabItemAction;
 
     private bool playerInside;
     private bool hasGrabbed;
     private BoxCollider box;
 
-    public void Awake()
+    private void Awake()
     {
         loader = FindAnyObjectByType<SceneLoader>();
     }
+
     void Start()
     {
         box = GetComponent<BoxCollider>();
@@ -45,22 +46,33 @@ public class ShelfWinTrigger : MonoBehaviour
 
         fadeCanvas.alpha = 0f;
 
-        // Enable the input action
-        if (GrabItemAction != null) GrabItemAction.action.Enable();
+        if (GrabItemAction != null)
+            GrabItemAction.action.Enable();
+    }
+
+    private void OnEnable()
+    {
+        if (GrabItemAction != null)
+            GrabItemAction.action.performed += OnGrabPerformed;
+    }
+
+    private void OnDisable()
+    {
+        if (GrabItemAction != null)
+            GrabItemAction.action.performed -= OnGrabPerformed;
     }
 
     void Update()
     {
         CheckPlayerOverlap();
+    }
 
+    private void OnGrabPerformed(InputAction.CallbackContext context)
+    {
         if (!playerInside || hasGrabbed)
             return;
 
-        // Use new Input System "Use" action
-        if (GrabItemAction != null && GrabItemAction.action.WasPerformedThisFrame())
-        {
-            StartCoroutine(GrabAndFinish());
-        }
+        StartCoroutine(GrabAndFinish());
     }
 
     void CheckPlayerOverlap()
@@ -93,6 +105,8 @@ public class ShelfWinTrigger : MonoBehaviour
         promptUI.alpha = 1f;
         promptUI.interactable = true;
         promptUI.blocksRaycasts = true;
+
+        Debug.Log("Player entered trigger");
     }
 
     void OnPlayerExit()
@@ -102,6 +116,8 @@ public class ShelfWinTrigger : MonoBehaviour
         promptUI.alpha = 0f;
         promptUI.interactable = false;
         promptUI.blocksRaycasts = false;
+
+        Debug.Log("Player exited trigger");
     }
 
     IEnumerator GrabAndFinish()
@@ -111,35 +127,32 @@ public class ShelfWinTrigger : MonoBehaviour
 
         hasGrabbed = true;
 
-        // Play pickup sound at the object's position
+        Debug.Log("Grab triggered");
+
         if (pickupClip != null)
             AudioSource.PlayClipAtPoint(pickupClip, transform.position);
 
-        // Hide prompt and grabbed object
         promptUI.alpha = 0f;
         grabItem.SetActive(false);
 
-        // Fade out screen Disable for loading screen
-       /* float elapsed = 0f;
+        float elapsed = 0f;
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
             fadeCanvas.alpha = elapsed / fadeDuration;
             yield return null;
-        }*/
+        }
 
-        // Mark interaction complete
         if (!string.IsNullOrEmpty(interactionID))
             CustomerManager.MarkInteractionComplete(interactionID);
 
         FinalMiniGame.miniGameCount++;
         SaveSystem.SaveGame();
 
-        //fadeCanvas.alpha = 1f;
-        // SceneManager.LoadScene(nextSceneName);
-        //fadeCanvas.gameObject.SetActive(false);
-        Debug.Log("I'm here");
+        fadeCanvas.alpha = 1f;
+        fadeCanvas.gameObject.SetActive(false);
+
+        Debug.Log("Loading next scene...");
         loader.LoadSceneByName(nextSceneName);
-       
     }
 }
