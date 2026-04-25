@@ -10,6 +10,7 @@ public class HorrorWinScript : MonoBehaviour
     [SerializeField] SceneLoader loader;
     [SerializeField] private GameObject startCine;
     [SerializeField] private GameObject endCine;
+    [SerializeField] private GameObject Monster;
 
     [SerializeField] private UnityEvent eventObj;
     
@@ -32,7 +33,7 @@ public class HorrorWinScript : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && RealItem.hasItem)
         {
             Debug.Log("Player has won");
-
+            Monster.SetActive(false);
             // Mark the interaction complete
             if (!string.IsNullOrEmpty(interactionID))
             {

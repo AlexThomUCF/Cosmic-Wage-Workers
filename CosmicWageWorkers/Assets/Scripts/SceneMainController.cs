@@ -7,12 +7,12 @@ public class SceneMainController : MonoBehaviour
     public GameObject cam;
     void Start()
     {
-        if (SceneTracker.Instance != null &&
-            SceneTracker.Instance.previousScene == "AGFinal" && PortalTrigger.gravityGameWon)
+        if (SceneTracker.Instance != null && SceneTracker.Instance.previousScene == "AGFinal" && PortalTrigger.gravityGameWon)
         {
             cam.SetActive(true);
             Debug.Log("Came from Scene B");
             director.Play();
+            PortalTrigger.gravityGameWon = false;
            
             // Do special logic here
         }
