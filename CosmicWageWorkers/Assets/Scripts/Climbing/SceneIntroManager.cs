@@ -13,7 +13,7 @@ public class SceneIntroManager : MonoBehaviour
     public MonoBehaviour playerController;
     public MonoBehaviour gameManager;
     public MonoBehaviour climbing;
-    public MonoBehaviour pausePlayerController;
+    //public MonoBehaviour pausePlayerController;
     public GameObject gameplayHUD;
 
     [Header("Start Settings")]
@@ -48,7 +48,7 @@ public class SceneIntroManager : MonoBehaviour
         if (gameManager != null) gameManager.enabled = false;
         if (gameplayHUD != null) gameplayHUD.SetActive(false);
         if (climbing != null) climbing.enabled = false;
-        if (pausePlayerController != null) pausePlayerController.enabled = false;
+        //if (pausePlayerController != null) pausePlayerController.enabled = false;
 
         // Camera setup
         if (playerCamera != null)
@@ -99,7 +99,7 @@ public class SceneIntroManager : MonoBehaviour
         if (gameManager != null) gameManager.enabled = true;
         if (gameplayHUD != null) gameplayHUD.SetActive(true);
         if (climbing != null) climbing.enabled = true;
-        if (pausePlayerController != null) pausePlayerController.enabled = true;
+        //if (pausePlayerController != null) pausePlayerController.enabled = true;
 
         isIntroPlaying = false;
     }
