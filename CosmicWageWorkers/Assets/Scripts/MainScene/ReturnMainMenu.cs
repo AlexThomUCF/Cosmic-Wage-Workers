@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class ReturnMainMenu : MonoBehaviour
 {
     [SerializeField] private string mainMenuScene = "UI";
+    [SerializeField] private HumanFpsCineController cineController; 
 
     public void ReturnToMainMenu()
     {
@@ -18,5 +21,17 @@ public class ReturnMainMenu : MonoBehaviour
         Cursor.visible = true;
 
         SceneManager.LoadScene(mainMenuScene);
+    }
+
+    public void EndCinematic()
+    {
+        
+        cineController.endCine.gameObject.SetActive(true);
+        if (cineController.endCine.state != PlayState.Playing)
+        {
+            Debug.Log("Reached here");
+            cineController.endCine.gameObject.SetActive(false);
+            ReturnToMainMenu();
+        }
     }
 }

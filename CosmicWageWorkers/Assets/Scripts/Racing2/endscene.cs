@@ -15,8 +15,13 @@ public class endscene : MonoBehaviour
 
     public void Start()
     {
+        //loader = FindAnyObjectByType<SceneLoader>();
+    }
+    public void Update()
+    {
         loader = FindAnyObjectByType<SceneLoader>();
     }
+
     public void PlayAnim()
     {
         
@@ -51,6 +56,6 @@ public class endscene : MonoBehaviour
     public void BackToMain()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
+        //SceneManager.LoadScene(sceneName);
     }
 }
