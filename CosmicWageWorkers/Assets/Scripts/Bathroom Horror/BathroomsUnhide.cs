@@ -405,8 +405,8 @@ public class BathroomsUnhide : MonoBehaviour
             {
                 CustomerManager.MarkInteractionComplete(interactionID);
             }
-            SaveSystem.SaveGame();
             FinalMiniGame.miniGameCount++;
+            SaveSystem.SaveGame();
             //UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene"); //Change  here
             string mainSceneName = "MainScene";
             loader.LoadSceneByName(mainSceneName);
