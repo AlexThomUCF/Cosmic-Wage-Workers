@@ -8,6 +8,10 @@ public class NavMeshHopper : MonoBehaviour
     public float hopDistance = 1.2f;
     public float hopSpeed = 4f;
 
+    [Header("Grounding")]
+    public float navSampleRadius = 2f;
+    public float groundOffset = 0.05f; // keeps it slightly above ground
+
     private NavMeshAgent agent;
     private Vector3 startPos;
     private Vector3 endPos;
@@ -18,33 +22,49 @@ public class NavMeshHopper : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         agent.updatePosition = false;
-        agent.updateRotation = true;
+        agent.updateRotation = false; // we'll handle rotation manually
     }
 
     void Update()
     {
-        // Sync agent to actual position
+        // Keep NavMeshAgent synced
         agent.nextPosition = transform.position;
 
-        // Continue hop
+        // === CONTINUE HOP ===
         if (hopProgress < 1f)
         {
             hopProgress += Time.deltaTime * hopSpeed;
 
             float height = Mathf.Sin(hopProgress * Mathf.PI) * hopHeight;
             Vector3 pos = Vector3.Lerp(startPos, endPos, hopProgress);
-            pos.y += height;
+
+            // Snap to NavMesh height
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(pos, out hit, navSampleRadius, NavMesh.AllAreas))
+            {
+                pos.y = hit.position.y + height + groundOffset;
+            }
 
             transform.position = pos;
+
+            // Snap cleanly when hop ends
+            if (hopProgress >= 1f)
+            {
+                if (NavMesh.SamplePosition(transform.position, out hit, navSampleRadius, NavMesh.AllAreas))
+                {
+                    transform.position = hit.position + Vector3.up * groundOffset;
+                }
+            }
+
             return;
         }
 
-        // Start new hop
-        if (agent.hasPath && agent.remainingDistance > 0.05f)
+        // === START NEW HOP ===
+        if (agent.hasPath && agent.remainingDistance > 0.2f)
         {
-            Vector3 direction = agent.desiredVelocity.normalized;
+            // Better turning
+            Vector3 direction = (agent.steeringTarget - transform.position).normalized;
 
-            // ?? If direction is zero, don't hop
             if (direction.sqrMagnitude < 0.01f) return;
 
             float distance = Mathf.Min(hopDistance, agent.remainingDistance);
@@ -52,7 +72,18 @@ public class NavMeshHopper : MonoBehaviour
             startPos = transform.position;
             endPos = transform.position + direction * distance;
 
+            // Clamp end position to NavMesh
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(endPos, out hit, navSampleRadius, NavMesh.AllAreas))
+            {
+                endPos = hit.position;
+            }
+
             hopProgress = 0f;
+
+            // Smooth rotation
+            Quaternion rot = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
         }
     }
 }
