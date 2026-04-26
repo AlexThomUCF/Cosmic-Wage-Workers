@@ -58,7 +58,7 @@ public class MessManager : MonoBehaviour
 
         Destroy(cleanedMess);
 
-        FindObjectOfType<CustomerManager>()?.OnTaskCompleted();
+        Object.FindFirstObjectByType<CustomerManager>()?.OnTaskCompleted();
 
         OnMessCountChanged?.Invoke();
     }
