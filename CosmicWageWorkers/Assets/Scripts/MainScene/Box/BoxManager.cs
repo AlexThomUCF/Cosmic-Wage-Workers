@@ -69,6 +69,7 @@ public class BoxManager : MonoBehaviour
     public void OnRowStocked()
     {
         rowsStockedThisZone++;
+
         int nextShelf = rowsStockedThisZone / 2;
         int rowInShelf = rowsStockedThisZone % 2;
 
@@ -78,7 +79,7 @@ public class BoxManager : MonoBehaviour
         {
             if (currentBox != null)
             {
-                BoxPickUp pickup = FindObjectOfType<BoxPickUp>();
+                BoxPickUp pickup = Object.FindFirstObjectByType<BoxPickUp>();
                 if (pickup != null)
                     pickup.ForceDropBox();
 
@@ -89,12 +90,15 @@ public class BoxManager : MonoBehaviour
             rowsStockedThisZone = 0;
 
             if (currentZoneIndex < stockZones.Count)
-                StartCoroutine(SpawnNextBox());
+            StartCoroutine(SpawnNextBox());       
+
         }
     }
 
     private IEnumerator SpawnNextBox()
     {
+        Object.FindFirstObjectByType<CustomerManager>()?.OnTaskCompleted();
+
         yield return new WaitForSeconds(spawnDelay);
         SpawnBox();
     }
