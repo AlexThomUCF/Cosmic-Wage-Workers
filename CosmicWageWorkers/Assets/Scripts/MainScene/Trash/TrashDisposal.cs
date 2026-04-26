@@ -5,7 +5,7 @@ public class TrashDisposal : MonoBehaviour
     private PlayerControls controls;
     private TrashPickup trashPickup;
     private GarbageCanManager garbageManager;
-    [SerializeField] private TrashDispose trashDisposeAnim;
+   // [SerializeField] private TrashDispose trashDisposeAnim;
 
     private bool playerNearby;
 
@@ -43,7 +43,7 @@ public class TrashDisposal : MonoBehaviour
                 Destroy(trash);
 
                 SoundEffectManager.Play("TrashDispose");
-                trashDisposeAnim.PlayAnimationFromList();
+                //trashDisposeAnim.PlayAnimationFromList();
             }
         }
     }
