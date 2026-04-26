@@ -140,14 +140,14 @@ RectTransform:
   m_GameObject: {fileID: 919061758335398527}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.00039520956, y: 0.00039520956, z: 0.00039520956}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1772405794399743353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0196}
+  m_AnchoredPosition: {x: 0, y: 2.31}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &3632538107386080209
@@ -272,9 +272,9 @@ Transform:
   m_GameObject: {fileID: 3720162051499240872}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0176, z: 0}
-  m_LocalScale: {x: 0.009385171, y: 0.009385171, z: 0.009385171}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 1.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1772405794399743353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -422,9 +422,9 @@ Transform:
   m_GameObject: {fileID: 6348386658343440366}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.56, y: 2.44, z: -33.42}
-  m_LocalScale: {x: 106.55106, y: 106.55106, z: 106.55106}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 2.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1195856844051156560}
   - {fileID: 3636613205256961507}
@@ -514,8 +514,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.03, y: 0.03021347, z: 0.028}
-  m_Center: {x: -0.0007514887, y: -0.0033097896, z: 0.001029007}
+  m_Size: {x: 2, y: 4, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &7941953555877640858
 Animator:
   serializedVersion: 7
@@ -592,6 +592,7 @@ MonoBehaviour:
   transitonAnim: {fileID: 0}
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
+  mainSceneControl: {fileID: 0}
   skipText: {fileID: 0}
 --- !u!114 &3686960432245619414
 MonoBehaviour:
@@ -1007,9 +1008,9 @@ Transform:
   m_GameObject: {fileID: 8799684158331833752}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0264, z: 0}
-  m_LocalScale: {x: 0.009385171, y: 0.009385171, z: 0.009385171}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 2.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1772405794399743353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
