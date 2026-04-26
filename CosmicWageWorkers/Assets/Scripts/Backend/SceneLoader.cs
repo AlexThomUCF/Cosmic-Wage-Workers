@@ -126,7 +126,7 @@ public class SceneLoader : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             Debug.Log("Setting sprite");
-            LoadingImageController.Instance.SetSprite(mainSceneControl);
+            //LoadingImageController.Instance.SetSprite(mainSceneControl);
         }
 
 

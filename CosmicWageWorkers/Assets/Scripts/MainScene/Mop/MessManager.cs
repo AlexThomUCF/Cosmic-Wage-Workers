@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +23,7 @@ public class MessManager : MonoBehaviour
 
     private void Start()
     {
-        // Start with ZERO messes � let the respawn loop handle it
+        // Start with ZERO messes — let the respawn loop handle it
         StartCoroutine(RespawnLoop());
     }
 
@@ -57,6 +57,8 @@ public class MessManager : MonoBehaviour
             occupiedPoints.Remove(spawnPoint);
 
         Destroy(cleanedMess);
+
+        Object.FindFirstObjectByType<CustomerManager>()?.OnTaskCompleted();
 
         OnMessCountChanged?.Invoke();
     }

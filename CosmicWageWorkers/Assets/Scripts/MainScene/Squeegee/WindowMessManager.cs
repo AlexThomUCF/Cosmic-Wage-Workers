@@ -112,24 +112,41 @@ public class WindowMessManager : MonoBehaviour
         if (activeGoo.Contains(goo))
             activeGoo.Remove(goo);
 
-        Destroy(goo);
+        // Find which window this goo belongs to BEFORE destroying
+        Transform affectedWindow = null;
 
-        // Check if its window is now clean
         foreach (var window in windowSpawns)
         {
-            bool windowStillDirty = false;
+            if (Vector3.Distance(window.position, goo.transform.position) < 1.5f)
+            {
+                affectedWindow = window;
+                break;
+            }
+        }
 
+        Destroy(goo);
+
+        bool windowStillDirty = false;
+
+        if (affectedWindow != null)
+        {
             foreach (var g in activeGoo)
             {
-                if (g != null && Vector3.Distance(g.transform.position, window.position) < 1.5f)
+                if (g != null &&
+                    Vector3.Distance(g.transform.position, affectedWindow.position) < 1.5f)
                 {
                     windowStillDirty = true;
                     break;
                 }
             }
 
+            // Only when FULLY clean
             if (!windowStillDirty)
-                dirtyWindows.Remove(window);
+            {
+                dirtyWindows.Remove(affectedWindow);
+
+                Object.FindFirstObjectByType<CustomerManager>()?.OnTaskCompleted();
+            }
         }
 
         OnWindowMessCountChanged?.Invoke();

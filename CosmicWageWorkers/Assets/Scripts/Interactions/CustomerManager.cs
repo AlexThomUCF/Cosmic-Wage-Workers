@@ -24,15 +24,23 @@ public class CustomerManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource intercomAudio;
     public AudioClip[] aisleAnnouncementClips;
-    public AudioSource Megaphone;
+    public AudioClip Megaphone;
 
     [Header("Player References")]
     public BoxPickUp playerBoxPickup;
     public PickupMop playerMopPickup;
+    public SqueegeePickup playerSqueegeePickup;
 
     [Header("Settings")]
     public float minTime = 10f;
     public float maxTime = 10f;
+
+    [Header("Task Spawn Logic")]
+    public int tasksUntilGuaranteedSpawn = 5;
+    public float spawnChancePerTask = 0.2f;
+
+    private int tasksCompleted = 0;
+    private bool customerSpawnedThisScene = false;
 
     private bool interactionActive = false;
     private static HashSet<string> completedInteractions = new();
@@ -55,17 +63,41 @@ public class CustomerManager : MonoBehaviour
     {
         while (true)
         {
-            if (!interactionActive && availableInteractions.Count > 0)
+            if (!interactionActive && !customerSpawnedThisScene && availableInteractions.Count > 0)
             {
                 float wait = Random.Range(minTime, maxTime);
                 yield return new WaitForSeconds(wait);
 
                 yield return StartCoroutine(HandleCustomerInteraction());
+                customerSpawnedThisScene = true;
             }
             else
             {
                 yield return null;
             }
+        }
+    }
+
+    public void OnTaskCompleted()
+    {
+        if (interactionActive || customerSpawnedThisScene)
+            return;
+
+        tasksCompleted++;
+
+        // Guaranteed spawn
+        if (tasksCompleted >= tasksUntilGuaranteedSpawn)
+        {
+            StartCoroutine(HandleCustomerInteraction());
+            customerSpawnedThisScene = true;
+            return;
+        }
+
+        // 20% chance
+        if (Random.value <= spawnChancePerTask)
+        {
+            StartCoroutine(HandleCustomerInteraction());
+            customerSpawnedThisScene = true;
         }
     }
 
@@ -79,15 +111,18 @@ public class CustomerManager : MonoBehaviour
         if (playerMopPickup != null)
             playerMopPickup.ForceDropMop();
 
-        // Switch to intercom cam and pause phenomena
+        if (playerSqueegeePickup != null)
+            playerSqueegeePickup.DropSqueegee();
+
         mainCam.Priority = 0;
         intercomCam.Priority = 10;
+
         if (cosmicManager != null)
             cosmicManager.isPaused = true;
 
         yield return new WaitForSeconds(1f);
 
-        Megaphone.Play();
+        intercomAudio.PlayOneShot(Megaphone);
 
         yield return new WaitForSeconds(1.5f);
 
@@ -108,13 +143,11 @@ public class CustomerManager : MonoBehaviour
 
         dialogueText.text = "";
 
-        // Switch back to main cam and resume phenomena
         intercomCam.Priority = 0;
         mainCam.Priority = 10;
+
         if (cosmicManager != null)
             cosmicManager.isPaused = false;
-
-        //interactionActive = false;
     }
 
     public static void MarkInteractionComplete(string id)
