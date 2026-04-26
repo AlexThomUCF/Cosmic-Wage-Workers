@@ -8,6 +8,8 @@ public class PortalTrigger : MonoBehaviour
     [SerializeField] private float fadeDuration = 2f;
     [SerializeField] private Color fadeColor = new Color(0.14f, 0.38f, 0.16f, 1f); // #24612A
 
+
+    public static bool gravityGameWon = false;
     private CanvasGroup canvasGroup;
     private bool isFading = false;
 
@@ -76,6 +78,9 @@ public class PortalTrigger : MonoBehaviour
 
         FinalMiniGame.miniGameCount++;
         SaveSystem.SaveGame();
+        SceneTracker.Instance.previousScene = SceneManager.GetActiveScene().name;
+        gravityGameWon = true;
+
 
         SceneManager.LoadScene("MainScene");
     }

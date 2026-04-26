@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 619571289568865160}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -3.38, y: 3.1005163, z: 5.43}
+  m_LocalPosition: {x: 0.08, y: 1.58, z: 5.43}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1745673760076495732}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3199997, y: 5.4499993, z: 1.6899997}
+  m_LocalPosition: {x: -0.01999998, y: 5.4499993, z: 0.2099998}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90,7 +90,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850772446494060333}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.69}
+  m_LocalPosition: {x: 0, y: 0, z: 0.21}
   m_LocalScale: {x: 0.14036666, y: 0.14036666, z: 0.14036666}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,7 +98,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.32, y: 7.36}
+  m_AnchoredPosition: {x: -0.02, y: 7.36}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2141812468957939978
@@ -223,7 +223,7 @@ Transform:
   m_GameObject: {fileID: 8483389900895032370}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3199997, y: 8.61, z: 1.6899997}
+  m_LocalPosition: {x: -0.01999998, y: 8.61, z: 0.2099998}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -448,8 +448,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.09, y: 0.05, z: 0.1}
-  m_Center: {x: -0.033828802, y: -0.009071398, z: 0.005}
+  m_Size: {x: 0.09, y: 0.05, z: 0.15}
+  m_Center: {x: -0.033828802, y: -0.009071398, z: -0.02}
 --- !u!4 &8603314723264529429 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ca933a2951b654e41b224fba74c21d2c, type: 3}
@@ -563,6 +563,7 @@ MonoBehaviour:
   transitonAnim: {fileID: 0}
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
+  mainSceneControl: {fileID: 0}
   skipText: {fileID: 0}
 --- !u!54 &7656056740696644948
 Rigidbody:
@@ -589,5 +590,5 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0

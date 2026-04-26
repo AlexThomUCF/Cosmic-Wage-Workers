@@ -64,6 +64,7 @@ public class GarbageCanManager : MonoBehaviour
             {
                 activeTrash[i] = null;
                 Destroy(bag);
+
                 OnTrashCountChanged?.Invoke();
                 return;
             }

@@ -2,7 +2,7 @@
 - Project name: CosmicWageWorkers
 - Unity version: Unity 6000.2.7f2
 - Active game object:
-  - Name: AlarmSequenceManager
+  - Name: Outside Rock
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

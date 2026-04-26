@@ -59,6 +59,7 @@ public class NPC : MonoBehaviour, IInteraction
         if (LoadingImageController.Instance != null)
         {
             LoadingImageController.Instance.SetSprite(dialogueData.loadingScreen);
+            LoadingImageController.Instance.SetTips(dialogueData.tips);
         }
     }
 
@@ -202,6 +203,11 @@ public class NPC : MonoBehaviour, IInteraction
         if (cosmicManager != null)
             cosmicManager.isPaused = false;
     }
+
+    public void StartDialogueExternally()
+    {
+        Interact();
+    }   
 
     [System.Serializable]
     public class ChoiceEvent

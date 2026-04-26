@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class RaceManager : MonoBehaviour
 {
@@ -30,9 +31,16 @@ public class RaceManager : MonoBehaviour
     public static bool babyCameFirst = false;
 
     [Header("UI settings")]
-    public GameObject winScreen;
-    public GameObject loseScreen;
-    
+    public GameObject winCinematic;
+    public GameObject loseCinematic;
+    public GameObject winCamera;
+    public GameObject loseCamera;
+    //public GameObject winScreen;
+    //public GameObject loseScreen;
+
+    [Header("Cart")]
+    public GameObject cart;
+
     [Header("Customer Interaction ID")]
     public string interactionID; // Assign the ID of the customer for this race
 
@@ -62,6 +70,12 @@ public class RaceManager : MonoBehaviour
             Destroy(gameObject);
 
         loader = FindFirstObjectByType<SceneLoader>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        winCinematic.SetActive(false);
+        loseCinematic.SetActive(false);
     }
 
     private void Update()
@@ -225,20 +239,25 @@ public class RaceManager : MonoBehaviour
             {
                 Debug.Log("Trigger end scene");
                 Babycry.Play();
-                winScreen.SetActive(true);
+                //winScreen.SetActive(true);
+                
                 FinalMiniGame.miniGameCount++;
                 SaveSystem.SaveGame();
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
+                //Cursor.lockState = CursorLockMode.None;
+                //Cursor.visible = true;
+                StartCoroutine(WinCine(winCinematic));
+                
+                
             }
             else if (babyCameFirst)
             {
                 Debug.Log("Replay the game");
-                loseScreen.SetActive(true);
+                //loseScreen.SetActive(true);
                 Babylaugh.Play();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                StartCoroutine(LoseCine(loseCinematic));
+               
             }
         
     }
@@ -305,6 +324,11 @@ public class RaceManager : MonoBehaviour
                 checkpointMissedText.gameObject.SetActive(false);
                 ifCheckpointMissed = false;
             }
+            // stop the warning sound here
+            if (misspoint.isPlaying)
+            {
+                misspoint.Stop();
+            }
         }
     }
     #endregion
@@ -336,6 +360,24 @@ public class RaceManager : MonoBehaviour
 
         //Add save, save that this game completed. 
 
+    }
+
+    public IEnumerator WinCine(GameObject cine)
+    {
+        cart.SetActive(false);
+        loseCamera.SetActive(false);
+        cine.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        WinCon();
+    }
+
+    public IEnumerator LoseCine(GameObject cine)
+    {
+        cart.SetActive(false);
+        winCamera.SetActive(false);
+        cine.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        LoseCon();
     }
 
     #region Utility

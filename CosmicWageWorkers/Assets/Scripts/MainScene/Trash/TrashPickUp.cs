@@ -66,6 +66,12 @@ private void PickupTrash(GameObject trash)
     if (heldTrash != null) return;
 
     heldTrash = trash;
+
+    // Hide all children
+    foreach (Transform child in trash.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     heldRb = trash.GetComponent<Rigidbody>();
     heldCol = trash.GetComponent<Collider>();
 

@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GravityManager : MonoBehaviour
 {
+    
     public float gravityScale = -1.0f;
     public GameObject player;
     private bool gravityOn = false;
@@ -15,6 +17,7 @@ public class GravityManager : MonoBehaviour
     void Start()
     {
         Physics.gravity = new Vector3(0, gravityScale, 0);
+        //Debug.Log(gravityGameWon);
     }
 
     // Update is called once per frame
@@ -31,14 +34,19 @@ public class GravityManager : MonoBehaviour
                     CustomerManager.MarkInteractionComplete(interactionID);
                 }
 
-                SaveSystem.SaveGame();
-                FinalMiniGame.miniGameCount++;
+                //SaveSystem.SaveGame();
+               // FinalMiniGame.miniGameCount++;
+                
+                
                 
 
                 Physics.gravity = GravityStore.MainSceneGravity;
 
+                //This will track if player came from gravity scene
+                //SceneTracker.Instance.previousScene = SceneManager.GetActiveScene().name;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
                 Debug.Log("Loading Next Level");
+                
 
                 sceneLoader = 3f;
                 gravityOn = false;
