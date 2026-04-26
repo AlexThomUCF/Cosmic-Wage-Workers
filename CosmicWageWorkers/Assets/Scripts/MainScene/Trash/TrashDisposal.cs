@@ -41,7 +41,7 @@ public class TrashDisposal : MonoBehaviour
                     garbageManager.RemoveTrash(trash);
 
                 Destroy(trash);
-                FindObjectOfType<CustomerManager>()?.OnTaskCompleted();
+                Object.FindFirstObjectByType<CustomerManager>()?.OnTaskCompleted();
 
                 SoundEffectManager.Play("TrashDispose");
                 //trashDisposeAnim.PlayAnimationFromList();
