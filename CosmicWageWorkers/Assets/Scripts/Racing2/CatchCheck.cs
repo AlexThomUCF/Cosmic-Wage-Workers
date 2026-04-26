@@ -15,17 +15,22 @@ public class CatchCheck : MonoBehaviour
     public int splitCount = 4;
     public float splitRadius = 2f;
 
+    [Header("Mini Catch Delay")]
+    public float miniCatchDelay = 2f;
+    private bool canBeCaught = true;
+
     private bool triggered = false;
 
     private static int minisCaught = 0;
     private static int totalMinisSpawned = 0;
 
     [Header("NavMesh Settings")]
-    public string groundAreaName = "Walkable"; // or "Ground" if you made one
+    public string groundAreaName = "Walkable";
 
     private void OnTriggerEnter(Collider other)
     {
         if (triggered) return;
+        if (!canBeCaught) return;
         if (!other.CompareTag("Player")) return;
 
         triggered = true;
@@ -71,6 +76,18 @@ public class CatchCheck : MonoBehaviour
         }
     }
 
+    public void MakeTemporarilyUncatchable()
+    {
+        StartCoroutine(EnableCatchAfterDelay(miniCatchDelay));
+    }
+
+    private IEnumerator EnableCatchAfterDelay(float delay)
+    {
+        canBeCaught = false;
+        yield return new WaitForSeconds(delay);
+        canBeCaught = true;
+    }
+
     private void SplitIntoMiniVersions()
     {
         if (miniPrefab == null)
@@ -91,7 +108,6 @@ public class CatchCheck : MonoBehaviour
 
         for (int i = 0; i < splitCount; i++)
         {
-            // Get a spread direction (first 4 are clean, rest random)
             Vector3 dir;
             if (i == 0) dir = Vector3.forward;
             else if (i == 1) dir = Vector3.back;
@@ -112,7 +128,6 @@ public class CatchCheck : MonoBehaviour
 
             int areaMask = 1 << NavMesh.GetAreaFromName(groundAreaName);
 
-            // Snap to NavMesh
             NavMeshHit hit;
             if (NavMesh.SamplePosition(desiredPos, out hit, 3f, areaMask))
             {
@@ -132,6 +147,10 @@ public class CatchCheck : MonoBehaviour
                 miniCatch.miniPrefab = miniPrefab;
                 miniCatch.splitCount = splitCount;
                 miniCatch.splitRadius = splitRadius;
+                miniCatch.miniCatchDelay = miniCatchDelay;
+
+                // Make mini temporarily uncatchable
+                miniCatch.MakeTemporarilyUncatchable();
             }
 
             // Setup TeenAI on mini
@@ -139,7 +158,7 @@ public class CatchCheck : MonoBehaviour
             if (miniAI != null)
             {
                 miniAI.player = parentAI.player;
-                miniAI.runWhenDistanceLessThan = 999f; // always flee
+                miniAI.runWhenDistanceLessThan = 999f;
                 miniAI.fleeDistance = parentAI.fleeDistance;
                 miniAI.repathInterval = parentAI.repathInterval;
                 miniAI.rotateSpeed = parentAI.rotateSpeed;
