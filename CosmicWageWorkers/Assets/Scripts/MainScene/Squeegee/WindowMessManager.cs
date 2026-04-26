@@ -114,7 +114,6 @@ public class WindowMessManager : MonoBehaviour
 
         Destroy(goo);
 
-        // Check if its window is now clean
         foreach (var window in windowSpawns)
         {
             bool windowStillDirty = false;
@@ -131,6 +130,8 @@ public class WindowMessManager : MonoBehaviour
             if (!windowStillDirty)
                 dirtyWindows.Remove(window);
         }
+
+        FindObjectOfType<CustomerManager>()?.OnTaskCompleted();
 
         OnWindowMessCountChanged?.Invoke();
     }
