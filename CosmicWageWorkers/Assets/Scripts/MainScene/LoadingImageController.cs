@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,26 @@ public class LoadingImageController : MonoBehaviour
 
     [SerializeField] private Image targetImage;
     [SerializeField] private Canvas targetCanvas;
+    [SerializeField] private TextMeshProUGUI tipText;
+
+    [Header("Fade Settings")]
+    [SerializeField] private float showDelay = 1.5f;
+    [SerializeField] private float imageFadeInDuration = 1.5f;
+    [SerializeField] private float textDelayAfterImageStarts = 0.75f;
+    [SerializeField] private float textFadeInDuration = 0.5f;
+    [SerializeField] private float fadeOutDuration = 0.5f;
+
+    [Header("Tip Settings")]
+    [SerializeField] private float tipChangeInterval = 3f;
 
     private Coroutine fadeCoroutine;
+    private Coroutine tipCoroutine;
+
+    private string[] currentTips;
+    private int currentTipIndex;
 
     private void Awake()
     {
-        // Singleton setup
         if (Instance == null)
         {
             Instance = this;
@@ -25,109 +40,151 @@ public class LoadingImageController : MonoBehaviour
             return;
         }
 
-        // Start hidden
         HideImageImmediate();
     }
 
-    // Set sprite from NPC
     public void SetSprite(Sprite newSprite)
     {
         if (targetImage == null || newSprite == null) return;
         targetImage.sprite = newSprite;
     }
 
-    // Called when loading starts
+    public void SetText(string text)
+    {
+        if (tipText == null || string.IsNullOrEmpty(text)) return;
+        tipText.text = text;
+    }
+
+    public void SetTips(string[] tips)
+    {
+        if (tips == null || tips.Length == 0) return;
+
+        currentTips = tips;
+        currentTipIndex = 0;
+
+        SetText(currentTips[currentTipIndex]);
+
+        if (tipCoroutine != null)
+            StopCoroutine(tipCoroutine);
+
+        tipCoroutine = StartCoroutine(CycleTips());
+    }
+
+    private IEnumerator CycleTips()
+    {
+        while (currentTips != null && currentTips.Length > 0)
+        {
+            yield return new WaitForSeconds(tipChangeInterval);
+
+            currentTipIndex++;
+
+            if (currentTipIndex >= currentTips.Length)
+                currentTipIndex = 0;
+
+            SetText(currentTips[currentTipIndex]);
+        }
+    }
+
     public void ShowImage()
     {
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
-        fadeCoroutine = StartCoroutine(FadeInImage());
+        fadeCoroutine = StartCoroutine(FadeInImageAndText());
     }
 
-    // Fade in with delay
-    private IEnumerator FadeInImage()
+    private IEnumerator FadeInImageAndText()
     {
         if (targetImage == null) yield break;
 
-        // Ensure canvas is on top
         if (targetCanvas != null)
         {
             targetCanvas.overrideSorting = true;
             targetCanvas.sortingOrder = 100;
         }
 
-        // Start invisible
-        Color c = targetImage.color;
-        c.a = 0f;
-        targetImage.color = c;
+        SetAlpha(targetImage, 0f);
+        SetAlpha(tipText, 0f);
 
-        // Delay before showing
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(showDelay);
 
-        float duration = 1f;
         float timer = 0f;
+        float totalDuration = Mathf.Max(
+            imageFadeInDuration,
+            textDelayAfterImageStarts + textFadeInDuration
+        );
 
-        while (timer < duration)
+        while (timer < totalDuration)
         {
             timer += Time.deltaTime;
 
-            // Smooth fade (nicer than linear)
-            float t = Mathf.SmoothStep(0f, 1f, timer / duration);
+            float imageT = Mathf.Clamp01(timer / imageFadeInDuration);
+            float imageAlpha = Mathf.SmoothStep(0f, 1f, imageT);
+            SetAlpha(targetImage, imageAlpha);
 
-            c.a = t;
-            targetImage.color = c;
+            if (timer >= textDelayAfterImageStarts)
+            {
+                float textTimer = timer - textDelayAfterImageStarts;
+                float textT = Mathf.Clamp01(textTimer / textFadeInDuration);
+                float textAlpha = Mathf.SmoothStep(0f, 1f, textT);
+                SetAlpha(tipText, textAlpha);
+            }
 
             yield return null;
         }
 
-        // Ensure fully visible
-        c.a = 1f;
-        targetImage.color = c;
+        SetAlpha(targetImage, 1f);
+        SetAlpha(tipText, 1f);
     }
 
-    // Called when loading ends
     public void HideImage()
     {
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
-        StartCoroutine(FadeOutImage());
+        if (tipCoroutine != null)
+        {
+            StopCoroutine(tipCoroutine);
+            tipCoroutine = null;
+        }
+
+        fadeCoroutine = StartCoroutine(FadeOutImageAndText());
     }
 
-    // Optional smooth fade out
-    private IEnumerator FadeOutImage()
+    private IEnumerator FadeOutImageAndText()
     {
-        if (targetImage == null) yield break;
-
-        float duration = 0.5f;
         float timer = 0f;
 
-        Color c = targetImage.color;
-        float startAlpha = c.a;
+        float imageStartAlpha = targetImage != null ? targetImage.color.a : 0f;
+        float textStartAlpha = tipText != null ? tipText.color.a : 0f;
 
-        while (timer < duration)
+        while (timer < fadeOutDuration)
         {
             timer += Time.deltaTime;
-            float t = timer / duration;
+            float t = Mathf.Clamp01(timer / fadeOutDuration);
 
-            c.a = Mathf.Lerp(startAlpha, 0f, t);
-            targetImage.color = c;
+            SetAlpha(targetImage, Mathf.Lerp(imageStartAlpha, 0f, t));
+            SetAlpha(tipText, Mathf.Lerp(textStartAlpha, 0f, t));
 
             yield return null;
         }
 
-        c.a = 0f;
-        targetImage.color = c;
+        SetAlpha(targetImage, 0f);
+        SetAlpha(tipText, 0f);
     }
 
-    // Instant hide (used at startup)
     private void HideImageImmediate()
     {
-        if (targetImage == null) return;
+        SetAlpha(targetImage, 0f);
+        SetAlpha(tipText, 0f);
+    }
 
-        Color c = targetImage.color;
-        c.a = 0f;
-        targetImage.color = c;
+    private void SetAlpha(Graphic graphic, float alpha)
+    {
+        if (graphic == null) return;
+
+        Color c = graphic.color;
+        c.a = alpha;
+        graphic.color = c;
     }
 }

@@ -59,6 +59,7 @@ public class NPC : MonoBehaviour, IInteraction
         if (LoadingImageController.Instance != null)
         {
             LoadingImageController.Instance.SetSprite(dialogueData.loadingScreen);
+            LoadingImageController.Instance.SetTips(dialogueData.tips);
         }
     }
 
