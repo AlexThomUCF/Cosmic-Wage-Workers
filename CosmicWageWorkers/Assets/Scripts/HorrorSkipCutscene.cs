@@ -12,16 +12,22 @@ public class HorrorSkipCutscene : MonoBehaviour
 
     [Header("Horror References")]
     public FlashLight fLight;
+    public GameObject horrorMonster;
 
 
     public void Start()
     {
         interaction.enabled = false;
+        
 
         if (fLight != null)
         {
             fLight.enabled = false;
         }
+        if(horrorMonster != null)
+        {
+            horrorMonster.SetActive(false);
+        }    
     }
     void Update()
     {
@@ -33,6 +39,10 @@ public class HorrorSkipCutscene : MonoBehaviour
             {
                 fLight.enabled = true;
             }
+            if(horrorMonster != null)
+            {
+                horrorMonster.SetActive(true);
+            }
 
         }
         else if (director.state != PlayState.Playing)
@@ -41,6 +51,10 @@ public class HorrorSkipCutscene : MonoBehaviour
             if (fLight != null)
             {
                 fLight.enabled = true;
+            }
+            if (horrorMonster != null)
+            {
+                horrorMonster.SetActive(true);
             }
 
         }
