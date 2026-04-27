@@ -275,7 +275,7 @@ public class AlarmSequenceManager : MonoBehaviour
     {
         Debug.Log("Waiting for remaining props to be cleared...");
 
-        while (GameObject.FindObjectsOfType<PropAi>().Length > 0)
+        while (Object.FindObjectsByType<PropAi>(FindObjectsSortMode.None).Length > 0)
             yield return new WaitForSeconds(0.5f);
 
         Debug.Log("All props cleared. Ending game.");
