@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioMixer myMixer;
@@ -15,18 +14,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource SFXSource;
     [SerializeField] AudioSource voiceSource;
 
-
-
-    
     public AudioClip background;
-    
     public AudioClip buttonPress;
-
     public AudioClip helloThere;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         musicSource.clip = background;
@@ -38,20 +29,13 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            SetMasterVolume();
-            SetMusicVolume();
-            SetSFXVolume();
-            SetVoiceVolume();
+            SetDefaultVolumes();
         }
-
-        
-
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(SFXSource == null)
+        if (SFXSource == null)
         {
             SFXSource = FindFirstObjectByType<SoundEffectManager>().GetComponent<AudioSource>();
         }
@@ -69,49 +53,55 @@ public class AudioManager : MonoBehaviour
 
     public void SetMasterVolume()
     {
-        float volume = masterSlider.value;
-        myMixer.SetFloat("masterVol", Mathf.Log10(volume)*20);
-
+        float volume = Mathf.Clamp(masterSlider.value, 0.0001f, 1f);
+        myMixer.SetFloat("masterVol", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("masterVolume", volume);
     }
 
     public void SetMusicVolume()
     {
-        float volume = musicSlider.value;
+        float volume = Mathf.Clamp(musicSlider.value, 0.0001f, 1f);
         myMixer.SetFloat("musicVol", Mathf.Log10(volume) * 20);
-
         PlayerPrefs.SetFloat("MusicVolume", volume);
     }
+
     public void SetSFXVolume()
     {
-        float volume = sfxSlider.value;
+        float volume = Mathf.Clamp(sfxSlider.value, 0.0001f, 1f);
         myMixer.SetFloat("SFXVol", Mathf.Log10(volume) * 20);
-
         PlayerPrefs.SetFloat("SFXVolume", volume);
     }
 
     public void SetVoiceVolume()
     {
-        float volume = voiceSlider.value;
+        float volume = Mathf.Clamp(voiceSlider.value, 0.0001f, 1f);
         myMixer.SetFloat("voiceVol", Mathf.Log10(volume) * 20);
-
         PlayerPrefs.SetFloat("VoiceVolume", volume);
     }
-
-
 
     private void LoadVolume()
     {
         masterSlider.value = PlayerPrefs.GetFloat("masterVolume");
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
         voiceSlider.value = PlayerPrefs.GetFloat("VoiceVolume");
-
 
         SetMasterVolume();
         SetMusicVolume();
         SetSFXVolume();
         SetVoiceVolume();
+    }
 
+    private void SetDefaultVolumes()
+    {
+        masterSlider.value = 0.5f;
+        musicSlider.value = 0.5f;
+        sfxSlider.value = 0.5f;
+        voiceSlider.value = 0.5f;
+
+        SetMasterVolume();
+        SetMusicVolume();
+        SetSFXVolume();
+        SetVoiceVolume();
     }
 }
