@@ -37,7 +37,6 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        audioManager.PlayVoice(audioManager.helloThere);
         EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
@@ -90,7 +89,6 @@ public class TitleScreen : MonoBehaviour
         Debug.Log("Open Load Menu");
         Debug.Log(Application.persistentDataPath);
 
-        audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
 
         titleScreen.SetActive(false);
@@ -129,13 +127,11 @@ public class TitleScreen : MonoBehaviour
         settingsOn = true;
         cameraAnimation.SetTrigger("SettingsUp");
 
-        audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
     }
 
     public void BackToMainClick()
     {
-        audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
 
         audioSettings.SetActive(false);
@@ -151,7 +147,6 @@ public class TitleScreen : MonoBehaviour
     public void OpenAudio()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
 
         audioSettings.SetActive(true);
         displaySettings.SetActive(false);
@@ -163,7 +158,6 @@ public class TitleScreen : MonoBehaviour
     public void OpenDisplay()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
 
         audioSettings.SetActive(false);
         displaySettings.SetActive(true);
@@ -175,7 +169,7 @@ public class TitleScreen : MonoBehaviour
     public void OpenControls()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
+
 
         audioSettings.SetActive(false);
         displaySettings.SetActive(false);
@@ -185,7 +179,7 @@ public class TitleScreen : MonoBehaviour
     public void OpenKeyboardControls()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
+
 
         audioSettings.SetActive(false);
         displaySettings.SetActive(false);
@@ -197,7 +191,7 @@ public class TitleScreen : MonoBehaviour
     public void OpenGamepadControls()
     {
         audioManager.PlaySFX(audioManager.buttonPress);
-        audioManager.PlayVoice(audioManager.helloThere);
+
 
         audioSettings.SetActive(false);
         displaySettings.SetActive(false);
@@ -208,8 +202,8 @@ public class TitleScreen : MonoBehaviour
 
     public void OpenCreditsClick()
     {
-        audioManager.PlayVoice(audioManager.helloThere);
         audioManager.PlaySFX(audioManager.buttonPress);
+
 
         titleScreen.SetActive(false);
         creditsScreen.SetActive(true);
@@ -221,7 +215,7 @@ public class TitleScreen : MonoBehaviour
 
     public void BackFromCreditsClick()
     {
-        audioManager.PlayVoice(audioManager.helloThere);
+
         audioManager.PlaySFX(audioManager.buttonPress);
 
         creditsScreen.SetActive(false);
