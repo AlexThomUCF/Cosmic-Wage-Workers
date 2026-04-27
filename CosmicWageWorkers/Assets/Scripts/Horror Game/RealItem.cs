@@ -16,10 +16,15 @@ public class RealItem : MonoBehaviour, IInteraction
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        horror = FindAnyObjectByType<HorrorAI>();
+      
         mcGuffinItem = this.gameObject;
 
         hasItem = false;
+    }
+
+    public void Update()
+    {
+        horror = FindAnyObjectByType<HorrorAI>();
     }
 
     public void Interact()
@@ -33,6 +38,7 @@ public class RealItem : MonoBehaviour, IInteraction
             horror.currentState = HorrorAI.AIState.EnragedState;
             SoundEffectManager.Play("RightItem");
             hasItem = true;
+            Debug.Log(hasItem);
             //set phase2bool = true
             //pop up item
         }
