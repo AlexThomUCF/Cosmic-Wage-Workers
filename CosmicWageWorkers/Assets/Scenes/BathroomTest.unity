@@ -38789,7 +38789,6 @@ Transform:
   m_Children:
   - {fileID: 475924369}
   - {fileID: 1583542974}
-  - {fileID: 1426966648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 4.52, y: 175.589, z: -0.476}
 --- !u!95 &1419315142
@@ -38909,7 +38908,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1419315141}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2316752950948173517, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: pauseAni
@@ -38949,31 +38948,31 @@ PrefabInstance:
       objectReference: {fileID: 1151260365}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -545.80457
+      value: 643.3899
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 205.79826
+      value: -0.000051498413
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2739.7493
+      value: -2343.5303
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.03828987
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0026299627
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9984797
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.039564345
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -39039,11 +39038,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamicInputScheme
   playerInput: {fileID: 1426966646}
---- !u!4 &1426966648 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8072414150888521382, guid: d1ac868f94e54eb45bc194524b65efd9, type: 3}
-  m_PrefabInstance: {fileID: 1426966643}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1427038075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58823,6 +58817,7 @@ SceneRoots:
   - {fileID: 962263230}
   - {fileID: 1459084220}
   - {fileID: 722091246}
+  - {fileID: 1426966643}
   - {fileID: 1419315141}
   - {fileID: 1615756726}
   - {fileID: 1811461343}
