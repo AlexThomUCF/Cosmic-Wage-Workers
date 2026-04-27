@@ -8,10 +8,10 @@ public class PickupMop : MonoBehaviour
     public GameObject cameraOBJ;
     public AudioSource PickupmopSound;
 
+    public float holdHeight = 1.2f; //fixed height when holding
 
     private GameObject heldMop;
     private bool isHoldingMop;
-    private float mopHeightOffset;
 
     [HideInInspector]
     public Vector3 cleaningOffset = Vector3.zero;
@@ -66,12 +66,11 @@ public class PickupMop : MonoBehaviour
                     c.enabled = false;
 
                 heldMop.transform.SetParent(null);
-                mopHeightOffset = heldMop.transform.position.y - transform.position.y;
 
                 cleaningOffset = Vector3.zero;
 
                 isHoldingMop = true;
-                    PickupmopSound.Play();
+                PickupmopSound.Play();
             }
         }
     }
@@ -86,11 +85,12 @@ public class PickupMop : MonoBehaviour
 
             Vector3 left = -cameraOBJ.transform.right;
 
-            float forwardDistance = 2.2f;
+            float forwardDistance = 1.2f;
             float leftOffset = 1f;
 
             Vector3 targetPos = transform.position + forward * forwardDistance + left * leftOffset;
-            targetPos.y = transform.position.y + mopHeightOffset;
+
+            targetPos.y = transform.position.y + holdHeight;
 
             heldMop.transform.position = Vector3.Lerp(
                 heldMop.transform.position,
