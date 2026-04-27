@@ -11,7 +11,7 @@ public class BathroomTrigger : MonoBehaviour, IInteraction
 
     public void Awake()
     {
-        loader = FindObjectOfType<SceneLoader>();
+        loader = Object.FindFirstObjectByType<SceneLoader>();
     }
     public void Interact()
     {
