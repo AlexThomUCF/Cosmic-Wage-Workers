@@ -7,7 +7,7 @@ public class RandomPlatformGroup : MonoBehaviour
 
     private void Start()
     {
-        checkpointSystem = FindObjectOfType<CheckpointSystem>();
+        checkpointSystem = Object.FindFirstObjectByType<CheckpointSystem>();
         RandomizeSelection();
     }
 

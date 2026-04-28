@@ -61,7 +61,7 @@ public class CatchCheck : MonoBehaviour
             if (MiniGameTimer.Instance != null)
                 MiniGameTimer.Instance.StopTimer();
 
-            FindObjectOfType<endscene>().PlayAnim();
+            Object.FindFirstObjectByType<endscene>().PlayAnim();
 
             if (!string.IsNullOrEmpty(interactionID))
                 CustomerManager.MarkInteractionComplete(interactionID);

@@ -338,6 +338,7 @@ public class BathroomsUnhide : MonoBehaviour
         thirdLight.SetActive(true);
         secondSection.SetActive(true);
         secondMop.SetActive(false);
+        thirdMop.SetActive(true);
         bathroomSFX.bathSource.PlayOneShot(bathroomSFX.sectionOpen);
         bathroomSFX.bugNoises.Play();
         secondSectionOpened = false;
