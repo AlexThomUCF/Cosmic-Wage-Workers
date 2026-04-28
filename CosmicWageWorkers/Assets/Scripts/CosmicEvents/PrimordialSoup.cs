@@ -61,14 +61,14 @@ public class PrimordialSoup : MonoBehaviour
         }
 
         // Apply speed boost to all active FloorCleaning instances
-        FloorCleaning[] cleanings = FindObjectsOfType<FloorCleaning>();
+        FloorCleaning[] cleanings = Object.FindObjectsByType<FloorCleaning>(FindObjectsSortMode.None);
         foreach (var cleaning in cleanings)
         {
             cleaning.cleanTimePerPiece *= cleaningSpeedMultiplier;
         }
 
         // Apply speed boost to ShelfStocking
-        ShelfStocking[] shelves = FindObjectsOfType<ShelfStocking>();
+        ShelfStocking[] shelves = Object.FindObjectsByType<ShelfStocking>(FindObjectsSortMode.None);
         foreach (var shelf in shelves)
         {
             shelf.rowCooldown *= cleaningSpeedMultiplier;
@@ -92,14 +92,14 @@ public class PrimordialSoup : MonoBehaviour
         }
 
         // Reset FloorCleaning speeds
-        FloorCleaning[] cleanings = FindObjectsOfType<FloorCleaning>();
+        FloorCleaning[] cleanings = Object.FindObjectsByType<FloorCleaning>(FindObjectsSortMode.None);
         foreach (var cleaning in cleanings)
         {
             cleaning.cleanTimePerPiece /= cleaningSpeedMultiplier;
         }
 
         // Reset ShelfStocking speeds
-        ShelfStocking[] shelves = FindObjectsOfType<ShelfStocking>();
+        ShelfStocking[] shelves = Object.FindObjectsByType<ShelfStocking>(FindObjectsSortMode.None);
         foreach (var shelf in shelves)
         {
             shelf.rowCooldown /= cleaningSpeedMultiplier;

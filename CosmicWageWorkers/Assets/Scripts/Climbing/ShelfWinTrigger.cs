@@ -98,7 +98,7 @@ public class ShelfWinTrigger : MonoBehaviour
     {
         playerInside = true;
 
-        HandStamina stamina = FindObjectOfType<HandStamina>();
+        HandStamina stamina = Object.FindFirstObjectByType<HandStamina>();
         if (stamina != null)
             stamina.stopStamina = true;
 

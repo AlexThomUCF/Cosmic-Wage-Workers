@@ -6,7 +6,7 @@ public class KillZone : MonoBehaviour
 
     private void Start()
     {
-        checkpointSystem = FindObjectOfType<CheckpointSystem>();
+        checkpointSystem = Object.FindFirstObjectByType<CheckpointSystem>();
         //Debug.Log($"KillZone found CheckpointSystem: {checkpointSystem != null}");
     }
 
