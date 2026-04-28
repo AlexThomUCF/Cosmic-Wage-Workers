@@ -21,6 +21,12 @@ public class LoadingImageController : MonoBehaviour
     [Header("Tip Settings")]
     [SerializeField] private float tipChangeInterval = 3f;
 
+    [Header("Final FPS")]
+    [SerializeField] public Sprite finalImage;
+    [SerializeField] public string[] finalTips;
+    
+
+
     private Coroutine fadeCoroutine;
     private Coroutine tipCoroutine;
 

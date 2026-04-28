@@ -42,6 +42,7 @@ public class TeenAI : MonoBehaviour
 
         if (!shouldFlee)
         {
+            agent.ResetPath(); // prevents lingering at edges
             return;
         }
 
@@ -49,7 +50,7 @@ public class TeenAI : MonoBehaviour
 
         bool needsNewPath =
             !agent.hasPath ||
-            agent.pathPending == false && agent.remainingDistance <= destinationReachThreshold ||
+            (!agent.pathPending && agent.remainingDistance <= destinationReachThreshold) ||
             agent.pathStatus != NavMeshPathStatus.PathComplete ||
             repathTimer <= 0f;
 
@@ -74,28 +75,35 @@ public class TeenAI : MonoBehaviour
 
         Vector3 right = Vector3.Cross(Vector3.up, away).normalized;
 
+        // Expanded directions to avoid getting stuck at edges
         Vector3[] candidateDirs =
         {
             away,
+            (away + right).normalized,
+            (away - right).normalized,
+            right,
+            -right,
             (away + right * 0.5f).normalized,
             (away - right * 0.5f).normalized,
-            (away + right).normalized,
-            (away - right).normalized
+            (-away + right).normalized,
+            (-away - right).normalized
         };
 
         Vector3 bestPoint = transform.position;
         float bestScore = float.NegativeInfinity;
         bool found = false;
 
+        float currentDistFromPlayer = Vector3.Distance(transform.position, player.position);
+
         for (int i = 0; i < candidateDirs.Length; i++)
         {
             Vector3 candidate = transform.position + candidateDirs[i] * fleeDistance;
 
-            NavMeshHit hit;
-            if (!NavMesh.SamplePosition(candidate, out hit, 3f, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, 5f, NavMesh.AllAreas))
                 continue;
 
             NavMeshPath path = new NavMeshPath();
+
             if (!agent.CalculatePath(hit.position, path))
                 continue;
 
@@ -105,8 +113,16 @@ public class TeenAI : MonoBehaviour
             float distFromPlayer = Vector3.Distance(hit.position, player.position);
             float distFromSelf = Vector3.Distance(hit.position, transform.position);
 
-            // prefer points farther from player, but still actually move somewhere
-            float score = distFromPlayer + distFromSelf * 0.25f;
+            // Ignore tiny moves (prevents jitter at edges)
+            if (distFromSelf < 2f)
+                continue;
+
+            float safetyGain = distFromPlayer - currentDistFromPlayer;
+
+            float score =
+                distFromPlayer * 2f +
+                safetyGain * 3f +
+                distFromSelf * 0.25f;
 
             if (score > bestScore)
             {

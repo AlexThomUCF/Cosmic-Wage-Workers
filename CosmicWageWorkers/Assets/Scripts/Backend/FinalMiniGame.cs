@@ -7,6 +7,7 @@ public class FinalMiniGame : MonoBehaviour
     [SerializeField] private int numberOfMinigames = 0;
 
     private static FinalMiniGame Instance;
+    private SceneLoader loader;
     public static int miniGameCount = 0;
 
     private bool invasionStarted = false; // prevents multiple coroutines
@@ -23,7 +24,8 @@ public class FinalMiniGame : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
+        } 
+        loader = FindFirstObjectByType<SceneLoader>();
     }
 
     void Update()
@@ -42,6 +44,8 @@ public class FinalMiniGame : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        SceneManager.LoadScene("FPSMainScene");
+        LoadingImageController.Instance.SetSprite(LoadingImageController.Instance.finalImage);
+        LoadingImageController.Instance.SetTips(LoadingImageController.Instance.finalTips);
+        loader.LoadSceneByName("FPSMainScene");
     }
 }
