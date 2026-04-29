@@ -15,7 +15,7 @@ public class SaveSlotUI : MonoBehaviour
         }
         else
         {
-            fileText.text = "New Game(Empty)";
+            fileText.text = "Empty";
         }
     }
 
