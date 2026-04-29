@@ -42,7 +42,7 @@ public class LoadingImageController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             return;
         }
 
