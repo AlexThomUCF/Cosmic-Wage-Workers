@@ -1,10 +1,11 @@
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.Playables;
 public class HumanFpsCineController : MonoBehaviour
 {
     public WaveSpawner waveSpawner;
     public PlayableDirector startCine;
     public PlayableDirector endCine;
+    public GameObject dialogue;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -12,6 +13,7 @@ public class HumanFpsCineController : MonoBehaviour
     {
         waveSpawner.enabled = false;
         endCine.gameObject.SetActive(false);
+        dialogue.SetActive(false);
     }
     void Start()
     {
