@@ -2,11 +2,15 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
+
 
 public class WaveSpawner : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] SceneLoader loader;
+    [SerializeField] private GameObject player; 
+
 
     [Header("Spawning")]
     public GameObject enemyPrefab;
@@ -27,6 +31,10 @@ public class WaveSpawner : MonoBehaviour
 
     [Header("Win Settings")]
     public string nextSceneName = "ProgramPrototype";
+    public GameObject    orbitDirector;
+    public PlayableDirector endCineDirector;
+    public Transform endPos;
+
 
     [Header("Lose Settings")]
     public string loseSceneName = "GameOver";
@@ -42,6 +50,54 @@ public class WaveSpawner : MonoBehaviour
     void Awake()
     {
         loader = FindFirstObjectByType<SceneLoader>();
+    }
+
+    void OnEnable()
+    {
+        if (endCineDirector != null)
+            endCineDirector.stopped += OnTimelineFinished;
+    }
+
+    void OnDisable()
+    {
+        if (endCineDirector != null)
+            endCineDirector.stopped -= OnTimelineFinished;
+    }
+
+    void OnTimelineFinished(PlayableDirector director)
+    {
+        StartCoroutine(MovePlayerAfterTimeline());
+
+    }
+    IEnumerator MovePlayerAfterTimeline()
+    {
+        endCineDirector.gameObject.SetActive(false);
+        orbitDirector.SetActive(false);
+
+        yield return null;
+        yield return new WaitForEndOfFrame();
+
+        CharacterController cc = player.GetComponent<CharacterController>();
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+
+        if (cc != null) cc.enabled = false;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero; // Unity 6
+            rb.angularVelocity = Vector3.zero;
+            rb.position = endPos.position;
+        }
+
+        player.transform.SetPositionAndRotation(endPos.position, endPos.rotation);
+
+        yield return null;
+
+        if (cc != null) cc.enabled = true;
+
+        orbitDirector.SetActive(true);
+
+        Debug.Log("Moved player to: " + player.transform.position);
     }
 
     void Start()
@@ -133,8 +189,11 @@ public class WaveSpawner : MonoBehaviour
 
         if (currentScene == "FPSMainScene")
         {
-            FindFirstObjectByType<ReturnMainMenu>().ReturnToMainMenu();
-            return;
+            //FindFirstObjectByType<ReturnMainMenu>().ReturnToMainMenu();
+            //return;
+            endCineDirector.gameObject.SetActive(true);
+            
+
         }
 
         if (!string.IsNullOrEmpty(interactionID))
@@ -143,7 +202,7 @@ public class WaveSpawner : MonoBehaviour
         }
 
         FinalMiniGame.miniGameCount++;
-        loader.LoadSceneByName(nextSceneName);
+        //loader.LoadSceneByName(nextSceneName);
     }
 
     void LoseGame()
