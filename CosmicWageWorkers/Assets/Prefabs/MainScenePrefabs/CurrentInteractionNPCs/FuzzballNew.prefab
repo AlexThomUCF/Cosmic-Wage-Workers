@@ -239,15 +239,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 1731c368936410b4fa8f64d4b7cc3ca9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.5465584
+      value: -11.692544
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1731c368936410b4fa8f64d4b7cc3ca9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5047498
+      value: 0.5047512
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1731c368936410b4fa8f64d4b7cc3ca9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -25.151379
+      value: -19.458649
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1731c368936410b4fa8f64d4b7cc3ca9, type: 3}
       propertyPath: m_LocalRotation.w
@@ -388,7 +388,7 @@ MonoBehaviour:
     onChosen:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 713251782303829187}
           m_TargetAssemblyTypeName: SetActive2, Assembly-CSharp
           m_MethodName: ActivateObject
           m_Mode: 1
@@ -420,6 +420,7 @@ MonoBehaviour:
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
   mainSceneControl: {fileID: 0}
+  mainSceneName: MainScene
   skipText: {fileID: 0}
 --- !u!114 &713251782303829187
 MonoBehaviour:

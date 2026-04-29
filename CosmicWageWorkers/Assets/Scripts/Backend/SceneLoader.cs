@@ -11,14 +11,16 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] public Canvas canvas;
     [SerializeField] private Sprite mainSceneControl;
 
-
-
     public TextMeshProUGUI skipText;
 
     NPCDialogue dialogueData;
+
     public static bool isLoading = false;
 
     private Coroutine flashCoroutine;
+
+    // Prevents Space from being counted more than once
+    private bool hasSkipped = false;
 
     private void OnEnable()
     {
@@ -39,7 +41,6 @@ public class SceneLoader : MonoBehaviour
             transitonAnim = transitonObj.GetComponent<Animator>();
             canvas = transitonObj.GetComponentInChildren<Canvas>();
         }
-
 
         StartCoroutine(WaitForSkipText());
     }
@@ -84,6 +85,13 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadSceneByName(string sceneName)
     {
+        // IMPORTANT: prevents multiple LoadLevel coroutines
+        if (isLoading)
+        {
+            Debug.Log("Already loading. Ignoring extra load request.");
+            return;
+        }
+
         if (string.IsNullOrEmpty(sceneName))
         {
             Debug.LogError("Scene name is empty!");
@@ -109,37 +117,27 @@ public class SceneLoader : MonoBehaviour
     {
         Debug.Log("LoadLevel started");
 
-        
         isLoading = true;
+        hasSkipped = false;
 
         if (LoadingImageController.Instance != null)
         {
             LoadingImageController.Instance.ShowImage();
         }
 
-
-
-        //Start transition animation
         if (transitonAnim != null)
             transitonAnim.SetTrigger("End");
 
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             Debug.Log("Setting sprite");
-            //LoadingImageController.Instance.SetSprite(mainSceneControl);
+            // LoadingImageController.Instance.SetSprite(mainSceneControl);
         }
-
-
-
-
-
 
         ExitDialogue();
 
         if (canvas != null)
             canvas.sortingOrder = 2;
-
-       
 
         // Reset skip text
         if (skipText != null)
@@ -171,8 +169,14 @@ public class SceneLoader : MonoBehaviour
                 flashCoroutine = StartCoroutine(FlashSkipText());
             }
 
-            if (timer >= showSkipTime && Input.GetKeyDown(KeyCode.Space))
+            // IMPORTANT: can only skip once
+            if (!hasSkipped && timer >= showSkipTime && Input.GetKeyDown(KeyCode.Space))
             {
+                hasSkipped = true;
+
+                if (skipText != null)
+                    skipText.gameObject.SetActive(false);
+
                 Debug.Log("Skipped by player.");
                 break;
             }
@@ -194,21 +198,18 @@ public class SceneLoader : MonoBehaviour
             skipText.gameObject.SetActive(false);
         }
 
-        // ?? Load scene
         SceneManager.LoadScene(sceneName);
 
-        // ?? End transition animation
         if (transitonAnim != null)
             transitonAnim.SetTrigger("Start");
 
-
-        // ?? Optional: wait for fade-out animation
         yield return new WaitForSeconds(0.5f);
 
         if (canvas != null)
             canvas.sortingOrder = -1;
 
         isLoading = false;
+        hasSkipped = false;
 
         if (LoadingImageController.Instance != null)
         {
@@ -224,7 +225,6 @@ public class SceneLoader : MonoBehaviour
             Color color = skipText.color;
             color.a = Mathf.Lerp(0.3f, 1f, alpha);
             skipText.color = color;
-            
 
             yield return null;
         }
@@ -233,6 +233,6 @@ public class SceneLoader : MonoBehaviour
     public void ExitMiniGame()
     {
         string mainScene = "MainScene";
-        StartCoroutine(LoadLevel(mainScene));
+        LoadSceneByName(mainScene);
     }
 }
