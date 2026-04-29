@@ -7,6 +7,7 @@ public class CutsceneEnder : MonoBehaviour
     public float cutsceneDuration;
     public bool cutsceneStarted = true;
     public GameObject spawner;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

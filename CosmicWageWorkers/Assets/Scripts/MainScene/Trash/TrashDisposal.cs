@@ -5,7 +5,8 @@ public class TrashDisposal : MonoBehaviour
     private PlayerControls controls;
     private TrashPickup trashPickup;
     private GarbageCanManager garbageManager;
-   // [SerializeField] private TrashDispose trashDisposeAnim;
+    private TrashSpawn trashSpawn;
+    // [SerializeField] private TrashDispose trashDisposeAnim;
 
     private bool playerNearby;
 
@@ -13,6 +14,7 @@ public class TrashDisposal : MonoBehaviour
     {
         controls = new PlayerControls();
         garbageManager = Object.FindFirstObjectByType<GarbageCanManager>();
+        trashSpawn = Object.FindFirstObjectByType<TrashSpawn>();
     }
 
     private void OnEnable()
@@ -44,6 +46,7 @@ public class TrashDisposal : MonoBehaviour
                 Object.FindFirstObjectByType<CustomerManager>()?.OnTaskCompleted();
 
                 SoundEffectManager.Play("TrashDispose");
+                trashSpawn.SpawnTrash();
                 //trashDisposeAnim.PlayAnimationFromList();
             }
         }
