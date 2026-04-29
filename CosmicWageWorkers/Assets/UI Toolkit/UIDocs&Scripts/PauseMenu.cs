@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PauseMenu : MonoBehaviour
 
     [Header("Other")]
     public GameObject generalHUD;           // HUD
+    public PlayableDirector[] directors;
 
     [Header("First Selected Options")]
     [SerializeField] private GameObject _pauseMenuFirst;
@@ -27,6 +29,8 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        directors = FindObjectsByType<PlayableDirector>(FindObjectsSortMode.None);
+
         optionsPanel.alpha = 0f;
         optionsPanel.interactable = false;
         optionsPanel.blocksRaycasts = false;
@@ -34,11 +38,24 @@ public class PauseMenu : MonoBehaviour
         controlsPanel.alpha = 0f;
         controlsPanel.interactable = false;
         controlsPanel.blocksRaycasts = false;
+
+        
+    }
+
+    private bool AnyDirectorPlaying()
+    {
+        foreach (PlayableDirector director in directors)
+        {
+            if (director != null && director.state == PlayState.Playing)
+                return true;
+        }
+
+        return false;
     }
 
     public void OnPause(InputValue value)
     {
-        if (!isTransitioning && value.isPressed)
+        if (!isTransitioning && value.isPressed && !AnyDirectorPlaying())
         {
             if (gameIsPaused) StartUnpause();
             else StartPause();
