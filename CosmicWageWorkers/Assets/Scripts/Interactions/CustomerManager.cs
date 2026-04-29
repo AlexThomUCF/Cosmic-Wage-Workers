@@ -41,22 +41,41 @@ public class CustomerManager : MonoBehaviour
 
     private int tasksCompleted = 0;
     private bool customerSpawnedThisScene = false;
-
     private bool interactionActive = false;
+
     private static HashSet<string> completedInteractions = new();
     private CosmicPhenomenonManager cosmicManager;
+
+    private Coroutine customerRoutine;
 
     void Start()
     {
         SaveSystem.LoadGame();
 
+        cosmicManager = FindAnyObjectByType<CosmicPhenomenonManager>();
+
+        InitializeScene();
+    }
+
+    void InitializeScene()
+    {
+        interactionActive = false;
+        customerSpawnedThisScene = false;
+
+        // Reset cameras
+        mainCam.Priority = 10;
+        intercomCam.Priority = 0;
+
+        // Refresh available interactions
         availableInteractions = new List<CustomerInteraction>(
             allInteractions.FindAll(i => !completedInteractions.Contains(i.interactionID))
         );
 
-        cosmicManager = FindAnyObjectByType<CosmicPhenomenonManager>();
+        // Restart coroutine safely
+        if (customerRoutine != null)
+            StopCoroutine(customerRoutine);
 
-        StartCoroutine(RandomCustomerRoutine());
+        customerRoutine = StartCoroutine(RandomCustomerRoutine());
     }
 
     IEnumerator RandomCustomerRoutine()
@@ -96,7 +115,7 @@ public class CustomerManager : MonoBehaviour
             return;
         }
 
-        // 20% chance
+        // Chance-based spawn
         if (Random.value <= spawnChancePerTask)
         {
             StartCoroutine(HandleCustomerInteraction());
@@ -125,7 +144,8 @@ public class CustomerManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        intercomAudio.PlayOneShot(Megaphone);
+        if (intercomAudio != null && Megaphone != null)
+            intercomAudio.PlayOneShot(Megaphone);
 
         yield return new WaitForSeconds(1.5f);
 
@@ -156,17 +176,6 @@ public class CustomerManager : MonoBehaviour
     public static void MarkInteractionComplete(string id)
     {
         completedInteractions.Add(id);
-    }
-
-    public void OnReturnToMainScene()
-    {
-        interactionActive = false;
-
-        availableInteractions = new List<CustomerInteraction>(
-            allInteractions.FindAll(i => !completedInteractions.Contains(i.interactionID))
-        );
-
-        StartCoroutine(RandomCustomerRoutine());
     }
 
     public static HashSet<string> GetCompletedInteractions()
