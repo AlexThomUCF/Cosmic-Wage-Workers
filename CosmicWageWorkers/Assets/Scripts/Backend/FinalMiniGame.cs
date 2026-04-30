@@ -28,13 +28,27 @@ public class FinalMiniGame : MonoBehaviour
         loader = FindFirstObjectByType<SceneLoader>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (!invasionStarted && miniGameCount == numberOfMinigames)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainScene" && !invasionStarted && miniGameCount >= numberOfMinigames)
         {
             invasionStarted = true;
             StartCoroutine(InvasionComing());
         }
+    }
+
+    private void Update()
+    {
         Debug.Log("Minigame count = " + miniGameCount);
     }
 
