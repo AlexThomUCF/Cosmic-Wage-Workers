@@ -11,6 +11,9 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] public Canvas canvas;
     [SerializeField] private Sprite mainSceneControl;
 
+    private float lastSkipTime = -1f;
+    [SerializeField] private float skipCooldown = 1f;
+
 
 
     public TextMeshProUGUI skipText;
@@ -173,8 +176,12 @@ public class SceneLoader : MonoBehaviour
 
             if (timer >= showSkipTime && Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("Skipped by player.");
-                break;
+                if (Time.time - lastSkipTime >= skipCooldown)
+                {
+                    lastSkipTime = Time.time;
+                    Debug.Log("Skipped by player.");
+                    break;
+                }
             }
 
             yield return null;

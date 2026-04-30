@@ -31,9 +31,13 @@ public class WaveSpawner : MonoBehaviour
 
     [Header("Win Settings")]
     public string nextSceneName = "ProgramPrototype";
-    public GameObject    orbitDirector;
+    public GameObject orbitDirector;
     public PlayableDirector endCineDirector;
-    public Transform endPos;
+    public GameObject fpsPlayer;
+    public GameObject secondPlayer;
+    public GameObject weapons;
+    public GameObject ui1;
+    public GameObject ui2;
 
 
     [Header("Lose Settings")]
@@ -50,6 +54,7 @@ public class WaveSpawner : MonoBehaviour
     void Awake()
     {
         loader = FindFirstObjectByType<SceneLoader>();
+        endCineDirector.gameObject.SetActive(false);
     }
 
     void OnEnable()
@@ -66,38 +71,44 @@ public class WaveSpawner : MonoBehaviour
 
     void OnTimelineFinished(PlayableDirector director)
     {
-        StartCoroutine(MovePlayerAfterTimeline());
+        if (director == endCineDirector)
+        {
+            endCineDirector.gameObject.SetActive(false);
+           
+            StartCoroutine(MovePlayerAfterTimeline());
+        }
 
     }
     IEnumerator MovePlayerAfterTimeline()
     {
-        endCineDirector.gameObject.SetActive(false);
-        orbitDirector.SetActive(false);
+        //endCineDirector.gameObject.SetActive(false);
+        //orbitDirector.SetActive(false);
+
 
         yield return null;
         yield return new WaitForEndOfFrame();
 
-        CharacterController cc = player.GetComponent<CharacterController>();
-        Rigidbody rb = player.GetComponent<Rigidbody>();
+        Camera.main.transform.position = fpsPlayer.transform.position;
 
-        if (cc != null) cc.enabled = false;
+        Rigidbody rb = fpsPlayer.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero; // Unity 6
             rb.angularVelocity = Vector3.zero;
-            rb.position = endPos.position;
+            rb.position = secondPlayer.transform.position;
+            rb.rotation = secondPlayer.transform.rotation;
+        }
+        else
+        {
+            fpsPlayer.transform.position = secondPlayer.transform.position;
+            fpsPlayer.transform.rotation = secondPlayer.transform.rotation;
         }
 
-        player.transform.SetPositionAndRotation(endPos.position, endPos.rotation);
 
         yield return null;
 
-        if (cc != null) cc.enabled = true;
-
-        orbitDirector.SetActive(true);
-
-        Debug.Log("Moved player to: " + player.transform.position);
+        
     }
 
     void Start()
@@ -183,15 +194,18 @@ public class WaveSpawner : MonoBehaviour
 
     void WinGame()
     {
+        if (gameEnded) return; 
         gameEnded = true;
 
         string currentScene = SceneManager.GetActiveScene().name;
 
         if (currentScene == "FPSMainScene")
         {
-            //FindFirstObjectByType<ReturnMainMenu>().ReturnToMainMenu();
-            //return;
             endCineDirector.gameObject.SetActive(true);
+            weapons.SetActive(false);
+            ui1.SetActive(false);
+            ui2.SetActive(false);
+            endCineDirector.Play();
             
 
         }

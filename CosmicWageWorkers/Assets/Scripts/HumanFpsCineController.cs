@@ -12,8 +12,8 @@ public class HumanFpsCineController : MonoBehaviour
     private void Awake()
     {
         waveSpawner.enabled = false;
-        endCine.gameObject.SetActive(false);
-        dialogue.SetActive(false);
+        //endCine.gameObject.SetActive(false);
+        //dialogue.SetActive(false);
     }
     void Start()
     {
