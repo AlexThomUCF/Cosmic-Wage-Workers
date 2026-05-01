@@ -17,6 +17,7 @@ public class BathroomTrigger : MonoBehaviour, IInteraction
     {
         if (canTrigger)
         {
+            SoundEffectManager.Play("DoorOpen");
             loader.LoadSceneByName(miniGameToLoad);
             canTrigger = false;
         }
