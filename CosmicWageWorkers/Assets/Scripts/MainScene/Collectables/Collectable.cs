@@ -26,6 +26,7 @@ public class Collectible : MonoBehaviour
     public void Collect()
     {
         CollectibleManager.Instance.Collect(collectibleID);
+        SoundEffectManager.Play("Collect");
         gameObject.SetActive(false);
     }
 }
