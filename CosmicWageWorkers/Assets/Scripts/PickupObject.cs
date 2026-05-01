@@ -13,6 +13,7 @@ public class PickupObject : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
            freeze.ClearFreeze();
+            SoundEffectManager.Play("Defrost");
             Destroy(this.gameObject);
         }
     }

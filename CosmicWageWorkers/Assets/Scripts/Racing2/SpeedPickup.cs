@@ -54,6 +54,7 @@ public class SpeedPickup : MonoBehaviour
             player.moveSpeed = originalSpeeds[player];
         }
 
+        SoundEffectManager.Play("SpeedPickup");
         Destroy(gameObject);
     }
 }
