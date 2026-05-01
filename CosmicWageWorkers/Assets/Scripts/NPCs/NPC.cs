@@ -22,6 +22,10 @@ public class NPC : MonoBehaviour, IInteraction
 
     public CosmicPhenomenonManager cosmicManager;
 
+    public static NPC CurrentNPC;
+
+
+
     private Image gameplayUI;
 
     public void Start()
@@ -89,8 +93,11 @@ public class NPC : MonoBehaviour, IInteraction
 
     void StartDialogue()
     {
+        
         isDialogueActive = true;
         isInDialogue = true;
+        CurrentNPC = this;
+
         dialogueIndex = 0;
 
         if (gameplayUI != null)
@@ -201,8 +208,11 @@ public class NPC : MonoBehaviour, IInteraction
     public void EndDialogue()
     {
         StopAllCoroutines();
+        
         isDialogueActive = false;
         isInDialogue = false;
+        CurrentNPC = null;
+
 
         if (gameplayUI != null)
             gameplayUI.enabled = true;

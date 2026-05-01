@@ -34,6 +34,7 @@ public class CustomerManager : MonoBehaviour
     public BoxPickUp playerBoxPickup;
     public PickupMop playerMopPickup;
     public SqueegeePickup playerSqueegeePickup;
+    public TrashPickup playerTrashPickup;
 
     [Header("Settings")]
     public float minTime = 10f;
@@ -134,6 +135,9 @@ public class CustomerManager : MonoBehaviour
 
         if (playerSqueegeePickup != null)
             playerSqueegeePickup.DropSqueegee();
+
+        if (playerTrashPickup != null)
+            playerTrashPickup.ForceDropTrash();
 
         mainCam.Priority = 0;
         intercomCam.Priority = 10;

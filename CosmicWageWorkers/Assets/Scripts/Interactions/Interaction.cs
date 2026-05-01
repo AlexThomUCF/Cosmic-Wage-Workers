@@ -37,6 +37,10 @@ public class Interaction : MonoBehaviour
     {
         if (!playerCamera) return;
 
+        bool dialogueIsActive =
+            DialogueController.Instance != null &&
+            DialogueController.Instance.dialoguePanel.activeInHierarchy;
+
         Vector3 origin = playerCamera.transform.position;
         Vector3 direction = playerCamera.transform.forward;
 
@@ -44,15 +48,35 @@ public class Interaction : MonoBehaviour
         if (!Physics.SphereCast(origin, interactRadius, direction, out hit, interactDistance, interactLayer))
             return;
 
-        // Search for InteractableObject on hit object, parents, and children
+        // Find interactable
         InteractableObject interactable = hit.transform.GetComponent<InteractableObject>()
             ?? hit.transform.GetComponentInParent<InteractableObject>()
             ?? hit.transform.GetComponentInChildren<InteractableObject>();
 
         if (interactable == null)
-        {
-            Debug.Log("No InteractableObject found in object, parents, or children");
             return;
+
+        // Find NPC (important: check parent/child too)
+        NPC npc = interactable.GetComponent<NPC>()
+            ?? interactable.GetComponentInParent<NPC>()
+            ?? interactable.GetComponentInChildren<NPC>();
+
+        if (dialogueIsActive)
+        {
+            // NPC dialogue is active
+            if (NPC.CurrentNPC != null)
+            {
+                // Only allow the current NPC
+                if (npc != NPC.CurrentNPC)
+                    return;
+            }
+            else
+            {
+                // Cosmic/Intercom dialogue
+                // Block NPCs only
+                if (npc != null)
+                    return;
+            }
         }
 
         interactable.Interact();

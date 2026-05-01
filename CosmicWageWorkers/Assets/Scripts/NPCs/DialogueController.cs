@@ -116,6 +116,11 @@ public class DialogueController : MonoBehaviour
         closeButton.onClick.AddListener(onClickAction);
     }
 
+    public bool IsDialoguePanelActive()
+    {
+        return dialoguePanel != null && dialoguePanel.activeInHierarchy;
+    }
+
     // CHOICES
     public void ClearChoices()
     {
