@@ -882,6 +882,7 @@ GameObject:
   - component: {fileID: 5426737309965768439}
   - component: {fileID: 7240871465214587222}
   - component: {fileID: 7656056740696644948}
+  - component: {fileID: 4334188930146899389}
   m_Layer: 6
   m_Name: csw_eyeball_animation
   m_TagString: Customer
@@ -992,6 +993,7 @@ MonoBehaviour:
   transitonObj: {fileID: 0}
   canvas: {fileID: 0}
   mainSceneControl: {fileID: 0}
+  skipCooldown: 1
   skipText: {fileID: 0}
 --- !u!54 &7656056740696644948
 Rigidbody:
@@ -1020,6 +1022,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!65 &4334188930146899389
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948315476612767407}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 10, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1258618457492431903
 PrefabInstance:
   m_ObjectHideFlags: 0
