@@ -1,9 +1,8 @@
-using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using System.Collections;
 
 public class NPC : MonoBehaviour, IInteraction
 {
@@ -23,6 +22,8 @@ public class NPC : MonoBehaviour, IInteraction
 
     public CosmicPhenomenonManager cosmicManager;
 
+    private Image gameplayUI;
+
     public void Start()
     {
         dialogueUI = DialogueController.Instance;
@@ -37,7 +38,14 @@ public class NPC : MonoBehaviour, IInteraction
         GameObject loaderObj = GameObject.Find("SceneManager");
         if (loaderObj != null)
             loader = loaderObj.GetComponent<SceneLoader>();
-        //loader = FindAnyObjectByType<SceneLoader>();
+
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas != null)
+        {
+            Transform indicator = canvas.transform.Find("TalkIndicator");
+            if (indicator != null)
+                gameplayUI = indicator.GetComponent<Image>();
+        }
     }
 
     public void Interact()
@@ -85,6 +93,9 @@ public class NPC : MonoBehaviour, IInteraction
         isInDialogue = true;
         dialogueIndex = 0;
 
+        if (gameplayUI != null)
+            gameplayUI.enabled = false;
+
         dialogueUI.SetNPCInfo(dialogueData.npcName, dialogueData.npcProtrait);
         dialogueUI.ShowDialogueUI(true);
 
@@ -94,7 +105,7 @@ public class NPC : MonoBehaviour, IInteraction
         dialogueCam.Priority = 20;
         normalCam.Priority = 10;
 
-        DisplayCurrentLine(); // show first line right away
+        DisplayCurrentLine();
     }
 
     void NextLine()
@@ -192,6 +203,10 @@ public class NPC : MonoBehaviour, IInteraction
         StopAllCoroutines();
         isDialogueActive = false;
         isInDialogue = false;
+
+        if (gameplayUI != null)
+            gameplayUI.enabled = true;
+
         dialogueUI.SetDialogueText("");
         dialogueUI.ShowDialogueUI(false);
         Cursor.lockState = CursorLockMode.Locked;
@@ -207,7 +222,7 @@ public class NPC : MonoBehaviour, IInteraction
     public void StartDialogueExternally()
     {
         Interact();
-    }   
+    }
 
     [System.Serializable]
     public class ChoiceEvent

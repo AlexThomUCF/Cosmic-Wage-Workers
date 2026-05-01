@@ -2,23 +2,25 @@ using UnityEngine;
 
 public class SetActive2 : MonoBehaviour
 {
-   
-    public GameObject door;
+    private GameObject door;
     private BoxCollider doorCollider;
+    private GameObject highlight;
 
     void Awake()
     {
-        GameObject door = GameObject.Find("Womens Door Trigger");
-        doorCollider = door.GetComponent<BoxCollider>();
+        door = GameObject.Find("Womens Door Trigger");
 
-        doorCollider.enabled = false; // disable collider
+        doorCollider = door.GetComponent<BoxCollider>();
+        highlight = door.transform.Find("Highlight").gameObject;
+
+        doorCollider.enabled = false;
+        highlight.SetActive(false);
     }
 
     public void ActivateObject()
     {
-        doorCollider.enabled = true; // enable collider
+        doorCollider.enabled = true;
+        highlight.SetActive(true);
     }
-
-
 }
 
