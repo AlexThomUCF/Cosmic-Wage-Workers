@@ -4,6 +4,9 @@ using UnityEngine;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -19,6 +22,7 @@ public class CustomerManager : MonoBehaviour
     public CinemachineCamera intercomCam;
 
     [Header("UI")]
+    public GameObject intercomPanel;
     public TextMeshProUGUI dialogueText;
 
     [Header("Audio")]
@@ -62,16 +66,13 @@ public class CustomerManager : MonoBehaviour
         interactionActive = false;
         customerSpawnedThisScene = false;
 
-        // Reset cameras
         mainCam.Priority = 10;
         intercomCam.Priority = 0;
 
-        // Refresh available interactions
         availableInteractions = new List<CustomerInteraction>(
             allInteractions.FindAll(i => !completedInteractions.Contains(i.interactionID))
         );
 
-        // Restart coroutine safely
         if (customerRoutine != null)
             StopCoroutine(customerRoutine);
 
@@ -107,7 +108,6 @@ public class CustomerManager : MonoBehaviour
 
         tasksCompleted++;
 
-        // Guaranteed spawn
         if (tasksCompleted >= tasksUntilGuaranteedSpawn)
         {
             StartCoroutine(HandleCustomerInteraction());
@@ -115,7 +115,6 @@ public class CustomerManager : MonoBehaviour
             return;
         }
 
-        // Chance-based spawn
         if (Random.value <= spawnChancePerTask)
         {
             StartCoroutine(HandleCustomerInteraction());
@@ -157,6 +156,9 @@ public class CustomerManager : MonoBehaviour
 
         Instantiate(chosen.customerPrefab, spawn.position, spawn.rotation);
 
+        if (intercomPanel != null)
+            intercomPanel.SetActive(true);
+
         dialogueText.text = $"A customer has appeared at {spawn.name}!";
 
         if (intercomAudio != null && aisleAnnouncementClips.Length > aisleIndex)
@@ -165,6 +167,9 @@ public class CustomerManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         dialogueText.text = "";
+
+        if (intercomPanel != null)
+            intercomPanel.SetActive(false);
 
         intercomCam.Priority = 0;
         mainCam.Priority = 10;
