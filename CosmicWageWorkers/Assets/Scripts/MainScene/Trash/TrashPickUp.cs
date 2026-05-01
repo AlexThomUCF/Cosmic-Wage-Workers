@@ -12,6 +12,9 @@ public class TrashPickup : MonoBehaviour
     public Vector3 heldScale = new Vector3(0.4f, 0.4f, 0.4f);
     public Vector3 droppedScale = new Vector3(1f, 1f, 1f);
 
+    [Header("Trash Chute Highlight")]
+    public GameObject chuteHighlight;
+
     private GameObject heldTrash;
     private Rigidbody heldRb;
     private Collider heldCol;
@@ -21,6 +24,9 @@ public class TrashPickup : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
+
+        if (chuteHighlight != null)
+            chuteHighlight.SetActive(false);
     }
 
     private void OnEnable() => controls.Gameplay.Enable();
@@ -47,6 +53,12 @@ public class TrashPickup : MonoBehaviour
             heldTrash.transform.position = holdPoint.position;
             heldTrash.transform.rotation = holdPoint.rotation;
         }
+
+        // Toggle highlight
+        if (chuteHighlight != null)
+        {
+            chuteHighlight.SetActive(heldTrash != null);
+        }
     }
 
     private void TryPickUpTrash()
@@ -61,32 +73,32 @@ public class TrashPickup : MonoBehaviour
         }
     }
 
-private void PickupTrash(GameObject trash)
-{
-    if (heldTrash != null) return;
+    private void PickupTrash(GameObject trash)
+    {
+        if (heldTrash != null) return;
 
-    heldTrash = trash;
+        heldTrash = trash;
 
-    // Hide all children
-    foreach (Transform child in trash.transform)
+        foreach (Transform child in trash.transform)
         {
             child.gameObject.SetActive(false);
         }
-    heldRb = trash.GetComponent<Rigidbody>();
-    heldCol = trash.GetComponent<Collider>();
 
-    if (heldRb != null) heldRb.isKinematic = true;
-    if (heldCol != null) heldCol.enabled = false;
+        heldRb = trash.GetComponent<Rigidbody>();
+        heldCol = trash.GetComponent<Collider>();
 
-    trash.transform.SetParent(holdPoint);
-    trash.transform.localPosition = Vector3.zero;
-    trash.transform.localRotation = Quaternion.identity;
-    trash.transform.localScale = heldScale;
+        if (heldRb != null) heldRb.isKinematic = true;
+        if (heldCol != null) heldCol.enabled = false;
 
-    // Ensure the trash bag is upright
-    trash.transform.up = Vector3.up;
+        trash.transform.SetParent(holdPoint);
+        trash.transform.localPosition = Vector3.zero;
+        trash.transform.localRotation = Quaternion.identity;
+        trash.transform.localScale = heldScale;
+
+        trash.transform.up = Vector3.up;
+
         Pickuptrashsound.Play();
-}
+    }
 
     public void DropTrash()
     {
@@ -103,7 +115,6 @@ private void PickupTrash(GameObject trash)
         heldCol = null;
     }
 
-    // Functions for TrashDisposal or other scripts
     public GameObject GetHeldTrash() => heldTrash;
     public void ForceDropTrash() => DropTrash();
     public bool IsHoldingTrash() => heldTrash != null;
