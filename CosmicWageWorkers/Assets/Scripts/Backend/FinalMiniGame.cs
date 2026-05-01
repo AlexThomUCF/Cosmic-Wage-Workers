@@ -7,10 +7,9 @@ public class FinalMiniGame : MonoBehaviour
     [SerializeField] private int numberOfMinigames = 0;
 
     private static FinalMiniGame Instance;
-    private SceneLoader loader;
     public static int miniGameCount = 0;
 
-    private bool invasionStarted = false; // prevents multiple coroutines
+    private bool invasionStarted = false;
 
     void Awake()
     {
@@ -18,14 +17,12 @@ public class FinalMiniGame : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            SaveSystem.LoadGame(); // Ensure data loads
+            SaveSystem.LoadGame();
         }
         else
         {
             Destroy(gameObject);
-        } 
-        loader = FindFirstObjectByType<SceneLoader>();
+        }
     }
 
     void OnEnable()
@@ -40,26 +37,23 @@ public class FinalMiniGame : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainScene" && !invasionStarted && miniGameCount >= numberOfMinigames)
-        {
-            invasionStarted = true;
-            StartCoroutine(InvasionComing());
-        }
+        if (scene.name != "MainScene") return;
+
+        invasionStarted = false;
+
+        TryTriggerInvasion();
     }
 
-    private void Update()
+    void TryTriggerInvasion()
     {
-        Debug.Log("Minigame count = " + miniGameCount);
-    }
+        if (invasionStarted) return;
+        if (miniGameCount < numberOfMinigames) return;
 
-    IEnumerator InvasionComing()
-    {
-        Debug.Log("Human Invasion coming");
+        InvasionAlarm controller = FindFirstObjectByType<InvasionAlarm>();
 
-        yield return new WaitForSeconds(10f);
+        if (controller == null) return;
 
-        LoadingImageController.Instance.SetSprite(LoadingImageController.Instance.finalImage);
-        LoadingImageController.Instance.SetTips(LoadingImageController.Instance.finalTips);
-        loader.LoadSceneByName("FPSMainScene");
+        invasionStarted = true;
+        controller.StartInvasionSequence();
     }
 }
