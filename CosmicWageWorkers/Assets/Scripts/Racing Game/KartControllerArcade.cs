@@ -80,6 +80,22 @@ public class KartControllerArcade : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        turnAction?.action.Enable();
+        accelerateAction?.action.Enable();
+        reverseAction?.action.Enable();
+        driftAction?.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        turnAction?.action.Disable();
+        accelerateAction?.action.Disable();
+        reverseAction?.action.Disable();
+        driftAction?.action.Disable();
+    }
+
     void FixedUpdate()
     {
         // Handle slow timer

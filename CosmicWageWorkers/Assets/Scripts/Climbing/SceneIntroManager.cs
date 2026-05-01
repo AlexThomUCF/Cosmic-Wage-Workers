@@ -23,6 +23,8 @@ public class SceneIntroManager : MonoBehaviour
     private Coroutine introCoroutine;
     private bool isIntroPlaying = false;
 
+    public bool IsIntroPlaying => isIntroPlaying;
+
     void Start()
     {
         if (playOnStart)

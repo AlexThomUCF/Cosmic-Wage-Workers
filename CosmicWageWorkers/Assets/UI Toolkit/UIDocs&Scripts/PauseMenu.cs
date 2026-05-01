@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     [Header("Other")]
     public GameObject generalHUD;           // HUD
     public PlayableDirector[] directors;
+    public SceneIntroManager sceneIntroManager;
 
     [Header("First Selected Options")]
     [SerializeField] private GameObject _pauseMenuFirst;
@@ -55,6 +56,9 @@ public class PauseMenu : MonoBehaviour
 
     public void OnPause(InputValue value)
     {
+        if (sceneIntroManager != null && sceneIntroManager.IsIntroPlaying)
+            return;
+
         if (!isTransitioning && value.isPressed && !AnyDirectorPlaying())
         {
             if (gameIsPaused) StartUnpause();
