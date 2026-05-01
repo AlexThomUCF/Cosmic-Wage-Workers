@@ -18,7 +18,7 @@ public class EndGameScript : MonoBehaviour
 
     public void GoodEnding()
     {
-        StartCoroutine(ActiveObject(goodEnding));
+        SceneManager.LoadScene("UI");
     }
 
     public void BadEnding()
